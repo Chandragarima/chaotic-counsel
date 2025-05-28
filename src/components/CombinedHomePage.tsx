@@ -17,62 +17,72 @@ const CombinedHomePage = ({
 }: CombinedHomePageProps) => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* Mystical Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-mystical-purple via-purple-900 to-indigo-900">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-mystical-gold/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-mystical-gold-light/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      {/* Sophisticated Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900/90 to-indigo-950">
+        {/* Subtle geometric patterns */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-1/4 left-1/3 w-64 h-64 border border-mystical-gold/20 rotate-45 rounded-lg"></div>
+          <div className="absolute bottom-1/3 right-1/4 w-48 h-48 border border-mystical-gold/15 rotate-12 rounded-lg"></div>
+          <div className="absolute top-1/2 left-1/6 w-32 h-32 border border-mystical-gold/25 -rotate-12 rounded-lg"></div>
+        </div>
+        
+        {/* Ambient light effects */}
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-mystical-gold/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-purple-400/5 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Floating Mystical Symbols */}
-      <div className="absolute top-16 left-12 text-mystical-gold/60 text-7xl animate-float">🔮</div>
-      <div className="absolute top-32 right-16 text-mystical-gold/50 text-5xl animate-float" style={{ animationDelay: '1.5s' }}>✨</div>
-      <div className="absolute bottom-40 left-20 text-mystical-gold/60 text-6xl animate-float" style={{ animationDelay: '2.5s' }}>🌙</div>
-      <div className="absolute bottom-32 right-8 text-mystical-gold/50 text-4xl animate-float" style={{ animationDelay: '0.5s' }}>⭐</div>
-      <div className="absolute top-1/2 left-8 text-mystical-gold/40 text-5xl animate-float" style={{ animationDelay: '3s' }}>🪄</div>
+      {/* Subtle floating elements */}
+      <div className="absolute top-16 right-16 text-mystical-gold/30 text-2xl font-thin animate-float">◊</div>
+      <div className="absolute top-32 left-12 text-mystical-gold/25 text-xl animate-float" style={{ animationDelay: '2s' }}>✦</div>
+      <div className="absolute bottom-40 right-20 text-mystical-gold/20 text-lg animate-float" style={{ animationDelay: '1.5s' }}>◆</div>
+      <div className="absolute bottom-32 left-8 text-mystical-gold/25 text-xl animate-float" style={{ animationDelay: '3s' }}>✧</div>
 
       {/* Main Content */}
-      <div className="text-center space-y-8 animate-fade-in relative z-10 max-w-4xl w-full">
-        {/* Logo/Title with Enhanced Styling */}
-        <div className="space-y-6">
-          <div className="relative">
-            <h1 className="text-5xl md:text-6xl font-mystical font-bold text-mystical-gold mb-2 animate-glow-pulse relative">
+      <div className="text-center space-y-12 animate-fade-in relative z-10 max-w-4xl w-full">
+        {/* Sophisticated Branding */}
+        <div className="space-y-8">
+          <div className="space-y-4">
+            {/* Main Title */}
+            <h1 className="text-6xl md:text-7xl font-thin tracking-[0.2em] text-mystical-gold relative">
               CHAOTIC
-              <div className="absolute inset-0 text-mystical-gold-light opacity-50 blur-sm">CHAOTIC</div>
+              <div className="absolute inset-0 text-mystical-gold/20 blur-sm">CHAOTIC</div>
             </h1>
-            <div className="w-32 h-0.5 bg-gradient-to-r from-transparent via-mystical-gold to-transparent mx-auto mb-4"></div>
+            
+            {/* Elegant divider */}
+            <div className="flex items-center justify-center space-x-4">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-mystical-gold/50"></div>
+              <div className="w-2 h-2 border border-mystical-gold/50 rotate-45"></div>
+              <div className="w-12 h-px bg-gradient-to-l from-transparent to-mystical-gold/50"></div>
+            </div>
+            
+            {/* Subtitle */}
+            <h2 className="text-4xl md:text-5xl font-thin tracking-[0.15em] text-mystical-gold-light/90">
+              COUNSEL
+            </h2>
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-mystical font-semibold text-mystical-gold-light relative">
-            COUNSEL
-            <div className="absolute inset-0 text-mystical-gold opacity-30 blur-sm">COUNSEL</div>
-          </h2>
-          
-          <div className="flex justify-center space-x-4 mt-6">
-            <div className="w-2 h-2 bg-mystical-gold rounded-full animate-pulse"></div>
-            <div className="w-2 h-2 bg-mystical-gold-light rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-            <div className="w-2 h-2 bg-mystical-gold rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+          {/* Refined tagline */}
+          <div className="space-y-3">
+            <p className="text-xl text-mystical-gold-light/80 font-light tracking-wide">
+              Ancient wisdom for modern decisions
+            </p>
+            <p className="text-sm text-mystical-gold/60 font-light italic tracking-wider">
+              Where intuition meets insight
+            </p>
           </div>
-        </div>
-
-        {/* Enhanced Subtitle */}
-        <div className="space-y-4">
-          <p className="text-xl md:text-2xl text-mystical-gold-light font-medium max-w-md mx-auto leading-relaxed">
-            Where ancient wisdom meets modern decisions
-          </p>
-          
-          <p className="text-lg text-mystical-gold/80 max-w-sm mx-auto italic">
-            Choose your mystical advisor and let them guide your choices through the chaos of life
-          </p>
         </div>
 
         {/* Character Selection */}
-        <div className="space-y-6">
-          <h3 className="text-2xl font-mystical font-bold text-mystical-gold">
-            Choose Your Advisor
-          </h3>
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <h3 className="text-2xl font-light text-mystical-gold tracking-wide">
+              Select Your Guide
+            </h3>
+            <div className="w-16 h-px bg-mystical-gold/40 mx-auto"></div>
+          </div>
           
           {/* Character Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {characters.map((character) => (
               <CharacterCard
                 key={character.id}
@@ -85,29 +95,29 @@ const CombinedHomePage = ({
 
           {/* Continue Button */}
           {selectedCharacter && (
-            <div className="animate-fade-in space-y-4 pt-4">
+            <div className="animate-fade-in space-y-6 pt-8">
               <Button 
                 onClick={onContinue}
-                className="mystical-button text-xl font-bold px-12 py-6 text-mystical-purple shadow-2xl hover:shadow-mystical-gold/25 transform hover:scale-110 transition-all duration-300 relative group"
+                className="bg-gradient-to-r from-mystical-gold/90 to-mystical-gold text-mystical-purple font-medium px-10 py-4 text-lg tracking-wide rounded-lg shadow-2xl hover:shadow-mystical-gold/20 transform hover:scale-105 transition-all duration-300 relative group border border-mystical-gold/20"
               >
-                <span className="relative z-10">Begin Your Journey with {selectedCharacter.name}</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-mystical-gold via-mystical-gold-light to-mystical-gold opacity-0 group-hover:opacity-20 rounded-xl transition-opacity duration-300"></div>
+                <span className="relative z-10">Begin Session</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-mystical-gold to-mystical-gold-light opacity-0 group-hover:opacity-20 rounded-lg transition-opacity duration-300"></div>
               </Button>
               
-              <p className="text-mystical-gold/60 text-sm animate-pulse">
-                Your mystical advisor awaits your questions...
+              <p className="text-mystical-gold/50 text-sm font-light tracking-wide">
+                {selectedCharacter.name} awaits your inquiry
               </p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Mystical Border Effect */}
+      {/* Minimal border effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-mystical-gold/50 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-mystical-gold/50 to-transparent"></div>
-        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-transparent via-mystical-gold/50 to-transparent"></div>
-        <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-transparent via-mystical-gold/50 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-mystical-gold/30 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-mystical-gold/30 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-mystical-gold/30 to-transparent"></div>
+        <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-mystical-gold/30 to-transparent"></div>
       </div>
     </div>
   );
