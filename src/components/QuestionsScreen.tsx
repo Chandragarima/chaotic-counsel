@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { QuestionType, SampleQuestion, Character } from '../types';
 import { Card } from '@/components/ui/card';
@@ -92,13 +93,28 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
       <PersonalityEffects character={character} isActive={true} />
       
       <div className="relative z-10 min-h-screen p-4 space-y-8">
-        {/* Header */}
-        <div className="text-center space-y-4 pt-12">
+        {/* Header with Character Image */}
+        <div className="text-center space-y-6 pt-12">
+          {/* Character Image */}
+          <div className="flex justify-center">
+            <div className={`relative ${theme.animations.floating}`}>
+              <img 
+                src={character.image} 
+                alt={character.name}
+                className="w-24 h-24 rounded-full object-cover shadow-lg border-4 border-white/20 backdrop-blur-sm"
+                style={{ 
+                  filter: 'drop-shadow(0 0 20px rgba(245, 158, 11, 0.4))',
+                  animation: `${theme.animations.floating} 3s ease-in-out infinite`
+                }}
+              />
+            </div>
+          </div>
+          
           <h1 className={`text-4xl ${theme.fonts.heading} ${theme.colors.text} opacity-90 ${theme.animations.floating}`}>
             {getTypeTitle()}
           </h1>
           <p className={`${theme.colors.text} opacity-70 ${theme.fonts.body}`}>
-            Choose a question or ask your own
+            {character.name} is here to help you choose
           </p>
         </div>
 
