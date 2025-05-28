@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Character, QuestionType, AppScreen } from '../types';
 import { characters } from '../data/characters';
@@ -95,6 +94,7 @@ const Index = () => {
 
       {currentScreen === 'question' && (
         <QuestionTypeSelector
+          selectedCharacter={selectedCharacter}
           onTypeSelect={handleQuestionTypeSelect}
           onBack={handleBackToSelector}
         />

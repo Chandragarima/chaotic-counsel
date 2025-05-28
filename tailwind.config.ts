@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -99,10 +98,13 @@ export default {
 				},
 				'float': {
 					'0%, 100%': { 
-						transform: 'translateY(0px)'
+						transform: 'translateY(0px) rotate(0deg)'
 					},
-					'50%': { 
-						transform: 'translateY(-10px)'
+					'33%': { 
+						transform: 'translateY(-10px) rotate(1deg)'
+					},
+					'66%': { 
+						transform: 'translateY(-5px) rotate(-1deg)'
 					}
 				},
 				'glow-pulse': {
@@ -118,7 +120,7 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'sparkle': 'sparkle 2s ease-in-out infinite',
-				'float': 'float 3s ease-in-out infinite',
+				'float': 'float 6s ease-in-out infinite',
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
 			}
 		}
