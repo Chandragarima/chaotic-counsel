@@ -98,4 +98,13 @@
     @apply mystical-card p-6 cursor-pointer transform transition-all duration-300;
     @apply hover:scale-105 hover:rotate-1 active:scale-95;
   }
+
+  /* Enhanced mystical effects */
+  .mystical-glow {
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+  }
+
+  .mystical-text-glow {
+    text-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+  }
 }
