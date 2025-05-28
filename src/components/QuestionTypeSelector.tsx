@@ -1,9 +1,10 @@
-
 import { useState } from 'react';
 import { QuestionType } from '../types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { getPersonalityTheme } from '../utils/personalityThemes';
+import { audioManager } from '../utils/audioManager';
 
 interface QuestionTypeSelectorProps {
   selectedCharacter?: any;
@@ -13,6 +14,7 @@ interface QuestionTypeSelectorProps {
 
 const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: QuestionTypeSelectorProps) => {
   const [selectedType, setSelectedType] = useState<QuestionType | null>(null);
+  const theme = selectedCharacter ? getPersonalityTheme(selectedCharacter.type) : null;
 
   // Personality-specific question types
   const getPersonalityQuestionTypes = () => {
@@ -75,6 +77,9 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
 
   const handleTypeSelect = (type: QuestionType) => {
     setSelectedType(type);
+    if (selectedCharacter && theme) {
+      audioManager.playSound(theme.sounds.select, selectedCharacter.type);
+    }
     setTimeout(() => {
       onTypeSelect(type);
     }, 150);
@@ -94,38 +99,61 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
-      <div className="p-4 space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-4 pt-8">
-          <h1 className="text-3xl font-mystical font-bold text-mystical-gold">
-            {getHeaderText()}
-          </h1>
-          <p className="text-mystical-gold-light">
-            {selectedCharacter ? `${selectedCharacter.name} awaits your question` : 'Choose your path to wisdom'}
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Match homepage background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        {theme && (
+          <>
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-1/4 left-1/3 w-96 h-96 border border-amber-400/20 rotate-45 rounded-3xl"></div>
+              <div className="absolute bottom-1/4 right-1/4 w-64 h-64 border border-amber-400/15 rotate-12 rounded-2xl"></div>
+            </div>
+            <div className={`absolute top-1/3 right-1/3 w-[500px] h-[500px] bg-${theme.colors.accent.replace('#', '')}/[0.04] rounded-full blur-[100px]`}></div>
+            <div className={`absolute bottom-1/3 left-1/3 w-[400px] h-[400px] bg-${theme.colors.accent.replace('#', '')}/[0.03] rounded-full blur-[80px]`}></div>
+          </>
+        )}
+      </div>
+
+      <div className="relative z-10 p-6 space-y-12">
+        {/* Sophisticated Header */}
+        <div className="text-center space-y-8 pt-12">
+          <div className="space-y-6">
+            <h1 className={`text-5xl font-thin tracking-[0.3em] ${theme ? theme.colors.text : 'text-amber-100'}`}>
+              {getHeaderText()}
+            </h1>
+            
+            <div className="flex items-center justify-center space-x-6">
+              <div className={`w-16 h-px bg-gradient-to-r from-transparent via-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 to-transparent`}></div>
+              <div className={`w-3 h-3 border border-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 rotate-45 bg-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/10`}></div>
+              <div className={`w-16 h-px bg-gradient-to-l from-transparent via-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 to-transparent`}></div>
+            </div>
+          </div>
+          
+          <p className={`text-xl ${theme ? theme.colors.text : 'text-amber-200'} opacity-80 font-light tracking-wider`}>
+            {selectedCharacter ? `${selectedCharacter.name} awaits your inquiry` : 'Choose your path to wisdom'}
           </p>
         </div>
 
-        {/* Question Type Grid */}
-        <div className="grid grid-cols-2 gap-4 max-w-lg mx-auto">
+        {/* Sophisticated Question Type Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {questionTypes.map((type) => (
             <Card
               key={type.type}
-              className={`mystical-card p-6 cursor-pointer text-center space-y-3 transition-all duration-200 min-h-[120px] ${
+              className={`mystical-card p-8 cursor-pointer text-center space-y-4 transition-all duration-300 min-h-[140px] ${
                 selectedType === type.type 
                   ? 'scale-95 opacity-75' 
-                  : 'hover:scale-105 active:scale-95'
-              }`}
+                  : 'hover:scale-[1.02] active:scale-95'
+              } ${theme ? theme.effects.borderStyle : 'border border-amber-400/20'} bg-gradient-to-br ${theme ? theme.colors.background : 'from-slate-900/80'} backdrop-blur-md`}
               onClick={() => handleTypeSelect(type.type)}
             >
               <div className={`w-16 h-16 mx-auto rounded-full bg-gradient-to-br ${type.gradient} flex items-center justify-center text-2xl shadow-lg`}>
                 {type.icon}
               </div>
-              <div>
-                <h3 className="text-mystical-gold font-bold text-lg font-mystical">
+              <div className="space-y-2">
+                <h3 className={`${theme ? theme.colors.text : 'text-amber-100'} font-light text-xl tracking-wide`}>
                   {type.title}
                 </h3>
-                <p className="text-mystical-gold-light text-sm">
+                <p className={`${theme ? theme.colors.text : 'text-amber-200'} opacity-70 text-sm font-light`}>
                   {type.description}
                 </p>
               </div>
@@ -133,15 +161,15 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
           ))}
         </div>
 
-        {/* Back Button */}
+        {/* Sophisticated Back Button */}
         <div className="flex justify-center pt-8">
           <Button 
             onClick={onBack}
             variant="ghost"
-            className="text-mystical-gold-light hover:text-mystical-gold min-h-[44px] px-6"
+            className={`${theme ? theme.colors.text : 'text-amber-200'} hover:${theme ? theme.colors.text : 'text-amber-100'} min-h-[48px] px-8 font-light tracking-wide transition-all duration-300 hover:scale-[1.02]`}
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Characters
+            <ArrowLeft className="mr-3 h-4 w-4" />
+            Return to Advisors
           </Button>
         </div>
       </div>
