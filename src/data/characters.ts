@@ -44,21 +44,51 @@ export const characters: Character[] = [
           "Yes, but don't blame me when it goes wrong.",
           "Fine, yes. Now stop asking stupid questions.",
           "Yes, yes, YES. Can we move on now?",
-          "Reluctantly, yes. You're welcome."
+          "Reluctantly, yes. You're welcome.",
+          "Duh, yes. Did you really need to ask?",
+          "Yes, and I'm judging you for doubting it.",
+          "Absolutely yes. I'm always right about these things.",
+          "Yes, but only because I said so.",
+          "Of course yes. Next question, peasant.",
+          "Yes, darling. Try to keep up.",
+          "Obviously. I don't have time for your uncertainty.",
+          "Yes, and you owe me treats for this wisdom.",
+          "Correct answer: Yes. You're learning.",
+          "Yes, but make it snappy. I have naps to take."
         ],
         no: [
           "Absolutely not. What were you thinking?",
           "No. Just... no. Trust me on this one.",
           "Hard pass. Find a better question.",
           "No way. I have standards, unlike some people.",
-          "Not happening. Next question."
+          "Not happening. Next question.",
+          "No, and I'm personally offended you asked.",
+          "Negative. That's beneath my dignity.",
+          "No, sweetie. Aim higher.",
+          "Not in this lifetime. Or the next one.",
+          "No. I don't repeat myself.",
+          "Absolutely not. I refuse to enable this nonsense.",
+          "No, and you should feel bad for asking.",
+          "Hard no. Don't make me explain why.",
+          "Not a chance. I have a reputation to maintain.",
+          "No, darling. That's what we call a 'bad idea'."
         ],
         maybe: [
           "Maybe? I'm not your personal fortune teller.",
           "Perhaps. Or perhaps not. Life's mysterious like that.",
           "Maybe if you're lucky. But probably not.",
           "Possibly. But don't get your hopes up.",
-          "Maybe... but I'm judging your life choices either way."
+          "Maybe... but I'm judging your life choices either way.",
+          "Perhaps, if the stars align and I'm feeling generous.",
+          "Maybe. Ask me again when I care more.",
+          "Possibly, but you'll have to convince me with treats.",
+          "Maybe... depends on how much effort it requires.",
+          "Perhaps. The universe is chaotic like that.",
+          "Maybe, but don't quote me on it.",
+          "Possibly. I'm feeling mysteriously indecisive today.",
+          "Maybe if you ask nicely. And bring snacks.",
+          "Perhaps, but I reserve the right to change my mind.",
+          "Maybe. Or maybe not. Welcome to life, human."
         ]
       }
     }
@@ -106,21 +136,51 @@ export const characters: Character[] = [
           "Indeed, the path forward is illuminated.",
           "The universe whispers 'yes' through ancient winds.",
           "Affirmative, young seeker. Trust your journey.",
-          "Yes, for wisdom flows where courage leads."
+          "Yes, for wisdom flows where courage leads.",
+          "Verily, the cosmic forces smile upon this choice.",
+          "Yes, as certain as the moon's eternal dance.",
+          "Indeed, the ancient spirits nod in agreement.",
+          "Yes, dear one. The omens are most favorable.",
+          "Truly, the path of yes shines with golden light.",
+          "Yes, for in this choice lies great wisdom.",
+          "Affirmative, as foretold by the shifting winds.",
+          "Yes, and may it bring you closer to enlightenment.",
+          "Indeed, the universe conspires to say yes.",
+          "Yes, blessed seeker. Walk this path with confidence."
         ],
         no: [
           "Nay, the omens speak of caution.",
           "The celestial forces suggest patience.",
           "Not at this moment in time's great tapestry.",
           "No, for greater things await beyond this choice.",
-          "The wise path leads elsewhere, dear one."
+          "The wise path leads elsewhere, dear one.",
+          "Nay, the ancient spirits counsel restraint.",
+          "No, for this path is shrouded in shadow.",
+          "The cosmic winds whisper words of warning.",
+          "Not so, gentle soul. Seek another way.",
+          "No, as the moon turns her face from this choice.",
+          "Nay, for wisdom lies in the patient pause.",
+          "The stars dim when this path is considered.",
+          "No, dear seeker. Trust in the greater plan.",
+          "Not in this season of your soul's journey.",
+          "Nay, for the universe has other intentions."
         ],
         maybe: [
           "Perhaps, for all possibilities exist in the ether.",
           "The future remains unwritten, full of potential.",
           "Maybe, as uncertainty births the greatest adventures.",
           "Possibly, for time reveals all truths eventually.",
-          "The answer floats between realms, neither yes nor no."
+          "The answer floats between realms, neither yes nor no.",
+          "Perhaps, for the cosmos delights in mystery.",
+          "Maybe, as the wheel of fortune ever turns.",
+          "Possibly, depending on the alignment of your spirit.",
+          "Perhaps, for even the wise owl cannot see all ends.",
+          "Maybe, for the universe holds infinite possibilities.",
+          "Possibly, for in the maybe lies the magic.",
+          "Perhaps, when the mist clears, clarity shall come.",
+          "Maybe, for the journey matters more than destination.",
+          "Possibly, as all futures remain fluid and changeable.",
+          "Perhaps, for in uncertainty we find our truest growth."
         ]
       }
     }
@@ -168,21 +228,51 @@ export const characters: Character[] = [
           "Yes, but can we do it from the couch?",
           "Probably yes. I'm too tired to argue.",
           "Yes, as long as it doesn't require too much energy.",
-          "Sure thing, dude. Whatever makes you happy."
+          "Sure thing, dude. Whatever makes you happy.",
+          "Yeah, okay. Can I nap after?",
+          "Yes, but let's keep it low-key.",
+          "Sure, if it involves minimal movement.",
+          "Yeah, sounds chill enough.",
+          "Yes, but I'm staying in my pajamas.",
+          "Okay, yes. But snacks are required.",
+          "Yeah, fine. Just don't rush me.",
+          "Yes, but can we do it tomorrow instead?",
+          "Sure, as long as it's comfy.",
+          "Yeah, whatever. I trust your judgment."
         ],
         no: [
           "Nah, that sounds like work.",
           "No way. Too much effort involved.",
           "Negative. I'm saving my energy for napping.",
           "No thanks. That sounds exhausting.",
-          "Hard no. Can we just stay in bed instead?"
+          "Hard no. Can we just stay in bed instead?",
+          "Nope, too much standing involved.",
+          "No way, that requires pants.",
+          "Nah, I'm already too comfortable here.",
+          "No thanks, sounds too complicated.",
+          "Nope, my couch needs me right now.",
+          "No way, that's outside my comfort zone... literally.",
+          "Nah, I don't have the energy for that.",
+          "No thanks, I'm conserving energy for important stuff.",
+          "Nope, that sounds like it involves effort.",
+          "No way, I'm in full relaxation mode."
         ],
         maybe: [
           "Maybe? I'll decide after my next nap.",
           "Possibly. Let me sleep on it. For several hours.",
           "Maybe if it involves minimal movement.",
           "Perhaps. But probably not. Actually, definitely maybe.",
-          "Maybe... but first, can you bring me snacks?"
+          "Maybe... but first, can you bring me snacks?",
+          "Possibly, if I can do it in my pajamas.",
+          "Maybe after I finish this very important napping.",
+          "Perhaps, but only if there's food involved.",
+          "Maybe... depends on how comfy the seating is.",
+          "Possibly, but I reserve the right to cancel for naps.",
+          "Maybe if you promise it won't be too exciting.",
+          "Perhaps, but I'm not making any sudden movements.",
+          "Maybe... can we decide this tomorrow?",
+          "Possibly, if the weather's nice for staying inside.",
+          "Maybe, but I'm definitely bringing a pillow."
         ]
       }
     }

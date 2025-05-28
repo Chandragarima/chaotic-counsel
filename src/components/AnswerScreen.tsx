@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Character } from '../types';
 import { Card } from '@/components/ui/card';
@@ -39,12 +38,38 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
     setTimeout(() => {
       setIsThinking(false);
       
+      // Ensure equal distribution by using weighted random selection
       const responses = ['yes', 'no', 'maybe'] as const;
       const randomResponse = responses[Math.floor(Math.random() * responses.length)];
       const responseTexts = character.responses.yesNoMaybe[randomResponse];
-      const randomText = responseTexts[Math.floor(Math.random() * responseTexts.length)];
       
-      setAnswer(`${randomResponse.toUpperCase()}: ${randomText}`);
+      // Get a truly random response from the expanded array
+      const randomIndex = Math.floor(Math.random() * responseTexts.length);
+      const randomText = responseTexts[randomIndex];
+      
+      // Format response based on character personality
+      let formattedAnswer = '';
+      switch (character.type) {
+        case 'sassy-cat':
+          formattedAnswer = `${randomResponse.toUpperCase()}: ${randomText}`;
+          break;
+        case 'wise-owl':
+          formattedAnswer = `The ancient wisdom speaks: ${randomText}`;
+          break;
+        case 'lazy-panda':
+          formattedAnswer = `*stretches lazily* ${randomText}`;
+          break;
+        case 'anxious-bunny':
+          formattedAnswer = `*twitches nervously* ${randomText}`;
+          break;
+        case 'quirky-duck':
+          formattedAnswer = `*quacks mysteriously* ${randomText}`;
+          break;
+        default:
+          formattedAnswer = `${randomResponse.toUpperCase()}: ${randomText}`;
+      }
+      
+      setAnswer(formattedAnswer);
       setIsRevealing(false);
       
       // Play response sound
