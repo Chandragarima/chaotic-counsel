@@ -9,13 +9,99 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      daily_activity: {
+        Row: {
+          activity_date: string
+          decisions_count: number
+          first_visit_at: string
+          id: string
+          last_visit_at: string
+          user_id: string
+        }
+        Insert: {
+          activity_date?: string
+          decisions_count?: number
+          first_visit_at?: string
+          id?: string
+          last_visit_at?: string
+          user_id: string
+        }
+        Update: {
+          activity_date?: string
+          decisions_count?: number
+          first_visit_at?: string
+          id?: string
+          last_visit_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          updated_at: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id: string
+          updated_at?: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          updated_at?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
+      user_progress: {
+        Row: {
+          created_at: string
+          current_streak: number
+          id: string
+          longest_streak: number
+          total_decisions: number
+          unlocked_characters: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_streak?: number
+          id?: string
+          longest_streak?: number
+          total_decisions?: number
+          unlocked_characters?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_streak?: number
+          id?: string
+          longest_streak?: number
+          total_decisions?: number
+          unlocked_characters?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_user_streak: {
+        Args: { user_uuid: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
