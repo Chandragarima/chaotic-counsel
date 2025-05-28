@@ -1,4 +1,3 @@
-
 export interface Character {
   id: string;
   name: string;
@@ -29,7 +28,7 @@ export interface UserProgress {
 
 export type QuestionType = 'dinner' | 'movie' | 'hangout' | 'choice';
 
-export type AppScreen = 'splash' | 'selector' | 'question' | 'questions' | 'answer' | 'streak' | 'gallery' | 'settings';
+export type AppScreen = 'selector' | 'question' | 'questions' | 'answer';
 
 export interface SampleQuestion {
   id: string;

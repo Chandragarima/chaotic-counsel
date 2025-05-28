@@ -5,14 +5,13 @@ import { characters } from '../data/characters';
 import { useUserProgress } from '../hooks/useUserProgress';
 
 import Sparkles from '../components/Sparkles';
-import SplashScreen from '../components/SplashScreen';
-import PersonalitySelector from '../components/PersonalitySelector';
+import CombinedHomePage from '../components/CombinedHomePage';
 import QuestionTypeSelector from '../components/QuestionTypeSelector';
 import QuestionsScreen from '../components/QuestionsScreen';
 import AnswerScreen from '../components/AnswerScreen';
 
 const Index = () => {
-  const [currentScreen, setCurrentScreen] = useState<AppScreen>('splash');
+  const [currentScreen, setCurrentScreen] = useState<AppScreen>('selector');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [questionType, setQuestionType] = useState<QuestionType | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState<string>('');
@@ -23,10 +22,6 @@ const Index = () => {
     ...char,
     unlocked: progress.unlockedCharacters.includes(char.id)
   }));
-
-  const handleSplashComplete = () => {
-    setCurrentScreen('selector');
-  };
 
   const handleCharacterSelect = (character: Character) => {
     setSelectedCharacter(character);
@@ -90,16 +85,11 @@ const Index = () => {
     <div className="relative min-h-screen">
       <Sparkles />
       
-      {currentScreen === 'splash' && (
-        <SplashScreen onComplete={handleSplashComplete} />
-      )}
-
       {currentScreen === 'selector' && (
-        <PersonalitySelector
+        <CombinedHomePage
           selectedCharacter={selectedCharacter}
           onCharacterSelect={handleCharacterSelect}
           onContinue={handleContinueToQuestions}
-          onBack={handleSplashComplete}
         />
       )}
 
