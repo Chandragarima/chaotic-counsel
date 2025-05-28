@@ -6,13 +6,10 @@ import { getPersonalityTheme } from '../utils/personalityThemes';
 interface PersonalityEffectsProps {
   character: Character;
   isActive?: boolean;
-  isThinking?: boolean;
-  isResponding?: boolean;
 }
 
-const PersonalityEffects = ({ character, isActive = true, isThinking = false, isResponding = false }: PersonalityEffectsProps) => {
+const PersonalityEffects = ({ character, isActive = true }: PersonalityEffectsProps) => {
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; emoji: string; delay: number }>>([]);
-  const [showEyeRoll, setShowEyeRoll] = useState(false);
   const theme = getPersonalityTheme(character.type);
 
   useEffect(() => {
@@ -36,34 +33,10 @@ const PersonalityEffects = ({ character, isActive = true, isThinking = false, is
     return () => clearInterval(interval);
   }, [theme.effects.particles, isActive]);
 
-  // Trigger eye roll animation for Sassy Cat when responding
-  useEffect(() => {
-    if (character.type === 'sassy-cat' && isResponding) {
-      // Random chance to trigger eye roll (30% chance)
-      if (Math.random() < 0.3) {
-        setShowEyeRoll(true);
-        const timer = setTimeout(() => setShowEyeRoll(false), 1200);
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [character.type, isResponding]);
-
   if (!isActive) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
-      {/* Character-specific interactive animation overlay */}
-      {character.type === 'sassy-cat' && showEyeRoll && (
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
-          <div className="text-6xl animate-sassy-eye-roll">
-            🙄
-          </div>
-          <div className="text-2xl text-pink-300 font-bold animate-sassy-dramatic-pause mt-2 text-center">
-            *dramatic sigh*
-          </div>
-        </div>
-      )}
-
       {/* Sophisticated Background with matching homepage aesthetic */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         {/* Subtle geometric patterns */}
