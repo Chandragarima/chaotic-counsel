@@ -4,7 +4,7 @@ import { QuestionType, SampleQuestion } from '../types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowUp, Send } from 'lucide-react';
+import { ArrowLeft, Send } from 'lucide-react';
 
 interface QuestionsScreenProps {
   questionType: QuestionType;
@@ -14,6 +14,8 @@ interface QuestionsScreenProps {
 
 const QuestionsScreen = ({ questionType, onQuestionSelect, onBack }: QuestionsScreenProps) => {
   const [customQuestion, setCustomQuestion] = useState('');
+  const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const sampleQuestions: Record<QuestionType, SampleQuestion[]> = {
     dinner: [
@@ -59,14 +61,26 @@ const QuestionsScreen = ({ questionType, onQuestionSelect, onBack }: QuestionsSc
     }
   };
 
+  const handleQuestionSelect = (question: string) => {
+    setSelectedQuestion(question);
+    // Add slight delay for visual feedback
+    setTimeout(() => {
+      onQuestionSelect(question);
+    }, 150);
+  };
+
   const handleCustomSubmit = () => {
-    if (customQuestion.trim()) {
-      onQuestionSelect(customQuestion.trim());
+    if (customQuestion.trim() && !isSubmitting) {
+      setIsSubmitting(true);
+      setTimeout(() => {
+        onQuestionSelect(customQuestion.trim());
+      }, 150);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       handleCustomSubmit();
     }
   };
@@ -93,10 +107,14 @@ const QuestionsScreen = ({ questionType, onQuestionSelect, onBack }: QuestionsSc
           {sampleQuestions[questionType].map((question) => (
             <Card
               key={question.id}
-              className="mystical-card p-4 cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300"
-              onClick={() => onQuestionSelect(question.text)}
+              className={`mystical-card p-4 cursor-pointer transition-all duration-200 min-h-[60px] flex items-center ${
+                selectedQuestion === question.text 
+                  ? 'scale-95 opacity-75' 
+                  : 'hover:scale-105 active:scale-95'
+              }`}
+              onClick={() => handleQuestionSelect(question.text)}
             >
-              <p className="text-foreground text-center">
+              <p className="text-foreground text-center w-full">
                 {question.text}
               </p>
             </Card>
@@ -116,12 +134,13 @@ const QuestionsScreen = ({ questionType, onQuestionSelect, onBack }: QuestionsSc
             value={customQuestion}
             onChange={(e) => setCustomQuestion(e.target.value)}
             onKeyPress={handleKeyPress}
-            className="mystical-card border-mystical-gold/30 text-foreground"
+            className="mystical-card border-mystical-gold/30 text-foreground min-h-[44px]"
+            disabled={isSubmitting}
           />
           <Button
             onClick={handleCustomSubmit}
-            disabled={!customQuestion.trim()}
-            className="mystical-button px-3"
+            disabled={!customQuestion.trim() || isSubmitting}
+            className="mystical-button px-4 min-h-[44px] min-w-[44px]"
           >
             <Send className="h-4 w-4" />
           </Button>
@@ -133,10 +152,10 @@ const QuestionsScreen = ({ questionType, onQuestionSelect, onBack }: QuestionsSc
         <Button 
           onClick={onBack}
           variant="ghost"
-          className="text-mystical-gold-light hover:text-mystical-gold"
+          className="text-mystical-gold-light hover:text-mystical-gold min-h-[44px] px-6"
         >
-          <ArrowUp className="mr-2 h-4 w-4 rotate-180" />
-          Back
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Categories
         </Button>
       </div>
     </div>

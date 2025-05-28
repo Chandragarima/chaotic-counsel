@@ -1,8 +1,9 @@
 
+import { useState } from 'react';
 import { QuestionType } from '../types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowUp } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 interface QuestionTypeSelectorProps {
   onTypeSelect: (type: QuestionType) => void;
@@ -10,6 +11,8 @@ interface QuestionTypeSelectorProps {
 }
 
 const QuestionTypeSelector = ({ onTypeSelect, onBack }: QuestionTypeSelectorProps) => {
+  const [selectedType, setSelectedType] = useState<QuestionType | null>(null);
+
   const questionTypes = [
     {
       type: 'dinner' as QuestionType,
@@ -41,6 +44,14 @@ const QuestionTypeSelector = ({ onTypeSelect, onBack }: QuestionTypeSelectorProp
     }
   ];
 
+  const handleTypeSelect = (type: QuestionType) => {
+    setSelectedType(type);
+    // Add slight delay for visual feedback
+    setTimeout(() => {
+      onTypeSelect(type);
+    }, 150);
+  };
+
   return (
     <div className="min-h-screen p-4 space-y-6">
       {/* Header */}
@@ -58,8 +69,12 @@ const QuestionTypeSelector = ({ onTypeSelect, onBack }: QuestionTypeSelectorProp
         {questionTypes.map((type) => (
           <Card
             key={type.type}
-            className="mystical-card p-6 cursor-pointer text-center space-y-3 hover:scale-105 active:scale-95 transition-all duration-300"
-            onClick={() => onTypeSelect(type.type)}
+            className={`mystical-card p-6 cursor-pointer text-center space-y-3 transition-all duration-200 min-h-[120px] ${
+              selectedType === type.type 
+                ? 'scale-95 opacity-75' 
+                : 'hover:scale-105 active:scale-95'
+            }`}
+            onClick={() => handleTypeSelect(type.type)}
           >
             <div className={`w-16 h-16 mx-auto rounded-full bg-gradient-to-br ${type.gradient} flex items-center justify-center text-2xl shadow-lg`}>
               {type.icon}
@@ -81,10 +96,10 @@ const QuestionTypeSelector = ({ onTypeSelect, onBack }: QuestionTypeSelectorProp
         <Button 
           onClick={onBack}
           variant="ghost"
-          className="text-mystical-gold-light hover:text-mystical-gold"
+          className="text-mystical-gold-light hover:text-mystical-gold min-h-[44px] px-6"
         >
-          <ArrowUp className="mr-2 h-4 w-4 rotate-180" />
-          Back
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Characters
         </Button>
       </div>
     </div>

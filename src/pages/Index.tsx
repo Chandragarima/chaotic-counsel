@@ -52,11 +52,14 @@ const Index = () => {
   const handleBackToSelector = () => {
     setCurrentScreen('selector');
     setSelectedCharacter(null);
+    setQuestionType(null);
+    setCurrentQuestion('');
   };
 
-  const handleBackToQuestions = () => {
+  const handleBackToQuestionType = () => {
     setCurrentScreen('question');
     setQuestionType(null);
+    setCurrentQuestion('');
   };
 
   const handleBackToQuestionsList = () => {
@@ -74,6 +77,13 @@ const Index = () => {
         incrementDecisions();
       }, 100);
     }
+  };
+
+  const handleStartOver = () => {
+    setCurrentScreen('selector');
+    setSelectedCharacter(null);
+    setQuestionType(null);
+    setCurrentQuestion('');
   };
 
   return (
@@ -104,7 +114,7 @@ const Index = () => {
         <QuestionsScreen
           questionType={questionType}
           onQuestionSelect={handleQuestionSelect}
-          onBack={handleBackToQuestions}
+          onBack={handleBackToQuestionType}
         />
       )}
 
@@ -114,6 +124,7 @@ const Index = () => {
           question={currentQuestion}
           onBack={handleBackToQuestionsList}
           onAskAgain={handleAskAgain}
+          onStartOver={handleStartOver}
         />
       )}
     </div>

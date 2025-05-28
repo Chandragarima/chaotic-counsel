@@ -3,7 +3,7 @@ import { Character } from '../types';
 import { characters } from '../data/characters';
 import CharacterCard from './CharacterCard';
 import { Button } from '@/components/ui/button';
-import { ArrowUp } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 interface PersonalitySelectorProps {
   selectedCharacter: Character | null;
@@ -47,7 +47,7 @@ const PersonalitySelector = ({
         {selectedCharacter && (
           <Button 
             onClick={onContinue}
-            className="mystical-button w-full"
+            className="mystical-button w-full min-h-[48px]"
           >
             Continue with {selectedCharacter.name}
           </Button>
@@ -56,10 +56,10 @@ const PersonalitySelector = ({
         <Button 
           onClick={onBack}
           variant="ghost"
-          className="text-mystical-gold-light hover:text-mystical-gold"
+          className="text-mystical-gold-light hover:text-mystical-gold min-h-[44px]"
         >
-          <ArrowUp className="mr-2 h-4 w-4 rotate-180" />
-          Back
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Start
         </Button>
       </div>
     </div>

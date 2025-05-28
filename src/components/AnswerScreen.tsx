@@ -3,18 +3,20 @@ import { useState, useEffect } from 'react';
 import { Character } from '../types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowUp } from 'lucide-react';
+import { ArrowLeft, RotateCcw, Home } from 'lucide-react';
 
 interface AnswerScreenProps {
   character: Character;
   question: string;
   onBack: () => void;
   onAskAgain: () => void;
+  onStartOver: () => void;
 }
 
-const AnswerScreen = ({ character, question, onBack, onAskAgain }: AnswerScreenProps) => {
+const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: AnswerScreenProps) => {
   const [answer, setAnswer] = useState('');
   const [isRevealing, setIsRevealing] = useState(false);
+  const [isAsking, setIsAsking] = useState(false);
 
   useEffect(() => {
     // Generate a yes/no/maybe response
@@ -29,6 +31,14 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain }: AnswerScreenP
       setIsRevealing(false);
     }, 1500);
   }, [character, question]);
+
+  const handleAskAgain = () => {
+    setIsAsking(true);
+    setTimeout(() => {
+      setIsAsking(false);
+      onAskAgain();
+    }, 150);
+  };
 
   const getCharacterFont = () => {
     switch (character.type) {
@@ -116,20 +126,35 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain }: AnswerScreenP
         {!isRevealing && (
           <div className="space-y-3 animate-fade-in">
             <Button 
-              onClick={onAskAgain}
-              className="mystical-button w-full"
+              onClick={handleAskAgain}
+              disabled={isAsking}
+              className={`mystical-button w-full min-h-[48px] transition-all duration-200 ${
+                isAsking ? 'scale-95 opacity-75' : ''
+              }`}
             >
+              <RotateCcw className="mr-2 h-4 w-4" />
               Ask Again
             </Button>
             
-            <Button 
-              onClick={onBack}
-              variant="ghost"
-              className="w-full text-mystical-gold-light hover:text-mystical-gold"
-            >
-              <ArrowUp className="mr-2 h-4 w-4 rotate-180" />
-              Back to Questions
-            </Button>
+            <div className="grid grid-cols-2 gap-3">
+              <Button 
+                onClick={onBack}
+                variant="ghost"
+                className="text-mystical-gold-light hover:text-mystical-gold min-h-[44px]"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back
+              </Button>
+              
+              <Button 
+                onClick={onStartOver}
+                variant="ghost"
+                className="text-mystical-gold-light hover:text-mystical-gold min-h-[44px]"
+              >
+                <Home className="mr-2 h-4 w-4" />
+                Start Over
+              </Button>
+            </div>
           </div>
         )}
       </div>
