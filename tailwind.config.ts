@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -146,6 +145,20 @@ export default {
 					'0%, 100%': { transform: 'scale(1)' },
 					'50%': { transform: 'scale(1.1)' }
 				},
+				// NEW: Dramatic Eye Roll Animation
+				'sassy-eye-roll': {
+					'0%': { transform: 'rotate(0deg) scale(1)' },
+					'25%': { transform: 'rotate(-8deg) scale(1.05)' },
+					'50%': { transform: 'rotate(0deg) scale(1.1)' },
+					'75%': { transform: 'rotate(8deg) scale(1.05)' },
+					'100%': { transform: 'rotate(0deg) scale(1)' }
+				},
+				'sassy-dramatic-pause': {
+					'0%': { transform: 'scale(1)' },
+					'30%': { transform: 'scale(0.95) rotate(-2deg)' },
+					'60%': { transform: 'scale(1.08) rotate(2deg)' },
+					'100%': { transform: 'scale(1) rotate(0deg)' }
+				},
 				// Wise Owl Animations
 				'wise-entrance': {
 					'0%': { opacity: '0', transform: 'translateY(20px) scale(0.8)' },
@@ -171,7 +184,6 @@ export default {
 					'0%, 100%': { transform: 'scale(1)' },
 					'50%': { transform: 'scale(1.08)' }
 				},
-				// Lazy Panda Animations
 				'lazy-entrance': {
 					'0%': { opacity: '0', transform: 'translateY(30px)' },
 					'100%': { opacity: '1', transform: 'translateY(0px)' }
@@ -196,7 +208,6 @@ export default {
 					'0%, 100%': { transform: 'translateX(0px)' },
 					'50%': { transform: 'translateX(3px)' }
 				},
-				// Anxious Bunny Animations
 				'anxious-entrance': {
 					'0%': { opacity: '0', transform: 'translateX(-20px) scale(0.9)' },
 					'50%': { transform: 'translateX(5px) scale(1.05)' },
@@ -228,7 +239,6 @@ export default {
 					'25%': { transform: 'scale(1.05) rotate(1deg)' },
 					'75%': { transform: 'scale(1.05) rotate(-1deg)' }
 				},
-				// Quirky Duck Animations
 				'quirky-entrance': {
 					'0%': { opacity: '0', transform: 'rotate(-10deg) scale(0.8)' },
 					'50%': { transform: 'rotate(5deg) scale(1.1)' },
@@ -264,35 +274,34 @@ export default {
 				'sparkle': 'sparkle 3s ease-in-out infinite',
 				'float': 'float 6s ease-in-out infinite',
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
-				// Sassy Cat Animations
+				// Enhanced Sassy Cat Animations
 				'sassy-entrance': 'sassy-entrance 0.6s ease-out',
 				'sassy-thinking': 'sassy-thinking 2s ease-in-out infinite',
 				'sassy-responding': 'sassy-responding 0.4s ease-out',
 				'sassy-float': 'sassy-float 4s ease-in-out infinite',
 				'sassy-wiggle': 'sassy-wiggle 0.5s ease-in-out',
 				'sassy-bounce': 'sassy-bounce 0.3s ease-in-out',
-				// Wise Owl Animations
+				// NEW: Dramatic Eye Roll Animations
+				'sassy-eye-roll': 'sassy-eye-roll 1.2s ease-in-out',
+				'sassy-dramatic-pause': 'sassy-dramatic-pause 0.8s ease-in-out',
 				'wise-entrance': 'wise-entrance 0.8s ease-out',
 				'wise-thinking': 'wise-thinking 3s ease-in-out infinite',
 				'wise-responding': 'wise-responding 0.5s ease-out',
 				'wise-float': 'wise-float 8s ease-in-out infinite',
 				'wise-glow': 'wise-glow 2s ease-in-out infinite',
 				'wise-pulse': 'wise-pulse 0.4s ease-in-out',
-				// Lazy Panda Animations
 				'lazy-entrance': 'lazy-entrance 1s ease-out',
 				'lazy-thinking': 'lazy-thinking 4s ease-in-out infinite',
 				'lazy-responding': 'lazy-responding 0.6s ease-out',
 				'lazy-float': 'lazy-float 10s ease-in-out infinite',
 				'lazy-sway': 'lazy-sway 3s ease-in-out infinite',
 				'lazy-drift': 'lazy-drift 0.6s ease-in-out',
-				// Anxious Bunny Animations
 				'anxious-entrance': 'anxious-entrance 0.4s ease-out',
 				'anxious-thinking': 'anxious-thinking 0.8s ease-in-out infinite',
 				'anxious-responding': 'anxious-responding 0.3s ease-out',
 				'anxious-float': 'anxious-float 2s ease-in-out infinite',
 				'anxious-jitter': 'anxious-jitter 0.5s ease-in-out infinite',
 				'anxious-shake': 'anxious-shake 0.2s ease-in-out',
-				// Quirky Duck Animations
 				'quirky-entrance': 'quirky-entrance 0.7s ease-out',
 				'quirky-thinking': 'quirky-thinking 1.5s ease-in-out infinite',
 				'quirky-responding': 'quirky-responding 0.4s ease-out',
