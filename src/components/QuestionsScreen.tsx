@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { QuestionType, SampleQuestion, Character } from '../types';
 import { Card } from '@/components/ui/card';
@@ -89,13 +88,13 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div className={`relative min-h-screen ${theme.animations.entrance}`}>
       <PersonalityEffects character={character} isActive={true} />
       
       <div className="relative z-10 min-h-screen p-4 space-y-8">
         {/* Header */}
         <div className="text-center space-y-4 pt-12">
-          <h1 className={`text-4xl ${theme.fonts.heading} ${theme.colors.text} opacity-90`}>
+          <h1 className={`text-4xl ${theme.fonts.heading} ${theme.colors.text} opacity-90 ${theme.animations.floating}`}>
             {getTypeTitle()}
           </h1>
           <p className={`${theme.colors.text} opacity-70 ${theme.fonts.body}`}>
@@ -110,14 +109,17 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
           </h3>
           
           <div className="grid gap-4">
-            {sampleQuestions[questionType].map((question) => (
+            {sampleQuestions[questionType].map((question, index) => (
               <Card
                 key={question.id}
-                className={`${theme.effects.borderStyle} bg-slate-900/40 backdrop-blur-sm p-6 cursor-pointer transition-all duration-300 min-h-[80px] flex items-center ${theme.colors.glow} ${
+                className={`${theme.effects.borderStyle} bg-slate-900/40 backdrop-blur-sm p-6 cursor-pointer transition-all duration-300 min-h-[80px] flex items-center ${theme.colors.glow} ${theme.animations.cardHover} ${
                   selectedQuestion === question.text 
                     ? 'scale-95 opacity-75' 
                     : 'hover:scale-102 hover:bg-slate-900/60 active:scale-98'
                 }`}
+                style={{ 
+                  animationDelay: `${index * 0.1}s`
+                }}
                 onClick={() => handleQuestionSelect(question.text)}
               >
                 <p className={`${theme.colors.text} ${theme.fonts.body} text-center w-full text-lg opacity-90`}>
@@ -147,7 +149,7 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
             <Button
               onClick={handleCustomSubmit}
               disabled={!customQuestion.trim() || isSubmitting}
-              className={`min-h-[56px] min-w-[56px] bg-gradient-to-r ${theme.colors.primary} hover:opacity-90 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:hover:scale-100`}
+              className={`min-h-[56px] min-w-[56px] bg-gradient-to-r ${theme.colors.primary} hover:opacity-90 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 ${theme.animations.buttonHover}`}
               style={{ backgroundColor: theme.colors.accent }}
             >
               <Send className="h-5 w-5" />
@@ -160,7 +162,7 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
           <Button 
             onClick={onBack}
             variant="ghost"
-            className={`${theme.colors.text} hover:opacity-80 min-h-[44px] px-8 ${theme.fonts.body} transition-all duration-300 hover:scale-105`}
+            className={`${theme.colors.text} hover:opacity-80 min-h-[44px] px-8 ${theme.fonts.body} transition-all duration-300 ${theme.animations.buttonHover}`}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Categories

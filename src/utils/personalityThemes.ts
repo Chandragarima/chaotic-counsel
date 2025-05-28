@@ -19,6 +19,9 @@ export interface PersonalityTheme {
     entrance: string;
     thinking: string;
     responding: string;
+    floating: string;
+    cardHover: string;
+    buttonHover: string;
   };
   effects: {
     particles: string;
@@ -48,9 +51,12 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       body: 'font-inter font-normal'
     },
     animations: {
-      entrance: 'animate-fade-in',
-      thinking: 'animate-pulse',
-      responding: 'animate-fade-in'
+      entrance: 'animate-sassy-entrance',
+      thinking: 'animate-sassy-thinking',
+      responding: 'animate-sassy-responding',
+      floating: 'animate-sassy-float',
+      cardHover: 'hover:animate-sassy-wiggle',
+      buttonHover: 'hover:animate-sassy-bounce'
     },
     effects: {
       particles: '💖✨🌸',
@@ -78,9 +84,12 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       body: 'font-inter font-normal'
     },
     animations: {
-      entrance: 'animate-fade-in',
-      thinking: 'animate-glow-pulse',
-      responding: 'animate-fade-in'
+      entrance: 'animate-wise-entrance',
+      thinking: 'animate-wise-thinking',
+      responding: 'animate-wise-responding',
+      floating: 'animate-wise-float',
+      cardHover: 'hover:animate-wise-glow',
+      buttonHover: 'hover:animate-wise-pulse'
     },
     effects: {
       particles: '🌟✨🔮',
@@ -108,9 +117,12 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       body: 'font-inter font-light'
     },
     animations: {
-      entrance: 'animate-fade-in',
-      thinking: 'animate-pulse',
-      responding: 'animate-fade-in'
+      entrance: 'animate-lazy-entrance',
+      thinking: 'animate-lazy-thinking',
+      responding: 'animate-lazy-responding',
+      floating: 'animate-lazy-float',
+      cardHover: 'hover:animate-lazy-sway',
+      buttonHover: 'hover:animate-lazy-drift'
     },
     effects: {
       particles: '🍃💚🌿',
@@ -138,9 +150,12 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       body: 'font-inter font-normal'
     },
     animations: {
-      entrance: 'animate-fade-in',
-      thinking: 'animate-pulse',
-      responding: 'animate-fade-in'
+      entrance: 'animate-anxious-entrance',
+      thinking: 'animate-anxious-thinking',
+      responding: 'animate-anxious-responding',
+      floating: 'animate-anxious-float',
+      cardHover: 'hover:animate-anxious-jitter',
+      buttonHover: 'hover:animate-anxious-shake'
     },
     effects: {
       particles: '⚡🔥💥',
@@ -168,9 +183,12 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       body: 'font-inter font-normal'
     },
     animations: {
-      entrance: 'animate-fade-in',
-      thinking: 'animate-bounce',
-      responding: 'animate-fade-in'
+      entrance: 'animate-quirky-entrance',
+      thinking: 'animate-quirky-thinking',
+      responding: 'animate-quirky-responding',
+      floating: 'animate-quirky-float',
+      cardHover: 'hover:animate-quirky-spin',
+      buttonHover: 'hover:animate-quirky-wobble'
     },
     effects: {
       particles: '🌈🎨🎭',

@@ -79,19 +79,19 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className={`min-h-screen relative overflow-hidden ${theme.animations.entrance}`}>
       <PersonalityEffects character={character} />
       
       <div className="relative z-10 p-6 space-y-8">
         {/* Sophisticated Header */}
         <div className="text-center space-y-6 pt-12">
           <div className="space-y-4">
-            <h1 className={`text-4xl ${theme.fonts.heading} bg-gradient-to-r ${theme.colors.primary} bg-clip-text text-transparent`}>
+            <h1 className={`text-4xl ${theme.fonts.heading} bg-gradient-to-r ${theme.colors.primary} bg-clip-text text-transparent ${theme.animations.floating}`}>
               {character.name}
             </h1>
             <div className="flex items-center justify-center space-x-6">
               <div className={`w-16 h-px bg-gradient-to-r from-transparent via-${theme.colors.accent.replace('#', '')}/60 to-transparent`}></div>
-              <div className={`w-2 h-2 border border-${theme.colors.accent.replace('#', '')}/60 rotate-45 bg-${theme.colors.accent.replace('#', '')}/10`}></div>
+              <div className={`w-2 h-2 border border-${theme.colors.accent.replace('#', '')}/60 rotate-45 bg-${theme.colors.accent.replace('#', '')}/10 ${theme.animations.floating}`}></div>
               <div className={`w-16 h-px bg-gradient-to-l from-transparent via-${theme.colors.accent.replace('#', '')}/60 to-transparent`}></div>
             </div>
           </div>
@@ -103,7 +103,7 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
 
         {/* Question Display */}
         <div className="max-w-2xl mx-auto">
-          <Card className={`${theme.effects.borderStyle} bg-gradient-to-br ${theme.colors.background} backdrop-blur-md p-8 ${theme.colors.glow} shadow-2xl`}>
+          <Card className={`${theme.effects.borderStyle} bg-gradient-to-br ${theme.colors.background} backdrop-blur-md p-8 ${theme.colors.glow} shadow-2xl ${theme.animations.cardHover}`}>
             <p className={`${theme.colors.text} text-center ${theme.fonts.body} text-lg leading-relaxed`}>
               "{question}"
             </p>
@@ -114,7 +114,7 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
         <div className="max-w-2xl mx-auto space-y-8">
           {/* Character Image */}
           <div className="text-center">
-            <div className={`w-40 h-40 mx-auto rounded-full overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-2 border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : ''}`}>
+            <div className={`w-40 h-40 mx-auto rounded-full overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-2 border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : theme.animations.floating}`}>
               {character.image ? (
                 <img 
                   src={character.image} 
@@ -134,7 +134,7 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
           </div>
 
           {/* Answer Card */}
-          <Card className={`${theme.effects.borderStyle} bg-gradient-to-br ${theme.colors.background} backdrop-blur-md p-10 ${theme.colors.glow} shadow-2xl`}>
+          <Card className={`${theme.effects.borderStyle} bg-gradient-to-br ${theme.colors.background} backdrop-blur-md p-10 ${theme.colors.glow} shadow-2xl ${theme.animations.cardHover}`}>
             {isRevealing ? (
               <div className={`text-center space-y-6 ${theme.animations.thinking}`}>
                 <div className={`w-8 h-8 border-2 border-transparent border-t-current rounded-full animate-spin mx-auto ${theme.colors.text}`} style={{ borderTopColor: theme.colors.accent }}></div>
@@ -160,7 +160,7 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
               <Button 
                 onClick={handleAskAgain}
                 disabled={isAsking}
-                className={`w-full min-h-[52px] transition-all duration-300 bg-gradient-to-r ${theme.colors.primary} hover:${theme.colors.secondary} text-white ${theme.fonts.body} tracking-wide ${theme.colors.glow} shadow-lg hover:shadow-xl ${
+                className={`w-full min-h-[52px] transition-all duration-300 bg-gradient-to-r ${theme.colors.primary} hover:${theme.colors.secondary} text-white ${theme.fonts.body} tracking-wide ${theme.colors.glow} shadow-lg hover:shadow-xl ${theme.animations.buttonHover} ${
                   isAsking ? 'scale-95 opacity-75' : 'hover:scale-[1.02]'
                 }`}
               >
@@ -172,7 +172,7 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
                 <Button 
                   onClick={onBack}
                   variant="ghost"
-                  className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} min-h-[48px] border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} tracking-wide transition-all duration-300 hover:scale-[1.02]`}
+                  className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} min-h-[48px] border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} tracking-wide transition-all duration-300 ${theme.animations.buttonHover}`}
                 >
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Return
@@ -181,7 +181,7 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
                 <Button 
                   onClick={onStartOver}
                   variant="ghost"
-                  className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} min-h-[48px] border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} tracking-wide transition-all duration-300 hover:scale-[1.02]`}
+                  className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} min-h-[48px] border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} tracking-wide transition-all duration-300 ${theme.animations.buttonHover}`}
                 >
                   <Home className="mr-2 h-4 w-4" />
                   Begin Anew
