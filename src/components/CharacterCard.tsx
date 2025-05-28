@@ -1,6 +1,7 @@
 
 import { Character } from '../types';
 import { Card } from '@/components/ui/card';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface CharacterCardProps {
   character: Character;
@@ -24,51 +25,64 @@ const CharacterCard = ({ character, onSelect, isSelected = false }: CharacterCar
     <Card 
       className={`group relative p-6 cursor-pointer transform transition-all duration-300 
         ${isSelected 
-          ? 'bg-mystical-gold/10 border-mystical-gold/50 shadow-lg shadow-mystical-gold/20' 
-          : 'bg-slate-900/40 border-mystical-gold/20 hover:border-mystical-gold/40'
+          ? 'bg-slate-800/60 border-amber-400/70 shadow-lg shadow-amber-400/20 scale-105' 
+          : 'bg-slate-900/60 border-slate-700/50 hover:border-amber-400/50 hover:bg-slate-800/40'
         } 
-        ${!character.unlocked ? 'opacity-40 grayscale cursor-not-allowed' : 'hover:scale-105'}
-        backdrop-blur-sm rounded-xl border`}
+        ${!character.unlocked ? 'opacity-40 grayscale cursor-not-allowed' : 'hover:scale-102'}
+        backdrop-blur-md rounded-2xl border`}
       onClick={character.unlocked ? onSelect : undefined}
     >
       <div className="text-center space-y-4">
-        {/* Character Symbol */}
-        <div className="relative">
-          <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-mystical-gold/20 to-mystical-gold/5 border border-mystical-gold/30 flex items-center justify-center group-hover:border-mystical-gold/50 transition-colors duration-300">
-            <span className="text-2xl text-mystical-gold font-light">
-              {getCharacterSymbol(character.type)}
-            </span>
+        {/* Character Avatar */}
+        <div className="relative mx-auto">
+          <div className={`relative w-20 h-20 mx-auto rounded-full overflow-hidden border-2 transition-all duration-300 ${
+            isSelected 
+              ? 'border-amber-400/80 shadow-lg shadow-amber-400/30' 
+              : 'border-slate-600/50 group-hover:border-amber-400/60'
+          }`}>
+            <Avatar className="w-full h-full">
+              <AvatarImage 
+                src={character.image} 
+                alt={character.name}
+                className="object-cover w-full h-full"
+              />
+              <AvatarFallback className="bg-slate-800 text-amber-400 text-xl font-light">
+                {getCharacterSymbol(character.type)}
+              </AvatarFallback>
+            </Avatar>
           </div>
           {isSelected && (
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-mystical-gold rounded-full border-2 border-slate-900"></div>
+            <div className="absolute -top-1 -right-1 w-5 h-5 bg-amber-400 rounded-full border-2 border-slate-900 flex items-center justify-center">
+              <div className="w-2 h-2 bg-slate-900 rounded-full"></div>
+            </div>
           )}
         </div>
 
         {/* Character Info */}
-        <div className="space-y-3">
-          <h3 className="text-mystical-gold font-medium text-lg tracking-wide">
+        <div className="space-y-2">
+          <h3 className="text-amber-100 font-medium text-lg tracking-wide">
             {character.name}
           </h3>
-          <p className="text-mystical-gold-light/80 text-sm font-light tracking-wide">
+          <p className="text-amber-200/70 text-sm font-light tracking-wide leading-relaxed">
             {character.personality}
           </p>
-          <p className="text-mystical-gold/60 text-xs font-light leading-relaxed">
+          <p className="text-slate-400 text-xs font-light leading-relaxed px-2">
             {character.description}
           </p>
         </div>
 
         {/* Lock Status */}
         {!character.unlocked && (
-          <div className="flex items-center justify-center space-x-2 text-mystical-gold/40 pt-2">
+          <div className="flex items-center justify-center space-x-2 text-slate-500 pt-2">
             <span className="text-sm">🔒</span>
             <span className="text-xs font-light tracking-wide">Locked</span>
           </div>
         )}
       </div>
 
-      {/* Hover effect overlay */}
-      {character.unlocked && (
-        <div className="absolute inset-0 bg-gradient-to-br from-mystical-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl pointer-events-none"></div>
+      {/* Selection indicator overlay */}
+      {isSelected && (
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-transparent rounded-2xl pointer-events-none"></div>
       )}
     </Card>
   );

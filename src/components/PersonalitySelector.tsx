@@ -19,48 +19,52 @@ const PersonalitySelector = ({
   onBack 
 }: PersonalitySelectorProps) => {
   return (
-    <div className="min-h-screen p-4 space-y-6">
-      {/* Header */}
-      <div className="text-center space-y-4 pt-8">
-        <h1 className="text-3xl font-mystical font-bold text-mystical-gold">
-          Choose Your Advisor
-        </h1>
-        <p className="text-mystical-gold-light">
-          Select a mystical companion to guide your decision
-        </p>
-      </div>
-
-      {/* Character Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-        {characters.map((character) => (
-          <CharacterCard
-            key={character.id}
-            character={character}
-            onSelect={() => onCharacterSelect(character)}
-            isSelected={selectedCharacter?.id === character.id}
-          />
-        ))}
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex flex-col space-y-4 max-w-sm mx-auto pt-4">
-        {selectedCharacter && (
-          <Button 
-            onClick={onContinue}
-            className="mystical-button w-full min-h-[48px]"
-          >
-            Continue with {selectedCharacter.name}
-          </Button>
-        )}
-        
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
+      {/* Back Button - Top Left */}
+      <div className="absolute top-6 left-6 z-20">
         <Button 
           onClick={onBack}
           variant="ghost"
-          className="text-mystical-gold-light hover:text-mystical-gold min-h-[44px]"
+          className="text-amber-200 hover:text-amber-100 hover:bg-slate-800/50 p-3 rounded-xl"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Start
+          <ArrowLeft className="h-5 w-5" />
         </Button>
+      </div>
+
+      <div className="p-6 pt-20 space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-light tracking-wider text-amber-100">
+            Choose Your Advisor
+          </h1>
+          <p className="text-amber-200/70 font-light tracking-wide">
+            Select a mystical companion to guide your decision
+          </p>
+        </div>
+
+        {/* Character Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          {characters.map((character) => (
+            <CharacterCard
+              key={character.id}
+              character={character}
+              onSelect={() => onCharacterSelect(character)}
+              isSelected={selectedCharacter?.id === character.id}
+            />
+          ))}
+        </div>
+
+        {/* Continue Button */}
+        {selectedCharacter && (
+          <div className="flex justify-center pt-8">
+            <Button 
+              onClick={onContinue}
+              className="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-900 font-medium px-8 py-3 text-lg tracking-wide rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              Continue with {selectedCharacter.name}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
