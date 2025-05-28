@@ -100,9 +100,10 @@ const Index = () => {
         />
       )}
 
-      {currentScreen === 'questions' && questionType && (
+      {currentScreen === 'questions' && questionType && selectedCharacter && (
         <QuestionsScreen
           questionType={questionType}
+          character={selectedCharacter}
           onQuestionSelect={handleQuestionSelect}
           onBack={handleBackToQuestionType}
         />
