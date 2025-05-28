@@ -82,7 +82,7 @@ const CombinedHomePage = ({
                 key={character.id}
                 character={character}
                 onSelect={() => handleCharacterSelect(character)}
-                isSelected={selectedCharacter?.id === character.id}
+                isSelected={false}
               />
             ))}
           </div>
