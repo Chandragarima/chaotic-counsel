@@ -23,6 +23,81 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
 
   const theme = getPersonalityTheme(character.type);
 
+  // Function to detect and handle "or" questions
+  const handleOrQuestion = (question: string) => {
+    const lowerQuestion = question.toLowerCase();
+    
+    // Check if it's a cuisine question
+    if (lowerQuestion.includes('cuisine') || lowerQuestion.includes('food type')) {
+      const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek'];
+      const randomCuisine = cuisines[Math.floor(Math.random() * cuisines.length)];
+      return formatPersonalityAnswer(randomCuisine, 'choice');
+    }
+    
+    // Check if it's a dinner/meal question
+    if (lowerQuestion.includes('dinner') || lowerQuestion.includes('meal') || lowerQuestion.includes('eat tonight')) {
+      const meals = ['Pizza', 'Sushi', 'Tacos', 'Pasta', 'Ramen', 'Burgers', 'Poke Bowl', 'Stir Fry', 'Sandwich', 'Salad'];
+      const randomMeal = meals[Math.floor(Math.random() * meals.length)];
+      return formatPersonalityAnswer(randomMeal, 'choice');
+    }
+    
+    // Handle general "or" questions
+    if (lowerQuestion.includes(' or ')) {
+      const orIndex = lowerQuestion.indexOf(' or ');
+      const beforeOr = question.substring(0, orIndex).trim();
+      const afterOr = question.substring(orIndex + 4).trim();
+      
+      // Extract options more intelligently
+      let options = [];
+      
+      // Simple split on "or" and clean up
+      const parts = question.split(/\s+or\s+/i);
+      if (parts.length >= 2) {
+        // Clean up the first option (remove question words)
+        const firstOption = parts[0].replace(/^(should i|do i|can i|will i|shall i|would i)\s+/i, '').trim();
+        options.push(firstOption);
+        
+        // Add remaining options
+        for (let i = 1; i < parts.length; i++) {
+          options.push(parts[i].replace(/\?$/, '').trim());
+        }
+        
+        const randomOption = options[Math.floor(Math.random() * options.length)];
+        return formatPersonalityAnswer(randomOption, 'choice');
+      }
+    }
+    
+    return null;
+  };
+
+  // Format answer based on character personality
+  const formatPersonalityAnswer = (choice: string, type: 'choice' | 'yesno') => {
+    switch (character.type) {
+      case 'sassy-cat':
+        return type === 'choice' 
+          ? `Obviously ${choice}. I can't believe you needed me to tell you that.`
+          : `${choice.toUpperCase()}: Obviously. Were you even paying attention?`;
+      case 'wise-owl':
+        return type === 'choice'
+          ? `The ancient wisdom speaks: ${choice} calls to your soul.`
+          : `The cosmos whispers: ${choice}`;
+      case 'lazy-panda':
+        return type === 'choice'
+          ? `*stretches lazily* Go with ${choice}. It sounds chill enough.`
+          : `*yawn* ${choice}... whatever requires less effort.`;
+      case 'anxious-bunny':
+        return type === 'choice'
+          ? `${choice.toUpperCase()}! Wait, are you sure? Actually yes, ${choice}! Quick decision!`
+          : `${choice}! But what if we're wrong?! Actually stick with ${choice}!`;
+      case 'quirky-duck':
+        return type === 'choice'
+          ? `*quacks mysteriously* The universe says... ${choice}! But only if you do it backwards!`
+          : `Quack! ${choice}! The rubber ducks have spoken!`;
+      default:
+        return `${choice}`;
+    }
+  };
+
   useEffect(() => {
     setIsThinking(true);
     setIsRevealing(true);
@@ -38,35 +113,43 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
     setTimeout(() => {
       setIsThinking(false);
       
-      // Ensure equal distribution by using weighted random selection
-      const responses = ['yes', 'no', 'maybe'] as const;
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-      const responseTexts = character.responses.yesNoMaybe[randomResponse];
+      // First check if it's an "or" question or specific type question
+      const orAnswer = handleOrQuestion(question);
       
-      // Get a truly random response from the expanded array
-      const randomIndex = Math.floor(Math.random() * responseTexts.length);
-      const randomText = responseTexts[randomIndex];
-      
-      // Format response based on character personality
       let formattedAnswer = '';
-      switch (character.type) {
-        case 'sassy-cat':
-          formattedAnswer = `${randomResponse.toUpperCase()}: ${randomText}`;
-          break;
-        case 'wise-owl':
-          formattedAnswer = `The ancient wisdom speaks: ${randomText}`;
-          break;
-        case 'lazy-panda':
-          formattedAnswer = `*stretches lazily* ${randomText}`;
-          break;
-        case 'anxious-bunny':
-          formattedAnswer = `*twitches nervously* ${randomText}`;
-          break;
-        case 'quirky-duck':
-          formattedAnswer = `*quacks mysteriously* ${randomText}`;
-          break;
-        default:
-          formattedAnswer = `${randomResponse.toUpperCase()}: ${randomText}`;
+      
+      if (orAnswer) {
+        formattedAnswer = orAnswer;
+      } else {
+        // Regular yes/no/maybe logic for other questions
+        const responses = ['yes', 'no', 'maybe'] as const;
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        const responseTexts = character.responses.yesNoMaybe[randomResponse];
+        
+        // Get a truly random response from the expanded array
+        const randomIndex = Math.floor(Math.random() * responseTexts.length);
+        const randomText = responseTexts[randomIndex];
+        
+        // Format response based on character personality
+        switch (character.type) {
+          case 'sassy-cat':
+            formattedAnswer = `${randomResponse.toUpperCase()}: ${randomText}`;
+            break;
+          case 'wise-owl':
+            formattedAnswer = `The ancient wisdom speaks: ${randomText}`;
+            break;
+          case 'lazy-panda':
+            formattedAnswer = `*stretches lazily* ${randomText}`;
+            break;
+          case 'anxious-bunny':
+            formattedAnswer = `*twitches nervously* ${randomText}`;
+            break;
+          case 'quirky-duck':
+            formattedAnswer = `*quacks mysteriously* ${randomText}`;
+            break;
+          default:
+            formattedAnswer = `${randomResponse.toUpperCase()}: ${randomText}`;
+        }
       }
       
       setAnswer(formattedAnswer);

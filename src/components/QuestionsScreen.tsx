@@ -20,7 +20,7 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const theme = getPersonalityTheme(character.type);
 
-  // Personality-specific sample questions
+  // Personality-specific sample questions with Gen Z/Millennial appeal
   const getPersonalityQuestions = (): SampleQuestion[] => {
     const baseId = `${character.type}-${questionType}`;
     
@@ -29,39 +29,39 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
         switch (questionType) {
           case 'dinner':
             return [
-              { id: `${baseId}-1`, text: 'Should I order the expensive sushi or settle for peasant food?', category: 'dinner' },
-              { id: `${baseId}-2`, text: 'Is it beneath me to eat leftovers tonight?', category: 'dinner' },
-              { id: `${baseId}-3`, text: 'Should I judge the delivery person\'s food choices?', category: 'dinner' },
-              { id: `${baseId}-4`, text: 'Do I deserve caviar or just regular human food?', category: 'dinner' },
-              { id: `${baseId}-5`, text: 'Should I make someone else cook for me?', category: 'dinner' },
-              { id: `${baseId}-6`, text: 'Is cereal for dinner a power move or giving up?', category: 'dinner' }
+              { id: `${baseId}-1`, text: 'What cuisine should I eat tonight?', category: 'dinner' },
+              { id: `${baseId}-2`, text: 'Should I order sushi or get Thai food?', category: 'dinner' },
+              { id: `${baseId}-3`, text: 'Cooking at home or ordering DoorDash?', category: 'dinner' },
+              { id: `${baseId}-4`, text: 'Pizza or tacos for my cheat meal?', category: 'dinner' },
+              { id: `${baseId}-5`, text: 'Should I meal prep or live off takeout this week?', category: 'dinner' },
+              { id: `${baseId}-6`, text: 'Healthy salad or comfort food tonight?', category: 'dinner' }
             ];
           case 'movie':
             return [
-              { id: `${baseId}-1`, text: 'Should I watch something with good reviews or trash everyone will hate?', category: 'movie' },
-              { id: `${baseId}-2`, text: 'Is this movie worth my precious time and attention?', category: 'movie' },
-              { id: `${baseId}-3`, text: 'Should I critique the acting while watching?', category: 'movie' },
-              { id: `${baseId}-4`, text: 'Horror movie or rom-com to judge people\'s life choices?', category: 'movie' },
-              { id: `${baseId}-5`, text: 'Should I spoil the ending for my friends?', category: 'movie' },
-              { id: `${baseId}-6`, text: 'Documentary about my superiority complex?', category: 'movie' }
+              { id: `${baseId}-1`, text: 'Netflix or Disney+ for tonight\'s binge?', category: 'movie' },
+              { id: `${baseId}-2`, text: 'Horror movie or rom-com to match my mood?', category: 'movie' },
+              { id: `${baseId}-3`, text: 'Should I rewatch The Office or try something new?', category: 'movie' },
+              { id: `${baseId}-4`, text: 'Marvel or DC for my superhero fix?', category: 'movie' },
+              { id: `${baseId}-5`, text: 'True crime documentary or comedy special?', category: 'movie' },
+              { id: `${baseId}-6`, text: 'Should I start a new series or finish one I abandoned?', category: 'movie' }
             ];
           case 'hangout':
             return [
-              { id: `${baseId}-1`, text: 'Should I grace people with my presence today?', category: 'hangout' },
-              { id: `${baseId}-2`, text: 'Are these humans worthy of my social energy?', category: 'hangout' },
-              { id: `${baseId}-3`, text: 'Should I cancel plans and let them miss me?', category: 'hangout' },
-              { id: `${baseId}-4`, text: 'Coffee shop to judge other people\'s orders?', category: 'hangout' },
-              { id: `${baseId}-5`, text: 'Should I make dramatic entrances everywhere?', category: 'hangout' },
-              { id: `${baseId}-6`, text: 'Is staying home the ultimate power move?', category: 'hangout' }
+              { id: `${baseId}-1`, text: 'Coffee shop or bubble tea place for our hangout?', category: 'hangout' },
+              { id: `${baseId}-2`, text: 'Should I go out or stay in and be antisocial?', category: 'hangout' },
+              { id: `${baseId}-3`, text: 'Museum or shopping mall for weekend vibes?', category: 'hangout' },
+              { id: `${baseId}-4`, text: 'Beach day or hiking adventure?', category: 'hangout' },
+              { id: `${baseId}-5`, text: 'House party or quiet dinner with friends?', category: 'hangout' },
+              { id: `${baseId}-6`, text: 'Should I post this on my story or keep it private?', category: 'hangout' }
             ];
           case 'choice':
             return [
-              { id: `${baseId}-1`, text: 'Should I choose what benefits me most obviously?', category: 'choice' },
-              { id: `${baseId}-2`, text: 'Is this decision worthy of my mental energy?', category: 'choice' },
-              { id: `${baseId}-3`, text: 'Should I make the choice that annoys people most?', category: 'choice' },
-              { id: `${baseId}-4`, text: 'What would a queen like me choose?', category: 'choice' },
-              { id: `${baseId}-5`, text: 'Should I flip a coin and ignore the result?', category: 'choice' },
-              { id: `${baseId}-6`, text: 'Is this beneath my standards anyway?', category: 'choice' }
+              { id: `${baseId}-1`, text: 'iPhone or Android for my next phone?', category: 'choice' },
+              { id: `${baseId}-2`, text: 'Should I text my ex or maintain my dignity?', category: 'choice' },
+              { id: `${baseId}-3`, text: 'Spotify or Apple Music for my subscription?', category: 'choice' },
+              { id: `${baseId}-4`, text: 'Should I quit my job or stick it out?', category: 'choice' },
+              { id: `${baseId}-5`, text: 'Move back home or keep struggling with rent?', category: 'choice' },
+              { id: `${baseId}-6`, text: 'Should I get another tattoo or save money?', category: 'choice' }
             ];
         }
         break;
@@ -70,39 +70,39 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
         switch (questionType) {
           case 'dinner':
             return [
-              { id: `${baseId}-1`, text: 'What nourishment will feed both body and spirit tonight?', category: 'dinner' },
-              { id: `${baseId}-2`, text: 'Should I seek wisdom in ancient grains or modern cuisine?', category: 'dinner' },
-              { id: `${baseId}-3`, text: 'Does the universe call for soup or salad this evening?', category: 'dinner' },
-              { id: `${baseId}-4`, text: 'What meal will honor the sacred act of sustenance?', category: 'dinner' },
-              { id: `${baseId}-5`, text: 'Should I commune with nature through plant-based fare?', category: 'dinner' },
-              { id: `${baseId}-6`, text: 'What would the ancient ones have consumed at twilight?', category: 'dinner' }
+              { id: `${baseId}-1`, text: 'What nourishment shall feed my soul tonight?', category: 'dinner' },
+              { id: `${baseId}-2`, text: 'Mediterranean or Asian cuisine for spiritual sustenance?', category: 'dinner' },
+              { id: `${baseId}-3`, text: 'Should I practice mindful eating or indulge tonight?', category: 'dinner' },
+              { id: `${baseId}-4`, text: 'Plant-based meal or something with ancient grains?', category: 'dinner' },
+              { id: `${baseId}-5`, text: 'Should I cook with intention or order mindfully?', category: 'dinner' },
+              { id: `${baseId}-6`, text: 'What cuisine will align with my energy tonight?', category: 'dinner' }
             ];
           case 'movie':
             return [
-              { id: `${baseId}-1`, text: 'Which tale will illuminate the deeper truths of existence?', category: 'movie' },
-              { id: `${baseId}-2`, text: 'Should I seek wisdom in documentary or metaphor in fiction?', category: 'movie' },
-              { id: `${baseId}-3`, text: 'What story will guide my soul\'s evening journey?', category: 'movie' },
-              { id: `${baseId}-4`, text: 'Do the stars align for comedy or contemplative drama?', category: 'movie' },
-              { id: `${baseId}-5`, text: 'Should I revisit timeless classics or explore new narratives?', category: 'movie' },
-              { id: `${baseId}-6`, text: 'What visual meditation will serve my spirit tonight?', category: 'movie' }
+              { id: `${baseId}-1`, text: 'Criterion Collection or mainstream cinema tonight?', category: 'movie' },
+              { id: `${baseId}-2`, text: 'Should I watch something profound or entertaining?', category: 'movie' },
+              { id: `${baseId}-3`, text: 'Foreign film or English-speaking for tonight\'s journey?', category: 'movie' },
+              { id: `${baseId}-4`, text: 'Documentary about consciousness or sci-fi exploration?', category: 'movie' },
+              { id: `${baseId}-5`, text: 'Classic literature adaptation or modern storytelling?', category: 'movie' },
+              { id: `${baseId}-6`, text: 'Should I seek wisdom in film or pure entertainment?', category: 'movie' }
             ];
           case 'hangout':
             return [
-              { id: `${baseId}-1`, text: 'Should I seek solitude in nature or communion with kindred spirits?', category: 'hangout' },
-              { id: `${baseId}-2`, text: 'Do the cosmic forces favor indoor reflection or outdoor exploration?', category: 'hangout' },
-              { id: `${baseId}-3`, text: 'What sacred space will nurture my soul today?', category: 'hangout' },
-              { id: `${baseId}-4`, text: 'Should I share wisdom with others or meditate in silence?', category: 'hangout' },
-              { id: `${baseId}-5`, text: 'Do the ancient winds call for adventure or contemplation?', category: 'hangout' },
-              { id: `${baseId}-6`, text: 'What gathering will honor the interconnectedness of all beings?', category: 'hangout' }
+              { id: `${baseId}-1`, text: 'Nature walk or meditation center for inner peace?', category: 'hangout' },
+              { id: `${baseId}-2`, text: 'Should I seek solitude or meaningful connection today?', category: 'hangout' },
+              { id: `${baseId}-3`, text: 'Art gallery or bookstore for cultural enrichment?', category: 'hangout' },
+              { id: `${baseId}-4`, text: 'Yoga class or philosophical discussion group?', category: 'hangout' },
+              { id: `${baseId}-5`, text: 'Should I journal in solitude or share wisdom with others?', category: 'hangout' },
+              { id: `${baseId}-6`, text: 'Farmers market or library for soul nourishment?', category: 'hangout' }
             ];
           case 'choice':
             return [
-              { id: `${baseId}-1`, text: 'Which path aligns with the greater cosmic purpose?', category: 'choice' },
-              { id: `${baseId}-2`, text: 'Should I trust the whispers of intuition or logic\'s counsel?', category: 'choice' },
-              { id: `${baseId}-3`, text: 'What decision honors both wisdom and compassion?', category: 'choice' },
-              { id: `${baseId}-4`, text: 'Do the celestial signs favor bold action or patient waiting?', category: 'choice' },
-              { id: `${baseId}-5`, text: 'Which choice will serve the highest good for all?', category: 'choice' },
-              { id: `${baseId}-6`, text: 'What would the ancient sages counsel in this moment?', category: 'choice' }
+              { id: `${baseId}-1`, text: 'Follow my heart or trust logical reasoning?', category: 'choice' },
+              { id: `${baseId}-2`, text: 'Should I pursue passion or financial stability?', category: 'choice' },
+              { id: `${baseId}-3`, text: 'Graduate school or life experience for growth?', category: 'choice' },
+              { id: `${baseId}-4`, text: 'City life or countryside for my soul\'s calling?', category: 'choice' },
+              { id: `${baseId}-5`, text: 'Should I speak my truth or maintain harmony?', category: 'choice' },
+              { id: `${baseId}-6`, text: 'Minimalism or maximalism for my lifestyle?', category: 'choice' }
             ];
         }
         break;
@@ -111,39 +111,39 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
         switch (questionType) {
           case 'dinner':
             return [
-              { id: `${baseId}-1`, text: 'What requires absolutely zero cooking effort tonight?', category: 'dinner' },
-              { id: `${baseId}-2`, text: 'Should I order delivery or eat whatever\'s within arm\'s reach?', category: 'dinner' },
-              { id: `${baseId}-3`, text: 'Is cereal a valid dinner if I\'m already in pajamas?', category: 'dinner' },
-              { id: `${baseId}-4`, text: 'Should I venture to the kitchen or survive on snacks?', category: 'dinner' },
-              { id: `${baseId}-5`, text: 'What food can I eat while lying down?', category: 'dinner' },
-              { id: `${baseId}-6`, text: 'Should I meal prep or just accept my snack-based lifestyle?', category: 'dinner' }
+              { id: `${baseId}-1`, text: 'What food requires zero effort tonight?', category: 'dinner' },
+              { id: `${baseId}-2`, text: 'DoorDash or whatever\'s in my fridge?', category: 'dinner' },
+              { id: `${baseId}-3`, text: 'Cereal for dinner or adult responsibility?', category: 'dinner' },
+              { id: `${baseId}-4`, text: 'Ramen packets or actual cooking tonight?', category: 'dinner' },
+              { id: `${baseId}-5`, text: 'Should I meal prep or embrace the chaos?', category: 'dinner' },
+              { id: `${baseId}-6`, text: 'What cuisine delivers fastest to my couch?', category: 'dinner' }
             ];
           case 'movie':
             return [
-              { id: `${baseId}-1`, text: 'What can I watch while taking a cozy nap?', category: 'movie' },
-              { id: `${baseId}-2`, text: 'Should I rewatch something familiar or risk new plot complexity?', category: 'movie' },
-              { id: `${baseId}-3`, text: 'What\'s already queued up so I don\'t have to search?', category: 'movie' },
-              { id: `${baseId}-4`, text: 'Documentary or sitcom for optimal background napping?', category: 'movie' },
-              { id: `${baseId}-5`, text: 'Should I commit to a full movie or just watch YouTube?', category: 'movie' },
-              { id: `${baseId}-6`, text: 'What requires the least emotional investment right now?', category: 'movie' }
+              { id: `${baseId}-1`, text: 'What can I fall asleep to without missing much?', category: 'movie' },
+              { id: `${baseId}-2`, text: 'Rewatch The Office or find something new to ignore?', category: 'movie' },
+              { id: `${baseId}-3`, text: 'Netflix autoplay or actually choosing something?', category: 'movie' },
+              { id: `${baseId}-4`, text: 'True crime to nap to or sitcom background noise?', category: 'movie' },
+              { id: `${baseId}-5`, text: 'Should I commit to a movie or just scroll TikTok?', category: 'movie' },
+              { id: `${baseId}-6`, text: 'Animation or live-action for minimal brain usage?', category: 'movie' }
             ];
           case 'hangout':
             return [
-              { id: `${baseId}-1`, text: 'Should I leave the house or convince friends to come here?', category: 'hangout' },
-              { id: `${baseId}-2`, text: 'What activity requires the minimum amount of movement?', category: 'hangout' },
-              { id: `${baseId}-3`, text: 'Should I socialize or embrace my hermit lifestyle today?', category: 'hangout' },
-              { id: `${baseId}-4`, text: 'Coffee shop with the comfiest chairs for maximum lounging?', category: 'hangout' },
-              { id: `${baseId}-5`, text: 'Should I make plans or just see what happens from my couch?', category: 'hangout' },
-              { id: `${baseId}-6`, text: 'What involves the least amount of getting dressed up?', category: 'hangout' }
+              { id: `${baseId}-1`, text: 'My couch or someone else\'s couch?', category: 'hangout' },
+              { id: `${baseId}-2`, text: 'Should I socialize or embrace hermit mode?', category: 'hangout' },
+              { id: `${baseId}-3`, text: 'Coffee shop with good WiFi or staying home?', category: 'hangout' },
+              { id: `${baseId}-4`, text: 'Park bench napping or indoor climate control?', category: 'hangout' },
+              { id: `${baseId}-5`, text: 'Should I make plans or see what happens?', category: 'hangout' },
+              { id: `${baseId}-6`, text: 'Activity that requires pants or pajama-friendly?', category: 'hangout' }
             ];
           case 'choice':
             return [
-              { id: `${baseId}-1`, text: 'Which option requires less mental energy to decide?', category: 'choice' },
-              { id: `${baseId}-2`, text: 'Should I choose now or nap on it for several hours?', category: 'choice' },
-              { id: `${baseId}-3`, text: 'What\'s the path of least resistance here?', category: 'choice' },
-              { id: `${baseId}-4`, text: 'Should I flip a coin so I don\'t have to think?', category: 'choice' },
-              { id: `${baseId}-5`, text: 'Which choice lets me stay in my comfort zone?', category: 'choice' },
-              { id: `${baseId}-6`, text: 'Can I postpone this decision until tomorrow... or next week?', category: 'choice' }
+              { id: `${baseId}-1`, text: 'Should I adult today or postpone until tomorrow?', category: 'choice' },
+              { id: `${baseId}-2`, text: 'Productivity or procrastination for today\'s vibe?', category: 'choice' },
+              { id: `${baseId}-3`, text: 'Answer emails or pretend I didn\'t see them?', category: 'choice' },
+              { id: `${baseId}-4`, text: 'Gym membership or just accept my fate?', category: 'choice' },
+              { id: `${baseId}-5`, text: 'Should I clean my room or learn to navigate the chaos?', category: 'choice' },
+              { id: `${baseId}-6`, text: 'Career ambition or work-life balance for happiness?', category: 'choice' }
             ];
         }
         break;
