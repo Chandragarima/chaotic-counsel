@@ -36,6 +36,35 @@ class AudioManager {
     oscillator.stop(ctx.currentTime + duration);
   }
 
+  private generateMeow(duration: number = 0.6): void {
+    if (!this.isEnabled()) return;
+    
+    const ctx = this.getAudioContext();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+
+    oscillator.type = 'sawtooth';
+    oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+    oscillator.frequency.linearRampToValueAtTime(800, ctx.currentTime + duration * 0.3);
+    oscillator.frequency.linearRampToValueAtTime(300, ctx.currentTime + duration);
+
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(800, ctx.currentTime);
+    filter.Q.setValueAtTime(5, ctx.currentTime);
+
+    gainNode.gain.setValueAtTime(0, ctx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(this.config.volume * 0.4, ctx.currentTime + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+    oscillator.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(ctx.destination);
+
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + duration);
+  }
+
   private generateHoot(duration: number = 1.2): void {
     if (!this.isEnabled()) return;
     
@@ -95,6 +124,49 @@ class AudioManager {
     gainNode.connect(ctx.destination);
 
     noise.start(ctx.currentTime);
+  }
+
+  private generateBambooEating(duration: number = 1.0): void {
+    if (!this.isEnabled()) return;
+    
+    const ctx = this.getAudioContext();
+    
+    // Create multiple quick crunching sounds
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => {
+        const noise = ctx.createBufferSource();
+        const gainNode = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        // Create crispy noise buffer for crunching
+        const bufferSize = ctx.sampleRate * 0.2;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        
+        for (let j = 0; j < bufferSize; j++) {
+          data[j] = (Math.random() * 2 - 1) * 0.5;
+          // Add some crackling texture
+          if (Math.random() > 0.7) {
+            data[j] *= 2;
+          }
+        }
+        
+        noise.buffer = buffer;
+
+        filter.type = 'highpass';
+        filter.frequency.setValueAtTime(800, ctx.currentTime);
+
+        gainNode.gain.setValueAtTime(0, ctx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(this.config.volume * 0.15, ctx.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+
+        noise.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        noise.start(ctx.currentTime);
+      }, i * 300);
+    }
   }
 
   private generateSqueak(duration: number = 0.3): void {
@@ -164,7 +236,11 @@ class AudioManager {
     try {
       switch (personality) {
         case 'sassy-cat':
-          if (soundType.includes('purr')) this.generatePurr();
+          if (soundType.includes('purr')) {
+            this.generatePurr();
+          } else if (soundType.includes('select') || soundType.includes('response')) {
+            this.generateMeow();
+          }
           break;
         case 'wise-owl':
           if (soundType.includes('hoot')) this.generateHoot();
@@ -172,6 +248,8 @@ class AudioManager {
         case 'lazy-panda':
           if (soundType.includes('chuff') || soundType.includes('breath') || soundType.includes('sigh')) {
             this.generateChuff();
+          } else if (soundType.includes('select') || soundType.includes('response')) {
+            this.generateBambooEating();
           }
           break;
         case 'anxious-bunny':
