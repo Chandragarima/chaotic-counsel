@@ -24,7 +24,7 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
   const theme = getPersonalityTheme(character.type);
 
   // Improved random selection to avoid patterns
-  const getRandomChoice = <T>(array: readonly T[]): T => {
+  const getRandomChoice = <T extends any>(array: readonly T[]): T => {
     // Use crypto.getRandomValues for better randomness if available
     if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
       const randomArray = new Uint32Array(1);
