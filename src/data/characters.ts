@@ -1,4 +1,3 @@
-
 import { Character } from '../types';
 
 export const characters: Character[] = [
@@ -38,7 +37,30 @@ export const characters: Character[] = [
         "Whatever makes you happy, I guess.",
         "Flip a coin. Even chaos has more sense than you.",
         "Ask someone else. I'm done here."
-      ]
+      ],
+      yesNoMaybe: {
+        yes: [
+          "Obviously yes. Were you even paying attention?",
+          "Yes, but don't blame me when it goes wrong.",
+          "Fine, yes. Now stop asking stupid questions.",
+          "Yes, yes, YES. Can we move on now?",
+          "Reluctantly, yes. You're welcome."
+        ],
+        no: [
+          "Absolutely not. What were you thinking?",
+          "No. Just... no. Trust me on this one.",
+          "Hard pass. Find a better question.",
+          "No way. I have standards, unlike some people.",
+          "Not happening. Next question."
+        ],
+        maybe: [
+          "Maybe? I'm not your personal fortune teller.",
+          "Perhaps. Or perhaps not. Life's mysterious like that.",
+          "Maybe if you're lucky. But probably not.",
+          "Possibly. But don't get your hopes up.",
+          "Maybe... but I'm judging your life choices either way."
+        ]
+      }
     }
   },
   {
@@ -77,7 +99,30 @@ export const characters: Character[] = [
         "In uncertainty, find the gift of possibility.",
         "The answer lies within, dear seeker.",
         "Choose with both mind and heart aligned."
-      ]
+      ],
+      yesNoMaybe: {
+        yes: [
+          "Yes, the stars align in your favor.",
+          "Indeed, the path forward is illuminated.",
+          "The universe whispers 'yes' through ancient winds.",
+          "Affirmative, young seeker. Trust your journey.",
+          "Yes, for wisdom flows where courage leads."
+        ],
+        no: [
+          "Nay, the omens speak of caution.",
+          "The celestial forces suggest patience.",
+          "Not at this moment in time's great tapestry.",
+          "No, for greater things await beyond this choice.",
+          "The wise path leads elsewhere, dear one."
+        ],
+        maybe: [
+          "Perhaps, for all possibilities exist in the ether.",
+          "The future remains unwritten, full of potential.",
+          "Maybe, as uncertainty births the greatest adventures.",
+          "Possibly, for time reveals all truths eventually.",
+          "The answer floats between realms, neither yes nor no."
+        ]
+      }
     }
   },
   {
@@ -116,7 +161,30 @@ export const characters: Character[] = [
         "Choose the comfy option.",
         "When in doubt, nap on it.",
         "Both choices are probably fine. *yawn*"
-      ]
+      ],
+      yesNoMaybe: {
+        yes: [
+          "Yeah, sure. Why not? *yawn*",
+          "Yes, but can we do it from the couch?",
+          "Probably yes. I'm too tired to argue.",
+          "Yes, as long as it doesn't require too much energy.",
+          "Sure thing, dude. Whatever makes you happy."
+        ],
+        no: [
+          "Nah, that sounds like work.",
+          "No way. Too much effort involved.",
+          "Negative. I'm saving my energy for napping.",
+          "No thanks. That sounds exhausting.",
+          "Hard no. Can we just stay in bed instead?"
+        ],
+        maybe: [
+          "Maybe? I'll decide after my next nap.",
+          "Possibly. Let me sleep on it. For several hours.",
+          "Maybe if it involves minimal movement.",
+          "Perhaps. But probably not. Actually, definitely maybe.",
+          "Maybe... but first, can you bring me snacks?"
+        ]
+      }
     }
   },
   {
@@ -154,7 +222,30 @@ export const characters: Character[] = [
         "Quick decision! No thinking! Just go!",
         "What does your gut say? Mine is screaming.",
         "Flip a coin then choose the opposite!"
-      ]
+      ],
+      yesNoMaybe: {
+        yes: [
+          "YES! Wait, no! Actually YES! Are you sure?",
+          "Yes, but what if we're making a huge mistake?!",
+          "ABSOLUTELY! *nervous twitching*",
+          "Yes yes yes! Quick, before I change my mind!",
+          "Yes! I think! Maybe! Definitely yes!"
+        ],
+        no: [
+          "NO! Too scary! What if something goes wrong?",
+          "Nope nope nope! My anxiety says no!",
+          "NO WAY! I've thought of 17 ways this could fail!",
+          "Absolutely not! My bunny senses are tingling!",
+          "No! Unless... wait, should it be yes? NO!"
+        ],
+        maybe: [
+          "MAYBE?! How am I supposed to work with maybe?!",
+          "Maybe! Or not! I can't decide! Help!",
+          "Possibly! But what does that even mean?!",
+          "Maybe... *hyperventilating* What if maybe isn't enough?",
+          "MAYBE! But I need 47 backup plans just in case!"
+        ]
+      }
     }
   },
   {
@@ -192,7 +283,30 @@ export const characters: Character[] = [
         "Whatever option has more vowels in its name.",
         "Choose the one that sounds like a good band name.",
         "The universe will send you a sign. Wait for it."
-      ]
+      ],
+      yesNoMaybe: {
+        yes: [
+          "Yes! But only if you do it while hopping on one foot.",
+          "Absolutely! The rubber ducks have spoken!",
+          "Yes, but backwards. Start from the end!",
+          "Quack yes! *flaps wings enthusiastically*",
+          "Yes! And wear something purple while doing it!"
+        ],
+        no: [
+          "No way, José! Unless you ARE José. Then maybe.",
+          "Nope! The cosmic ducks disapprove!",
+          "No, but yes to the opposite of whatever you asked!",
+          "Negative! Try asking again in a funny voice!",
+          "No! But ask me again on a Tuesday during a full moon!"
+        ],
+        maybe: [
+          "Maybe! But only if the weather matches your socks!",
+          "Perhaps! Depends on how many vowels are in your name!",
+          "Possibly! The magic 8-duck says 'outlook unclear'!",
+          "Maybe! But first, tell me your favorite color of invisible!",
+          "Might be! Let's consult the ancient art of puddle-gazing!"
+        ]
+      }
     }
   }
 ];

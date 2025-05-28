@@ -12,6 +12,11 @@ export interface Character {
     movie: string[];
     hangout: string[];
     choice: string[];
+    yesNoMaybe: {
+      yes: string[];
+      no: string[];
+      maybe: string[];
+    };
   };
 }
 
@@ -24,4 +29,10 @@ export interface UserProgress {
 
 export type QuestionType = 'dinner' | 'movie' | 'hangout' | 'choice';
 
-export type AppScreen = 'splash' | 'selector' | 'question' | 'answer' | 'streak' | 'gallery' | 'settings';
+export type AppScreen = 'splash' | 'selector' | 'question' | 'questions' | 'answer' | 'streak' | 'gallery' | 'settings';
+
+export interface SampleQuestion {
+  id: string;
+  text: string;
+  category: QuestionType;
+}

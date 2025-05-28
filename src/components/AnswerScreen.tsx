@@ -1,32 +1,34 @@
 
 import { useState, useEffect } from 'react';
-import { Character, QuestionType } from '../types';
+import { Character } from '../types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowUp } from 'lucide-react';
 
 interface AnswerScreenProps {
   character: Character;
-  questionType: QuestionType;
+  question: string;
   onBack: () => void;
   onAskAgain: () => void;
 }
 
-const AnswerScreen = ({ character, questionType, onBack, onAskAgain }: AnswerScreenProps) => {
+const AnswerScreen = ({ character, question, onBack, onAskAgain }: AnswerScreenProps) => {
   const [answer, setAnswer] = useState('');
   const [isRevealing, setIsRevealing] = useState(false);
 
   useEffect(() => {
-    // Get a random response from the character for this question type
-    const responses = character.responses[questionType];
+    // Generate a yes/no/maybe response
+    const responses = ['yes', 'no', 'maybe'] as const;
     const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+    const responseTexts = character.responses.yesNoMaybe[randomResponse];
+    const randomText = responseTexts[Math.floor(Math.random() * responseTexts.length)];
     
     setIsRevealing(true);
     setTimeout(() => {
-      setAnswer(randomResponse);
+      setAnswer(`${randomResponse.toUpperCase()}: ${randomText}`);
       setIsRevealing(false);
     }, 1500);
-  }, [character, questionType]);
+  }, [character, question]);
 
   const getCharacterFont = () => {
     switch (character.type) {
@@ -45,25 +47,25 @@ const AnswerScreen = ({ character, questionType, onBack, onAskAgain }: AnswerScr
     }
   };
 
-  const getQuestionTypeTitle = () => {
-    switch (questionType) {
-      case 'dinner': return 'Dinner Guidance';
-      case 'movie': return 'Movie Recommendation';
-      case 'hangout': return 'Activity Suggestion';
-      case 'choice': return 'Decision Help';
-    }
-  };
-
   return (
     <div className="min-h-screen p-4 space-y-6">
       {/* Header */}
       <div className="text-center space-y-4 pt-8">
         <h1 className="text-2xl font-mystical font-bold text-mystical-gold">
-          {getQuestionTypeTitle()}
+          The Oracle Responds
         </h1>
         <p className="text-mystical-gold-light">
-          {character.name} speaks...
+          {character.name} contemplates your question...
         </p>
+      </div>
+
+      {/* Question Display */}
+      <div className="max-w-lg mx-auto">
+        <Card className="mystical-card p-6 mb-6">
+          <p className="text-mystical-gold text-center font-medium">
+            "{question}"
+          </p>
+        </Card>
       </div>
 
       {/* Character Response */}
@@ -126,7 +128,7 @@ const AnswerScreen = ({ character, questionType, onBack, onAskAgain }: AnswerScr
               className="w-full text-mystical-gold-light hover:text-mystical-gold"
             >
               <ArrowUp className="mr-2 h-4 w-4 rotate-180" />
-              Back
+              Back to Questions
             </Button>
           </div>
         )}

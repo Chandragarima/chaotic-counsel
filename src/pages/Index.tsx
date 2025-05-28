@@ -8,12 +8,14 @@ import Sparkles from '../components/Sparkles';
 import SplashScreen from '../components/SplashScreen';
 import PersonalitySelector from '../components/PersonalitySelector';
 import QuestionTypeSelector from '../components/QuestionTypeSelector';
+import QuestionsScreen from '../components/QuestionsScreen';
 import AnswerScreen from '../components/AnswerScreen';
 
 const Index = () => {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>('splash');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [questionType, setQuestionType] = useState<QuestionType | null>(null);
+  const [currentQuestion, setCurrentQuestion] = useState<string>('');
   const { progress, incrementDecisions } = useUserProgress();
 
   // Update characters with user's unlocked status
@@ -38,6 +40,11 @@ const Index = () => {
 
   const handleQuestionTypeSelect = (type: QuestionType) => {
     setQuestionType(type);
+    setCurrentScreen('questions');
+  };
+
+  const handleQuestionSelect = (question: string) => {
+    setCurrentQuestion(question);
     setCurrentScreen('answer');
     incrementDecisions();
   };
@@ -52,13 +59,18 @@ const Index = () => {
     setQuestionType(null);
   };
 
+  const handleBackToQuestionsList = () => {
+    setCurrentScreen('questions');
+    setCurrentQuestion('');
+  };
+
   const handleAskAgain = () => {
-    if (questionType) {
+    if (currentQuestion) {
       // Force re-render with new answer
-      const currentType = questionType;
-      setQuestionType(null);
+      const question = currentQuestion;
+      setCurrentQuestion('');
       setTimeout(() => {
-        setQuestionType(currentType);
+        setCurrentQuestion(question);
         incrementDecisions();
       }, 100);
     }
@@ -88,11 +100,19 @@ const Index = () => {
         />
       )}
 
-      {currentScreen === 'answer' && selectedCharacter && questionType && (
+      {currentScreen === 'questions' && questionType && (
+        <QuestionsScreen
+          questionType={questionType}
+          onQuestionSelect={handleQuestionSelect}
+          onBack={handleBackToQuestions}
+        />
+      )}
+
+      {currentScreen === 'answer' && selectedCharacter && currentQuestion && (
         <AnswerScreen
           character={selectedCharacter}
-          questionType={questionType}
-          onBack={handleBackToQuestions}
+          question={currentQuestion}
+          onBack={handleBackToQuestionsList}
           onAskAgain={handleAskAgain}
         />
       )}
