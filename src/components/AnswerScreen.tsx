@@ -23,21 +23,34 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
 
   const theme = getPersonalityTheme(character.type);
 
+  // Improved random selection to avoid patterns
+  const getRandomChoice = (array: any[]) => {
+    // Use crypto.getRandomValues for better randomness if available
+    if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+      const randomArray = new Uint32Array(1);
+      window.crypto.getRandomValues(randomArray);
+      return array[randomArray[0] % array.length];
+    }
+    // Fallback to Math.random with additional entropy
+    const entropy = Date.now() % 1000 + Math.random() * 1000;
+    return array[Math.floor(entropy) % array.length];
+  };
+
   // Function to detect and handle "or" questions
   const handleOrQuestion = (question: string) => {
     const lowerQuestion = question.toLowerCase();
     
     // Check if it's a cuisine question
     if (lowerQuestion.includes('cuisine') || lowerQuestion.includes('food type')) {
-      const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek'];
-      const randomCuisine = cuisines[Math.floor(Math.random() * cuisines.length)];
+      const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek', 'French', 'Lebanese', 'Brazilian', 'Ethiopian', 'Moroccan'];
+      const randomCuisine = getRandomChoice(cuisines);
       return formatPersonalityAnswer(randomCuisine, 'choice');
     }
     
     // Check if it's a dinner/meal question
     if (lowerQuestion.includes('dinner') || lowerQuestion.includes('meal') || lowerQuestion.includes('eat tonight')) {
-      const meals = ['Pizza', 'Sushi', 'Tacos', 'Pasta', 'Ramen', 'Burgers', 'Poke Bowl', 'Stir Fry', 'Sandwich', 'Salad'];
-      const randomMeal = meals[Math.floor(Math.random() * meals.length)];
+      const meals = ['Pizza', 'Sushi', 'Tacos', 'Pasta', 'Ramen', 'Burgers', 'Poke Bowl', 'Stir Fry', 'Sandwich', 'Salad', 'Curry', 'Dumplings', 'Pho', 'Bibimbap', 'Shawarma'];
+      const randomMeal = getRandomChoice(meals);
       return formatPersonalityAnswer(randomMeal, 'choice');
     }
     
@@ -62,7 +75,7 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
           options.push(parts[i].replace(/\?$/, '').trim());
         }
         
-        const randomOption = options[Math.floor(Math.random() * options.length)];
+        const randomOption = getRandomChoice(options);
         return formatPersonalityAnswer(randomOption, 'choice');
       }
     }
@@ -121,14 +134,13 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
       if (orAnswer) {
         formattedAnswer = orAnswer;
       } else {
-        // Regular yes/no/maybe logic for other questions
+        // Regular yes/no/maybe logic for other questions with improved randomization
         const responses = ['yes', 'no', 'maybe'] as const;
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        const randomResponse = getRandomChoice(responses);
         const responseTexts = character.responses.yesNoMaybe[randomResponse];
         
         // Get a truly random response from the expanded array
-        const randomIndex = Math.floor(Math.random() * responseTexts.length);
-        const randomText = responseTexts[randomIndex];
+        const randomText = getRandomChoice(responseTexts);
         
         // Format response based on character personality
         switch (character.type) {
