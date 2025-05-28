@@ -22,52 +22,52 @@ const CombinedHomePage = ({
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* Sophisticated Dark Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        {/* Subtle geometric patterns */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-1/4 left-1/3 w-96 h-96 border border-amber-400/20 rotate-45 rounded-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 border border-amber-400/15 rotate-12 rounded-2xl"></div>
-          <div className="absolute top-1/2 left-1/6 w-48 h-48 border border-amber-400/25 -rotate-12 rounded-xl"></div>
+      {/* Brighter, more sophisticated background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-600">
+        {/* Enhanced geometric patterns */}
+        <div className="absolute inset-0 opacity-8">
+          <div className="absolute top-1/4 left-1/3 w-96 h-96 border border-amber-400/25 rotate-45 rounded-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 border border-amber-400/20 rotate-12 rounded-2xl"></div>
+          <div className="absolute top-1/2 left-1/6 w-48 h-48 border border-amber-400/30 -rotate-12 rounded-xl"></div>
         </div>
         
-        {/* Ambient light effects */}
-        <div className="absolute top-1/3 right-1/3 w-[500px] h-[500px] bg-amber-400/8 rounded-full blur-[100px]"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-[400px] h-[400px] bg-amber-600/6 rounded-full blur-[80px]"></div>
+        {/* Brighter ambient light effects */}
+        <div className="absolute top-1/3 right-1/3 w-[500px] h-[500px] bg-amber-400/12 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-[400px] h-[400px] bg-amber-500/10 rounded-full blur-[80px]"></div>
       </div>
 
       {/* Main Content */}
       <div className="text-center space-y-16 animate-fade-in relative z-10 max-w-5xl w-full">
-        {/* Modern Branding */}
+        {/* Enhanced branding with better fonts */}
         <div className="space-y-8">
           <div className="space-y-6">
-            {/* Main Title */}
+            {/* Main Title with improved typography */}
             <div className="relative">
-              <h1 className="text-6xl md:text-8xl font-thin tracking-[0.3em] text-amber-100 relative">
+              <h1 className="text-6xl md:text-8xl font-playfair font-medium tracking-[0.3em] text-slate-50 relative">
                 CHAOTIC
               </h1>
-              <div className="absolute inset-0 text-amber-400/20 blur-sm">CHAOTIC</div>
+              <div className="absolute inset-0 text-amber-400/25 blur-sm">CHAOTIC</div>
             </div>
             
             {/* Elegant divider */}
             <div className="flex items-center justify-center space-x-6">
-              <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent"></div>
-              <div className="w-3 h-3 border border-amber-400/60 rotate-45 bg-amber-400/10"></div>
-              <div className="w-16 h-px bg-gradient-to-l from-transparent via-amber-400/60 to-transparent"></div>
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"></div>
+              <div className="w-3 h-3 border border-amber-400/70 rotate-45 bg-amber-400/15"></div>
+              <div className="w-16 h-px bg-gradient-to-l from-transparent via-amber-400/70 to-transparent"></div>
             </div>
             
-            {/* Subtitle */}
-            <h2 className="text-3xl md:text-5xl font-extralight tracking-[0.2em] text-amber-200/90">
+            {/* Subtitle with better contrast */}
+            <h2 className="text-3xl md:text-5xl font-playfair font-normal tracking-[0.2em] text-slate-100">
               COUNSEL
             </h2>
           </div>
           
-          {/* Refined tagline */}
+          {/* Refined tagline with better readability */}
           <div className="space-y-4">
-            <p className="text-xl text-amber-200/80 font-light tracking-wider">
+            <p className="text-xl text-slate-200 font-inter font-light tracking-wider">
               Ancient wisdom for modern decisions
             </p>
-            <p className="text-sm text-amber-300/60 font-light italic tracking-widest uppercase">
+            <p className="text-sm text-amber-300/80 font-inter font-light italic tracking-widest uppercase">
               Choose your guide
             </p>
           </div>
@@ -89,19 +89,19 @@ const CombinedHomePage = ({
 
           {/* Instruction Text */}
           <div className="pt-4">
-            <p className="text-amber-300/50 text-sm font-light tracking-wide">
+            <p className="text-amber-300/70 text-sm font-inter font-light tracking-wide">
               Select an advisor to begin your session
             </p>
           </div>
         </div>
       </div>
 
-      {/* Minimal border effects */}
+      {/* Enhanced border effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400/20 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400/20 to-transparent"></div>
-        <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-amber-400/20 to-transparent"></div>
-        <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-amber-400/20 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-amber-400/30 to-transparent"></div>
+        <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-amber-400/30 to-transparent"></div>
       </div>
     </div>
   );

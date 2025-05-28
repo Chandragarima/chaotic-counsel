@@ -36,16 +36,16 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
   'sassy-cat': {
     id: 'sassy-cat',
     colors: {
-      primary: 'from-slate-800 to-slate-900',
-      secondary: 'from-pink-900/30 to-purple-900/30',
-      accent: '#EC4899',
-      background: 'from-slate-900/95 via-pink-950/20 to-slate-900/95',
-      text: 'text-pink-100',
-      glow: 'shadow-pink-500/20'
+      primary: 'from-pink-600 to-rose-500',
+      secondary: 'from-pink-100/20 to-rose-100/20',
+      accent: '#ec4899',
+      background: 'from-slate-600/95 via-pink-800/15 to-slate-600/95',
+      text: 'text-pink-50',
+      glow: 'shadow-pink-400/30'
     },
     fonts: {
-      heading: 'font-light tracking-[0.2em]',
-      body: 'font-light tracking-wide'
+      heading: 'font-playfair font-medium tracking-wide',
+      body: 'font-inter font-normal'
     },
     animations: {
       entrance: 'animate-fade-in',
@@ -53,9 +53,9 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       responding: 'animate-fade-in'
     },
     effects: {
-      particles: '✨💫⭐',
+      particles: '💖✨🌸',
       backgroundPattern: 'subtle-grid',
-      borderStyle: 'border border-pink-500/20 rounded-lg'
+      borderStyle: 'border border-pink-400/30 rounded-lg'
     },
     sounds: {
       select: 'purr',
@@ -66,16 +66,16 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
   'wise-owl': {
     id: 'wise-owl',
     colors: {
-      primary: 'from-slate-800 to-slate-900',
-      secondary: 'from-amber-900/30 to-orange-900/30',
-      accent: '#F59E0B',
-      background: 'from-slate-900/95 via-amber-950/20 to-slate-900/95',
-      text: 'text-amber-100',
-      glow: 'shadow-amber-500/20'
+      primary: 'from-amber-600 to-yellow-500',
+      secondary: 'from-amber-100/20 to-orange-100/20',
+      accent: '#f59e0b',
+      background: 'from-slate-600/95 via-amber-800/15 to-slate-600/95',
+      text: 'text-amber-50',
+      glow: 'shadow-amber-400/30'
     },
     fonts: {
-      heading: 'font-light tracking-[0.3em]',
-      body: 'font-extralight tracking-wide'
+      heading: 'font-playfair font-medium tracking-wide',
+      body: 'font-inter font-normal'
     },
     animations: {
       entrance: 'animate-fade-in',
@@ -85,7 +85,7 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
     effects: {
       particles: '🌟✨🔮',
       backgroundPattern: 'mystical-dots',
-      borderStyle: 'border border-amber-500/20 rounded-lg'
+      borderStyle: 'border border-amber-400/30 rounded-lg'
     },
     sounds: {
       select: 'owl-hoot',
@@ -96,16 +96,16 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
   'lazy-panda': {
     id: 'lazy-panda',
     colors: {
-      primary: 'from-slate-800 to-slate-900',
-      secondary: 'from-green-900/30 to-emerald-900/30',
-      accent: '#10B981',
-      background: 'from-slate-900/95 via-green-950/20 to-slate-900/95',
-      text: 'text-green-100',
-      glow: 'shadow-green-500/20'
+      primary: 'from-emerald-600 to-green-500',
+      secondary: 'from-green-100/20 to-emerald-100/20',
+      accent: '#10b981',
+      background: 'from-slate-600/95 via-green-800/15 to-slate-600/95',
+      text: 'text-green-50',
+      glow: 'shadow-emerald-400/30'
     },
     fonts: {
-      heading: 'font-extralight tracking-relaxed',
-      body: 'font-light tracking-normal'
+      heading: 'font-playfair font-normal tracking-normal',
+      body: 'font-inter font-light'
     },
     animations: {
       entrance: 'animate-fade-in',
@@ -115,7 +115,7 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
     effects: {
       particles: '🍃💚🌿',
       backgroundPattern: 'zen-lines',
-      borderStyle: 'border border-green-500/20 rounded-lg'
+      borderStyle: 'border border-emerald-400/30 rounded-lg'
     },
     sounds: {
       select: 'soft-chuff',
@@ -126,16 +126,16 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
   'anxious-bunny': {
     id: 'anxious-bunny',
     colors: {
-      primary: 'from-slate-800 to-slate-900',
-      secondary: 'from-orange-900/30 to-red-900/30',
-      accent: '#F97316',
-      background: 'from-slate-900/95 via-orange-950/20 to-slate-900/95',
-      text: 'text-orange-100',
-      glow: 'shadow-orange-500/20'
+      primary: 'from-orange-600 to-red-500',
+      secondary: 'from-orange-100/20 to-red-100/20',
+      accent: '#f97316',
+      background: 'from-slate-600/95 via-orange-800/15 to-slate-600/95',
+      text: 'text-orange-50',
+      glow: 'shadow-orange-400/30'
     },
     fonts: {
-      heading: 'font-normal tracking-tight',
-      body: 'font-light tracking-wide'
+      heading: 'font-playfair font-medium tracking-normal',
+      body: 'font-inter font-normal'
     },
     animations: {
       entrance: 'animate-fade-in',
@@ -145,7 +145,7 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
     effects: {
       particles: '⚡🔥💥',
       backgroundPattern: 'electric-lines',
-      borderStyle: 'border border-orange-500/20 rounded-lg'
+      borderStyle: 'border border-orange-400/30 rounded-lg'
     },
     sounds: {
       select: 'quick-squeak',
@@ -156,16 +156,16 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
   'quirky-duck': {
     id: 'quirky-duck',
     colors: {
-      primary: 'from-slate-800 to-slate-900',
-      secondary: 'from-yellow-900/30 to-blue-900/30',
-      accent: '#EAB308',
-      background: 'from-slate-900/95 via-yellow-950/20 to-slate-900/95',
-      text: 'text-yellow-100',
-      glow: 'shadow-yellow-500/20'
+      primary: 'from-yellow-600 to-blue-500',
+      secondary: 'from-yellow-100/20 to-blue-100/20',
+      accent: '#eab308',
+      background: 'from-slate-600/95 via-yellow-800/15 to-slate-600/95',
+      text: 'text-yellow-50',
+      glow: 'shadow-yellow-400/30'
     },
     fonts: {
-      heading: 'font-light tracking-widest',
-      body: 'font-light tracking-wide'
+      heading: 'font-playfair font-medium tracking-wide',
+      body: 'font-inter font-normal'
     },
     animations: {
       entrance: 'animate-fade-in',
@@ -175,7 +175,7 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
     effects: {
       particles: '🌈🎨🎭',
       backgroundPattern: 'abstract-shapes',
-      borderStyle: 'border border-yellow-500/20 rounded-lg'
+      borderStyle: 'border border-yellow-400/30 rounded-lg'
     },
     sounds: {
       select: 'quirky-quack',

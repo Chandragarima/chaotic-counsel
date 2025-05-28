@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -19,8 +20,10 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'mystical': ['Cinzel', 'serif'],
-				'whimsical': ['Quicksand', 'sans-serif'],
+				'playfair': ['Playfair Display', 'serif'],
+				'inter': ['Inter', 'sans-serif'],
+				'mystical': ['Playfair Display', 'serif'],
+				'whimsical': ['Inter', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -57,8 +60,8 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				mystical: {
-					purple: '#2D1B69',
-					'purple-light': '#4338CA',
+					purple: '#475569',
+					'purple-light': '#64748b',
 					gold: '#F59E0B',
 					'gold-light': '#FCD34D',
 					spark: '#FBBF24',
@@ -88,12 +91,12 @@ export default {
 				},
 				'sparkle': {
 					'0%, 100%': { 
-						opacity: '0.3',
-						transform: 'scale(0.8)'
+						opacity: '0.4',
+						transform: 'scale(0.8) rotate(0deg)'
 					},
 					'50%': { 
 						opacity: '1',
-						transform: 'scale(1.2)'
+						transform: 'scale(1.3) rotate(180deg)'
 					}
 				},
 				'float': {
@@ -109,17 +112,17 @@ export default {
 				},
 				'glow-pulse': {
 					'0%, 100%': { 
-						boxShadow: '0 0 20px rgba(245, 158, 11, 0.3)'
+						boxShadow: '0 0 20px rgba(245, 158, 11, 0.4)'
 					},
 					'50%': { 
-						boxShadow: '0 0 40px rgba(245, 158, 11, 0.6)'
+						boxShadow: '0 0 40px rgba(245, 158, 11, 0.7)'
 					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'sparkle': 'sparkle 2s ease-in-out infinite',
+				'sparkle': 'sparkle 3s ease-in-out infinite',
 				'float': 'float 6s ease-in-out infinite',
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
 			}

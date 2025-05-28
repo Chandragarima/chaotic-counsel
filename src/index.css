@@ -1,37 +1,39 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 262 69% 15%;
-    --foreground: 45 100% 85%;
+    --background: 220 20% 25%;
+    --foreground: 45 100% 95%;
 
-    --card: 262 50% 20%;
-    --card-foreground: 45 100% 85%;
+    --card: 220 15% 35%;
+    --card-foreground: 45 100% 95%;
 
-    --popover: 262 50% 20%;
-    --popover-foreground: 45 100% 85%;
+    --popover: 220 15% 35%;
+    --popover-foreground: 45 100% 95%;
 
-    --primary: 45 93% 47%;
-    --primary-foreground: 262 69% 15%;
+    --primary: 45 93% 55%;
+    --primary-foreground: 220 20% 15%;
 
-    --secondary: 262 40% 25%;
-    --secondary-foreground: 45 100% 85%;
+    --secondary: 220 12% 45%;
+    --secondary-foreground: 45 100% 95%;
 
-    --muted: 262 40% 25%;
-    --muted-foreground: 45 50% 70%;
+    --muted: 220 12% 45%;
+    --muted-foreground: 45 50% 80%;
 
-    --accent: 45 93% 47%;
-    --accent-foreground: 262 69% 15%;
+    --accent: 45 93% 55%;
+    --accent-foreground: 220 20% 15%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 262 40% 30%;
-    --input: 262 40% 30%;
-    --ring: 45 93% 47%;
+    --border: 220 12% 50%;
+    --input: 220 12% 50%;
+    --ring: 45 93% 55%;
 
     --radius: 1rem;
   }
@@ -43,8 +45,9 @@
   }
 
   body {
-    @apply bg-mystical-purple text-foreground font-whimsical;
-    background: linear-gradient(135deg, #2D1B69 0%, #1E1B4B 50%, #312E81 100%);
+    @apply bg-slate-700 text-foreground;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #475569 0%, #64748b 50%, #94a3b8 100%);
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -58,9 +61,9 @@
     width: 100%;
     height: 100%;
     background-image: 
-      radial-gradient(circle at 20% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+      radial-gradient(circle at 20% 80%, rgba(245, 158, 11, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
@@ -69,27 +72,41 @@
     position: relative;
     z-index: 1;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
 }
 
 @layer components {
   .sparkle {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #FCD34D;
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(45deg, #fbbf24, #f59e0b);
     border-radius: 50%;
-    animation: sparkle 2s ease-in-out infinite;
+    animation: sparkle 3s ease-in-out infinite;
+    box-shadow: 0 0 6px rgba(251, 191, 36, 0.6);
+  }
+
+  .sparkle::before {
+    content: '✨';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    font-size: 10px;
+    opacity: 0.8;
   }
 
   .mystical-card {
-    @apply bg-card/80 backdrop-blur-sm border border-mystical-gold/20 rounded-2xl;
+    @apply bg-card/90 backdrop-blur-sm border border-amber-400/30 rounded-2xl;
     @apply shadow-lg hover:shadow-2xl transition-all duration-300;
-    @apply hover:border-mystical-gold/40 hover:bg-card/90;
+    @apply hover:border-amber-400/50 hover:bg-card/95;
   }
 
   .mystical-button {
-    @apply bg-gradient-to-r from-mystical-gold to-mystical-gold-light;
-    @apply text-mystical-purple font-semibold px-6 py-3 rounded-xl;
+    @apply bg-gradient-to-r from-amber-500 to-amber-400;
+    @apply text-slate-800 font-semibold px-6 py-3 rounded-xl;
     @apply shadow-lg hover:shadow-xl transition-all duration-300;
     @apply hover:scale-105 active:scale-95;
   }
@@ -99,12 +116,11 @@
     @apply hover:scale-105 hover:rotate-1 active:scale-95;
   }
 
-  /* Enhanced mystical effects */
   .mystical-glow {
-    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6));
   }
 
   .mystical-text-glow {
-    text-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+    text-shadow: 0 0 20px rgba(245, 158, 11, 0.7);
   }
 }
