@@ -2,7 +2,6 @@
 import { Character } from '../types';
 import { characters } from '../data/characters';
 import CharacterCard from './CharacterCard';
-import { Button } from '@/components/ui/button';
 
 interface CombinedHomePageProps {
   selectedCharacter: Character | null;
@@ -17,10 +16,8 @@ const CombinedHomePage = ({
 }: CombinedHomePageProps) => {
   const handleCharacterSelect = (character: Character) => {
     onCharacterSelect(character);
-    // Auto-continue after character selection for seamless UX
-    setTimeout(() => {
-      onContinue();
-    }, 300);
+    // Immediately continue to question type selection
+    onContinue();
   };
 
   return (
