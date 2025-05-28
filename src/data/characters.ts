@@ -70,7 +70,7 @@ export const characters: Character[] = [
     personality: 'Ancient peatbog wisdom',
     description: 'Calm, poetic, and mystically unhelpful',
     unlocked: true,
-    image: '/lovable-uploads/5ccb5d5f-0a2a-428b-a50b-191390add0ab.png',
+    image: '/lovable-uploads/2cfc8411-76b1-445c-9423-8a2df38f3788.png',
     responses: {
       dinner: [
         "Nourish thy soul with what brings thee joy.",
