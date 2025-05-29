@@ -317,21 +317,15 @@ class AudioManager {
       } else {
         switch (personality) {
           case 'sassy-cat':
-            if (soundType.includes('purr')) {
-              this.generatePurr();
-            } else if (soundType.includes('select') || soundType.includes('response')) {
-              this.generateMeow();
-            }
+            // Only use meow for all cat sounds
+            this.generateMeow();
             break;
           case 'wise-owl':
             if (soundType.includes('hoot')) this.generateHoot();
             break;
           case 'lazy-panda':
-            if (soundType.includes('chuff') || soundType.includes('breath') || soundType.includes('sigh')) {
-              this.generateChuff();
-            } else if (soundType.includes('select') || soundType.includes('response')) {
-              this.generateBambooEating();
-            }
+            // Only use bamboo eating for all panda sounds
+            this.generateBambooEating();
             break;
           case 'anxious-bunny':
             if (soundType.includes('squeak') || soundType.includes('thump') || soundType.includes('chatter')) {
