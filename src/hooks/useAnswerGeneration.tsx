@@ -81,8 +81,7 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
     setIsThinking(true);
     setIsRevealing(true);
     
-    // Play thinking sound
-    audioManager.playSound(theme.sounds.thinking, character.type);
+    // NO AUDIO during thinking phase - removed the thinking sound
     
     // Personality-specific thinking duration
     const thinkingDuration = character.type === 'lazy-panda' ? 3000 : 
@@ -111,7 +110,7 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
       setAnswer(formattedAnswer);
       setIsRevealing(false);
       
-      // Play response sound with the actual text for TTS
+      // ONLY play audio when the answer is provided (not during thinking)
       audioManager.playSound(theme.sounds.response, character.type, formattedAnswer);
     }, thinkingDuration);
   }, [character, question, theme.sounds, character.type]);

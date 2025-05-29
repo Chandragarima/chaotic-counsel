@@ -2,6 +2,8 @@
 import { Character } from '../types';
 import { characters } from '../data/characters';
 import CharacterCard from './CharacterCard';
+import { audioManager } from '../utils/audioManager';
+import { getPersonalityTheme } from '../utils/personalityThemes';
 
 interface CombinedHomePageProps {
   selectedCharacter: Character | null;
@@ -16,6 +18,11 @@ const CombinedHomePage = ({
 }: CombinedHomePageProps) => {
   const handleCharacterSelect = (character: Character) => {
     onCharacterSelect(character);
+    
+    // Play personality sound when character is selected
+    const theme = getPersonalityTheme(character.type);
+    audioManager.playSound('selection', character.type);
+    
     // Immediately continue to question type selection
     onContinue();
     console.log('called');
