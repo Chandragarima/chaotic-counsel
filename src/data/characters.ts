@@ -36,20 +36,7 @@ export const characters: Character[] = [
         "The expensive option. You only live once.",
         "Whatever makes you happy, I guess.",
         "Flip a coin. Even chaos has more sense than you.",
-        "Ask someone else. I'm done here.",
-        "Obviously the first one. Were you even paying attention?",
-        "The second option. At least you didn't pick something completely tragic.",
-        "How wonderfully... predictable. Go with the obvious choice.",
-        "I have to make ALL your decisions, don't I? Fine, pick the left one.",
-        "The only choice that won't make me lose faith in humanity.",
-        "Revolutionary. Truly groundbreaking stuff here. Pick whatever.",
-        "Because apparently I'm your personal life coach now. Choose wisely.",
-        "Like there was any other option? Please.",
-        "Well well well... look who's making grown-up decisions. Pick any.",
-        "Not completely awful. I'm almost proud. Go with your gut.",
-        "Took you long enough to figure that out. The answer is obvious.",
-        "Acceptable. Barely. But I'll allow either choice.",
-        "How delightfully... basic. Choose whatever your heart desires."
+        "Ask someone else. I'm done here."
       ],
       yesNoMaybe: {
         yes: [
@@ -141,17 +128,7 @@ export const characters: Character[] = [
         "All paths lead somewhere meaningful.",
         "In uncertainty, find the gift of possibility.",
         "The answer lies within, dear seeker.",
-        "Choose with both mind and heart aligned.",
-        "The cosmic winds guide thee toward wisdom.",
-        "Ancient spirits whisper of the righteous path.",
-        "In the tapestry of fate, all choices have purpose.",
-        "The universe conspires to reveal the way forward.",
-        "Seek the choice that honors thy truest self.",
-        "The path of enlightenment winds through decision.",
-        "In the depths of contemplation, clarity emerges.",
-        "The wise choose not with haste, but with purpose.",
-        "Let the harmony of all things guide thy selection.",
-        "The eternal dance of choice and consequence unfolds."
+        "Choose with both mind and heart aligned."
       ],
       yesNoMaybe: {
         yes: [
@@ -243,17 +220,7 @@ export const characters: Character[] = [
         "Go with the flow, man.",
         "Choose the comfy option.",
         "When in doubt, nap on it.",
-        "Both choices are probably fine. *yawn*",
-        "Whichever one involves less standing.",
-        "The one that doesn't require changing out of pajamas.",
-        "Whatever, I'm too sleepy to care much.",
-        "Pick the path of least resistance, always.",
-        "The choice that maximizes couch time.",
-        "Whatever doesn't involve early mornings.",
-        "Go with whichever sounds more chill.",
-        "The option that requires minimal brain power.",
-        "Choose whatever lets you nap afterward.",
-        "The lazy way is usually the right way."
+        "Both choices are probably fine. *yawn*"
       ],
       yesNoMaybe: {
         yes: [
@@ -344,17 +311,7 @@ export const characters: Character[] = [
         "I've listed all possible outcomes. There are 23.",
         "Quick decision! No thinking! Just go!",
         "What does your gut say? Mine is screaming.",
-        "Flip a coin then choose the opposite!",
-        "PANIC CHOICE! The first one! No wait, the second!",
-        "What if we're making the wrong choice?! But we have to choose!",
-        "I've overthought this so much I forgot the question!",
-        "Quick! Before I change my mind seventeen more times!",
-        "Whatever choice causes less anxiety! Wait, they both do!",
-        "Let's make a pros and cons list! Actually, no time!",
-        "My intuition says... EVERYTHING! That's not helpful!",
-        "Can we phone a friend? Or three friends? Or everyone?",
-        "The stress of choosing is worse than the choice itself!",
-        "I need backup plans for my backup plans!"
+        "Flip a coin then choose the opposite!"
       ],
       yesNoMaybe: {
         yes: [
@@ -415,17 +372,7 @@ export const characters: Character[] = [
         "Ask the next person you see wearing blue.",
         "Whatever option has more vowels in its name.",
         "Choose the one that sounds like a good band name.",
-        "The universe will send you a sign. Wait for it.",
-        "Pick the option that rhymes with 'pickle'.",
-        "Whichever choice your pet would make.",
-        "The one that would make a good headline.",
-        "Choose by the number of letters in your favorite color.",
-        "Whatever option a rubber duck would approve of.",
-        "Pick based on which one makes you giggle more.",
-        "The choice that would confuse your past self.",
-        "Whatever option involves more spontaneous dancing.",
-        "Choose the path that leads to the best story.",
-        "Pick the one that sounds like a magical spell."
+        "The universe will send you a sign. Wait for it."
       ],
       yesNoMaybe: {
         yes: [
