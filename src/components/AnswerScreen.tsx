@@ -89,12 +89,7 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
       case 'sassy-cat':
         return type === 'choice' 
           ? `Obviously ${choice}. I can't believe you needed me to tell you that.`
-          : `${choice.toUpperCase()}: Obviously. Were you even paying attention?`
-          ? `Seriously? ${choice}? That's... actually not terrible. Shocking!`
-          : `${choice.toUpperCase()} it is. At least you didn't pick something completely tragic.`
-          ? `Oh honey, ${choice}? How wonderfully... predictable!`
-          ? `*eye roll* ${choice}. Because apparently I have to make ALL your decisions.`
-          : `${choice.toUpperCase()}? Fine. But don't blame me when it backfires.`;
+          : `${choice.toUpperCase()}: Obviously. Were you even paying attention?`;
       case 'wise-owl':
         return type === 'choice'
           ? `The ancient wisdom speaks: ${choice} calls to your soul.`
