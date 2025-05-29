@@ -1,5 +1,5 @@
 
-import { ElevenLabs } from '@11labs/client';
+import ElevenLabs from '@11labs/client';
 
 interface VoiceConfig {
   voiceId: string;
@@ -30,7 +30,7 @@ const VOICE_CONFIGS: Record<string, VoiceConfig> = {
 };
 
 class ElevenLabsService {
-  private client: ElevenLabs | null = null;
+  private client: any = null;
   private isEnabled: boolean = true;
   private volume: number = 0.7;
 
@@ -48,9 +48,19 @@ class ElevenLabsService {
         return;
       }
 
-      this.client = new ElevenLabs({
-        apiKey: apiKey
-      });
+      // Try different initialization patterns
+      if (typeof ElevenLabs === 'function') {
+        this.client = new ElevenLabs({
+          apiKey: apiKey
+        });
+      } else if (ElevenLabs && typeof ElevenLabs.ElevenLabs === 'function') {
+        this.client = new ElevenLabs.ElevenLabs({
+          apiKey: apiKey
+        });
+      } else {
+        console.warn('ElevenLabs constructor not found');
+        this.isEnabled = false;
+      }
     } catch (error) {
       console.error('Failed to initialize ElevenLabs client:', error);
       this.isEnabled = false;
