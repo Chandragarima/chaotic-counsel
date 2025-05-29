@@ -24,7 +24,7 @@ const VOICE_CONFIGS: Record<string, VoiceConfig> = {
     model: 'eleven_multilingual_v2'
   },
   'quirky-duck': {
-    voiceId: 'cgSgspJ2msm6clMCkdW9' // Jessica - playful voice
+    voiceId: 'cgSgspJ2msm6clMCkdW9', // Jessica - playful voice
     model: 'eleven_multilingual_v2'
   }
 };
