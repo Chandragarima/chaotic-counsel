@@ -261,7 +261,7 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'sparkle': 'sparkle 3s ease-in-out infinite',
+				//'sparkle': 'sparkle 3s ease-in-out infinite',
 				//'float': 'float 6s ease-in-out infinite',
 				//'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
 				// Sassy Cat Animations
