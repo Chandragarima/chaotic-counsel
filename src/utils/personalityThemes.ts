@@ -59,7 +59,7 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       buttonHover: 'hover:animate-sassy-bounce'
     },
     effects: {
-      particles: '💖✨🌸',
+      //particles: '💖✨🌸',
       backgroundPattern: 'subtle-grid',
       borderStyle: 'border border-pink-400/30 rounded-lg'
     },
