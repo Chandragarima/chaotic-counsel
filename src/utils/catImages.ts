@@ -5,7 +5,7 @@ export const catImages: string[] = [
   // Placeholder images - replace with your actual cat image URLs
   '/lovable-uploads/3e3b0145-32d2-4801-b3ac-c7d5af5e5653.png', // Current sassy cat image
   // Add more cat image URLs here like:
-  // 'https://example.com/cat1.jpg',
+  'https://images.pexels.com/photos/57416/cat-sweet-kitty-animals-57416.jpeg',
   // 'https://example.com/cat2.jpg',
   // 'https://example.com/cat3.jpg',
 ];
