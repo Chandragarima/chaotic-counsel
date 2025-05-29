@@ -18,6 +18,7 @@ const CombinedHomePage = ({
     onCharacterSelect(character);
     // Immediately continue to question type selection
     onContinue();
+    console.log('called');
   };
 
   return (

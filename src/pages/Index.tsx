@@ -29,9 +29,7 @@ const Index = () => {
   };
 
   const handleContinueToQuestions = () => {
-    if (selectedCharacter) {
       setCurrentScreen('question');
-    }
   };
 
   const handleQuestionTypeSelect = (type: QuestionType) => {
