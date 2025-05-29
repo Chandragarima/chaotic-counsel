@@ -1,7 +1,7 @@
-
 import { Character } from '../types';
 import { characters } from '../data/characters';
 import CharacterCard from './CharacterCard';
+import { audioManager } from '../utils/audioManager';
 
 interface CombinedHomePageProps {
   selectedCharacter: Character | null;
@@ -16,6 +16,10 @@ const CombinedHomePage = ({
 }: CombinedHomePageProps) => {
   const handleCharacterSelect = (character: Character) => {
     onCharacterSelect(character);
+    
+    // Play selection sound when character is selected
+    audioManager.playSound('selection', character.type);
+    
     // Immediately continue to question type selection
     onContinue();
     console.log('called');

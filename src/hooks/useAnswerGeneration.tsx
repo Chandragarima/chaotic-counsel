@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Character } from '../types';
 import { getPersonalityTheme } from '../utils/personalityThemes';
@@ -81,8 +80,7 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
     setIsThinking(true);
     setIsRevealing(true);
     
-    // Play thinking sound
-    audioManager.playSound(theme.sounds.thinking, character.type);
+    // NO AUDIO during thinking phase - removed the thinking sound
     
     // Personality-specific thinking duration
     const thinkingDuration = character.type === 'lazy-panda' ? 3000 : 
@@ -111,10 +109,10 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
       setAnswer(formattedAnswer);
       setIsRevealing(false);
       
-      // Play response sound with the actual text for TTS
-      audioManager.playSound(theme.sounds.response, character.type, formattedAnswer);
+      // Play response sound when the answer is provided
+      audioManager.playSound('response', character.type, formattedAnswer);
     }, thinkingDuration);
-  }, [character, question, theme.sounds, character.type]);
+  }, [character, question, character.type]);
 
   return {
     answer,
