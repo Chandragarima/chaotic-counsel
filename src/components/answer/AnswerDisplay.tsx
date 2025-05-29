@@ -16,7 +16,7 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking }: AnswerDis
   const getPersonalityPrompt = () => {
     switch (character.type) {
       case 'sassy-cat':
-        return "The enigmatic feline contemplates your query...";
+        return "The enigmatic feline contemplates your query....";
       case 'wise-owl':
         return "Ancient wisdom stirs in the depths of knowledge...";
       case 'lazy-panda':
