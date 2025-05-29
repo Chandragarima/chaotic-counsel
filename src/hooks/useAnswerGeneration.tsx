@@ -35,7 +35,7 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
     const lowerQuestion = question.toLowerCase();
     
     // Check if it's a cuisine question
-    if (lowerQuestion.includes('cuisine') || lowerQuestion.includes('food type')) {
+    if (lowerQuestion.includes('cuisine') || lowerQuestion.includes('lunch')) {
       const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek', 'French', 'Lebanese', 'Brazilian', 'Ethiopian', 'Moroccan'];
       const randomCuisine = getRandomChoice(cuisines);
       return formatChoiceResponse(randomCuisine, character.type);

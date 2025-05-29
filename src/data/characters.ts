@@ -8,7 +8,7 @@ export const characters: Character[] = [
     personality: 'Drama queen answers only',
     description: 'Sarcastic, bold, and always right (just ask her)',
     unlocked: true,
-    image: '/lovable-uploads/3e3b0145-32d2-4801-b3ac-c7d5af5e5653.png',
+    image: 'https://images.pexels.com/photos/57416/cat-sweet-kitty-animals-57416.jpeg',
     responses: {
       dinner: [
         "Ugh, order some takeout already.",
