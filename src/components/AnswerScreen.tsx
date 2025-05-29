@@ -167,8 +167,8 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
       setAnswer(formattedAnswer);
       setIsRevealing(false);
       
-      // Play response sound
-      audioManager.playSound(theme.sounds.response, character.type);
+      // Play response sound with the actual text for TTS
+      audioManager.playSound(theme.sounds.response, character.type, formattedAnswer);
     }, thinkingDuration);
   }, [character, question, theme.sounds, character.type]);
 
@@ -234,7 +234,7 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
         <div className="max-w-2xl mx-auto space-y-8">
           {/* Character Image */}
           <div className="text-center">
-            <div className={`w-40 h-40 mx-auto rounded-full overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-2 border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : theme.animations.floating}`}>
+            <div className={`w-40 h-40 mx-auto rounded-full overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : theme.animations.floating}`}>
               {character.image ? (
                 <img 
                   src={character.image} 

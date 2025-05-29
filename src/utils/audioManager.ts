@@ -1,3 +1,4 @@
+import { elevenLabsService } from './elevenLabsService';
 
 export interface AudioConfig {
   volume: number;
@@ -220,6 +221,39 @@ class AudioManager {
     oscillator.stop(ctx.currentTime + duration);
   }
 
+  private playThinkingSound(): void {
+    // Simple thinking sound - soft chime
+    this.playTone(440, 0.1, 0.2, 'sine');
+  }
+
+  private playSelectSound(): void {
+    // Simple select sound - click
+    this.playTone(800, 0.05, 0.1, 'square');
+  }
+
+  private playTone(frequency: number, duration: number, volume: number, type: OscillatorType): void {
+    try {
+      const ctx = this.getAudioContext();
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
+
+      gainNode.gain.setValueAtTime(0, ctx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(this.config.volume * volume, ctx.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+
+      oscillator.start(ctx.currentTime);
+      oscillator.stop(ctx.currentTime + duration);
+    } catch (error) {
+      console.warn('Tone playback failed:', error);
+    }
+  }
+
   private getAudioContext(): AudioContext {
     if (!this.audioContext) {
       this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -232,34 +266,47 @@ class AudioManager {
   }
 
   // Public methods
-  playSound(soundType: string, personality: string): void {
+  async playSound(soundType: string, personality: string, text?: string): Promise<void> {
     try {
-      switch (personality) {
-        case 'sassy-cat':
-          if (soundType.includes('purr')) {
-            this.generatePurr();
-          } else if (soundType.includes('select') || soundType.includes('response')) {
-            this.generateMeow();
-          }
-          break;
-        case 'wise-owl':
-          if (soundType.includes('hoot')) this.generateHoot();
-          break;
-        case 'lazy-panda':
-          if (soundType.includes('chuff') || soundType.includes('breath') || soundType.includes('sigh')) {
-            this.generateChuff();
-          } else if (soundType.includes('select') || soundType.includes('response')) {
-            this.generateBambooEating();
-          }
-          break;
-        case 'anxious-bunny':
-          if (soundType.includes('squeak') || soundType.includes('thump') || soundType.includes('chatter')) {
-            this.generateSqueak();
-          }
-          break;
-        case 'quirky-duck':
-          if (soundType.includes('quack')) this.generateQuack();
-          break;
+      // If text is provided and it's a response sound, use TTS
+      if (text && (soundType.includes('response') || soundType.includes('answer'))) {
+        await elevenLabsService.speak(text, personality);
+        return;
+      }
+
+      // For other sound types (thinking, select, etc.), use simple audio cues
+      if (soundType.includes('thinking')) {
+        this.playThinkingSound();
+      } else if (soundType.includes('select')) {
+        this.playSelectSound();
+      } else {
+        switch (personality) {
+          case 'sassy-cat':
+            if (soundType.includes('purr')) {
+              this.generatePurr();
+            } else if (soundType.includes('select') || soundType.includes('response')) {
+              this.generateMeow();
+            }
+            break;
+          case 'wise-owl':
+            if (soundType.includes('hoot')) this.generateHoot();
+            break;
+          case 'lazy-panda':
+            if (soundType.includes('chuff') || soundType.includes('breath') || soundType.includes('sigh')) {
+              this.generateChuff();
+            } else if (soundType.includes('select') || soundType.includes('response')) {
+              this.generateBambooEating();
+            }
+            break;
+          case 'anxious-bunny':
+            if (soundType.includes('squeak') || soundType.includes('thump') || soundType.includes('chatter')) {
+              this.generateSqueak();
+            }
+            break;
+          case 'quirky-duck':
+            if (soundType.includes('quack')) this.generateQuack();
+            break;
+        }
       }
     } catch (error) {
       console.warn('Audio playback failed:', error);
@@ -268,10 +315,12 @@ class AudioManager {
 
   setVolume(volume: number): void {
     this.config.volume = Math.max(0, Math.min(1, volume));
+    elevenLabsService.setVolume(volume);
   }
 
   setEnabled(enabled: boolean): void {
     this.config.enabled = enabled;
+    elevenLabsService.setEnabled(enabled);
   }
 }
 
