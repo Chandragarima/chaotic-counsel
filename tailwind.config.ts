@@ -262,13 +262,13 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'sparkle': 'sparkle 3s ease-in-out infinite',
-				'float': 'float 6s ease-in-out infinite',
-				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+				//'float': 'float 6s ease-in-out infinite',
+				//'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
 				// Sassy Cat Animations
 				'sassy-entrance': 'sassy-entrance 0.6s ease-out',
 				'sassy-thinking': 'sassy-thinking 2s ease-in-out infinite',
 				'sassy-responding': 'sassy-responding 0.4s ease-out',
-				'sassy-float': 'sassy-float 4s ease-in-out infinite',
+				//'sassy-float': 'sassy-float 4s ease-in-out infinite',
 				'sassy-wiggle': 'sassy-wiggle 0.5s ease-in-out',
 				'sassy-bounce': 'sassy-bounce 0.3s ease-in-out',
 				// Wise Owl Animations
