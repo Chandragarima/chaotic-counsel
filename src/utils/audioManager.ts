@@ -10,40 +10,7 @@ class AudioManager {
   private config: AudioConfig = { volume: 0.3, enabled: true };
 
   // Sound generators for different personalities
-  private generatePurr(duration: number = 1.2): void {
-    if (!this.isEnabled()) return;
-    
-    const ctx = this.getAudioContext();
-    
-    // Create multiple oscillators for richer purr sound
-    for (let i = 0; i < 3; i++) {
-      const oscillator = ctx.createOscillator();
-      const gainNode = ctx.createGain();
-      const filter = ctx.createBiquadFilter();
-
-      oscillator.type = 'sawtooth';
-      const baseFreq = 50 + (i * 15); // Different frequencies for harmonic richness
-      oscillator.frequency.setValueAtTime(baseFreq, ctx.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(baseFreq * 0.8, ctx.currentTime + duration);
-
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(300 + (i * 50), ctx.currentTime);
-
-      // Much higher volume for purr
-      gainNode.gain.setValueAtTime(0, ctx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(this.config.volume * 0.8, ctx.currentTime + 0.1);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-
-      oscillator.connect(filter);
-      filter.connect(gainNode);
-      gainNode.connect(ctx.destination);
-
-      oscillator.start(ctx.currentTime + (i * 0.05));
-      oscillator.stop(ctx.currentTime + duration);
-    }
-  }
-
-  private generateMeow(duration: number = 0.8): void {
+  private generatePurr(duration: number = 0.8): void {
     if (!this.isEnabled()) return;
     
     const ctx = this.getAudioContext();
@@ -52,18 +19,43 @@ class AudioManager {
     const filter = ctx.createBiquadFilter();
 
     oscillator.type = 'sawtooth';
-    oscillator.frequency.setValueAtTime(300, ctx.currentTime);
-    oscillator.frequency.linearRampToValueAtTime(900, ctx.currentTime + duration * 0.2);
-    oscillator.frequency.linearRampToValueAtTime(600, ctx.currentTime + duration * 0.6);
-    oscillator.frequency.linearRampToValueAtTime(200, ctx.currentTime + duration);
+    oscillator.frequency.setValueAtTime(60, ctx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + duration);
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(200, ctx.currentTime);
+
+    gainNode.gain.setValueAtTime(0, ctx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(this.config.volume * 0.3, ctx.currentTime + 0.1);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+    oscillator.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(ctx.destination);
+
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + duration);
+  }
+
+  private generateMeow(duration: number = 0.6): void {
+    if (!this.isEnabled()) return;
+    
+    const ctx = this.getAudioContext();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+
+    oscillator.type = 'sawtooth';
+    oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+    oscillator.frequency.linearRampToValueAtTime(800, ctx.currentTime + duration * 0.3);
+    oscillator.frequency.linearRampToValueAtTime(300, ctx.currentTime + duration);
 
     filter.type = 'bandpass';
     filter.frequency.setValueAtTime(800, ctx.currentTime);
-    filter.Q.setValueAtTime(8, ctx.currentTime);
+    filter.Q.setValueAtTime(5, ctx.currentTime);
 
-    // Increased volume significantly
     gainNode.gain.setValueAtTime(0, ctx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(this.config.volume * 0.9, ctx.currentTime + 0.05);
+    gainNode.gain.linearRampToValueAtTime(this.config.volume * 0.4, ctx.currentTime + 0.05);
     gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
 
     oscillator.connect(filter);
@@ -98,7 +90,7 @@ class AudioManager {
     oscillator.stop(ctx.currentTime + duration);
   }
 
-  private generateChuff(duration: number = 0.8): void {
+  private generateChuff(duration: number = 0.6): void {
     if (!this.isEnabled()) return;
     
     const ctx = this.getAudioContext();
@@ -106,7 +98,7 @@ class AudioManager {
     const gainNode = ctx.createGain();
     const filter = ctx.createBiquadFilter();
 
-    // Create brown noise buffer with more presence
+    // Create brown noise buffer
     const bufferSize = ctx.sampleRate * duration;
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);
@@ -116,17 +108,16 @@ class AudioManager {
       const white = Math.random() * 2 - 1;
       data[i] = (lastOut + (0.02 * white)) / 1.02;
       lastOut = data[i];
-      data[i] *= 5.0; // Increased amplitude significantly
+      data[i] *= 3.5;
     }
     
     noise.buffer = buffer;
 
     filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(600, ctx.currentTime);
+    filter.frequency.setValueAtTime(400, ctx.currentTime);
 
-    // Much higher volume for chuff
     gainNode.gain.setValueAtTime(0, ctx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(this.config.volume * 0.7, ctx.currentTime + 0.05);
+    gainNode.gain.linearRampToValueAtTime(this.config.volume * 0.2, ctx.currentTime + 0.05);
     gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
 
     noise.connect(filter);
@@ -136,72 +127,46 @@ class AudioManager {
     noise.start(ctx.currentTime);
   }
 
-  private generateBambooEating(duration: number = 1.5): void {
+  private generateBambooEating(duration: number = 1.0): void {
     if (!this.isEnabled()) return;
     
     const ctx = this.getAudioContext();
     
-    // Create multiple overlapping crunching sounds for realistic eating
-    for (let i = 0; i < 5; i++) {
+    // Create multiple quick crunching sounds
+    for (let i = 0; i < 3; i++) {
       setTimeout(() => {
-        // Create main crunch sound
         const noise = ctx.createBufferSource();
         const gainNode = ctx.createGain();
         const filter = ctx.createBiquadFilter();
 
-        // Create crispy noise buffer for crunching with much more presence
-        const bufferSize = ctx.sampleRate * 0.3;
+        // Create crispy noise buffer for crunching
+        const bufferSize = ctx.sampleRate * 0.2;
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = buffer.getChannelData(0);
         
         for (let j = 0; j < bufferSize; j++) {
-          data[j] = (Math.random() * 2 - 1) * 0.8; // Increased base amplitude
-          // Add crackling texture - more frequent and pronounced
-          if (Math.random() > 0.5) {
-            data[j] *= 3;
-          }
-          // Add some low-frequency rumble for depth
-          if (j % 100 === 0) {
-            data[j] += (Math.random() * 0.5 - 0.25);
+          data[j] = (Math.random() * 2 - 1) * 0.5;
+          // Add some crackling texture
+          if (Math.random() > 0.7) {
+            data[j] *= 2;
           }
         }
         
         noise.buffer = buffer;
 
-        // Use bandpass filter for better crunch sound
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(1200, ctx.currentTime);
-        filter.Q.setValueAtTime(3, ctx.currentTime);
+        filter.type = 'highpass';
+        filter.frequency.setValueAtTime(800, ctx.currentTime);
 
-        // Significantly increased volume
         gainNode.gain.setValueAtTime(0, ctx.currentTime);
-        gainNode.gain.linearRampToValueAtTime(this.config.volume * 0.8, ctx.currentTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+        gainNode.gain.linearRampToValueAtTime(this.config.volume * 0.15, ctx.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
 
         noise.connect(filter);
         filter.connect(gainNode);
         gainNode.connect(ctx.destination);
 
         noise.start(ctx.currentTime);
-        
-        // Add a lower frequency component for depth
-        const lowOsc = ctx.createOscillator();
-        const lowGain = ctx.createGain();
-        
-        lowOsc.type = 'square';
-        lowOsc.frequency.setValueAtTime(80, ctx.currentTime);
-        
-        lowGain.gain.setValueAtTime(0, ctx.currentTime);
-        lowGain.gain.linearRampToValueAtTime(this.config.volume * 0.3, ctx.currentTime + 0.01);
-        lowGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-        
-        lowOsc.connect(lowGain);
-        lowGain.connect(ctx.destination);
-        
-        lowOsc.start(ctx.currentTime);
-        lowOsc.stop(ctx.currentTime + 0.15);
-        
-      }, i * 250);
+      }, i * 300);
     }
   }
 
@@ -317,21 +282,29 @@ class AudioManager {
       } else {
         switch (personality) {
           case 'sassy-cat':
-            // Always use meow for cat
-            this.generateMeow();
+            if (soundType.includes('purr')) {
+              this.generatePurr();
+            } else if (soundType.includes('select') || soundType.includes('response')) {
+              this.generateMeow();
+            }
             break;
           case 'wise-owl':
-            this.generateHoot();
+            if (soundType.includes('hoot')) this.generateHoot();
             break;
           case 'lazy-panda':
-            // Always use bamboo eating for panda
-            this.generateBambooEating();
+            if (soundType.includes('chuff') || soundType.includes('breath') || soundType.includes('sigh')) {
+              this.generateChuff();
+            } else if (soundType.includes('select') || soundType.includes('response')) {
+              this.generateBambooEating();
+            }
             break;
           case 'anxious-bunny':
-            this.generateSqueak();
+            if (soundType.includes('squeak') || soundType.includes('thump') || soundType.includes('chatter')) {
+              this.generateSqueak();
+            }
             break;
           case 'quirky-duck':
-            this.generateQuack();
+            if (soundType.includes('quack')) this.generateQuack();
             break;
         }
       }
