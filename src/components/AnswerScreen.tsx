@@ -83,29 +83,169 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
     return null;
   };
 
-  // Format answer based on character personality
+  // Format answer based on character personality with multiple templates
   const formatPersonalityAnswer = (choice: string, type: 'choice' | 'yesno') => {
     switch (character.type) {
       case 'sassy-cat':
-        return type === 'choice' 
-          ? `Obviously ${choice}. I can't believe you needed me to tell you that.`
-          : `${choice.toUpperCase()}: Obviously. Were you even paying attention?`;
+        if (type === 'choice') {
+          const choiceTemplates = [
+            `Obviously ${choice}. I can't believe you needed me to tell you that.`,
+            `Seriously? ${choice}? That's... actually not terrible. Shocking.`,
+            `${choice.toUpperCase()} it is. At least you didn't pick something completely tragic.`,
+            `Oh honey, ${choice}? How wonderfully... predictable.`,
+            `*eye roll* ${choice}. Because apparently I have to make ALL your decisions.`,
+            `${choice.toUpperCase()}? Fine. But don't blame me when you're hungry again in an hour.`,
+            `${choice}? Ugh, FINE. I suppose your taste could be worse.`,
+            `Obviously ${choice}. Even you can't mess this one up.`,
+            `${choice.toUpperCase()}: The only choice that won't make me lose faith in humanity.`,
+            `*sigh* ${choice}. Try not to fall asleep halfway through... again.`,
+            `${choice}? Wow. Color me... mildly impressed.`,
+            `${choice}? Revolutionary. Truly groundbreaking stuff here.`,
+            `Obviously ${choice}. I literally cannot with your indecisiveness.`,
+            `${choice.toUpperCase()}: Because apparently I'm your personal life coach now.`,
+            `Oh please, ${choice}. Like there was any other option.`,
+            `${choice}? *chef's kiss* Finally, some decent judgment.`,
+            `${choice}? Well well well... look who's making grown-up decisions.`,
+            `Obviously ${choice}. Next question... if you have the brain cells for it.`,
+            `${choice.toUpperCase()}: Not completely awful. I'm almost proud.`,
+            `*slow clap* ${choice}. Took you long enough to figure that out.`,
+            `${choice}? Acceptable. Barely. But I'll allow it.`,
+            `Oh sweetie, ${choice}? How delightfully... basic.`
+          ];
+          return getRandomChoice(choiceTemplates);
+        } else {
+          const yesNoTemplates = [
+            `${choice.toUpperCase()}: Obviously. Were you even paying attention?`,
+            `${choice.toUpperCase()}: Because I said so, that's why.`,
+            `${choice.toUpperCase()}: *dramatic sigh* Next question.`,
+            `${choice.toUpperCase()}: I don't repeat myself, darling.`,
+            `${choice.toUpperCase()}: Finally, a decent question.`,
+            `${choice.toUpperCase()}: You're welcome for my wisdom.`,
+            `${choice.toUpperCase()}: Try to keep up, sweetie.`
+          ];
+          return getRandomChoice(yesNoTemplates);
+        }
+        
       case 'wise-owl':
-        return type === 'choice'
-          ? `The ancient wisdom speaks: ${choice} calls to your soul.`
-          : `The cosmos whispers: ${choice}`;
+        if (type === 'choice') {
+          const choiceTemplates = [
+            `The ancient wisdom speaks: ${choice} calls to your soul.`,
+            `In the cosmic dance of choice, ${choice} emerges as your destiny.`,
+            `The universe whispers through the wind: ${choice} is your path.`,
+            `Ancient spirits guide you toward ${choice}, dear seeker.`,
+            `The celestial signs point clearly to ${choice}.`,
+            `In meditation's silence, ${choice} reveals itself as truth.`,
+            `The harmony of all things suggests ${choice} as your way.`,
+            `Through the mists of possibility, ${choice} shines brightest.`,
+            `The eternal wisdom of ages proclaims ${choice} as fitting.`,
+            `In the tapestry of fate, ${choice} weaves itself into your story.`,
+            `The sacred balance of the universe leans toward ${choice}.`,
+            `Ancient knowledge flows like water toward ${choice}.`
+          ];
+          return getRandomChoice(choiceTemplates);
+        } else {
+          const yesNoTemplates = [
+            `The cosmos whispers: ${choice}`,
+            `Ancient wisdom declares: ${choice}`,
+            `The celestial spheres align to say: ${choice}`,
+            `Through mystic contemplation: ${choice}`,
+            `The eternal truth reveals: ${choice}`,
+            `In the silence of ages: ${choice}`,
+            `The universe's gentle voice: ${choice}`
+          ];
+          return getRandomChoice(yesNoTemplates);
+        }
+        
       case 'lazy-panda':
-        return type === 'choice'
-          ? `*stretches lazily* Go with ${choice}. It sounds chill enough.`
-          : `*yawn* ${choice}... whatever requires less effort.`;
+        if (type === 'choice') {
+          const choiceTemplates = [
+            `*stretches lazily* Go with ${choice}. It sounds chill enough.`,
+            `*yawn* ${choice} works. Whatever requires less effort.`,
+            `${choice}, I guess. Can we nap after deciding?`,
+            `*rolls over* ${choice}. But only if it doesn't involve standing.`,
+            `${choice} sounds... *yawn* ...comfortable enough.`,
+            `*sleepy mumble* ${choice}. Now can I go back to sleep?`,
+            `${choice}. But let's do it the lazy way.`,
+            `*stretches* ${choice} it is. Minimal effort required, right?`,
+            `${choice}... *nods sleepily* ...that works.`,
+            `*cozy sigh* ${choice}. Perfect for a chill day.`,
+            `${choice}. Just promise me we can be comfy about it.`,
+            `*lazy smile* ${choice}. Good choice for maximum relaxation.`
+          ];
+          return getRandomChoice(choiceTemplates);
+        } else {
+          const yesNoTemplates = [
+            `*yawn* ${choice}... whatever requires less effort.`,
+            `*sleepy nod* ${choice}. Can I nap now?`,
+            `*stretches* ${choice}. But comfortably.`,
+            `*drowsy mumble* ${choice}... *snooze*`,
+            `*cozy sigh* ${choice}. From the couch.`,
+            `*lazy wave* ${choice}. Now, naptime.`,
+            `*yawn* ${choice}. The path of least resistance.`
+          ];
+          return getRandomChoice(yesNoTemplates);
+        }
+        
       case 'anxious-bunny':
-        return type === 'choice'
-          ? `${choice.toUpperCase()}! Wait, are you sure? Actually yes, ${choice}! Quick decision!`
-          : `${choice}! But what if we're wrong?! Actually stick with ${choice}!`;
+        if (type === 'choice') {
+          const choiceTemplates = [
+            `${choice.toUpperCase()}! Wait, are you sure? Actually yes, ${choice}! Quick decision!`,
+            `OH! ${choice}! That's it! No wait, what if... NO, ${choice} is perfect!`,
+            `*twitchy excitement* ${choice}! Final answer! Don't second-guess!`,
+            `${choice.toUpperCase()}! I've run through all scenarios and ${choice} wins!`,
+            `*rapid nodding* ${choice}! Quick before we overthink it!`,
+            `${choice}! I mean, what if we're wrong? NO! ${choice} is right!`,
+            `*nervous energy* ${choice}! Trust the instinct! Go go go!`,
+            `${choice.toUpperCase()}! All my calculations point to ${choice}!`,
+            `*excited bouncing* ${choice}! That's the one! Move fast!`,
+            `${choice}! Don't hesitate! I've considered everything!`,
+            `*hyperventilating* ${choice}! THAT'S IT! Perfect choice!`,
+            `${choice.toUpperCase()}! Quick decision! No regrets!`
+          ];
+          return getRandomChoice(choiceTemplates);
+        } else {
+          const yesNoTemplates = [
+            `${choice}! But what if we're wrong?! Actually stick with ${choice}!`,
+            `${choice.toUpperCase()}! Quick answer! No second-guessing!`,
+            `*twitches nervously* ${choice}! Final answer!`,
+            `${choice}! Don't think, just go with ${choice}!`,
+            `*rapid breathing* ${choice}! That's it! Done!`,
+            `${choice.toUpperCase()}! My gut says ${choice}!`,
+            `*nervous giggle* ${choice}! Let's stick with that!`
+          ];
+          return getRandomChoice(yesNoTemplates);
+        }
+        
       case 'quirky-duck':
-        return type === 'choice'
-          ? `*quacks mysteriously* The universe says... ${choice}! But only if you do it backwards!`
-          : `Quack! ${choice}! The rubber ducks have spoken!`;
+        if (type === 'choice') {
+          const choiceTemplates = [
+            `*quacks mysteriously* The universe says... ${choice}! But only if you do it backwards!`,
+            `*rubber duck squeaks* ${choice}! The pond spirits have spoken!`,
+            `*waddles excitedly* ${choice}! But add some glitter for good luck!`,
+            `*quack quack* ${choice}! The cosmic ducks approve this message!`,
+            `*flaps wings* ${choice}! But only on days that end in 'y'!`,
+            `*mysterious quacking* ${choice}! The ancient art of pond-gazing confirms it!`,
+            `*splashes happily* ${choice}! As foretold by the rubber duck prophecy!`,
+            `*quacks in binary* ${choice}! Translation: absolutely, maybe, definitely!`,
+            `*does a little duck dance* ${choice}! The pond council has voted!`,
+            `*quacks melodically* ${choice}! But sing it, don't say it!`,
+            `*wiggles tail feathers* ${choice}! The universe's quackiest choice!`,
+            `*mysterious duck whispers* ${choice}! But only if you believe in magic!`
+          ];
+          return getRandomChoice(choiceTemplates);
+        } else {
+          const yesNoTemplates = [
+            `Quack! ${choice}! The rubber ducks have spoken!`,
+            `*mysterious quacking* ${choice}! But backwards!`,
+            `*duck dance* ${choice}! The pond spirits approve!`,
+            `Quack quack! ${choice}! In duck language: absolutely!`,
+            `*wiggles* ${choice}! The cosmic ducks agree!`,
+            `*splashes* ${choice}! As the ancient ducks foretold!`,
+            `*quacks in riddles* ${choice}! But only on Tuesdays!`
+          ];
+          return getRandomChoice(yesNoTemplates);
+        }
+        
       default:
         return `${choice}`;
     }
