@@ -1,5 +1,6 @@
 
-import ElevenLabs from '@11labs/client';
+
+import * as ElevenLabs from '@11labs/client';
 
 interface VoiceConfig {
   voiceId: string;
@@ -48,13 +49,17 @@ class ElevenLabsService {
         return;
       }
 
-      // Try different initialization patterns
-      if (typeof ElevenLabs === 'function') {
+      // Try different initialization patterns for the namespace import
+      if (typeof ElevenLabs === 'object' && ElevenLabs.ElevenLabs) {
+        this.client = new ElevenLabs.ElevenLabs({
+          apiKey: apiKey
+        });
+      } else if (typeof ElevenLabs === 'function') {
         this.client = new ElevenLabs({
           apiKey: apiKey
         });
-      } else if (ElevenLabs && typeof ElevenLabs.ElevenLabs === 'function') {
-        this.client = new ElevenLabs.ElevenLabs({
+      } else if (ElevenLabs && typeof ElevenLabs.default === 'function') {
+        this.client = new ElevenLabs.default({
           apiKey: apiKey
         });
       } else {
@@ -131,3 +136,4 @@ class ElevenLabsService {
 }
 
 export const elevenLabsService = new ElevenLabsService();
+
