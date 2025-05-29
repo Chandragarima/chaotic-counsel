@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Character } from '../types';
 import { getPersonalityTheme } from '../utils/personalityThemes';
@@ -110,10 +109,10 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
       setAnswer(formattedAnswer);
       setIsRevealing(false);
       
-      // ONLY play audio when the answer is provided (not during thinking)
-      audioManager.playSound(theme.sounds.response, character.type, formattedAnswer);
+      // Play response sound when the answer is provided
+      audioManager.playSound('response', character.type, formattedAnswer);
     }, thinkingDuration);
-  }, [character, question, theme.sounds, character.type]);
+  }, [character, question, character.type]);
 
   return {
     answer,

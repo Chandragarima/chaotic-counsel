@@ -5,15 +5,33 @@ export interface AudioConfig {
 }
 
 interface PersonalityAudioMap {
-  [key: string]: string;
+  [key: string]: {
+    selection: string;
+    response: string;
+  };
 }
 
 const PERSONALITY_AUDIO_FILES: PersonalityAudioMap = {
-  'sassy-cat': '/audio/meow.mp3',
-  'wise-owl': '/audio/hoot.mp3',
-  'lazy-panda': '/audio/bamboo-eating.mp3',
-  'anxious-bunny': '/audio/squeak.mp3',
-  'quirky-duck': '/audio/quack.mp3'
+  'sassy-cat': {
+    selection: '/audio/cat-selection.mp3',
+    response: '/audio/cat-response.mp3'
+  },
+  'wise-owl': {
+    selection: '/audio/owl-selection.mp3',
+    response: '/audio/owl-response.mp3'
+  },
+  'lazy-panda': {
+    selection: '/audio/panda-selection.mp3',
+    response: '/audio/panda-response.mp3'
+  },
+  'anxious-bunny': {
+    selection: '/audio/bunny-selection.mp3',
+    response: '/audio/bunny-response.mp3'
+  },
+  'quirky-duck': {
+    selection: '/audio/duck-selection.mp3',
+    response: '/audio/duck-response.mp3'
+  }
 };
 
 class AudioFileManager {
@@ -25,11 +43,18 @@ class AudioFileManager {
   }
 
   private preloadAudioFiles(): void {
-    Object.entries(PERSONALITY_AUDIO_FILES).forEach(([personality, filePath]) => {
-      const audio = new Audio(filePath);
-      audio.preload = 'auto';
-      audio.volume = this.config.volume;
-      this.audioCache.set(personality, audio);
+    Object.entries(PERSONALITY_AUDIO_FILES).forEach(([personality, sounds]) => {
+      // Preload selection sound
+      const selectionAudio = new Audio(sounds.selection);
+      selectionAudio.preload = 'auto';
+      selectionAudio.volume = this.config.volume;
+      this.audioCache.set(`${personality}-selection`, selectionAudio);
+
+      // Preload response sound
+      const responseAudio = new Audio(sounds.response);
+      responseAudio.preload = 'auto';
+      responseAudio.volume = this.config.volume;
+      this.audioCache.set(`${personality}-response`, responseAudio);
     });
   }
 
@@ -39,9 +64,11 @@ class AudioFileManager {
     }
 
     try {
-      const audio = this.audioCache.get(personality);
+      const audioKey = `${personality}-${soundType}`;
+      const audio = this.audioCache.get(audioKey);
+      
       if (!audio) {
-        console.warn(`No audio file found for personality: ${personality}`);
+        console.warn(`No audio file found for: ${audioKey}`);
         return;
       }
 
