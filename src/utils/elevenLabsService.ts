@@ -1,5 +1,5 @@
 
-import { ElevenLabsApi, play } from '@11labs/client';
+import { ElevenLabs } from '@11labs/client';
 
 interface VoiceConfig {
   voiceId: string;
@@ -30,7 +30,7 @@ const VOICE_CONFIGS: Record<string, VoiceConfig> = {
 };
 
 class ElevenLabsService {
-  private client: ElevenLabsApi | null = null;
+  private client: ElevenLabs | null = null;
   private isEnabled: boolean = true;
   private volume: number = 0.7;
 
@@ -48,7 +48,7 @@ class ElevenLabsService {
         return;
       }
 
-      this.client = new ElevenLabsApi({
+      this.client = new ElevenLabs({
         apiKey: apiKey
       });
     } catch (error) {
@@ -85,7 +85,13 @@ class ElevenLabsService {
         }
       });
 
-      await play(audio, { volume: this.volume });
+      // Play the audio
+      if (audio) {
+        const audioElement = new Audio();
+        audioElement.src = URL.createObjectURL(new Blob([audio], { type: 'audio/mpeg' }));
+        audioElement.volume = this.volume;
+        await audioElement.play();
+      }
     } catch (error) {
       console.error('ElevenLabs TTS error:', error);
       // Fail silently to maintain app functionality
