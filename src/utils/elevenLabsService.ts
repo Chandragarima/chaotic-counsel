@@ -1,5 +1,6 @@
 
 
+
 import * as ElevenLabs from '@11labs/client';
 
 interface VoiceConfig {
@@ -49,23 +50,13 @@ class ElevenLabsService {
         return;
       }
 
-      // Try different initialization patterns for the namespace import
-      if (typeof ElevenLabs === 'object' && ElevenLabs.ElevenLabs) {
-        this.client = new ElevenLabs.ElevenLabs({
-          apiKey: apiKey
-        });
-      } else if (typeof ElevenLabs === 'function') {
-        this.client = new ElevenLabs({
-          apiKey: apiKey
-        });
-      } else if (ElevenLabs && typeof ElevenLabs.default === 'function') {
-        this.client = new ElevenLabs.default({
-          apiKey: apiKey
-        });
-      } else {
-        console.warn('ElevenLabs constructor not found');
-        this.isEnabled = false;
-      }
+      // Use the correct constructor pattern for @11labs/client
+      // The package likely exports a constructor function directly
+      this.client = new (ElevenLabs as any)({
+        apiKey: apiKey
+      });
+      
+      console.log('ElevenLabs client initialized successfully');
     } catch (error) {
       console.error('Failed to initialize ElevenLabs client:', error);
       this.isEnabled = false;
@@ -136,4 +127,5 @@ class ElevenLabsService {
 }
 
 export const elevenLabsService = new ElevenLabsService();
+
 
