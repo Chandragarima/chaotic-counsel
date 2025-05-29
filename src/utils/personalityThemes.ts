@@ -59,7 +59,7 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       buttonHover: 'hover:animate-sassy-bounce'
     },
     effects: {
-      particles: '✨',
+      particles: '💖✨🌸',
       backgroundPattern: 'subtle-grid',
       borderStyle: 'border border-pink-400/30 rounded-lg'
     },
@@ -92,7 +92,7 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       buttonHover: 'hover:animate-wise-pulse'
     },
     effects: {
-      particles: '✨',
+      particles: '🌟✨🔮',
       backgroundPattern: 'mystical-dots',
       borderStyle: 'border border-amber-400/30 rounded-lg'
     },
@@ -125,7 +125,7 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       buttonHover: 'hover:animate-lazy-drift'
     },
     effects: {
-      particles: '✨',
+      particles: '🍃💚🌿',
       backgroundPattern: 'zen-lines',
       borderStyle: 'border border-emerald-400/30 rounded-lg'
     },
