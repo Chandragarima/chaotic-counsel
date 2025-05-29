@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, RotateCcw, Home } from 'lucide-react';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 import { audioManager } from '../utils/audioManager';
+import { formatChoiceResponse, formatYesNoMaybeResponse } from '../utils/responseTemplates';
 import PersonalityEffects from './PersonalityEffects';
 
 interface AnswerScreenProps {
@@ -44,14 +45,14 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
     if (lowerQuestion.includes('cuisine') || lowerQuestion.includes('food type')) {
       const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek', 'French', 'Lebanese', 'Brazilian', 'Ethiopian', 'Moroccan'];
       const randomCuisine = getRandomChoice(cuisines);
-      return formatPersonalityAnswer(randomCuisine, 'choice');
+      return formatChoiceResponse(randomCuisine, character.type);
     }
     
     // Check if it's a dinner/meal question
     if (lowerQuestion.includes('dinner') || lowerQuestion.includes('meal') || lowerQuestion.includes('eat tonight')) {
       const meals = ['Pizza', 'Sushi', 'Tacos', 'Pasta', 'Ramen', 'Burgers', 'Poke Bowl', 'Stir Fry', 'Sandwich', 'Salad', 'Curry', 'Dumplings', 'Pho', 'Bibimbap', 'Shawarma'];
       const randomMeal = getRandomChoice(meals);
-      return formatPersonalityAnswer(randomMeal, 'choice');
+      return formatChoiceResponse(randomMeal, character.type);
     }
     
     // Handle general "or" questions
@@ -76,39 +77,11 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
         }
         
         const randomOption = getRandomChoice(options);
-        return formatPersonalityAnswer(randomOption, 'choice');
+        return formatChoiceResponse(randomOption, character.type);
       }
     }
     
     return null;
-  };
-
-  // Format answer based on character personality
-  const formatPersonalityAnswer = (choice: string, type: 'choice' | 'yesno') => {
-    switch (character.type) {
-      case 'sassy-cat':
-        return type === 'choice' 
-          ? `Obviously ${choice}. I can't believe you needed me to tell you that.`
-          : `${choice.toUpperCase()}: Obviously. Were you even paying attention?`;
-      case 'wise-owl':
-        return type === 'choice'
-          ? `The ancient wisdom speaks: ${choice} calls to your soul.`
-          : `The cosmos whispers: ${choice}`;
-      case 'lazy-panda':
-        return type === 'choice'
-          ? `*stretches lazily* Go with ${choice}. It sounds chill enough.`
-          : `*yawn* ${choice}... whatever requires less effort.`;
-      case 'anxious-bunny':
-        return type === 'choice'
-          ? `${choice.toUpperCase()}! Wait, are you sure? Actually yes, ${choice}! Quick decision!`
-          : `${choice}! But what if we're wrong?! Actually stick with ${choice}!`;
-      case 'quirky-duck':
-        return type === 'choice'
-          ? `*quacks mysteriously* The universe says... ${choice}! But only if you do it backwards!`
-          : `Quack! ${choice}! The rubber ducks have spoken!`;
-      default:
-        return `${choice}`;
-    }
   };
 
   useEffect(() => {
@@ -137,31 +110,9 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
         // Regular yes/no/maybe logic for other questions with improved randomization
         const responses = ['yes', 'no', 'maybe'] as const;
         const randomResponse = getRandomChoice(responses);
-        const responseTexts = character.responses.yesNoMaybe[randomResponse];
         
-        // Get a truly random response from the expanded array
-        const randomText = getRandomChoice(responseTexts);
-        
-        // Format response based on character personality
-        switch (character.type) {
-          case 'sassy-cat':
-            formattedAnswer = `${randomResponse.toUpperCase()}: ${randomText}`;
-            break;
-          case 'wise-owl':
-            formattedAnswer = `The ancient wisdom speaks: ${randomText}`;
-            break;
-          case 'lazy-panda':
-            formattedAnswer = `*stretches lazily* ${randomText}`;
-            break;
-          case 'anxious-bunny':
-            formattedAnswer = `*twitches nervously* ${randomText}`;
-            break;
-          case 'quirky-duck':
-            formattedAnswer = `*quacks mysteriously* ${randomText}`;
-            break;
-          default:
-            formattedAnswer = `${randomResponse.toUpperCase()}: ${randomText}`;
-        }
+        // Use the new modular response system
+        formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
       }
       
       setAnswer(formattedAnswer);
