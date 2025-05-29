@@ -88,22 +88,7 @@ const PersonalityEffects = ({ character, isActive = true }: PersonalityEffectsPr
         <div className={`absolute bottom-1/3 left-1/3 w-[500px] h-[500px] bg-${theme.colors.accent.replace('#', '')}/[0.02] rounded-full blur-[100px]`}></div>
       </div>
 
-      {/* Minimal floating particles */}
-      {particles.map((particle) => (
-        <div
-          key={particle.id}
-          className="absolute text-lg opacity-30 animate-float"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            animationDelay: `${particle.delay}s`,
-            animationDuration: '8s'
-          }}
-        >
-          {particle.emoji}
-        </div>
-      ))}
-      
+          
       {/* Elegant border effects matching homepage */}
       <div className="absolute inset-0 pointer-events-none">
         <div className={`absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-${theme.colors.accent.replace('#', '')}/10 to-transparent`}></div>
