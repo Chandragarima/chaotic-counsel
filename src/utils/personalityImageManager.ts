@@ -19,6 +19,7 @@ export interface PersonalityVideoConfig {
 
 const PERSONALITY_IMAGES: PersonalityImageConfig = {
   'sassy-cat': {
+    thinking: [],
     yes: [
       '/images/personalities/sassy-cat/yes/sassy-cat-yes-1.png',
       '/images/personalities/sassy-cat/yes/sassy-cat-yes-2.png',
@@ -48,6 +49,7 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
     ]
   },
   'wise-owl': {
+    thinking: [],
     yes: [
       '/images/personalities/wise-owl/yes/wise-owl-yes-1.png',
       '/images/personalities/wise-owl/yes/wise-owl-yes-2.png',
@@ -73,6 +75,7 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
     ]
   },
   'lazy-panda': {
+    thinking: [],
     yes: [
       '/images/personalities/lazy-panda/yes/lazy-panda-yes-1.png',
       '/images/personalities/lazy-panda/yes/lazy-panda-yes-2.png',
