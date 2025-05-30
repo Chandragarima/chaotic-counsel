@@ -15,6 +15,7 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
   const theme = getPersonalityTheme(character.type);
   const [currentImage, setCurrentImage] = useState<string>('');
   const [fallbackToCat, setFallbackToCat] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   // Get appropriate image based on state and response type
   useEffect(() => {
@@ -22,20 +23,33 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
     const personalityImage = personalityImageManager.getRandomImage(character.type, imageType);
     
     if (personalityImage) {
-      setCurrentImage(personalityImage);
-      setFallbackToCat(false);
+      setImageLoaded(false);
+      
+      // Wait for image to be preloaded before setting it
+      personalityImageManager.waitForImageLoad(personalityImage).then(() => {
+        setCurrentImage(personalityImage);
+        setFallbackToCat(false);
+        setImageLoaded(true);
+      }).catch(() => {
+        // If preloading fails, fallback to cat image
+        const randomCatImage = getRandomCatImage();
+        setCurrentImage(randomCatImage);
+        setFallbackToCat(true);
+        setImageLoaded(true);
+      });
     } else {
-      // Fallback to random cat image if personality image not available
+      // No personality image available, use cat image
       const randomCatImage = getRandomCatImage();
       setCurrentImage(randomCatImage);
       setFallbackToCat(true);
+      setImageLoaded(true);
     }
   }, [character.type, isThinking, responseType]);
 
   return (
     <div className="text-center">
       <div className={`w-40 h-40 mx-auto rounded-full overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : theme.animations.floating}`}>
-        {currentImage ? (
+        {currentImage && imageLoaded ? (
           <img 
             src={currentImage} 
             alt={`${character.name} - ${isThinking ? 'thinking' : responseType}`}
