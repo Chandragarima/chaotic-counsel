@@ -4,7 +4,7 @@ import { Character } from '../types';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 import { audioManager } from '../utils/audioManager';
 import { formatChoiceResponse, formatYesNoMaybeResponse } from '../utils/responseTemplates';
-import { detectResponseType } from '../utils/responseTypeDetector';
+import { getImageTypeFromTemplate } from '../utils/responseTypeDetector';
 import { ImageType } from '../utils/personalityImageManager';
 
 interface UseAnswerGenerationProps {
@@ -34,21 +34,27 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
   };
 
   // Function to detect and handle "or" questions
-  const handleOrQuestion = (question: string) => {
+  const handleOrQuestion = (question: string): { answer: string; templateType: 'choice' } | null => {
     const lowerQuestion = question.toLowerCase();
     
     // Check if it's a cuisine question
     if (lowerQuestion.includes('cuisine') || lowerQuestion.includes('lunch')) {
       const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek', 'French', 'Lebanese', 'Brazilian', 'Ethiopian', 'Moroccan'];
       const randomCuisine = getRandomChoice(cuisines);
-      return formatChoiceResponse(randomCuisine, character.type);
+      return {
+        answer: formatChoiceResponse(randomCuisine, character.type),
+        templateType: 'choice'
+      };
     }
     
     // Check if it's a dinner/meal question
     if (lowerQuestion.includes('dinner') || lowerQuestion.includes('meal') || lowerQuestion.includes('eat tonight')) {
       const meals = ['Pizza', 'Sushi', 'Tacos', 'Pasta', 'Ramen', 'Burgers', 'Poke Bowl', 'Stir Fry', 'Sandwich', 'Salad', 'Curry', 'Dumplings', 'Pho', 'Bibimbap', 'Shawarma'];
       const randomMeal = getRandomChoice(meals);
-      return formatChoiceResponse(randomMeal, character.type);
+      return {
+        answer: formatChoiceResponse(randomMeal, character.type),
+        templateType: 'choice'
+      };
     }
     
     // Handle general "or" questions
@@ -73,7 +79,10 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
         }
         
         const randomOption = getRandomChoice(options);
-        return formatChoiceResponse(randomOption, character.type);
+        return {
+          answer: formatChoiceResponse(randomOption, character.type),
+          templateType: 'choice'
+        };
       }
     }
     
@@ -96,24 +105,27 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
       setIsThinking(false);
       
       // First check if it's an "or" question or specific type question
-      const orAnswer = handleOrQuestion(question);
+      const orResult = handleOrQuestion(question);
       
       let formattedAnswer = '';
+      let templateType: 'yes' | 'no' | 'maybe' | 'choice';
       
-      if (orAnswer) {
-        formattedAnswer = orAnswer;
+      if (orResult) {
+        formattedAnswer = orResult.answer;
+        templateType = orResult.templateType;
       } else {
         // Regular yes/no/maybe logic for other questions with improved randomization
         const responses = ['yes', 'no', 'maybe'] as const;
         const randomResponse = getRandomChoice(responses);
+        templateType = randomResponse;
         
         // Use the new modular response system
         formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
       }
       
-      // Detect response type for image selection
-      const detectedType = detectResponseType(formattedAnswer);
-      setResponseType(detectedType);
+      // Get image type from template type
+      const imageType = getImageTypeFromTemplate(templateType);
+      setResponseType(imageType);
       
       setAnswer(formattedAnswer);
       setIsRevealing(false);
