@@ -13,56 +13,109 @@ interface CharacterAvatarProps {
 
 const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: CharacterAvatarProps) => {
   const theme = getPersonalityTheme(character.type);
-  const [currentImage, setCurrentImage] = useState<string>('');
+  const [currentMedia, setCurrentMedia] = useState<string>('');
+  const [isVideo, setIsVideo] = useState<boolean>(false);
   const [fallbackToCat, setFallbackToCat] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [mediaLoaded, setMediaLoaded] = useState(false);
 
-  // Get appropriate image based on state and response type
+  // Get appropriate media based on state and response type
   useEffect(() => {
-    const imageType = isThinking ? 'thinking' : responseType;
-    const personalityImage = personalityImageManager.getRandomImage(character.type, imageType);
+    setMediaLoaded(false);
     
-    if (personalityImage) {
-      setImageLoaded(false);
+    if (isThinking) {
+      // Use video for thinking stage
+      const personalityVideo = personalityImageManager.getRandomVideo(character.type, 'thinking');
       
-      // Wait for image to be preloaded before setting it
-      personalityImageManager.waitForImageLoad(personalityImage).then(() => {
-        setCurrentImage(personalityImage);
-        setFallbackToCat(false);
-        setImageLoaded(true);
-      }).catch(() => {
-        // If preloading fails, fallback to cat image
+      if (personalityVideo) {
+        // Wait for video to be preloaded before setting it
+        personalityImageManager.waitForVideoLoad(personalityVideo).then(() => {
+          setCurrentMedia(personalityVideo);
+          setIsVideo(true);
+          setFallbackToCat(false);
+          setMediaLoaded(true);
+        }).catch(() => {
+          // If preloading fails, fallback to cat image
+          const randomCatImage = getRandomCatImage();
+          setCurrentMedia(randomCatImage);
+          setIsVideo(false);
+          setFallbackToCat(true);
+          setMediaLoaded(true);
+        });
+      } else {
+        // No personality video available, use cat image
         const randomCatImage = getRandomCatImage();
-        setCurrentImage(randomCatImage);
+        setCurrentMedia(randomCatImage);
+        setIsVideo(false);
         setFallbackToCat(true);
-        setImageLoaded(true);
-      });
+        setMediaLoaded(true);
+      }
     } else {
-      // No personality image available, use cat image
-      const randomCatImage = getRandomCatImage();
-      setCurrentImage(randomCatImage);
-      setFallbackToCat(true);
-      setImageLoaded(true);
+      // Use image for response stage
+      const personalityImage = personalityImageManager.getRandomImage(character.type, responseType);
+      
+      if (personalityImage) {
+        // Wait for image to be preloaded before setting it
+        personalityImageManager.waitForImageLoad(personalityImage).then(() => {
+          setCurrentMedia(personalityImage);
+          setIsVideo(false);
+          setFallbackToCat(false);
+          setMediaLoaded(true);
+        }).catch(() => {
+          // If preloading fails, fallback to cat image
+          const randomCatImage = getRandomCatImage();
+          setCurrentMedia(randomCatImage);
+          setIsVideo(false);
+          setFallbackToCat(true);
+          setMediaLoaded(true);
+        });
+      } else {
+        // No personality image available, use cat image
+        const randomCatImage = getRandomCatImage();
+        setCurrentMedia(randomCatImage);
+        setIsVideo(false);
+        setFallbackToCat(true);
+        setMediaLoaded(true);
+      }
     }
   }, [character.type, isThinking, responseType]);
 
   return (
     <div className="text-center">
       <div className={`w-40 h-40 mx-auto rounded-full overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : theme.animations.floating}`}>
-        {currentImage && imageLoaded ? (
-          <img 
-            src={currentImage} 
-            alt={`${character.name} - ${isThinking ? 'thinking' : responseType}`}
-            className="w-full h-full object-cover"
-            onError={() => {
-              // If personality image fails to load, fallback to cat image
-              if (!fallbackToCat) {
-                const randomCatImage = getRandomCatImage();
-                setCurrentImage(randomCatImage);
-                setFallbackToCat(true);
-              }
-            }}
-          />
+        {currentMedia && mediaLoaded ? (
+          isVideo ? (
+            <video 
+              src={currentMedia} 
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+              onError={() => {
+                // If personality video fails to load, fallback to cat image
+                if (!fallbackToCat) {
+                  const randomCatImage = getRandomCatImage();
+                  setCurrentMedia(randomCatImage);
+                  setIsVideo(false);
+                  setFallbackToCat(true);
+                }
+              }}
+            />
+          ) : (
+            <img 
+              src={currentMedia} 
+              alt={`${character.name} - ${isThinking ? 'thinking' : responseType}`}
+              className="w-full h-full object-cover"
+              onError={() => {
+                // If personality image fails to load, fallback to cat image
+                if (!fallbackToCat) {
+                  const randomCatImage = getRandomCatImage();
+                  setCurrentMedia(randomCatImage);
+                  setFallbackToCat(true);
+                }
+              }}
+            />
+          )
         ) : (
           <div className="w-full h-full flex items-center justify-center text-7xl">
             {character.type === 'sassy-cat' && '😾'}

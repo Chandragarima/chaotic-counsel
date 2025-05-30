@@ -11,6 +11,12 @@ export interface PersonalityImageConfig {
   };
 }
 
+export interface PersonalityVideoConfig {
+  [key: string]: {
+    thinking: string[];
+  };
+}
+
 const PERSONALITY_IMAGES: PersonalityImageConfig = {
   'sassy-cat': {
     thinking: [
@@ -110,19 +116,63 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
   }
 };
 
+const PERSONALITY_VIDEOS: PersonalityVideoConfig = {
+  'sassy-cat': {
+    thinking: [
+      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-1.mp4',
+      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-2.mp4'
+    ]
+  },
+  'wise-owl': {
+    thinking: [
+      '/videos/personalities/wise-owl/thinking/wise-owl-thinking-1.mp4',
+      '/videos/personalities/wise-owl/thinking/wise-owl-thinking-2.mp4'
+    ]
+  },
+  'lazy-panda': {
+    thinking: [
+      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-1.mp4'
+    ]
+  },
+  'anxious-bunny': {
+    thinking: [
+      '/videos/personalities/anxious-bunny/thinking/anxious-bunny-thinking-1.mp4'
+    ]
+  },
+  'quirky-duck': {
+    thinking: [
+      '/videos/personalities/quirky-duck/thinking/quirky-duck-thinking-1.mp4'
+    ]
+  }
+};
+
 class PersonalityImageManager {
   private imageCache: Map<string, HTMLImageElement> = new Map();
+  private videoCache: Map<string, HTMLVideoElement> = new Map();
   private loadingPromises: Map<string, Promise<void>> = new Map();
 
   constructor() {
     this.preloadImages();
+    this.preloadVideos();
   }
 
   private preloadImages(): void {
     Object.entries(PERSONALITY_IMAGES).forEach(([personality, imageTypes]) => {
       Object.entries(imageTypes).forEach(([type, images]) => {
-        images.forEach((imagePath) => {
-          this.preloadImage(imagePath);
+        if (type !== 'thinking') { // Skip thinking images since we'll use videos
+          images.forEach((imagePath) => {
+            this.preloadImage(imagePath);
+          });
+        }
+      });
+    });
+  }
+
+  private preloadVideos(): void {
+    Object.entries(PERSONALITY_VIDEOS).forEach(([personality, videoTypes]) => {
+      Object.entries(videoTypes).forEach(([type, videos]) => {
+        videos.forEach((videoPath) => {
+          this.preloadVideo(videoPath);
         });
       });
     });
@@ -150,6 +200,29 @@ class PersonalityImageManager {
     return promise;
   }
 
+  private preloadVideo(videoPath: string): Promise<void> {
+    if (this.loadingPromises.has(videoPath)) {
+      return this.loadingPromises.get(videoPath)!;
+    }
+
+    const promise = new Promise<void>((resolve, reject) => {
+      const video = document.createElement('video');
+      video.onloadeddata = () => {
+        this.videoCache.set(videoPath, video);
+        resolve();
+      };
+      video.onerror = () => {
+        console.warn(`Failed to preload video: ${videoPath}`);
+        reject(new Error(`Failed to load ${videoPath}`));
+      };
+      video.src = videoPath;
+      video.load();
+    });
+
+    this.loadingPromises.set(videoPath, promise);
+    return promise;
+  }
+
   async waitForImageLoad(imagePath: string): Promise<void> {
     if (this.imageCache.has(imagePath)) {
       return Promise.resolve();
@@ -160,6 +233,20 @@ class PersonalityImageManager {
         await this.loadingPromises.get(imagePath);
       } catch (error) {
         // Image failed to load, but we continue
+      }
+    }
+  }
+
+  async waitForVideoLoad(videoPath: string): Promise<void> {
+    if (this.videoCache.has(videoPath)) {
+      return Promise.resolve();
+    }
+    
+    if (this.loadingPromises.has(videoPath)) {
+      try {
+        await this.loadingPromises.get(videoPath);
+      } catch (error) {
+        // Video failed to load, but we continue
       }
     }
   }
@@ -188,6 +275,30 @@ class PersonalityImageManager {
     return typeImages[Math.floor(Math.random() * typeImages.length)];
   }
 
+  getRandomVideo(personality: string, videoType: 'thinking'): string | null {
+    const personalityVideos = PERSONALITY_VIDEOS[personality];
+    if (!personalityVideos) {
+      console.warn(`No videos found for personality: ${personality}`);
+      return null;
+    }
+
+    const typeVideos = personalityVideos[videoType];
+    if (!typeVideos || typeVideos.length === 0) {
+      console.warn(`No ${videoType} videos found for personality: ${personality}`);
+      return null;
+    }
+
+    // Use crypto.getRandomValues for better randomness if available
+    if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+      const randomArray = new Uint32Array(1);
+      window.crypto.getRandomValues(randomArray);
+      return typeVideos[randomArray[0] % typeVideos.length];
+    }
+    
+    // Fallback to Math.random
+    return typeVideos[Math.floor(Math.random() * typeVideos.length)];
+  }
+
   hasImages(personality: string, imageType: ImageType): boolean {
     const personalityImages = PERSONALITY_IMAGES[personality];
     return personalityImages && 
@@ -195,8 +306,19 @@ class PersonalityImageManager {
            personalityImages[imageType].length > 0;
   }
 
+  hasVideos(personality: string, videoType: 'thinking'): boolean {
+    const personalityVideos = PERSONALITY_VIDEOS[personality];
+    return personalityVideos && 
+           personalityVideos[videoType] && 
+           personalityVideos[videoType].length > 0;
+  }
+
   isImageCached(imagePath: string): boolean {
     return this.imageCache.has(imagePath);
+  }
+
+  isVideoCached(videoPath: string): boolean {
+    return this.videoCache.has(videoPath);
   }
 }
 
