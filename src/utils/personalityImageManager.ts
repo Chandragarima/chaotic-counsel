@@ -26,19 +26,30 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
     ],
     yes: [
       '/images/personalities/sassy-cat/yes/sassy-cat-yes-1.png',
-      '/images/personalities/sassy-cat/yes/sassy-cat-yes-2.png'
+      '/images/personalities/sassy-cat/yes/sassy-cat-yes-2.png',
+      '/images/personalities/sassy-cat/yes/sassy-cat-yes-3.png',
+      '/images/personalities/sassy-cat/yes/sassy-cat-yes-4.png',
+      '/images/personalities/sassy-cat/yes/sassy-cat-yes-5.png'
     ],
     no: [
       '/images/personalities/sassy-cat/no/sassy-cat-no-1.png',
-      '/images/personalities/sassy-cat/no/sassy-cat-no-2.png'
+      '/images/personalities/sassy-cat/no/sassy-cat-no-2.png',
+      '/images/personalities/sassy-cat/no/sassy-cat-no-3.png',
+      '/images/personalities/sassy-cat/no/sassy-cat-no-4.png',
+      '/images/personalities/sassy-cat/no/sassy-cat-no-5.png'
     ],
     maybe: [
       '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-1.png',
-      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-2.png'
+      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-2.png',
+      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-3.png',
+      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-4.png'
     ],
     choice: [
       '/images/personalities/sassy-cat/choice/sassy-cat-choice-1.png',
-      '/images/personalities/sassy-cat/choice/sassy-cat-choice-2.png'
+      '/images/personalities/sassy-cat/choice/sassy-cat-choice-2.png',
+      '/images/personalities/sassy-cat/choice/sassy-cat-choice-3.png',
+      '/images/personalities/sassy-cat/choice/sassy-cat-choice-4.png',
+      '/images/personalities/sassy-cat/choice/sassy-cat-choice-5.png'
     ]
   },
   'wise-owl': {
@@ -48,19 +59,26 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
     ],
     yes: [
       '/images/personalities/wise-owl/yes/wise-owl-yes-1.png',
-      '/images/personalities/wise-owl/yes/wise-owl-yes-2.png'
+      '/images/personalities/wise-owl/yes/wise-owl-yes-2.png',
+      '/images/personalities/wise-owl/yes/wise-owl-yes-3.png',
+      '/images/personalities/wise-owl/yes/wise-owl-yes-4.png'
     ],
     no: [
       '/images/personalities/wise-owl/no/wise-owl-no-1.png',
-      '/images/personalities/wise-owl/no/wise-owl-no-2.png'
+      '/images/personalities/wise-owl/no/wise-owl-no-2.png',
+      '/images/personalities/wise-owl/no/wise-owl-no-3.png',
+      '/images/personalities/wise-owl/no/wise-owl-no-4.png'
     ],
     maybe: [
       '/images/personalities/wise-owl/maybe/wise-owl-maybe-1.png',
-      '/images/personalities/wise-owl/maybe/wise-owl-maybe-2.png'
+      '/images/personalities/wise-owl/maybe/wise-owl-maybe-2.png',
+      '/images/personalities/wise-owl/maybe/wise-owl-maybe-3.png',
+      '/images/personalities/wise-owl/maybe/wise-owl-maybe-4.png'
     ],
     choice: [
       '/images/personalities/wise-owl/choice/wise-owl-choice-1.png',
-      '/images/personalities/wise-owl/choice/wise-owl-choice-2.png'
+      '/images/personalities/wise-owl/choice/wise-owl-choice-2.png',
+      '/images/personalities/wise-owl/choice/wise-owl-choice-3.png'
     ]
   },
   'lazy-panda': {
@@ -68,16 +86,28 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
       '/images/personalities/lazy-panda/thinking/lazy-panda-thinking-1.png'
     ],
     yes: [
-      '/images/personalities/lazy-panda/yes/lazy-panda-yes-1.png'
+      '/images/personalities/lazy-panda/yes/lazy-panda-yes-1.png',
+      '/images/personalities/lazy-panda/yes/lazy-panda-yes-2.png',
+      '/images/personalities/lazy-panda/yes/lazy-panda-yes-3.png',
+      '/images/personalities/lazy-panda/yes/lazy-panda-yes-4.png'
     ],
     no: [
-      '/images/personalities/lazy-panda/no/lazy-panda-no-1.png'
+      '/images/personalities/lazy-panda/no/lazy-panda-no-1.png',
+      '/images/personalities/lazy-panda/no/lazy-panda-no-2.png',
+      '/images/personalities/lazy-panda/no/lazy-panda-no-3.png',
+      '/images/personalities/lazy-panda/no/lazy-panda-no-4.png'
     ],
     maybe: [
-      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-1.png'
+      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-1.png',
+      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-2.png',
+      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-3.png',
+      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-4.png'
     ],
     choice: [
-      '/images/personalities/lazy-panda/choice/lazy-panda-choice-1.png'
+      '/images/personalities/lazy-panda/choice/lazy-panda-choice-1.png',
+      '/images/personalities/lazy-panda/choice/lazy-panda-choice-2.png',
+      '/images/personalities/lazy-panda/choice/lazy-panda-choice-3.png',
+      '/images/personalities/lazy-panda/choice/lazy-panda-choice-4.png'
     ]
   },
   'anxious-bunny': {
@@ -131,7 +161,8 @@ const PERSONALITY_VIDEOS: PersonalityVideoConfig = {
   },
   'lazy-panda': {
     thinking: [
-      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-1.mp4'
+      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-1.mp4',
+      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-2.mp4'
     ]
   },
   'anxious-bunny': {
