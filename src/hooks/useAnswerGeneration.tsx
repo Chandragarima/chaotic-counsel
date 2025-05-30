@@ -101,7 +101,7 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
     //                        character.type === 'anxious-bunny' ? 800 : 
     //                        character.type === 'wise-owl' ? 2500 : 1500;
 
-    const thinkingDuration =5000;
+    const thinkingDuration =4000;
 
     setTimeout(() => {
       setIsThinking(false);
