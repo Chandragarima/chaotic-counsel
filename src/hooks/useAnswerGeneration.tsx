@@ -97,9 +97,11 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
     // NO AUDIO during thinking phase - removed the thinking sound
     
     // Personality-specific thinking duration
-    const thinkingDuration = character.type === 'lazy-panda' ? 3000 : 
-                           character.type === 'anxious-bunny' ? 800 : 
-                           character.type === 'wise-owl' ? 2500 : 1500;
+    // const thinkingDuration = character.type === 'lazy-panda' ? 6000 : 
+    //                        character.type === 'anxious-bunny' ? 800 : 
+    //                        character.type === 'wise-owl' ? 2500 : 1500;
+
+    const thinkingDuration =5000;
 
     setTimeout(() => {
       setIsThinking(false);

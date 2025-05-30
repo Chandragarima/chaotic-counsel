@@ -37,71 +37,75 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
   },
   'wise-owl': {
     thinking: [
-      '/images/personalities/wise-owl/thinking/wise-owl-thinking-1.jpg',
-      '/images/personalities/wise-owl/thinking/wise-owl-thinking-2.jpg'
+      '/images/personalities/wise-owl/thinking/wise-owl-thinking-1.png',
+      '/images/personalities/wise-owl/thinking/wise-owl-thinking-2.png'
     ],
     yes: [
-      '/images/personalities/wise-owl/yes/wise-owl-yes-1.jpg'
+      '/images/personalities/wise-owl/yes/wise-owl-yes-1.png',
+      '/images/personalities/wise-owl/yes/wise-owl-yes-2.png'
     ],
     no: [
-      '/images/personalities/wise-owl/no/wise-owl-no-1.jpg'
+      '/images/personalities/wise-owl/no/wise-owl-no-1.png',
+      '/images/personalities/wise-owl/no/wise-owl-no-2.png'
     ],
     maybe: [
-      '/images/personalities/wise-owl/maybe/wise-owl-maybe-1.jpg'
+      '/images/personalities/wise-owl/maybe/wise-owl-maybe-1.png',
+      '/images/personalities/wise-owl/maybe/wise-owl-maybe-2.png'
     ],
     choice: [
-      '/images/personalities/wise-owl/choice/wise-owl-choice-1.jpg'
+      '/images/personalities/wise-owl/choice/wise-owl-choice-1.png',
+      '/images/personalities/wise-owl/choice/wise-owl-choice-2.png'
     ]
   },
   'lazy-panda': {
     thinking: [
-      '/images/personalities/lazy-panda/thinking/lazy-panda-thinking-1.jpg'
+      '/images/personalities/lazy-panda/thinking/lazy-panda-thinking-1.png'
     ],
     yes: [
-      '/images/personalities/lazy-panda/yes/lazy-panda-yes-1.jpg'
+      '/images/personalities/lazy-panda/yes/lazy-panda-yes-1.png'
     ],
     no: [
-      '/images/personalities/lazy-panda/no/lazy-panda-no-1.jpg'
+      '/images/personalities/lazy-panda/no/lazy-panda-no-1.png'
     ],
     maybe: [
-      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-1.jpg'
+      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-1.png'
     ],
     choice: [
-      '/images/personalities/lazy-panda/choice/lazy-panda-choice-1.jpg'
+      '/images/personalities/lazy-panda/choice/lazy-panda-choice-1.png'
     ]
   },
   'anxious-bunny': {
     thinking: [
-      '/images/personalities/anxious-bunny/thinking/anxious-bunny-thinking-1.jpg'
+      '/images/personalities/anxious-bunny/thinking/anxious-bunny-thinking-1.png'
     ],
     yes: [
-      '/images/personalities/anxious-bunny/yes/anxious-bunny-yes-1.jpg'
+      '/images/personalities/anxious-bunny/yes/anxious-bunny-yes-1.png'
     ],
     no: [
-      '/images/personalities/anxious-bunny/no/anxious-bunny-no-1.jpg'
+      '/images/personalities/anxious-bunny/no/anxious-bunny-no-1.png'
     ],
     maybe: [
-      '/images/personalities/anxious-bunny/maybe/anxious-bunny-maybe-1.jpg'
+      '/images/personalities/anxious-bunny/maybe/anxious-bunny-maybe-1.png'
     ],
     choice: [
-      '/images/personalities/anxious-bunny/choice/anxious-bunny-choice-1.jpg'
+      '/images/personalities/anxious-bunny/choice/anxious-bunny-choice-1.png'
     ]
   },
   'quirky-duck': {
     thinking: [
-      '/images/personalities/quirky-duck/thinking/quirky-duck-thinking-1.jpg'
+      '/images/personalities/quirky-duck/thinking/quirky-duck-thinking-1.png'
     ],
     yes: [
-      '/images/personalities/quirky-duck/yes/quirky-duck-yes-1.jpg'
+      '/images/personalities/quirky-duck/yes/quirky-duck-yes-1.png'
     ],
     no: [
-      '/images/personalities/quirky-duck/no/quirky-duck-no-1.jpg'
+      '/images/personalities/quirky-duck/no/quirky-duck-no-1.png'
     ],
     maybe: [
-      '/images/personalities/quirky-duck/maybe/quirky-duck-maybe-1.jpg'
+      '/images/personalities/quirky-duck/maybe/quirky-duck-maybe-1.png'
     ],
     choice: [
-      '/images/personalities/quirky-duck/choice/quirky-duck-choice-1.jpg'
+      '/images/personalities/quirky-duck/choice/quirky-duck-choice-1.png'
     ]
   }
 };
