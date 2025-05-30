@@ -3,7 +3,7 @@ import { Character } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { personalityImageManager, ImageType } from '../../utils/personalityImageManager';
 import { getRandomCatImage } from '../../utils/catImages';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface CharacterAvatarProps {
   character: Character;
@@ -17,6 +17,29 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
   const [isVideo, setIsVideo] = useState<boolean>(false);
   const [fallbackToCat, setFallbackToCat] = useState(false);
   const [mediaLoaded, setMediaLoaded] = useState(false);
+  const [nextImage, setNextImage] = useState<string>('');
+  const nextImageRef = useRef<HTMLImageElement | null>(null);
+
+  // Preload the response image while thinking
+  useEffect(() => {
+    if (isThinking && responseType !== 'thinking') {
+      const responseImage = personalityImageManager.getRandomImage(character.type, responseType);
+      if (responseImage) {
+        setNextImage(responseImage);
+        
+        // Create and preload the image
+        const img = new Image();
+        img.onload = () => {
+          nextImageRef.current = img;
+          console.log(`Preloaded response image: ${responseImage}`);
+        };
+        img.onerror = () => {
+          console.warn(`Failed to preload response image: ${responseImage}`);
+        };
+        img.src = responseImage;
+      }
+    }
+  }, [isThinking, responseType, character.type]);
 
   // Get appropriate media based on state and response type
   useEffect(() => {
@@ -50,34 +73,43 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
         setMediaLoaded(true);
       }
     } else {
-      // Use image for response stage
-      const personalityImage = personalityImageManager.getRandomImage(character.type, responseType);
-      
-      if (personalityImage) {
-        // Wait for image to be preloaded before setting it
-        personalityImageManager.waitForImageLoad(personalityImage).then(() => {
-          setCurrentMedia(personalityImage);
-          setIsVideo(false);
-          setFallbackToCat(false);
-          setMediaLoaded(true);
-        }).catch(() => {
-          // If preloading fails, fallback to cat image
+      // Use preloaded image for response stage if available
+      if (nextImage && nextImageRef.current) {
+        setCurrentMedia(nextImage);
+        setIsVideo(false);
+        setFallbackToCat(false);
+        setMediaLoaded(true);
+        console.log(`Using preloaded image: ${nextImage}`);
+      } else {
+        // Fallback to regular loading
+        const personalityImage = personalityImageManager.getRandomImage(character.type, responseType);
+        
+        if (personalityImage) {
+          // Wait for image to be preloaded before setting it
+          personalityImageManager.waitForImageLoad(personalityImage).then(() => {
+            setCurrentMedia(personalityImage);
+            setIsVideo(false);
+            setFallbackToCat(false);
+            setMediaLoaded(true);
+          }).catch(() => {
+            // If preloading fails, fallback to cat image
+            const randomCatImage = getRandomCatImage();
+            setCurrentMedia(randomCatImage);
+            setIsVideo(false);
+            setFallbackToCat(true);
+            setMediaLoaded(true);
+          });
+        } else {
+          // No personality image available, use cat image
           const randomCatImage = getRandomCatImage();
           setCurrentMedia(randomCatImage);
           setIsVideo(false);
           setFallbackToCat(true);
           setMediaLoaded(true);
-        });
-      } else {
-        // No personality image available, use cat image
-        const randomCatImage = getRandomCatImage();
-        setCurrentMedia(randomCatImage);
-        setIsVideo(false);
-        setFallbackToCat(true);
-        setMediaLoaded(true);
+        }
       }
     }
-  }, [character.type, isThinking, responseType]);
+  }, [character.type, isThinking, responseType, nextImage]);
 
   return (
     <div className="text-center">

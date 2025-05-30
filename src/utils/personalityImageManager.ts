@@ -1,4 +1,3 @@
-
 export type ImageType = 'thinking' | 'yes' | 'no' | 'maybe' | 'choice';
 
 export interface PersonalityImageConfig {
@@ -181,6 +180,7 @@ class PersonalityImageManager {
   private imageCache: Map<string, HTMLImageElement> = new Map();
   private videoCache: Map<string, HTMLVideoElement> = new Map();
   private loadingPromises: Map<string, Promise<void>> = new Map();
+  private preloadingComplete: Map<string, boolean> = new Map();
 
   constructor() {
     this.preloadImages();
@@ -218,10 +218,13 @@ class PersonalityImageManager {
       const img = new Image();
       img.onload = () => {
         this.imageCache.set(imagePath, img);
+        this.preloadingComplete.set(imagePath, true);
+        console.log(`Successfully preloaded image: ${imagePath}`);
         resolve();
       };
       img.onerror = () => {
         console.warn(`Failed to preload image: ${imagePath}`);
+        this.preloadingComplete.set(imagePath, false);
         reject(new Error(`Failed to load ${imagePath}`));
       };
       img.src = imagePath;
@@ -238,12 +241,16 @@ class PersonalityImageManager {
 
     const promise = new Promise<void>((resolve, reject) => {
       const video = document.createElement('video');
+      video.preload = 'auto';
       video.onloadeddata = () => {
         this.videoCache.set(videoPath, video);
+        this.preloadingComplete.set(videoPath, true);
+        console.log(`Successfully preloaded video: ${videoPath}`);
         resolve();
       };
       video.onerror = () => {
         console.warn(`Failed to preload video: ${videoPath}`);
+        this.preloadingComplete.set(videoPath, false);
         reject(new Error(`Failed to load ${videoPath}`));
       };
       video.src = videoPath;
@@ -255,7 +262,7 @@ class PersonalityImageManager {
   }
 
   async waitForImageLoad(imagePath: string): Promise<void> {
-    if (this.imageCache.has(imagePath)) {
+    if (this.imageCache.has(imagePath) && this.preloadingComplete.get(imagePath)) {
       return Promise.resolve();
     }
     
@@ -264,12 +271,16 @@ class PersonalityImageManager {
         await this.loadingPromises.get(imagePath);
       } catch (error) {
         // Image failed to load, but we continue
+        console.warn(`Image loading failed for: ${imagePath}`);
       }
+    } else {
+      // Start loading if not already started
+      await this.preloadImage(imagePath);
     }
   }
 
   async waitForVideoLoad(videoPath: string): Promise<void> {
-    if (this.videoCache.has(videoPath)) {
+    if (this.videoCache.has(videoPath) && this.preloadingComplete.get(videoPath)) {
       return Promise.resolve();
     }
     
@@ -278,7 +289,11 @@ class PersonalityImageManager {
         await this.loadingPromises.get(videoPath);
       } catch (error) {
         // Video failed to load, but we continue
+        console.warn(`Video loading failed for: ${videoPath}`);
       }
+    } else {
+      // Start loading if not already started
+      await this.preloadVideo(videoPath);
     }
   }
 
@@ -299,11 +314,25 @@ class PersonalityImageManager {
     if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
       const randomArray = new Uint32Array(1);
       window.crypto.getRandomValues(randomArray);
-      return typeImages[randomArray[0] % typeImages.length];
+      const selectedImage = typeImages[randomArray[0] % typeImages.length];
+      
+      // Ensure the selected image is preloaded
+      if (!this.preloadingComplete.get(selectedImage)) {
+        this.preloadImage(selectedImage);
+      }
+      
+      return selectedImage;
     }
     
     // Fallback to Math.random
-    return typeImages[Math.floor(Math.random() * typeImages.length)];
+    const selectedImage = typeImages[Math.floor(Math.random() * typeImages.length)];
+    
+    // Ensure the selected image is preloaded
+    if (!this.preloadingComplete.get(selectedImage)) {
+      this.preloadImage(selectedImage);
+    }
+    
+    return selectedImage;
   }
 
   getRandomVideo(personality: string, videoType: 'thinking'): string | null {
@@ -323,11 +352,25 @@ class PersonalityImageManager {
     if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
       const randomArray = new Uint32Array(1);
       window.crypto.getRandomValues(randomArray);
-      return typeVideos[randomArray[0] % typeVideos.length];
+      const selectedVideo = typeVideos[randomArray[0] % typeVideos.length];
+      
+      // Ensure the selected video is preloaded
+      if (!this.preloadingComplete.get(selectedVideo)) {
+        this.preloadVideo(selectedVideo);
+      }
+      
+      return selectedVideo;
     }
     
     // Fallback to Math.random
-    return typeVideos[Math.floor(Math.random() * typeVideos.length)];
+    const selectedVideo = typeVideos[Math.floor(Math.random() * typeVideos.length)];
+    
+    // Ensure the selected video is preloaded
+    if (!this.preloadingComplete.get(selectedVideo)) {
+      this.preloadVideo(selectedVideo);
+    }
+    
+    return selectedVideo;
   }
 
   hasImages(personality: string, imageType: ImageType): boolean {
@@ -350,6 +393,17 @@ class PersonalityImageManager {
 
   isVideoCached(videoPath: string): boolean {
     return this.videoCache.has(videoPath);
+  }
+
+  isPreloadingComplete(mediaPath: string): boolean {
+    return this.preloadingComplete.get(mediaPath) === true;
+  }
+
+  // Method to preload specific images on demand
+  async preloadSpecificImage(imagePath: string): Promise<void> {
+    if (!this.isPreloadingComplete(imagePath)) {
+      await this.preloadImage(imagePath);
+    }
   }
 }
 
