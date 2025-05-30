@@ -1,8 +1,11 @@
+
 import { useState, useEffect } from 'react';
 import { Character } from '../types';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 import { audioManager } from '../utils/audioManager';
 import { formatChoiceResponse, formatYesNoMaybeResponse } from '../utils/responseTemplates';
+import { detectResponseType } from '../utils/responseTypeDetector';
+import { ImageType } from '../utils/personalityImageManager';
 
 interface UseAnswerGenerationProps {
   character: Character;
@@ -13,6 +16,7 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
   const [answer, setAnswer] = useState('');
   const [isRevealing, setIsRevealing] = useState(false);
   const [isThinking, setIsThinking] = useState(false);
+  const [responseType, setResponseType] = useState<ImageType>('thinking');
 
   const theme = getPersonalityTheme(character.type);
 
@@ -79,6 +83,7 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
   useEffect(() => {
     setIsThinking(true);
     setIsRevealing(true);
+    setResponseType('thinking');
     
     // NO AUDIO during thinking phase - removed the thinking sound
     
@@ -106,6 +111,10 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
         formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
       }
       
+      // Detect response type for image selection
+      const detectedType = detectResponseType(formattedAnswer);
+      setResponseType(detectedType);
+      
       setAnswer(formattedAnswer);
       setIsRevealing(false);
       
@@ -117,6 +126,7 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
   return {
     answer,
     isRevealing,
-    isThinking
+    isThinking,
+    responseType
   };
 };

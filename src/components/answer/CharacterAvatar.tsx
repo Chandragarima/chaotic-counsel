@@ -1,32 +1,53 @@
 
 import { Character } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
+import { personalityImageManager, ImageType } from '../../utils/personalityImageManager';
 import { getRandomCatImage } from '../../utils/catImages';
 import { useState, useEffect } from 'react';
 
 interface CharacterAvatarProps {
   character: Character;
   isThinking: boolean;
+  responseType?: ImageType;
 }
 
-const CharacterAvatar = ({ character, isThinking }: CharacterAvatarProps) => {
+const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: CharacterAvatarProps) => {
   const theme = getPersonalityTheme(character.type);
-  const [currentCatImage, setCurrentCatImage] = useState<string>('');
+  const [currentImage, setCurrentImage] = useState<string>('');
+  const [fallbackToCat, setFallbackToCat] = useState(false);
 
-  // Get a random cat image when component mounts or when thinking changes
+  // Get appropriate image based on state and response type
   useEffect(() => {
-    const randomImage = getRandomCatImage();
-    setCurrentCatImage(randomImage);
-  }, [isThinking]); // Change image when thinking state changes
+    const imageType = isThinking ? 'thinking' : responseType;
+    const personalityImage = personalityImageManager.getRandomImage(character.type, imageType);
+    
+    if (personalityImage) {
+      setCurrentImage(personalityImage);
+      setFallbackToCat(false);
+    } else {
+      // Fallback to random cat image if personality image not available
+      const randomCatImage = getRandomCatImage();
+      setCurrentImage(randomCatImage);
+      setFallbackToCat(true);
+    }
+  }, [character.type, isThinking, responseType]);
 
   return (
     <div className="text-center">
       <div className={`w-40 h-40 mx-auto rounded-full overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : theme.animations.floating}`}>
-        {character.image || currentCatImage ? (
+        {currentImage ? (
           <img 
-            src={currentCatImage} 
-            alt={character.name}
+            src={currentImage} 
+            alt={`${character.name} - ${isThinking ? 'thinking' : responseType}`}
             className="w-full h-full object-cover"
+            onError={() => {
+              // If personality image fails to load, fallback to cat image
+              if (!fallbackToCat) {
+                const randomCatImage = getRandomCatImage();
+                setCurrentImage(randomCatImage);
+                setFallbackToCat(true);
+              }
+            }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-7xl">

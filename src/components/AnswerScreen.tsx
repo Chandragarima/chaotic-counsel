@@ -18,7 +18,7 @@ interface AnswerScreenProps {
 }
 
 const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: AnswerScreenProps) => {
-  const { answer, isRevealing, isThinking } = useAnswerGeneration({ character, question });
+  const { answer, isRevealing, isThinking, responseType } = useAnswerGeneration({ character, question });
   const theme = getPersonalityTheme(character.type);
 
   return (
@@ -41,7 +41,11 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
         {/* Character Response */}
         <div className="max-w-2xl mx-auto space-y-8">
           {/* Character Avatar */}
-          <CharacterAvatar character={character} isThinking={isThinking} />
+          <CharacterAvatar 
+            character={character} 
+            isThinking={isThinking} 
+            responseType={responseType}
+          />
 
           {/* Answer Card */}
           <AnswerDisplay 
