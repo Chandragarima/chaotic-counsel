@@ -14,23 +14,25 @@ export interface PersonalityImageConfig {
 const PERSONALITY_IMAGES: PersonalityImageConfig = {
   'sassy-cat': {
     thinking: [
-      '/images/personalities/sassy-cat/thinking/sassy-cat-thinking-1.jpg',
-      '/images/personalities/sassy-cat/thinking/sassy-cat-thinking-2.jpg',
-      '/images/personalities/sassy-cat/thinking/sassy-cat-thinking-3.jpg'
+      '/images/personalities/sassy-cat/thinking/sassy-cat-thinking-1.png',
+      '/images/personalities/sassy-cat/thinking/sassy-cat-thinking-2.png',
+      '/images/personalities/sassy-cat/thinking/sassy-cat-thinking-3.png'
     ],
     yes: [
-      '/images/personalities/sassy-cat/yes/sassy-cat-yes-1.jpg',
-      '/images/personalities/sassy-cat/yes/sassy-cat-yes-2.jpg'
+      '/images/personalities/sassy-cat/yes/sassy-cat-yes-1.png',
+      '/images/personalities/sassy-cat/yes/sassy-cat-yes-2.png'
     ],
     no: [
-      '/images/personalities/sassy-cat/no/sassy-cat-no-1.jpg',
-      '/images/personalities/sassy-cat/no/sassy-cat-no-2.jpg'
+      '/images/personalities/sassy-cat/no/sassy-cat-no-1.png',
+      '/images/personalities/sassy-cat/no/sassy-cat-no-2.png'
     ],
     maybe: [
-      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-1.jpg'
+      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-1.png',
+      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-2.png'
     ],
     choice: [
-      '/images/personalities/sassy-cat/choice/sassy-cat-choice-1.jpg'
+      '/images/personalities/sassy-cat/choice/sassy-cat-choice-1.png',
+      '/images/personalities/sassy-cat/choice/sassy-cat-choice-2.png'
     ]
   },
   'wise-owl': {
