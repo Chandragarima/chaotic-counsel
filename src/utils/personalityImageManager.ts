@@ -108,6 +108,7 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
 
 class PersonalityImageManager {
   private imageCache: Map<string, HTMLImageElement> = new Map();
+  private loadingPromises: Map<string, Promise<void>> = new Map();
 
   constructor() {
     this.preloadImages();
@@ -117,12 +118,46 @@ class PersonalityImageManager {
     Object.entries(PERSONALITY_IMAGES).forEach(([personality, imageTypes]) => {
       Object.entries(imageTypes).forEach(([type, images]) => {
         images.forEach((imagePath) => {
-          const img = new Image();
-          img.src = imagePath;
-          this.imageCache.set(`${personality}-${type}-${imagePath}`, img);
+          this.preloadImage(imagePath);
         });
       });
     });
+  }
+
+  private preloadImage(imagePath: string): Promise<void> {
+    if (this.loadingPromises.has(imagePath)) {
+      return this.loadingPromises.get(imagePath)!;
+    }
+
+    const promise = new Promise<void>((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        this.imageCache.set(imagePath, img);
+        resolve();
+      };
+      img.onerror = () => {
+        console.warn(`Failed to preload image: ${imagePath}`);
+        reject(new Error(`Failed to load ${imagePath}`));
+      };
+      img.src = imagePath;
+    });
+
+    this.loadingPromises.set(imagePath, promise);
+    return promise;
+  }
+
+  async waitForImageLoad(imagePath: string): Promise<void> {
+    if (this.imageCache.has(imagePath)) {
+      return Promise.resolve();
+    }
+    
+    if (this.loadingPromises.has(imagePath)) {
+      try {
+        await this.loadingPromises.get(imagePath);
+      } catch (error) {
+        // Image failed to load, but we continue
+      }
+    }
   }
 
   getRandomImage(personality: string, imageType: ImageType): string | null {
@@ -154,6 +189,10 @@ class PersonalityImageManager {
     return personalityImages && 
            personalityImages[imageType] && 
            personalityImages[imageType].length > 0;
+  }
+
+  isImageCached(imagePath: string): boolean {
+    return this.imageCache.has(imagePath);
   }
 }
 
