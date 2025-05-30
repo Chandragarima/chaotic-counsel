@@ -23,15 +23,8 @@ const PERSONALITY_AUDIO_FILES: PersonalityAudioMap = {
   'lazy-panda': {
     selection: '/audio/panda-selection.mp3',
     response: '/audio/panda-response.mp3'
-  },
-  'anxious-bunny': {
-    selection: '/audio/bunny-selection.mp3',
-    response: '/audio/bunny-response.mp3'
-  },
-  'quirky-duck': {
-    selection: '/audio/duck-selection.mp3',
-    response: '/audio/duck-response.mp3'
   }
+  // Removed bunny and duck as audio files don't exist
 };
 
 class AudioFileManager {
@@ -60,6 +53,18 @@ class AudioFileManager {
 
   async playSound(soundType: string, personality: string, text?: string): Promise<void> {
     if (!this.config.enabled || this.config.volume === 0) {
+      return;
+    }
+
+    // Check if we have audio files for this personality
+    if (!PERSONALITY_AUDIO_FILES[personality]) {
+      console.warn(`No audio files configured for personality: ${personality}`);
+      return;
+    }
+
+    // Only allow 'selection' and 'response' sound types
+    if (soundType !== 'selection' && soundType !== 'response') {
+      console.warn(`Invalid sound type: ${soundType}. Only 'selection' and 'response' are supported.`);
       return;
     }
 
