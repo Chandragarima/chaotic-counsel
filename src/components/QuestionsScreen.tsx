@@ -29,7 +29,7 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
         switch (questionType) {
           case 'dinner':
             return [
-              { id: `${baseId}-1`, text: 'Should I cook tonight?', category: 'dinner' },
+              { id: `${baseId}-1`, text: 'Should I actually cook tonight, or just keep pretending I will?', category: 'dinner' },
               { id: `${baseId}-2`, text: 'Sushi or Thai food?', category: 'dinner' },
               { id: `${baseId}-3`, text: 'What cuisine should I order tonight?', category: 'dinner' },
               { id: `${baseId}-4`, text: 'Should I meal prep this week?', category: 'dinner' },
@@ -39,7 +39,7 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
             return [
               { id: `${baseId}-1`, text: 'Should I binge-watch something tonight?', category: 'movie' },
               { id: `${baseId}-2`, text: 'Horror movie or rom-com?', category: 'movie' },
-              { id: `${baseId}-3`, text: 'What should I watch tonight?', category: 'movie' },
+              { id: `${baseId}-3`, text: 'What movie I should watch tonight?', category: 'movie' },
               { id: `${baseId}-4`, text: 'Should I rewatch The Office again?', category: 'movie' },
               { id: `${baseId}-5`, text: 'Netflix or Disney+ tonight?', category: 'movie' }
             ];
@@ -55,8 +55,8 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
             return [
               { id: `${baseId}-1`, text: 'Should I text my ex?', category: 'choice' },
               { id: `${baseId}-2`, text: 'iPhone or Android for my next phone?', category: 'choice' },
-              { id: `${baseId}-3`, text: 'What app should I delete to be more productive?', category: 'choice' },
-              { id: `${baseId}-4`, text: 'Should I quit my job?', category: 'choice' },
+              { id: `${baseId}-3`, text: 'Should I keep scrolling… or pretend I respect my sleep schedule tonight?', category: 'choice' },
+              { id: `${baseId}-4`, text: 'Should I quit my job and become an influencer?', category: 'choice' },
               { id: `${baseId}-5`, text: 'Spotify or Apple Music?', category: 'choice' }
             ];
         }
@@ -92,7 +92,7 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
             return [
               { id: `${baseId}-1`, text: 'Should I follow my heart or logic?', category: 'choice' },
               { id: `${baseId}-2`, text: 'Passion or financial stability?', category: 'choice' },
-              { id: `${baseId}-3`, text: 'What path will lead to enlightenment?', category: 'choice' },
+              { id: `${baseId}-3`, text: 'Will reading a book tonight lead to enlightenment?', category: 'choice' },
               { id: `${baseId}-4`, text: 'Should I speak my truth today?', category: 'choice' },
               { id: `${baseId}-5`, text: 'City life or countryside living?', category: 'choice' }
             ];
@@ -114,14 +114,14 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
               { id: `${baseId}-1`, text: 'Should I just let Netflix autoplay?', category: 'movie' },
               { id: `${baseId}-2`, text: 'Something I can nap to or mindless comedy?', category: 'movie' },
               { id: `${baseId}-3`, text: 'What can I fall asleep to tonight?', category: 'movie' },
-              { id: `${baseId}-4`, text: 'Should I rewatch The Office again?', category: 'movie' },
+              { id: `${baseId}-4`, text: 'Should I rewatch Friends again?', category: 'movie' },
               { id: `${baseId}-5`, text: 'True crime or sitcom background noise?', category: 'movie' }
             ];
           case 'hangout':
             return [
               { id: `${baseId}-1`, text: 'Should I leave my couch today?', category: 'hangout' },
               { id: `${baseId}-2`, text: 'My couch or someone else\'s couch?', category: 'hangout' },
-              { id: `${baseId}-3`, text: 'Where can I nap comfortably outside?', category: 'hangout' },
+              { id: `${baseId}-3`, text: 'Should I keep napping with the TV on and pretend I\'m still watching?', category: 'hangout' },
               { id: `${baseId}-4`, text: 'Should I embrace hermit mode today?', category: 'hangout' },
               { id: `${baseId}-5`, text: 'Activity that requires pants or pajama-friendly?', category: 'hangout' }
             ];
@@ -129,7 +129,7 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
             return [
               { id: `${baseId}-1`, text: 'Should I adult today?', category: 'choice' },
               { id: `${baseId}-2`, text: 'Productivity or procrastination?', category: 'choice' },
-              { id: `${baseId}-3`, text: 'What requires the least effort today?', category: 'choice' },
+              { id: `${baseId}-3`, text: 'Should I cancel my plans because doing nothing is kinda working for me?', category: 'choice' },
               { id: `${baseId}-4`, text: 'Should I clean my room?', category: 'choice' },
               { id: `${baseId}-5`, text: 'Gym membership or accept my fate?', category: 'choice' }
             ];

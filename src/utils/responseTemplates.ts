@@ -17,7 +17,7 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "{choice} it is. At least you didn't pick something completely tragic.",
           "Oh honey, {choice}? How wonderfully... predictable.",
           "*eye roll* {choice}. Because apparently I have to make ALL your decisions.",
-          "{choice}? Fine. But don't blame me when you're hungry again in an hour.",
+          "{choice}? Fine. But don't blame me if it backfires.",
           "{choice}? Ugh, FINE. I suppose your taste could be worse.",
           "{choice}? Wow. Color me... mildly impressed.",
           "{choice}? Revolutionary. Truly groundbreaking stuff here.",
