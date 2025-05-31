@@ -44,8 +44,7 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
       '/images/personalities/sassy-cat/choice/sassy-cat-choice-1.png',
       '/images/personalities/sassy-cat/choice/sassy-cat-choice-2.png',
       '/images/personalities/sassy-cat/choice/sassy-cat-choice-3.png',
-      '/images/personalities/sassy-cat/choice/sassy-cat-choice-4.png',
-      '/images/personalities/sassy-cat/choice/sassy-cat-choice-5.png'
+      '/images/personalities/sassy-cat/choice/sassy-cat-choice-4.png'
     ]
   },
   'wise-owl': {
@@ -60,7 +59,8 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
       '/images/personalities/wise-owl/no/wise-owl-no-1.png',
       '/images/personalities/wise-owl/no/wise-owl-no-2.png',
       '/images/personalities/wise-owl/no/wise-owl-no-3.png',
-      '/images/personalities/wise-owl/no/wise-owl-no-4.png'
+      '/images/personalities/wise-owl/no/wise-owl-no-4.png',
+      '/images/personalities/wise-owl/no/wise-owl-no-5.png'
     ],
     maybe: [
       '/images/personalities/wise-owl/maybe/wise-owl-maybe-1.png',
@@ -71,7 +71,8 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
     choice: [
       '/images/personalities/wise-owl/choice/wise-owl-choice-1.png',
       '/images/personalities/wise-owl/choice/wise-owl-choice-2.png',
-      '/images/personalities/wise-owl/choice/wise-owl-choice-3.png'
+      '/images/personalities/wise-owl/choice/wise-owl-choice-3.png',
+      '/images/personalities/wise-owl/choice/wise-owl-choice-4.png'
     ]
   },
   'lazy-panda': {
@@ -80,7 +81,8 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
       '/images/personalities/lazy-panda/yes/lazy-panda-yes-1.png',
       '/images/personalities/lazy-panda/yes/lazy-panda-yes-2.png',
       '/images/personalities/lazy-panda/yes/lazy-panda-yes-3.png',
-      '/images/personalities/lazy-panda/yes/lazy-panda-yes-4.png'
+      '/images/personalities/lazy-panda/yes/lazy-panda-yes-4.png',
+      '/images/personalities/lazy-panda/yes/lazy-panda-yes-5.png'
     ],
     no: [
       '/images/personalities/lazy-panda/no/lazy-panda-no-1.png',
