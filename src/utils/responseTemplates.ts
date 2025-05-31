@@ -10,6 +10,7 @@ export interface ResponseTemplates {
 
 export const getResponseTemplates = (characterType: Character['type']): ResponseTemplates => {
   switch (characterType) {
+    // types
     case 'sassy-cat':
       return {
         orChoices: [
