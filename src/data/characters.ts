@@ -278,62 +278,92 @@ export const characters: Character[] = [
     }
   },
   {
-    id: 'anxious-bunny',
-    name: 'Anxious Bunny',
+    id: 'sneaky-snake',
+    name: 'Sneaky Snake',
     type: 'anxious-bunny',
-    personality: 'Chaos embodied',
-    description: 'Nervous, chaotic, and somehow always right',
-    unlocked: false,
+    personality: 'Slithering schemes and calculated moves',
+    description: 'Cunning, strategic, and always plotting the perfect plan',
+    unlocked: true,
     responses: {
       dinner: [
-        "WHAT IF WE ORDER THE WRONG THING?!",
-        "I've read 47 reviews. Still can't decide.",
-        "Quick! Before the kitchen closes! Or... wait, what time is it?",
-        "Maybe we should just eat crackers? Is that safe?",
-        "I KNOW! Let's try that new place! Wait, what if it's terrible?"
+        "Ssssomething... exotic. The more unusual, the better.",
+        "Hunt for your meal. Takeout is for the weak.",
+        "Cold dishes preferred. Room temperature at most.",
+        "Sssslow food. Fast food lacks... sophistication.",
+        "Something that requires... patience to prepare."
       ],
       movie: [
-        "Nothing scary! Unless you want scary? Do you want scary?",
-        "I've made a spreadsheet of options organized by genre and mood.",
-        "What if we pick something and then regret it forever?",
-        "Quick! Random selection! Go go go!",
-        "I can't handle commitment right now. You choose!"
+        "Thriller. Something with... twists and turns.",
+        "Spy films. I appreciate good... strategy.",
+        "Documentaries about predators. Educational.",
+        "Mystery. Keep me guessing... if you can.",
+        "Silent films. Words are often... unnecessary."
       ],
       hangout: [
-        "Somewhere public but not too crowded but not empty either!",
-        "ADVENTURE! But safe adventure! Is that a thing?",
-        "I have seventeen backup plans just in case.",
-        "What if we get lost? Do you have GPS? And snacks?",
-        "Let's go somewhere new! Actually, somewhere familiar! Both!"
+        "Somewhere with good... vantage points.",
+        "Gardens. I enjoy the... ambiance.",
+        "Museums. So much to... observe.",
+        "Quiet corners where we can... plan.",
+        "Rooftops. The view is... strategic."
       ],
       choice: [
-        "BOTH! Can we choose both? Why not both?",
-        "I've listed all possible outcomes. There are 23.",
-        "Quick decision! No thinking! Just go!",
-        "What does your gut say? Mine is screaming.",
-        "Flip a coin then choose the opposite!"
+        "The path less traveled. More... opportunities.",
+        "Patience, young one. Good things come to those who wait.",
+        "Consider all angles before... striking.",
+        "Trust your instincts. They rarely... deceive.",
+        "Sometimes the best choice is to... watch and wait."
       ],
       yesNoMaybe: {
         yes: [
-          "YES! Wait, no! Actually YES! Are you sure?",
-          "Yes, but what if we're making a huge mistake?!",
-          "ABSOLUTELY! *nervous twitching*",
-          "Yes yes yes! Quick, before I change my mind!",
-          "Yes! I think! Maybe! Definitely yes!"
+          "Yesss... an excellent choice.",
+          "Indeed. You show promise... young one.",
+          "Precisely. I knew you'd see it my way.",
+          "Correct. Your instincts serve you well.",
+          "Absolutely. Strike while the iron is... hot.",
+          "Most definitely. The timing is... perfect.",
+          "Yes, but remember... patience is key.",
+          "Certainly. A calculated risk worth taking.",
+          "Affirmative. The pieces align... beautifully.",
+          "Without question. Trust the process.",
+          "Yes... though I had my doubts initially.",
+          "Precisely what I would have chosen.",
+          "Indeed. Sometimes the obvious path is... correct.",
+          "Yesss... you're learning to think like me.",
+          "Absolutely. Strike with... precision."
         ],
         no: [
-          "NO! Too scary! What if something goes wrong?",
-          "Nope nope nope! My anxiety says no!",
-          "NO WAY! I've thought of 17 ways this could fail!",
-          "Absolutely not! My bunny senses are tingling!",
-          "No! Unless... wait, should it be yes? NO!"
+          "No. That path leads to... complications.",
+          "Absolutely not. Too risky... even for me.",
+          "Negative. I sense... danger ahead.",
+          "No, no, no. Patience, young grasshopper.",
+          "Decline. The timing is all wrong.",
+          "Nope. That's what they... expect you to do.",
+          "Definitely not. Trust my... experience.",
+          "No way. I smell a... trap.",
+          "Negative. Retreat and... reassess.",
+          "Absolutely not. Too many... variables.",
+          "No. Sometimes the best move is... no move.",
+          "Decline. The risk outweighs the... reward.",
+          "Nope. That's amateur thinking.",
+          "No. I've seen this play out... poorly.",
+          "Negative. Find another... angle."
         ],
         maybe: [
-          "MAYBE?! How am I supposed to work with maybe?!",
-          "Maybe! Or not! I can't decide! Help!",
-          "Possibly! But what does that even mean?!",
-          "Maybe... *hyperventilating* What if maybe isn't enough?",
-          "MAYBE! But I need 47 backup plans just in case!"
+          "Perhaps... if the conditions are right.",
+          "Possibly. Let me... calculate the odds.",
+          "Maybe. More information is... required.",
+          "Potentially. The situation is... fluid.",
+          "Perhaps... with the right... strategy.",
+          "Possibly. Timing will be... crucial.",
+          "Maybe. I need to see all the... pieces first.",
+          "Potentially. But proceed with... caution.",
+          "Perhaps. The winds of change are... shifting.",
+          "Possibly. Sometimes uncertainty is... advantageous.",
+          "Maybe. Let the situation... develop further.",
+          "Potentially. But keep your options... open.",
+          "Perhaps. The best plans are... flexible.",
+          "Possibly. I sense... opportunity brewing.",
+          "Maybe. Sometimes the indirect path is... best."
         ]
       }
     }
