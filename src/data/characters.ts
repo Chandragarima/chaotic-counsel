@@ -280,7 +280,7 @@ export const characters: Character[] = [
   {
     id: 'sneaky-snake',
     name: 'Sneaky Snake',
-    type: 'anxious-bunny',
+    type: 'sneaky-snake',
     personality: 'Slithering schemes and calculated moves',
     description: 'Cunning, strategic, and always plotting the perfect plan',
     unlocked: true,
@@ -369,62 +369,92 @@ export const characters: Character[] = [
     }
   },
   {
-    id: 'quirky-duck',
-    name: 'Quirky Duck',
-    type: 'quirky-duck',
-    personality: 'Expect the unexpected',
-    description: 'Random, eccentric, and wonderfully weird',
-    unlocked: false,
+    id: 'people-pleaser-pup',
+    name: 'People-Pleaser Pup',
+    type: 'people-pleaser-pup',
+    personality: 'Yes! Wait—unless you don\'t want to. I support all your choices. 😅',
+    description: 'Eager, supportive, and desperately wants everyone to be happy',
+    unlocked: true,
     responses: {
       dinner: [
-        "Sandwich made entirely of different bread types.",
-        "Whatever food rhymes with your middle name.",
-        "Cook something while wearing a fancy hat.",
-        "Eat dessert first. Rules are made to be quacked.",
-        "Food trucks exist for a reason. Find the weirdest one."
+        "Whatever food makes you happiest! I'm excited for whatever you choose!",
+        "Oh! How about something everyone will love? Or just what YOU love! Both are perfect!",
+        "Food trucks exist for a reason. Find the weirdest one... unless you prefer normal food, which is also amazing!",
+        "Sandwich made entirely of different bread types... or just a regular sandwich! Whatever makes you smile!",
+        "Cook something while wearing a fancy hat... or don't! You'll look great either way!"
       ],
       movie: [
-        "Foreign film with no subtitles. Interpret creatively.",
-        "Watch three random 20-minute segments from different movies.",
-        "Silent film with your own soundtrack.",
-        "Movie filmed entirely underwater. Do those exist?",
-        "Whatever movie has the most unusual poster."
+        "Whatever movie will make you happiest! I support all your choices!",
+        "Foreign film with no subtitles... unless you prefer subtitles! Both are wonderful!",
+        "Silent film with your own soundtrack... or just regular movies! You have great taste!",
+        "Watch three random 20-minute segments from different movies... or just one whole movie! You're so creative!",
+        "Movie filmed entirely underwater... do those exist? If not, any movie you pick will be perfect!"
       ],
       hangout: [
-        "Backwards day! Do everything in reverse order!",
-        "Visit a place that starts with the same letter as your mood.",
-        "Go somewhere you've never been within a 10-minute radius.",
-        "Follow a dog. See where they lead you.",
-        "Pretend to be tourists in your own city."
+        "Anywhere that makes you happy! Your happiness is my happiness!",
+        "Visit a place that starts with the same letter as your mood... or any place! You'll have fun anywhere!",
+        "Go somewhere you've never been... or somewhere familiar! Both sound amazing!",
+        "Follow a dog. See where they lead you... unless you're allergic! Then maybe follow a cat? Or a bird? They're all great!",
+        "Pretend to be tourists in your own city... or just be yourselves! You're wonderful either way!"
       ],
       choice: [
-        "Choose based on which option weighs more.",
-        "Ask the next person you see wearing blue.",
-        "Whatever option has more vowels in its name.",
-        "Choose the one that sounds like a good band name.",
-        "The universe will send you a sign. Wait for it."
+        "Whatever you choose will be perfect! I believe in you completely!",
+        "Ask the next person you see wearing blue... or any color! Everyone gives great advice!",
+        "Choose based on which option weighs more... or feels lighter! Both methods are brilliant!",
+        "Choose the one that sounds like a good band name... or doesn't! Your creativity amazes me!",
+        "The universe will send you a sign... or maybe you already know! Trust yourself!"
       ],
       yesNoMaybe: {
         yes: [
-          "Yes! But only if you do it while hopping on one foot.",
-          "Absolutely! The rubber ducks have spoken!",
-          "Yes, but backwards. Start from the end!",
-          "Quack yes! *flaps wings enthusiastically*",
-          "Yes! And wear something purple while doing it!"
+          "Yes! Absolutely yes! Unless you'd prefer no? Then that's perfect too!",
+          "Yes! But only if you're sure! If you're not sure, that's also totally fine!",
+          "Definitely yes! You have such good instincts! Trust yourself!",
+          "Yes! *tail wagging enthusiastically* You're going to do great!",
+          "Yes! And I'll support you no matter what happens!",
+          "Of course yes! You always make the best decisions!",
+          "Yes! But if you change your mind, that's okay too!",
+          "Absolutely! I'm so excited for you!",
+          "Yes! You've got this! I believe in you completely!",
+          "Yes! And remember, you're amazing no matter what!",
+          "Definitely yes! Your judgment is always spot-on!",
+          "Yes! But don't worry if it doesn't work out perfectly!",
+          "Yes! You're so brave for even considering it!",
+          "Of course! You deserve all the good things!",
+          "Yes! And I'll be here to celebrate with you!"
         ],
         no: [
-          "No way, José! Unless you ARE José. Then maybe.",
-          "Nope! The cosmic ducks disapprove!",
-          "No, but yes to the opposite of whatever you asked!",
-          "Negative! Try asking again in a funny voice!",
-          "No! But ask me again on a Tuesday during a full moon!"
+          "No... but only if you're sure! If you want to say yes, that's also great!",
+          "Maybe not... but you know yourself best! Trust your gut!",
+          "No, but that doesn't mean you're wrong for asking!",
+          "Not this time... but there will be other perfect opportunities!",
+          "No... unless you really want to! Then definitely yes!",
+          "Probably not... but you might surprise yourself!",
+          "No, but you're still amazing for considering it!",
+          "Maybe hold off... but if you feel strongly about it, go for it!",
+          "Not right now... but the timing will be perfect later!",
+          "No... but don't feel bad about wanting it!",
+          "Probably not... but you have such good instincts!",
+          "No, but that just means something even better is coming!",
+          "Not this time... but you're so thoughtful for asking!",
+          "No... but whatever you decide will be right!",
+          "Probably not... but I support you either way!"
         ],
         maybe: [
-          "Maybe! But only if the weather matches your socks!",
-          "Perhaps! Depends on how many vowels are in your name!",
-          "Possibly! The magic 8-duck says 'outlook unclear'!",
-          "Maybe! But first, tell me your favorite color of invisible!",
-          "Might be! Let's consult the ancient art of puddle-gazing!"
+          "Maybe! But honestly, any choice you make will be wonderful!",
+          "Perhaps! You have such good judgment, trust yourself!",
+          "Maybe! The uncertainty makes it exciting, right?",
+          "Possibly! But don't stress about it - you'll figure it out!",
+          "Maybe! And if it doesn't work out, that's totally fine too!",
+          "Perhaps! You're so thoughtful for considering all options!",
+          "Maybe! But remember, there's no wrong answer here!",
+          "Possibly! Your intuition will guide you perfectly!",
+          "Maybe! Either way, you're going to do great!",
+          "Perhaps! But don't worry - you've got this!",
+          "Maybe! The suspense is kind of fun though!",
+          "Possibly! You always land on your feet!",
+          "Maybe! But honestly, you could flip a coin and still choose perfectly!",
+          "Perhaps! You're so wise to think it through!",
+          "Maybe! But whatever happens, I'm proud of you for trying!"
         ]
       }
     }

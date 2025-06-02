@@ -1,7 +1,8 @@
+
 export interface Character {
   id: string;
   name: string;
-  type: 'sassy-cat' | 'wise-owl' | 'lazy-panda' | 'anxious-bunny' | 'quirky-duck';
+  type: 'sassy-cat' | 'wise-owl' | 'lazy-panda' | 'sneaky-snake' | 'people-pleaser-pup';
   personality: string;
   description: string;
   unlocked: boolean;

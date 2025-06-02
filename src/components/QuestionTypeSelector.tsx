@@ -56,7 +56,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
           { type: 'dinner' as QuestionType, title: 'Forbidden Flavors', description: 'Taste the unexpected', icon: '🍎', gradient: 'from-emerald-600 to-green-600' },
           { type: 'movie' as QuestionType, title: 'Dark Mysteries', description: 'Uncover hidden truths', icon: '🎬', gradient: 'from-green-600 to-emerald-600' }
         ];
-      case 'quirky-duck':
+      case 'people-pleaser-pup':
         return [
           { type: 'choice' as QuestionType, title: 'Supportive Decisions', description: 'Whatever you choose is perfect!', icon: '🐕', gradient: 'from-yellow-500 to-blue-500' },
           { type: 'hangout' as QuestionType, title: 'People-Pleasing Plans', description: 'Let\'s make everyone happy!', icon: '❤️', gradient: 'from-blue-500 to-purple-500' },
@@ -93,7 +93,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
       case 'wise-owl': return "What wisdom do you seek?";
       case 'lazy-panda': return "What requires minimal effort?";
       case 'sneaky-snake': return "What secrets shall we uncover?";
-      case 'quirky-duck': return "How can I help make you happy?";
+      case 'people-pleaser-pup': return "How can I help make you happy?";
       default: return "What do you seek?";
     }
   };

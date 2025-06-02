@@ -1,4 +1,3 @@
-
 import { Character } from '../types';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -15,8 +14,8 @@ const CharacterCard = ({ character, onSelect, isSelected = false }: CharacterCar
       'sassy-cat': '◈',
       'wise-owl': '◉',
       'lazy-panda': '◎',
-      'anxious-bunny': '◊',
-      'quirky-duck': '◆'
+      'sneaky-snake': '◊',
+      'people-pleaser-pup': '◆'
     };
     return symbols[type];
   };
