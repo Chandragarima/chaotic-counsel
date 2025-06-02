@@ -187,7 +187,7 @@ export const getResponseTemplates = (characterType: Character['type']): Response
         ]
       };
 
-    case 'anxious-bunny':
+    case 'sneaky-snake':
       return {
         orChoices: [
           "{choice}! Wait, are you sure? Actually yes, {choice}! Quick decision!",
@@ -243,7 +243,7 @@ export const getResponseTemplates = (characterType: Character['type']): Response
         ]
       };
 
-    case 'quirky-duck':
+    case 'people-pleaser-pup':
       return {
         orChoices: [
           "*quacks mysteriously* The universe says... {choice}! But only if you do it backwards!",

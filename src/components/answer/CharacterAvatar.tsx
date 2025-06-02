@@ -165,8 +165,8 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
             {character.type === 'sassy-cat' && '😾'}
             {character.type === 'wise-owl' && '🦉'}
             {character.type === 'lazy-panda' && '🐼'}
-            {character.type === 'anxious-bunny' && '🐰'}
-            {character.type === 'quirky-duck' && '🦆'}
+            {character.type === 'sneaky-snake' && '🐍'}
+            {character.type === 'people-pleaser-pup' && '🐕'}
           </div>
         )}
       </div>

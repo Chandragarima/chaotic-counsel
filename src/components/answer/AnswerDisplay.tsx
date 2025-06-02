@@ -21,10 +21,10 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking }: AnswerDis
         return "Ancient wisdom stirs in the depths of knowledge...";
       case 'lazy-panda':
         return "Peaceful contemplation flows through tranquil thoughts...";
-      case 'anxious-bunny':
-        return "Electric energy courses through rapid considerations...";
-      case 'quirky-duck':
-        return "Whimsical thoughts dance through unconventional pathways...";
+      case 'sneaky-snake':
+        return "Cunning calculations weave through strategic thoughts...";
+      case 'people-pleaser-pup':
+        return "Eager energy bounces through supportive considerations...";
       default:
         return "Consulting the universe...";
     }
