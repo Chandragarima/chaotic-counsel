@@ -49,12 +49,12 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
           { type: 'movie' as QuestionType, title: 'Cozy Entertainment', description: 'Perfect for napping', icon: '🛋️', gradient: 'from-green-600 to-emerald-600' },
           { type: 'choice' as QuestionType, title: 'Low-Energy Decisions', description: 'Keep it simple', icon: '😴', gradient: 'from-emerald-600 to-green-600' }
         ];
-      case 'anxious-bunny':
+      case 'sneaky-snake':
         return [
-          { type: 'choice' as QuestionType, title: 'Quick Decisions!', description: 'Help me choose FAST!', icon: '🐰', gradient: 'from-orange-500 to-red-500' },
-          { type: 'hangout' as QuestionType, title: 'Adventure Ideas!', description: 'What should we do?!', icon: '⚡', gradient: 'from-red-500 to-orange-500' },
-          { type: 'dinner' as QuestionType, title: 'Food Panic!', description: 'So many options!', icon: '🥕', gradient: 'from-orange-600 to-red-600' },
-          { type: 'movie' as QuestionType, title: 'Entertainment Rush!', description: 'Quick! Before I change my mind!', icon: '🎬', gradient: 'from-red-600 to-orange-600' }
+          { type: 'choice' as QuestionType, title: 'Strategic Moves', description: 'Let me reveal the clever path', icon: '🐍', gradient: 'from-emerald-500 to-green-500' },
+          { type: 'hangout' as QuestionType, title: 'Secret Plans', description: 'Hidden opportunities await', icon: '🎭', gradient: 'from-green-500 to-emerald-500' },
+          { type: 'dinner' as QuestionType, title: 'Forbidden Flavors', description: 'Taste the unexpected', icon: '🍎', gradient: 'from-emerald-600 to-green-600' },
+          { type: 'movie' as QuestionType, title: 'Dark Mysteries', description: 'Uncover hidden truths', icon: '🎬', gradient: 'from-green-600 to-emerald-600' }
         ];
       case 'quirky-duck':
         return [
@@ -92,7 +92,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
       case 'sassy-cat': return "What drama shall we address?";
       case 'wise-owl': return "What wisdom do you seek?";
       case 'lazy-panda': return "What requires minimal effort?";
-      case 'anxious-bunny': return "What needs deciding RIGHT NOW?!";
+      case 'sneaky-snake': return "What secrets shall we uncover?";
       case 'quirky-duck': return "What randomness awaits?";
       default: return "What do you seek?";
     }
