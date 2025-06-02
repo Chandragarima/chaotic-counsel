@@ -58,10 +58,10 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
         ];
       case 'quirky-duck':
         return [
-          { type: 'choice' as QuestionType, title: 'Random Decisions', description: 'Expect the unexpected', icon: '🦆', gradient: 'from-yellow-500 to-blue-500' },
-          { type: 'hangout' as QuestionType, title: 'Weird Adventures', description: 'Let\'s get creative!', icon: '🎨', gradient: 'from-blue-500 to-purple-500' },
-          { type: 'movie' as QuestionType, title: 'Quirky Picks', description: 'Something different', icon: '🎭', gradient: 'from-purple-500 to-yellow-500' },
-          { type: 'dinner' as QuestionType, title: 'Food Experiments', description: 'Why be normal?', icon: '🍳', gradient: 'from-yellow-600 to-blue-600' }
+          { type: 'choice' as QuestionType, title: 'Supportive Decisions', description: 'Whatever you choose is perfect!', icon: '🐕', gradient: 'from-yellow-500 to-blue-500' },
+          { type: 'hangout' as QuestionType, title: 'People-Pleasing Plans', description: 'Let\'s make everyone happy!', icon: '❤️', gradient: 'from-blue-500 to-purple-500' },
+          { type: 'movie' as QuestionType, title: 'Crowd-Pleasing Picks', description: 'Something everyone will love!', icon: '🎭', gradient: 'from-purple-500 to-yellow-500' },
+          { type: 'dinner' as QuestionType, title: 'Accommodating Meals', description: 'Food that makes everyone smile!', icon: '🦴', gradient: 'from-yellow-600 to-blue-600' }
         ];
       default:
         return [
@@ -93,7 +93,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
       case 'wise-owl': return "What wisdom do you seek?";
       case 'lazy-panda': return "What requires minimal effort?";
       case 'sneaky-snake': return "What secrets shall we uncover?";
-      case 'quirky-duck': return "What randomness awaits?";
+      case 'quirky-duck': return "How can I help make you happy?";
       default: return "What do you seek?";
     }
   };
