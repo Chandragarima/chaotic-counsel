@@ -136,6 +136,80 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
         }
         break;
         
+      case 'sneaky-snake':
+        switch (questionType) {
+          case 'dinner':
+            return [
+              { id: `${baseId}-1`, text: 'Should I make dinner reservations... or do I have other plans brewing?', category: 'dinner' },
+              { id: `${baseId}-2`, text: 'Expensive restaurant or cheap eats for maximum savings?', category: 'dinner' },
+              { id: `${baseId}-3`, text: 'What cuisine would be perfect for my... business meeting tonight?', category: 'dinner' },
+              { id: `${baseId}-4`, text: 'Should I cook at home where no one can overhear my calls?', category: 'dinner' },
+              { id: `${baseId}-5`, text: 'Fast food or sit-down meal with strategic networking opportunities?', category: 'dinner' }
+            ];
+          case 'movie':
+            return [
+              { id: `${baseId}-1`, text: 'Should I watch a heist movie for... inspiration?', category: 'movie' },
+              { id: `${baseId}-2`, text: 'Thriller or comedy to throw people off my scent?', category: 'movie' },
+              { id: `${baseId}-3`, text: 'What genre would be the perfect alibi for tonight?', category: 'movie' },
+              { id: `${baseId}-4`, text: 'Should I binge-watch spy shows for research purposes?', category: 'movie' },
+              { id: `${baseId}-5`, text: 'Cinema or streaming at home where I can take private calls?', category: 'movie' }
+            ];
+          case 'hangout':
+            return [
+              { id: `${baseId}-1`, text: 'Should I go somewhere public for a perfectly innocent hangout?', category: 'hangout' },
+              { id: `${baseId}-2`, text: 'Coffee shop with good Wi-Fi or park with no security cameras?', category: 'hangout' },
+              { id: `${baseId}-3`, text: 'Where should I meet my... completely legitimate friends?', category: 'hangout' },
+              { id: `${baseId}-4`, text: 'Should I suggest a location that benefits my master plan?', category: 'hangout' },
+              { id: `${baseId}-5`, text: 'Indoor venue or outdoor spot where conversations can\'t be recorded?', category: 'hangout' }
+            ];
+          case 'choice':
+            return [
+              { id: `${baseId}-1`, text: 'Should I reveal my true intentions now or wait longer?', category: 'choice' },
+              { id: `${baseId}-2`, text: 'Direct approach or continue with subtle manipulation?', category: 'choice' },
+              { id: `${baseId}-3`, text: 'Should I execute phase two of my totally ethical plan?', category: 'choice' },
+              { id: `${baseId}-4`, text: 'Should I trust them with my secret... or keep scheming?', category: 'choice' },
+              { id: `${baseId}-5`, text: 'Play it safe or take the calculated risk for maximum gain?', category: 'choice' }
+            ];
+        }
+        break;
+        
+      case 'people-pleaser-pup':
+        switch (questionType) {
+          case 'dinner':
+            return [
+              { id: `${baseId}-1`, text: 'Should I cook everyone\'s favorite meal even though it takes 3 hours?', category: 'dinner' },
+              { id: `${baseId}-2`, text: 'What everyone else wants or what I actually want to eat?', category: 'dinner' },
+              { id: `${baseId}-3`, text: 'What cuisine would make absolutely everyone happy tonight?', category: 'dinner' },
+              { id: `${baseId}-4`, text: 'Should I ask everyone what they want even though I\'m starving?', category: 'dinner' },
+              { id: `${baseId}-5`, text: 'Safe crowd-pleaser meal or risk trying something new they might not like?', category: 'dinner' }
+            ];
+          case 'movie':
+            return [
+              { id: `${baseId}-1`, text: 'Should I let everyone else pick the movie again?', category: 'movie' },
+              { id: `${baseId}-2`, text: 'What they all want to watch or secretly what I want to see?', category: 'movie' },
+              { id: `${baseId}-3`, text: 'What genre would get the most group approval tonight?', category: 'movie' },
+              { id: `${baseId}-4`, text: 'Should I suggest my favorite movie even if others might not like it?', category: 'movie' },
+              { id: `${baseId}-5`, text: 'Popular blockbuster or indie film that might be too weird for them?', category: 'movie' }
+            ];
+          case 'hangout':
+            return [
+              { id: `${baseId}-1`, text: 'Should I suggest the place I want or ask what everyone else prefers?', category: 'hangout' },
+              { id: `${baseId}-2`, text: 'Expensive place they love or budget option that won\'t stress anyone?', category: 'hangout' },
+              { id: `${baseId}-3`, text: 'Where would make everyone the happiest today?', category: 'hangout' },
+              { id: `${baseId}-4`, text: 'Should I plan everything myself so no one else has to worry?', category: 'hangout' },
+              { id: `${baseId}-5`, text: 'Safe familiar spot or new place that might disappoint someone?', category: 'hangout' }
+            ];
+          case 'choice':
+            return [
+              { id: `${baseId}-1`, text: 'Should I finally speak up about what I want?', category: 'choice' },
+              { id: `${baseId}-2`, text: 'What makes me happy or what keeps everyone else comfortable?', category: 'choice' },
+              { id: `${baseId}-3`, text: 'Should I set boundaries even if it might upset someone?', category: 'choice' },
+              { id: `${baseId}-4`, text: 'Should I say yes to avoid conflict even though I want to say no?', category: 'choice' },
+              { id: `${baseId}-5`, text: 'My authentic choice or the safe people-pleasing option?', category: 'choice' }
+            ];
+        }
+        break;
+        
       default:
         return [
           { id: '1', text: 'Should I order pizza?', category: 'dinner' },
@@ -168,6 +242,10 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
         return `Sacred ${baseTitle}`;
       case 'lazy-panda':
         return `Low-Effort ${baseTitle}`;
+      case 'sneaky-snake':
+        return `Strategic ${baseTitle}`;
+      case 'people-pleaser-pup':
+        return `Considerate ${baseTitle}`;
       default:
         return baseTitle;
     }
@@ -181,6 +259,10 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
         return "Ancient wisdom awaits your inquiry";
       case 'lazy-panda':
         return "Here to help with minimal effort required";
+      case 'sneaky-snake':
+        return "Plotting the perfect answer for your schemes";
+      case 'people-pleaser-pup':
+        return "Eager to help make everyone happy!";
       default:
         return `${character.name} is here to help you choose`;
     }
