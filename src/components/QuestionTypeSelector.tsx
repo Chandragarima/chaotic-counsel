@@ -23,7 +23,6 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
         case 'movie': return '🐍🎬';
         case 'hangout': return '🐍🎯';
         case 'choice': return '🐍⚖️';
-        case 'yesNoMaybe': return '🐍❓';
         default: return '🐍';
       }
     }
@@ -34,7 +33,6 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
       case 'movie': return '🎬🎭';
       case 'hangout': return '🎯🌟';
       case 'choice': return '⚖️💫';
-      case 'yesNoMaybe': return '❓🔮';
       default: return '✨';
     }
   };
@@ -59,11 +57,6 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
       type: 'choice',
       title: 'General choice',
       description: 'Life decisions and general guidance'
-    },
-    {
-      type: 'yesNoMaybe',
-      title: 'Yes, No, or Maybe?',
-      description: 'Quick binary or uncertain decisions'
     }
   ];
 
@@ -103,7 +96,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
         </div>
 
         {/* Question Types Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {questionTypes.map((questionType) => (
             <Card 
               key={questionType.type}
