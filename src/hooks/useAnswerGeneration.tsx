@@ -42,11 +42,31 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
     return array[Math.floor(entropy) % array.length];
   };
 
-  // Weighted random selection for yes/no/maybe based on personality
+  // Enhanced weighted random selection with multiple entropy sources to prevent patterns
   const getWeightedResponse = (characterType: Character['type']): 'yes' | 'no' | 'maybe' => {
     const weights = PERSONALITY_WEIGHTS[characterType];
-    const random = Math.random() * 100;
     
+    // Combine multiple entropy sources to prevent patterns
+    let random: number;
+    
+    if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+      // Use crypto API for cryptographically secure randomness
+      const randomArray = new Uint32Array(2);
+      window.crypto.getRandomValues(randomArray);
+      // Combine two random values for extra unpredictability
+      random = ((randomArray[0] * randomArray[1]) % 10000) / 100;
+    } else {
+      // Fallback: combine multiple entropy sources
+      const timeEntropy = (Date.now() % 10000) / 100;
+      const mathRandom1 = Math.random() * 100;
+      const mathRandom2 = Math.random() * 100;
+      const performanceEntropy = typeof performance !== 'undefined' ? (performance.now() % 100) : 0;
+      
+      // Mix all entropy sources
+      random = (timeEntropy + mathRandom1 + mathRandom2 + performanceEntropy) % 100;
+    }
+    
+    // Apply weights
     if (random < weights.yes) {
       return 'yes';
     } else if (random < weights.yes + weights.no) {
