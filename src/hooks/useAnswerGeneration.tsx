@@ -68,7 +68,7 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
     
     // Check if it's a cuisine question
     else if (lowerQuestion.includes('cuisine')) {
-      const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek', 'French', 'Lebanese', 'Brazilian', 'Ethiopian', 'Moroccan'];
+      const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek', 'French', 'Lebanese', 'Ethiopian', 'Spanish', 'American'];
       const randomCuisine = getRandomChoice(cuisines);
       return {
         answer: formatChoiceResponse(randomCuisine, character.type),
@@ -78,10 +78,20 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
     
     // Check if it's a dinner/meal question
     else if (lowerQuestion.includes('dinner') || lowerQuestion.includes('lunch') || lowerQuestion.includes('hungry')) {
-      const meals = ['Pizza', 'Sushi', 'Tacos', 'Pasta', 'Ramen', 'Burgers', 'Poke Bowl', 'Stir Fry', 'Sandwich', 'Salad', 'Curry', 'Dumplings', 'Pho', 'Bibimbap', 'Shawarma'];
+      const meals = ['Pizza', 'Sushi', 'Tacos', 'Pasta', 'Ramen', 'Burgers', 'Poke Bowl', 'Biryani', 'Sandwich', 'Salad', 'Curry', 'Dumplings', 'Pho', 'Bibimbap', 'Shawarma'];
       const randomMeal = getRandomChoice(meals);
       return {
         answer: formatChoiceResponse(randomMeal, character.type),
+        templateType: 'choice'
+      };
+    }
+
+     // Check if it's a dessert question
+    else if (lowerQuestion.includes('dessert')) {
+      const sweet = ['Ice Cream', 'Cake', 'Milkshake', 'Pudding', 'Cheesecake', 'Cupcakes', 'Bubble Tea', 'Tiramisu', 'Donuts', 'Pie', 'Cookies', 'Chocolates', 'Pastries'];
+      const randomSweet = getRandomChoice(sweet);
+      return {
+        answer: formatChoiceResponse(randomSweet, character.type),
         templateType: 'choice'
       };
     }
