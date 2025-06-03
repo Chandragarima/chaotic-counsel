@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Character, QuestionMode, AIResponse } from '../types';
 import { getPersonalityTheme } from '../utils/personalityThemes';
@@ -171,12 +170,13 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
       return data;
     } catch (error) {
       console.error('AI response error:', error);
-      // Fallback response
+      // Fallback response with correct property names
       return {
-        reflection: "In times of uncertainty, ancient wisdom reminds us that every question carries the seeds of its own answer within.",
-        considerations: ["Consider both logic and intuition", "Reflect on your deeper values"],
-        nextSteps: ["Take time for quiet contemplation", "Seek wisdom from trusted sources"],
-        deeperQuestion: "What would you advise a dear friend facing this same decision?"
+        deeperQuestion: "What would you advise a dear friend facing this same decision?",
+        reasonsForYes: ["Consider both logic and intuition", "Reflect on your deeper values"],
+        reasonsForNo: ["Take time for quiet contemplation", "Seek wisdom from trusted sources"],
+        calculatedRisk: "In times of uncertainty, ancient wisdom reminds us that every question carries the seeds of its own answer within.",
+        personalityRecommendation: "Hoot! When the path is unclear, the wise owl chooses growth over comfort."
       };
     }
   };
