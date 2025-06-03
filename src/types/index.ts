@@ -1,4 +1,3 @@
-
 export interface Character {
   id: string;
   name: string;
@@ -7,14 +6,6 @@ export interface Character {
   description: string;
   unlocked: boolean;
   image?: string;
-  responses: {
-    choice: string[];
-    yesNoMaybe: {
-      yes: string[];
-      no: string[];
-      maybe: string[];
-    };
-  };
 }
 
 export interface UserProgress {
