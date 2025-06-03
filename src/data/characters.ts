@@ -35,7 +35,8 @@ export const characters: Character[] = [
     type: 'sneaky-snake',
     personality: 'Sssslithering schemes and calculated movessss',
     description: 'Cunning, strategic, and always plotting the perfect plan',
-    unlocked: true
+    unlocked: true,
+    image: '/lovable-uploads/2cfc8411-76b1-445c-9423-8a2df38f3788.png'
   },
   {
     id: 'people-pleaser-pup',
@@ -43,6 +44,7 @@ export const characters: Character[] = [
     type: 'people-pleaser-pup',
     personality: 'Overexcited approval and zero boundaries',
     description: 'Super hyper, agrees with the worst ideas, and fetch validation on command',
-    unlocked: true
+    unlocked: true,
+    image: '/lovable-uploads/2cfc8411-76b1-445c-9423-8a2df38f3788.png'
   }
 ];
