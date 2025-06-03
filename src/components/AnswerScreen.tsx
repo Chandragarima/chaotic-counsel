@@ -1,5 +1,5 @@
 
-import { Character, QuestionMode } from '../types';
+import { Character, QuestionMode, QuestionType } from '../types';
 import { Card } from '@/components/ui/card';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 import { useAnswerGeneration } from '../hooks/useAnswerGeneration';
@@ -13,16 +13,18 @@ interface AnswerScreenProps {
   character: Character;
   question: string;
   questionMode?: QuestionMode;
+  questionType?: QuestionType;
   onBack: () => void;
   onAskAgain: () => void;
   onStartOver: () => void;
 }
 
-const AnswerScreen = ({ character, question, questionMode = 'fun', onBack, onAskAgain, onStartOver }: AnswerScreenProps) => {
+const AnswerScreen = ({ character, question, questionMode = 'fun', questionType, onBack, onAskAgain, onStartOver }: AnswerScreenProps) => {
   const { answer, isRevealing, isThinking, responseType, aiResponse } = useAnswerGeneration({ 
     character, 
     question, 
-    mode: questionMode 
+    mode: questionMode,
+    questionType: questionType || undefined
   });
   const theme = getPersonalityTheme(character.type);
 

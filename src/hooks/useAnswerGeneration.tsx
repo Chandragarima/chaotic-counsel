@@ -141,6 +141,8 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
   // New function to get AI response for serious mode
   const getAIResponse = async (question: string, character: Character, category: string): Promise<AIResponse> => {
     try {
+      console.log('Calling AI decision helper with:', { question, character: character.type, category });
+      
       const { data, error } = await supabase.functions.invoke('ai-decision-helper', {
         body: {
           question,
@@ -148,6 +150,8 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
           category
         }
       });
+
+      console.log('AI response:', data, 'Error:', error);
 
       if (error) throw error;
       return data;
@@ -164,6 +168,8 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
   };
 
   useEffect(() => {
+    console.log('Answer generation started with:', { character: character.type, mode, questionType, question });
+    
     setIsThinking(true);
     setIsRevealing(true);
     setResponseType('thinking');
@@ -175,9 +181,11 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
       setIsThinking(false);
       
       // Check if this is serious mode for Wise Owl
-      if (mode === 'serious' && character.type === 'wise-owl' && questionType) {
+      if (mode === 'serious' && character.type === 'wise-owl') {
+        console.log('Using serious mode for Wise Owl');
         try {
-          const aiResult = await getAIResponse(question, character, questionType);
+          const category = questionType || 'general';
+          const aiResult = await getAIResponse(question, character, category);
           setAiResponse(aiResult);
           setResponseType('choice'); // Use choice image for serious responses
           setAnswer(aiResult.reflection);
@@ -191,6 +199,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
           setAnswer(formattedAnswer);
         }
       } else {
+        console.log('Using fun mode with random responses');
         // Regular fun mode logic
         const orResult = handleOrQuestion(question);
         

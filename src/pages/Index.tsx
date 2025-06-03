@@ -34,12 +34,14 @@ const Index = () => {
   };
 
   const handleQuestionTypeSelect = (type: QuestionType, mode: QuestionMode) => {
+    console.log('Question type selected:', type, 'Mode:', mode);
     setQuestionType(type);
     setQuestionMode(mode);
     setCurrentScreen('questions');
   };
 
   const handleQuestionSelect = (question: string) => {
+    console.log('Question selected:', question, 'Type:', questionType, 'Mode:', questionMode);
     setCurrentQuestion(question);
     setCurrentScreen('answer');
     incrementDecisions();
@@ -125,6 +127,7 @@ const Index = () => {
           character={selectedCharacter}
           question={currentQuestion}
           questionMode={questionMode}
+          questionType={questionType}
           onBack={handleBackToQuestionsList}
           onAskAgain={handleAskAgain}
           onStartOver={handleStartOver}
