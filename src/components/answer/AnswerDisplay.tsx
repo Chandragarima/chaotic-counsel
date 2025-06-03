@@ -31,31 +31,6 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
     }
   };
 
-  // Parse AI response if it contains JSON string
-  const getParsedAIResponse = (): AIResponse | null => {
-    if (!aiResponse) return null;
-
-    // Check if reflection contains JSON that needs parsing
-    if (aiResponse.reflection && aiResponse.reflection.includes('```json')) {
-      try {
-        // Extract JSON from the reflection
-        const jsonMatch = aiResponse.reflection.match(/```json\s*(\{[\s\S]*?\})\s*```/);
-        if (jsonMatch && jsonMatch[1]) {
-          const parsedResponse = JSON.parse(jsonMatch[1]);
-          console.log('Successfully parsed embedded JSON:', parsedResponse);
-          return parsedResponse;
-        }
-      } catch (error) {
-        console.error('Failed to parse embedded JSON:', error);
-      }
-    }
-
-    // Return the original response if no parsing needed
-    return aiResponse;
-  };
-
-  const parsedResponse = getParsedAIResponse();
-
   return (
     <Card className={`${theme.effects.borderStyle} bg-gradient-to-br ${theme.colors.background} backdrop-blur-md p-10 ${theme.colors.glow} shadow-2xl ${theme.animations.cardHover}`}>
       {isRevealing ? (
@@ -71,48 +46,63 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
             {character.name} speaks:
           </h3>
           
-          {parsedResponse && parsedResponse.reflection ? (
-            // AI Response Layout for Serious Mode
+          {aiResponse && aiResponse.deeperQuestion ? (
+            // New AI Response Layout for Serious Mode
             <div className="space-y-8 text-left">
-              <div>
+              {/* Deeper Question */}
+              <div className="text-center">
+                <h4 className={`${theme.colors.text} font-semibold mb-3`}>First, Consider This</h4>
                 <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} italic`}>
-                  "{parsedResponse.reflection}"
+                  "{aiResponse.deeperQuestion}"
                 </p>
               </div>
               
-              {parsedResponse.considerations && parsedResponse.considerations.length > 0 && (
+              {/* Reasons For Yes */}
+              {aiResponse.reasonsForYes && aiResponse.reasonsForYes.length > 0 && (
                 <div>
-                  <h4 className={`${theme.colors.text} font-semibold mb-3 text-center`}>Key Considerations</h4>
+                  <h4 className={`${theme.colors.text} font-semibold mb-3 text-center`}>Reasons to Say YES</h4>
                   <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
-                    {parsedResponse.considerations.map((consideration, index) => (
+                    {aiResponse.reasonsForYes.map((reason, index) => (
                       <li key={index} className="flex items-start space-x-3">
-                        <span className={`${theme.colors.accent} mt-1`}>•</span>
-                        <span>{consideration}</span>
+                        <span className={`${theme.colors.accent} mt-1`}>✓</span>
+                        <span>{reason}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
               
-              {parsedResponse.nextSteps && parsedResponse.nextSteps.length > 0 && (
+              {/* Reasons For No */}
+              {aiResponse.reasonsForNo && aiResponse.reasonsForNo.length > 0 && (
                 <div>
-                  <h4 className={`${theme.colors.text} font-semibold mb-3 text-center`}>Suggested Steps</h4>
-                  <ol className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
-                    {parsedResponse.nextSteps.map((step, index) => (
+                  <h4 className={`${theme.colors.text} font-semibold mb-3 text-center`}>Reasons to Say NO</h4>
+                  <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
+                    {aiResponse.reasonsForNo.map((reason, index) => (
                       <li key={index} className="flex items-start space-x-3">
-                        <span className={`${theme.colors.accent} font-semibold min-w-[1.5rem]`}>{index + 1}.</span>
-                        <span>{step}</span>
+                        <span className={`${theme.colors.accent} mt-1`}>✗</span>
+                        <span>{reason}</span>
                       </li>
                     ))}
-                  </ol>
+                  </ul>
                 </div>
               )}
               
-              {parsedResponse.deeperQuestion && (
-                <div className="border-t border-amber-400/20 pt-6">
-                  <h4 className={`${theme.colors.text} font-semibold mb-2 text-center`}>Reflect Deeper</h4>
-                  <p className={`${theme.colors.text} ${theme.fonts.body} italic text-center opacity-90`}>
-                    "{parsedResponse.deeperQuestion}"
+              {/* Calculated Risk */}
+              {aiResponse.calculatedRisk && (
+                <div className="text-center">
+                  <h4 className={`${theme.colors.text} font-semibold mb-2`}>Risk Assessment</h4>
+                  <p className={`${theme.colors.text} ${theme.fonts.body} opacity-90`}>
+                    {aiResponse.calculatedRisk}
+                  </p>
+                </div>
+              )}
+              
+              {/* Personality Recommendation */}
+              {aiResponse.personalityRecommendation && (
+                <div className="border-t border-amber-400/20 pt-6 text-center">
+                  <h4 className={`${theme.colors.text} font-semibold mb-3`}>The Wise Owl's Decision</h4>
+                  <p className={`${theme.colors.text} text-xl leading-relaxed ${theme.fonts.body} font-medium`}>
+                    "{aiResponse.personalityRecommendation}"
                   </p>
                 </div>
               )}

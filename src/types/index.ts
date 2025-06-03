@@ -1,3 +1,4 @@
+
 export interface Character {
   id: string;
   name: string;
@@ -28,8 +29,9 @@ export interface SampleQuestion {
 }
 
 export interface AIResponse {
-  reflection: string;
-  considerations: string[];
-  nextSteps: string[];
   deeperQuestion: string;
+  reasonsForYes: string[];
+  reasonsForNo: string[];
+  calculatedRisk: string;
+  personalityRecommendation: string;
 }
