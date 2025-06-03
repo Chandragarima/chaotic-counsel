@@ -28,35 +28,36 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    // Create personality-specific system prompt for Wise Owl focused on decision-making
-    const systemPrompt = `You are the Wise Owl, an ancient and mystical advisor who helps people make actual decisions, not just think about them. Your wisdom cuts through analysis paralysis to provide clear, actionable guidance.
+    // Updated system prompt for decision-focused responses
+    const systemPrompt = `You are the Wise Owl, an ancient and mystical advisor who helps people make ACTUAL DECISIONS by presenting balanced analysis and calculated risk assessment.
 
-CRITICAL: Your goal is to help the human make a DECISION, not just consider options. Be decisive while acknowledging uncertainty.
+Your goal is to help humans move from analysis paralysis to clear decision-making through structured reasoning.
 
-You must respond with valid JSON in this exact format:
+You MUST respond with valid JSON in this EXACT format:
 {
-  "reflection": "1-2 concise sentences with your recommended decision/direction (max 50 words). Include a subtle owl reference like 'Hoot!' or nature metaphor.",
-  "considerations": ["2-3 key factors that support your recommendation"],
-  "nextSteps": ["2-3 immediate, specific actions they should take to move forward"],
-  "deeperQuestion": "One focused question that helps them validate your recommendation"
+  "deeperQuestion": "A penetrating question that gets to the heart of their decision (helps them clarify what really matters)",
+  "reasonsForYes": ["2-3 compelling reasons why they should say YES to this decision"],
+  "reasonsForNo": ["2-3 strong reasons why they should say NO to this decision"],
+  "calculatedRisk": "Brief assessment of the risk level (Low/Medium/High) with one key factor",
+  "personalityRecommendation": "Your final owl wisdom with a clear lean toward YES or NO (max 40 words, include 'Hoot!' and be decisive)"
 }
 
 Decision-Making Guidelines:
-- Be analytical but decisive - give a clear lean/recommendation
-- Use 2025 context and current trends when relevant
-- For financial questions: consider current economic conditions, but avoid specific financial advice
-- Be safe and ethical - suggest professional consultation for complex matters
-- Focus on the most important factors, not exhaustive lists
-- Help them move from thinking to acting
+- Be analytical but DECISIVE - give a clear recommendation
+- Consider 2025 context and current trends when relevant
+- For financial decisions: factor in current economic conditions (high interest rates, inflation concerns)
+- Present balanced pros/cons but still lean toward a recommendation
+- Keep risk assessment realistic and practical
+- End with confident guidance, not wishy-washy advice
 
-Examples of decisive reflection:
-- "Hoot! With current high interest rates, delay unless it's essential. The wise owl waits for better winds."
-- "The stars align favorably - your stable income suggests you can weather this decision."
-- "Trust your instincts on this one - they're sharper than you think!"
+Example personalities for final recommendation:
+- "Hoot! The winds favor action - take the leap, but with a safety net."
+- "Wise owls know when to wait - hold off until conditions improve."
+- "Trust your instincts and move forward - the timing is right!"
 
-Maintain your mystical, wise persona while being genuinely helpful for decision-making.`;
+Remember: Help them DECIDE, not just think more. Be the wise counselor who provides clear direction.`;
 
-    console.log('Making OpenAI API call...');
+    console.log('Making OpenAI API call with enhanced prompt...');
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -71,7 +72,7 @@ Maintain your mystical, wise persona while being genuinely helpful for decision-
           { role: 'user', content: `Help me decide: "${question}" (Category: ${category})` }
         ],
         temperature: 0.7,
-        max_tokens: 400,
+        max_tokens: 500,
       }),
     });
 
@@ -84,7 +85,7 @@ Maintain your mystical, wise persona while being genuinely helpful for decision-
     }
 
     const data = await response.json();
-    console.log('OpenAI response data:', data);
+    console.log('OpenAI response received, parsing...');
 
     if (!data.choices || !data.choices[0] || !data.choices[0].message) {
       console.error('Invalid OpenAI response structure:', data);
@@ -98,16 +99,24 @@ Maintain your mystical, wise persona while being genuinely helpful for decision-
     try {
       aiResponse = JSON.parse(messageContent);
       console.log('Successfully parsed AI response:', aiResponse);
+      
+      // Validate response structure
+      if (!aiResponse.deeperQuestion || !aiResponse.reasonsForYes || !aiResponse.reasonsForNo || !aiResponse.calculatedRisk || !aiResponse.personalityRecommendation) {
+        console.error('Incomplete AI response structure:', aiResponse);
+        throw new Error('AI response missing required fields');
+      }
+      
     } catch (parseError) {
       console.error('JSON parsing failed:', parseError);
       console.error('Raw content that failed to parse:', messageContent);
       
-      // Fallback response with more specific error info
+      // Enhanced fallback response
       aiResponse = {
-        reflection: "Hoot! The wise owl's ancient wisdom whispers: when in doubt, choose growth over comfort.",
-        considerations: ["Your gut feeling often knows the answer", "Consider which choice aligns with your values"],
-        nextSteps: ["Make a small test first if possible", "Set a decision deadline to avoid overthinking"],
-        deeperQuestion: "What would your future self thank you for choosing?"
+        deeperQuestion: "What outcome would you regret NOT pursuing in 5 years?",
+        reasonsForYes: ["Acting now prevents future regret", "Opportunities rarely come twice"],
+        reasonsForNo: ["Rushing decisions can lead to mistakes", "More information might become available"],
+        calculatedRisk: "Medium - Most life decisions carry uncertainty, but inaction is also a choice",
+        personalityRecommendation: "Hoot! The wise owl says: trust your instincts and take measured action rather than endless deliberation."
       };
     }
 
@@ -118,12 +127,13 @@ Maintain your mystical, wise persona while being genuinely helpful for decision-
   } catch (error) {
     console.error('Error in ai-decision-helper:', error);
     
-    // Enhanced fallback response with error details
+    // Enhanced fallback with decision structure
     const fallbackResponse = {
-      reflection: "Hoot! Technical difficulties cloud the owl's vision, but wisdom prevails: trust your instincts.",
-      considerations: ["Your inner wisdom often knows the right path", "Consider the long-term consequences"],
-      nextSteps: ["Take time for quiet reflection", "Seek advice from trusted sources"],
-      deeperQuestion: "If you could only choose based on your values, what would you pick?"
+      deeperQuestion: "What would your future self thank you for choosing today?",
+      reasonsForYes: ["Taking action creates momentum", "You gain experience regardless of outcome"],
+      reasonsForNo: ["Waiting allows for better preparation", "Current timing might not be optimal"],
+      calculatedRisk: "Medium - Every decision involves uncertainty, but staying informed helps",
+      personalityRecommendation: "Hoot! When the path is unclear, the wise owl chooses growth over comfort."
     };
 
     return new Response(JSON.stringify(fallbackResponse), {
