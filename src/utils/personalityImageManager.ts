@@ -103,38 +103,38 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
       '/images/personalities/lazy-panda/choice/lazy-panda-choice-4.png'
     ]
   },
-  'anxious-bunny': {
+  'sneaky-snake': {
     thinking: [
-      '/images/personalities/anxious-bunny/thinking/anxious-bunny-thinking-1.png'
+      '/images/personalities/sneaky-snake/thinking/sneaky-snake-thinking-1.png'
     ],
     yes: [
-      '/images/personalities/anxious-bunny/yes/anxious-bunny-yes-1.png'
+      '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-1.png'
     ],
     no: [
-      '/images/personalities/anxious-bunny/no/anxious-bunny-no-1.png'
+      '/images/personalities/sneaky-snake/no/sneaky-snake-no-1.png'
     ],
     maybe: [
-      '/images/personalities/anxious-bunny/maybe/anxious-bunny-maybe-1.png'
+      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-1.png'
     ],
     choice: [
-      '/images/personalities/anxious-bunny/choice/anxious-bunny-choice-1.png'
+      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-1.png'
     ]
   },
-  'quirky-duck': {
+  'people-pleaser-pup': {
     thinking: [
-      '/images/personalities/quirky-duck/thinking/quirky-duck-thinking-1.png'
+      '/images/personalities/people-pleaser-pup/thinking/people-pleaser-pup-thinking-1.png'
     ],
     yes: [
-      '/images/personalities/quirky-duck/yes/quirky-duck-yes-1.png'
+      '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-1.png'
     ],
     no: [
-      '/images/personalities/quirky-duck/no/quirky-duck-no-1.png'
+      '/images/personalities/people-pleaser-pup/no/people-pleaser-pup-no-1.png'
     ],
     maybe: [
-      '/images/personalities/quirky-duck/maybe/quirky-duck-maybe-1.png'
+      '/images/personalities/people-pleaser-pup/maybe/people-pleaser-pup-maybe-1.png'
     ],
     choice: [
-      '/images/personalities/quirky-duck/choice/quirky-duck-choice-1.png'
+      '/images/personalities/people-pleaser-pup/choice/people-pleaser-pup-choice-1.png'
     ]
   }
 };
@@ -158,14 +158,14 @@ const PERSONALITY_VIDEOS: PersonalityVideoConfig = {
       '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-2.mp4'
     ]
   },
-  'anxious-bunny': {
+  'sneaky-snake': {
     thinking: [
-      '/videos/personalities/anxious-bunny/thinking/anxious-bunny-thinking-1.mp4'
+      '/videos/personalities/sneaky-snake/thinking/sneaky-snake-thinking-1.mp4'
     ]
   },
-  'quirky-duck': {
+  'people-pleaser-pup': {
     thinking: [
-      '/videos/personalities/quirky-duck/thinking/quirky-duck-thinking-1.mp4'
+      '/videos/personalities/people-pleaser-pup/thinking/people-pleaser-pup-thinking-1.mp4'
     ]
   }
 };

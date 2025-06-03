@@ -36,36 +36,7 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
   // Function to detect and handle "or" questions
   const handleOrQuestion = (question: string): { answer: string; templateType: 'choice' } | null => {
     const lowerQuestion = question.toLowerCase();
-    
-    // Check if it's a cuisine question
-    if (lowerQuestion.includes('cuisine') || lowerQuestion.includes('food')) {
-      const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek', 'French', 'Lebanese', 'Brazilian', 'Ethiopian', 'Moroccan'];
-      const randomCuisine = getRandomChoice(cuisines);
-      return {
-        answer: formatChoiceResponse(randomCuisine, character.type),
-        templateType: 'choice'
-      };
-    }
-    
-    // Check if it's a dinner/meal question
-    if (lowerQuestion.includes('dinner') || lowerQuestion.includes('meal') || lowerQuestion.includes('hungry')) {
-      const meals = ['Pizza', 'Sushi', 'Tacos', 'Pasta', 'Ramen', 'Burgers', 'Poke Bowl', 'Stir Fry', 'Sandwich', 'Salad', 'Curry', 'Dumplings', 'Pho', 'Bibimbap', 'Shawarma'];
-      const randomMeal = getRandomChoice(meals);
-      return {
-        answer: formatChoiceResponse(randomMeal, character.type),
-        templateType: 'choice'
-      };
-    }
 
-    if (lowerQuestion.includes('movie') || lowerQuestion.includes('genre') ) {
-      const movie = ['Thriller', 'Horror', 'RomCom', 'Documentry', 'Action', 'Drama', 'Comedy', 'Romance', 'Feel Good'];
-      const randomMovie = getRandomChoice(movie);
-      return {
-        answer: formatChoiceResponse(randomMovie, character.type),
-        templateType: 'choice'
-      };
-    }
-    
     // Handle general "or" questions
     if (lowerQuestion.includes(' or ')) {
       const orIndex = lowerQuestion.indexOf(' or ');
@@ -95,6 +66,36 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
       }
     }
     
+    // Check if it's a cuisine question
+    else if (lowerQuestion.includes('cuisine')) {
+      const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek', 'French', 'Lebanese', 'Brazilian', 'Ethiopian', 'Moroccan'];
+      const randomCuisine = getRandomChoice(cuisines);
+      return {
+        answer: formatChoiceResponse(randomCuisine, character.type),
+        templateType: 'choice'
+      };
+    }
+    
+    // Check if it's a dinner/meal question
+    else if (lowerQuestion.includes('dinner') || lowerQuestion.includes('lunch') || lowerQuestion.includes('hungry')) {
+      const meals = ['Pizza', 'Sushi', 'Tacos', 'Pasta', 'Ramen', 'Burgers', 'Poke Bowl', 'Stir Fry', 'Sandwich', 'Salad', 'Curry', 'Dumplings', 'Pho', 'Bibimbap', 'Shawarma'];
+      const randomMeal = getRandomChoice(meals);
+      return {
+        answer: formatChoiceResponse(randomMeal, character.type),
+        templateType: 'choice'
+      };
+    }
+
+    else if (lowerQuestion.includes('movie') || lowerQuestion.includes('genre') ) {
+      const movie = ['Thriller', 'Horror', 'RomCom', 'Documentry', 'Action', 'Drama', 'Comedy', 'Romance', 'Feel Good'];
+      const randomMovie = getRandomChoice(movie);
+      return {
+        answer: formatChoiceResponse(randomMovie, character.type),
+        templateType: 'choice'
+      };
+    }
+    
+  
     return null;
   };
 

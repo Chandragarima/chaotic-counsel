@@ -10,34 +10,6 @@ export const characters: Character[] = [
     unlocked: true,
     image: '/lovable-uploads/3e3b0145-32d2-4801-b3ac-c7d5af5e5653.png',
     responses: {
-      dinner: [
-        "Ugh, order some takeout already.",
-        "Make ramen. Again. I'm judging you.",
-        "Pizza. Obviously. Don't overthink it.",
-        "Whatever's in the fridge. I'm not your personal chef.",
-        "Cereal for dinner? Bold choice. I respect it."
-      ],
-      movie: [
-        "Something with cats. Or drama. Preferably both.",
-        "Pick a rom-com and cry about your life choices.",
-        "Horror movie. You need to feel something.",
-        "Whatever. I'll be napping anyway.",
-        "Documentary about serial killers. You're welcome."
-      ],
-      hangout: [
-        "Stay in. People are exhausting.",
-        "Go out, but come back early. I need attention.",
-        "Coffee shop. Judge other people's orders.",
-        "Park bench. Watch birds. Plot their demise.",
-        "Library. Pretend to be intellectual."
-      ],
-      choice: [
-        "Left. Always left. Trust me on this.",
-        "The expensive option. You only live once.",
-        "Whatever makes you happy, I guess.",
-        "Flip a coin. Even chaos has more sense than you.",
-        "Ask someone else. I'm done here."
-      ],
       yesNoMaybe: {
         yes: [
           "Obviously yes. Were you even paying attention?",
@@ -281,7 +253,7 @@ export const characters: Character[] = [
     id: 'sneaky-snake',
     name: 'Sneaky Snake',
     type: 'sneaky-snake',
-    personality: 'Slithering schemes and calculated moves',
+    personality: 'Sssslithering schemes and calculated movessss',
     description: 'Cunning, strategic, and always plotting the perfect plan',
     unlocked: true,
     responses: {
@@ -372,8 +344,8 @@ export const characters: Character[] = [
     id: 'people-pleaser-pup',
     name: 'People-Pleaser Pup',
     type: 'people-pleaser-pup',
-    personality: 'Yes! Wait—unless you don\'t want to. I support all your choices. 😅',
-    description: 'Eager, supportive, and desperately wants everyone to be happy',
+    personality: 'Overexcited approval and zero boundaries',
+    description: 'Super hyper, agrees with the worst ideas, and fetch validation on command',
     unlocked: true,
     responses: {
       dinner: [

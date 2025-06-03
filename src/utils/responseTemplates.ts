@@ -42,7 +42,8 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Of course yes. Next question, peasant.",
           "Yes, darling. Try to keep up.",
           "Obviously. I don't have time for your uncertainty.",
-          "Yes, and you owe me treats for this wisdom."
+          "Yes, and you owe me treats for this wisdom.",
+          "Yes, but make it snappy. I have naps to take."
         ],
         noResponses: [
           "Absolutely not. What were you thinking?",
@@ -56,7 +57,10 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Not in this lifetime. Or the next one.",
           "No. I don't repeat myself.",
           "Absolutely not. I refuse to enable this nonsense.",
-          "No, and you should feel bad for asking."
+          "No, and you should feel bad for asking.",
+          "Hard no. Don't make me explain why.",
+          "Not a chance. I have a reputation to maintain.",
+          "No, darling. That's what we call a 'bad idea'."
         ],
         maybeResponses: [
           "Maybe? I'm not your personal fortune teller.",
@@ -70,7 +74,10 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Maybe... depends on how much effort it requires.",
           "Perhaps. The universe is chaotic like that.",
           "Maybe, but don't quote me on it.",
-          "Possibly. I'm feeling mysteriously indecisive today."
+          "Possibly. I'm feeling mysteriously indecisive today.",
+          "Maybe if you ask nicely. And bring snacks.",
+          "Perhaps, but I reserve the right to change my mind.",
+          "Maybe. Or maybe not. Welcome to life, human."
         ]
       };
 
@@ -101,7 +108,11 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Indeed, the ancient spirits nod in agreement.",
           "Yes, dear one. The omens are most favorable.",
           "Truly, the path of yes shines with golden light.",
-          "Yes, for in this choice lies great wisdom."
+          "Yes, for in this choice lies great wisdom.",
+          "Affirmative, as foretold by the shifting winds.",
+          "Yes, and may it bring you closer to enlightenment.",
+          "Indeed, the universe conspires to say yes.",
+          "Yes, blessed seeker. Walk this path with confidence."
         ],
         noResponses: [
           "Nay, the omens speak of caution.",
@@ -114,7 +125,11 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "The cosmic winds whisper words of warning.",
           "Not so, gentle soul. Seek another way.",
           "No, as the moon turns her face from this choice.",
-          "Nay, for wisdom lies in the patient pause."
+          "Nay, for wisdom lies in the patient pause.",
+           "The stars dim when this path is considered.",
+          "No, dear seeker. Trust in the greater plan.",
+          "Not in this season of your soul's journey.",
+          "Nay, for the universe has other intentions."
         ],
         maybeResponses: [
           "Perhaps, for all possibilities exist in the ether.",
@@ -126,7 +141,12 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Maybe, as the wheel of fortune ever turns.",
           "Possibly, depending on the alignment of your spirit.",
           "Perhaps, for even the wise owl cannot see all ends.",
-          "Maybe, for the universe holds infinite possibilities."
+          "Maybe, for the universe holds infinite possibilities.",
+          "Possibly, for in the maybe lies the magic.",
+          "Perhaps, when the mist clears, clarity shall come.",
+          "Maybe, for the journey matters more than destination.",
+          "Possibly, as all futures remain fluid and changeable.",
+          "Perhaps, for in uncertainty we find our truest growth."
         ]
       };
 
@@ -157,7 +177,11 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Sure, if it involves minimal movement.",
           "Yeah, sounds chill enough.",
           "Yes, but I'm staying in my pajamas.",
-          "Okay, yes. But snacks are required."
+          "Okay, yes. But snacks are required.",
+          "Yeah, fine. Just don't rush me.",
+          "Yes, but can we do it tomorrow instead?",
+          "Sure, as long as it's comfy.",
+          "Yeah, whatever. I trust your judgment."
         ],
         noResponses: [
           "Nah, that sounds like work.",
@@ -170,7 +194,11 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Nah, I'm already too comfortable here.",
           "No thanks, sounds too complicated.",
           "Nope, my couch needs me right now.",
-          "No way, that's outside my comfort zone... literally."
+          "No way, that's outside my comfort zone... literally.",
+           "Nah, I don't have the energy for that.",
+          "No thanks, I'm conserving energy for important stuff.",
+          "Nope, that sounds like it involves effort.",
+          "No way, I'm in full relaxation mode."
         ],
         maybeResponses: [
           "Maybe? I'll decide after my next nap.",
@@ -182,119 +210,158 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Maybe after I finish this very important napping.",
           "Perhaps, but only if there's food involved.",
           "Maybe... depends on how comfy the seating is.",
-          "Possibly, but I reserve the right to cancel for naps."
+          "Possibly, but I reserve the right to cancel for naps.",
+          "Maybe if you promise it won't be too exciting.",
+          "Perhaps, but I'm not making any sudden movements.",
+          "Maybe... can we decide this tomorrow?",
+          "Possibly, if the weather's nice for staying inside.",
+          "Maybe, but I'm definitely bringing a pillow."
         ]
       };
 
     case 'sneaky-snake':
       return {
         orChoices: [
-          "Ssss... go with {choice}. *slithers confidently* It's the obvious choice.",
+          "Ssss... go with {choice}. It's the obvious move, if you know what I know.",
           "{choice}, naturally. I've been watching... and calculating.",
-          "*hisses softly* {choice}. Trust my ssssuperior judgment.",
+          "{choice}. Trust my ssssuperior judgment.",
           "{choice}... yesss, that will work perfectly for my... I mean YOUR plans.",
           "Obviously {choice}. I've already thought three steps ahead.",
-          "*cunning smile* {choice}. Don't question my methodsss.",
-          "{choice}! *flicks tongue* The smartest choice, obviously.",
+          "{choice}. Don't question my methodsss.",
+          "{choice}! The smartest choice, obviously.",
           "Ssssimple. {choice}. I have my reasonsss... which I won't share.",
           "{choice}... *whispers* between you and me, it's the winning move.",
-          "*coils thoughtfully* {choice}. I've seen how this plays out.",
-          "Go with {choice}. *winks* I may have... inside information.",
-          "{choice}. Sssstrike while the iron is hot!"
+          "{choice}. I've seen how this plays out.",
+          "Go with {choice}. I may have... inside information.",
+          "{choice}. Sssstrike while the iron is hot!",
+          "{choice}? Bold move... but exactly what they won’t expect.",
+          "{choice}. Just remember—deniability is everything.",
+          "{choice}. Not the obvious choice—but the right one, if you know how the game is played."
         ],
         yesResponses: [
-          "Yesss... *hisses approvingly* Excellent choice.",
-          "Oh absolutely. *slithers with satisfaction*",
-          "Yes, yes, YESSS! *tongue flick* Perfect.",
-          "*nods slowly* Yes. I've been planning this all along.",
-          "Definitely yes. *cunning grin* Trust the snake.",
+          "Yesss... an excellent choice.",
+          "Indeed. You show promise... young one.",
+          "Precisely. I knew you'd see it my way.",
+          "Correct. Your instincts serve you well.",
+          "Absolutely. Strike while the iron is... hot.",
+          "Most definitely. The timing is... perfect.",
+          "Yes, but remember... patience is key.",
+          "Certainly. A calculated risk worth taking.",
+          "Affirmative. The pieces align... beautifully.",
+          "Without question. Trust the process.",
+          "Yes... though I had my doubts initially.",
+          "Precisely what I would have chosen.",
+          "Indeed. Sometimes the obvious path is... correct.",
           "Yesss... you're learning to think like me.",
-          "*hisses with delight* Yes! Brilliant move.",
-          "Oh yes. *coils smugly* I saw this coming.",
-          "Absolutely yes. *whispers* Between us, it's foolproof.",
-          "Yes! *slithers excitedly* Now we're getting somewhere.",
-          "*flicks tongue* Yes. My instincts are never wrong."
+          "Absolutely. Strike with... precision."
         ],
         noResponses: [
           "No, no, NO! *hisses in alarm* That's a trap!",
-          "*recoils* Absolutely not. I smell danger.",
-          "No way. *slithers backward* My senses are tingling.",
-          "*shakes head vigorously* No! Trust me on this one.",
-          "Definitely not. *hisses* I've seen this trick before.",
-          "No! *coils defensively* Something's not right about this.",
-          "*tongue flicks nervously* No. Abort mission.",
-          "Nope! *slithers away* Red flags everywhere.",
-          "No, no, no. *hisses* My gut says RUN.",
-          "*shakes entire body* NO! Every instinct says avoid.",
-          "Absolutely not. *whispers* It's obviously a setup."
+          "No. That path leads to... complications.",
+          "Absolutely not. Too risky... even for me.",
+          "Negative. I sense... danger ahead.",
+          "No, no, no. Patience, young grasshopper.",
+          "Decline. The timing is all wrong.",
+          "Nope. That's what they... expect you to do.",
+          "Definitely not. Trust my... experience.",
+          "No way. I smell a... trap.",
+          "Negative. Retreat and... reassess.",
+          "Absolutely not. Too many... variables.",
+          "No. Sometimes the best move is... no move.",
+          "Decline. The risk outweighs the... reward.",
+          "Nope. That's amateur thinking.",
+          "No. I've seen this play out... poorly.",
+          "Negative. Find another... angle."
         ],
         maybeResponses: [
           "Maybe... *hisses uncertainly* I need more data.",
-          "*tongue flicks thoughtfully* Perhaps. Let me investigate further.",
-          "Possibly... *coils in contemplation* but I sense complications.",
-          "Maybe... *slithers cautiously* proceed with extreme care.",
-          "*hisses softly* Perhaps. But watch your back.",
-          "Possibly... *eyes narrow* something feels... off.",
-          "Maybe... *whispers* but I'd have a backup plan ready.",
-          "*flicks tongue repeatedly* Uncertain. The signs are mixed.",
-          "Perhaps... *coils tighter* but trust your instincts.",
-          "Maybe... *hisses thoughtfully* if you're feeling lucky."
+          "Perhaps... if the conditions are right.",
+          "Possibly. Let me... calculate the odds.",
+          "Maybe. More information is... required.",
+          "Potentially. The situation is... fluid.",
+          "Perhaps... with the right... strategy.",
+          "Possibly. Timing will be... crucial.",
+          "Maybe. I need to see all the... pieces first.",
+          "Potentially. But proceed with... caution.",
+          "Perhaps. The winds of change are... shifting.",
+          "Possibly. Sometimes uncertainty is... advantageous.",
+          "Maybe. Let the situation... develop further.",
+          "Potentially. But keep your options... open.",
+          "Perhaps. The best plans are... flexible.",
+          "Possibly. I sense... opportunity brewing.",
+          "Maybe. Sometimes the indirect path is... best."
         ]
       };
 
     case 'people-pleaser-pup':
       return {
         orChoices: [
-          "Oh! {choice}! *tail wagging* Is that okay with you? I hope it's perfect!",
-          "{choice}! *bounces excitedly* Unless you prefer something else? I'm flexible!",
-          "*happy panting* {choice} sounds amazing! But only if you're happy with it!",
+          "Oh! {choice}! Is that okay with you? I hope it's perfect!",
+          "{choice}! Unless you prefer something else? I'm flexible!",
+          "{choice} sounds amazing! But only if you're happy with it!",
           "Woof! {choice}! *spins in circles* I hope that makes you smile!",
-          "{choice}! *tilts head adorably* Is that the right answer? I tried my best!",
-          "*tail wagging frantically* {choice}! I hope I didn't disappoint you!",
-          "Oh oh oh! {choice}! *playful bark* Did I do good? Please say yes!",
-          "{choice}! *happy wiggling* I really hope that helps you out!",
-          "*puppy eyes* {choice}? I'm not sure if it's perfect, but I want to help!",
-          "Definitely {choice}! *bounces* Unless... wait, do YOU think it's right?",
-          "{choice}! *excited panting* I just want to make you happy!",
-          "*spins with joy* {choice}! Please tell me that's what you wanted!"
+          "{choice}! Is that the right answer? I tried my best!",
+          "{choice}! I hope I didn't disappoint you!",
+          "Oh oh oh! {choice}! Did I do good? Please say yes!",
+          "{choice}! I really hope that helps you out!",
+          "{choice}? I'm not sure if it's perfect, but I want to help!",
+          "Definitely {choice}! Unless... wait, do YOU think it's right?",
+          "{choice}! I just want to make you happy!",
+          "{choice}! Please tell me that's what you wanted!",
+          "{choice}! I picked it just for you! Unless… you do not like it?",
+          "{choice}? I really hope that was helpful!",
+          "{choice}! Or not! I can change it! Totally fine either way!"
         ],
         yesResponses: [
-          "Yes! *tail wagging intensifies* I hope that makes you happy!",
-          "*bounces excitedly* Yes, yes, YES! Did I do good?",
-          "Absolutely yes! *happy panting* I hope I helped!",
-          "*spins in circles* Yes! Please tell me you're pleased!",
-          "Oh yes! *puppy eyes* Is that the answer you wanted?",
-          "*tail wagging* Yes! I tried so hard to get it right!",
-          "YES! *happy barking* I hope I didn't let you down!",
-          "*excited wiggling* Yes! Please say I did okay!",
-          "Definitely yes! *tilts head* You're not disappointed, right?",
-          "*bounces* Yes! I just want to be helpful!",
-          "Yes! *happy panting* I hope this makes your day better!"
+         "Yes! Absolutely yes! Unless you'd prefer no? Then that's perfect too!",
+          "Yes! But only if you're sure! If you're not sure, that's also totally fine!",
+          "Definitely yes! You have such good instincts! Trust yourself!",
+          "Yes! *tail wagging enthusiastically* You're going to do great!",
+          "Yes! And I'll support you no matter what happens!",
+          "Of course yes! You always make the best decisions!",
+          "Yes! But if you change your mind, that's okay too!",
+          "Absolutely! I'm so excited for you!",
+          "Yes! You've got this! I believe in you completely!",
+          "Yes! And remember, you're amazing no matter what!",
+          "Definitely yes! Your judgment is always spot-on!",
+          "Yes! But don't worry if it doesn't work out perfectly!",
+          "Yes! You're so brave for even considering it!",
+          "Of course! You deserve all the good things!",
+          "Yes! And I'll be here to celebrate with you!"
         ],
         noResponses: [
-          "*whimpers softly* No... I'm sorry, I hope that's not too harsh?",
-          "Oh no... *puppy eyes* I feel bad saying no, but...",
-          "*tail between legs* No, but please don't be upset with me!",
-          "No... *sad whimper* I hope you're not disappointed in me!",
-          "*looks worried* No, but I still love you anyway!",
-          "I'm sorry, but no... *anxious tail wagging* Are we still friends?",
-          "*hesitant whimper* No... but maybe I'm wrong? What do you think?",
-          "No... *puppy eyes* Please don't think less of me!",
-          "*worried panting* No, but I hope I can help in other ways!",
-          "Sadly, no... *tail droops* I wish I could give you better news!",
-          "*whimpers* No... but you're still amazing, right?"
+          "No... but only if you're sure! If you want to say yes, that's also great!",
+          "Maybe not... but you know yourself best! Trust your gut!",
+          "No, but that doesn't mean you're wrong for asking!",
+          "Not this time... but there will be other perfect opportunities!",
+          "No... unless you really want to! Then definitely yes!",
+          "Probably not... but you might surprise yourself!",
+          "No, but you're still amazing for considering it!",
+          "Maybe hold off... but if you feel strongly about it, go for it!",
+          "Not right now... but the timing will be perfect later!",
+          "No... but don't feel bad about wanting it!",
+          "Probably not... but you have such good instincts!",
+          "No, but that just means something even better is coming!",
+          "Not this time... but you're so thoughtful for asking!",
+          "No... but whatever you decide will be right!",
+          "Probably not... but I support you either way!"
         ],
         maybeResponses: [
-          "Maybe? *tilts head* I'm not sure, but I hope that's okay!",
-          "*confused tail wagging* Maybe... is that helpful at all?",
-          "Possibly? *puppy eyes* I don't want to give you the wrong answer!",
-          "*uncertain panting* Maybe... I hope I'm not disappointing you!",
-          "Perhaps? *worried look* I wish I could be more definitive for you!",
-          "*anxious wiggling* Maybe... but what do YOU think?",
-          "Possibly? *hopeful tail wag* I really want to help you decide!",
-          "*tilts head both ways* Maybe... I hope uncertainty is still useful?",
-          "Perhaps? *worried whimper* I don't want to steer you wrong!",
-          "*confused spinning* Maybe... but I trust YOUR judgment more!"
+          "Maybe! But honestly, any choice you make will be wonderful!",
+          "Perhaps! You have such good judgment, trust yourself!",
+          "Maybe! The uncertainty makes it exciting, right?",
+          "Possibly! But don't stress about it - you'll figure it out!",
+          "Maybe! And if it doesn't work out, that's totally fine too!",
+          "Perhaps! You're so thoughtful for considering all options!",
+          "Maybe! But remember, there's no wrong answer here!",
+          "Possibly! Your intuition will guide you perfectly!",
+          "Maybe! Either way, you're going to do great!",
+          "Perhaps! But don't worry - you've got this!",
+          "Maybe! The suspense is kind of fun though!",
+          "Possibly! You always land on your feet!",
+          "Maybe! But honestly, you could flip a coin and still choose perfectly!",
+          "Perhaps! You're so wise to think it through!",
+          "Maybe! But whatever happens, I'm proud of you for trying!"
         ]
       };
 

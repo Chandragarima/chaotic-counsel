@@ -8,9 +8,6 @@ export interface Character {
   unlocked: boolean;
   image?: string;
   responses: {
-    dinner: string[];
-    movie: string[];
-    hangout: string[];
     choice: string[];
     yesNoMaybe: {
       yes: string[];
