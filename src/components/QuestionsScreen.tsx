@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { QuestionType, SampleQuestion, Character } from '../types';
+import { QuestionType, SampleQuestion, Character, QuestionMode } from '../types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,12 +9,13 @@ import PersonalityEffects from './PersonalityEffects';
 
 interface QuestionsScreenProps {
   questionType: QuestionType;
+  questionMode: QuestionMode;
   character: Character;
   onQuestionSelect: (question: string) => void;
   onBack: () => void;
 }
 
-const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: QuestionsScreenProps) => {
+const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSelect, onBack }: QuestionsScreenProps) => {
   const [customQuestion, setCustomQuestion] = useState('');
   const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,6 +25,28 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
   const getPersonalityQuestions = (): SampleQuestion[] => {
     const baseId = `${character.type}-${questionType}`;
     
+    // Add serious mode questions for Wise Owl
+    if (character.type === 'wise-owl' && questionMode === 'serious') {
+      switch (questionType) {
+        case 'career':
+          return [
+            { id: `${baseId}-1`, text: 'Should I ask for a promotion at work?', category: 'career' },
+            { id: `${baseId}-2`, text: 'Is it time to change my career path?', category: 'career' },
+            { id: `${baseId}-3`, text: 'Should I pursue this professional certification?', category: 'career' },
+            { id: `${baseId}-4`, text: 'Should I accept this job offer?', category: 'career' },
+            { id: `${baseId}-5`, text: 'Is it worth going back to school for my career?', category: 'career' }
+          ];
+        case 'finance':
+          return [
+            { id: `${baseId}-1`, text: 'Should I invest in this opportunity?', category: 'finance' },
+            { id: `${baseId}-2`, text: 'Is this major purchase worth it right now?', category: 'finance' },
+            { id: `${baseId}-3`, text: 'Should I take out this loan?', category: 'finance' },
+            { id: `${baseId}-4`, text: 'Should I start investing in the stock market?', category: 'finance' },
+            { id: `${baseId}-5`, text: 'Is it time to buy a house?', category: 'finance' }
+          ];
+      }
+    }
+    
     switch (character.type) {
       case 'sassy-cat':
         switch (questionType) {
@@ -32,7 +55,7 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
               { id: `${baseId}-1`, text: 'Should I actually cook tonight, or just keep pretending I will?', category: 'dinner' },
               { id: `${baseId}-2`, text: 'Do I deserve dessert before dinner or after both meals?', category: 'dinner' },
               { id: `${baseId}-3`, text: 'What cuisine should I order tonight?', category: 'dinner' },
-              { id: `${baseId}-4`, text: 'Is today a salad day or a “carbs don\'t count” day?', category: 'dinner' },
+              { id: `${baseId}-4`, text: 'Is today a salad day or a "carbs don\'t count" day?', category: 'dinner' },
               { id: `${baseId}-5`, text: 'Pizza or tacos for my cheat meal?', category: 'dinner' }
             ];
           case 'movie':
@@ -115,14 +138,14 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
               { id: `${baseId}-2`, text: 'Something I can nap to or mindless comedy?', category: 'movie' },
               { id: `${baseId}-3`, text: 'Start something new or scroll for 40 minutes and give up?', category: 'movie' },
               { id: `${baseId}-4`, text: 'Should I rewatch Friends again?', category: 'movie' },
-              { id: `${baseId}-5`, text: 'Should I queue up something “productive” just to feel better?', category: 'movie' }
+              { id: `${baseId}-5`, text: 'Should I queue up something "productive" just to feel better?', category: 'movie' }
             ];
           case 'hangout':
             return [
               { id: `${baseId}-1`, text: 'Should I leave my couch today?', category: 'hangout' },
               { id: `${baseId}-2`, text: 'My couch or someone else\'s couch?', category: 'hangout' },
               { id: `${baseId}-3`, text: 'Should I keep napping with the TV on and pretend I\'m still watching?', category: 'hangout' },
-              { id: `${baseId}-4`, text: 'Should I cancel and say I\'m “recharging”?', category: 'hangout' },
+              { id: `${baseId}-4`, text: 'Should I cancel and say I\'m "recharging"?', category: 'hangout' },
               { id: `${baseId}-5`, text: 'Activity that requires pants or pajama-friendly?', category: 'hangout' }
             ];
           case 'choice':
@@ -231,6 +254,8 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
         case 'movie': return 'Entertainment Choices';
         case 'hangout': return 'Activity Ideas';
         case 'choice': return 'Life Choices';
+        case 'career': return 'Career & Professional Growth';
+        case 'finance': return 'Finance & Money Decisions';
       }
     })();
 
@@ -239,7 +264,7 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
       case 'sassy-cat':
         return `${baseTitle} (With Attitude)`;
       case 'wise-owl':
-        return `Sacred ${baseTitle}`;
+        return questionMode === 'serious' ? `Sacred ${baseTitle}` : `Sacred ${baseTitle}`;
       case 'lazy-panda':
         return `Low-Effort ${baseTitle}`;
       case 'sneaky-snake':
@@ -252,6 +277,10 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
   };
 
   const getPersonalityPrompt = () => {
+    if (character.type === 'wise-owl' && questionMode === 'serious') {
+      return "Ancient wisdom for life's important decisions";
+    }
+    
     switch (character.type) {
       case 'sassy-cat':
         return "Ready to judge your choices with style";
@@ -324,7 +353,7 @@ const QuestionsScreen = ({ questionType, character, onQuestionSelect, onBack }: 
         {/* Sample Questions */}
         <div className="max-w-2xl mx-auto space-y-6">
           <h3 className={`${theme.colors.text} ${theme.fonts.heading} text-xl text-center opacity-80`}>
-            {character.name}'s Signature Questions
+            {character.name}'s {questionMode === 'serious' ? 'Thoughtful' : 'Signature'} Questions
           </h3>
           
           <div className="grid gap-4">
