@@ -23,6 +23,14 @@ const PERSONALITY_AUDIO_FILES: PersonalityAudioMap = {
   'lazy-panda': {
     selection: '/audio/panda-selection.mp3',
     response: '/audio/panda-response.mp3'
+  },
+  'sneaky-snake': {
+    selection: '/audio/owl-selection.mp3',
+    response: '/audio/owl-response.mp3'
+  },
+  'people-pleaser-pup': {
+    selection: '/audio/panda-selection.mp3',
+    response: '/audio/panda-response.mp3'
   }
   // Removed bunny and duck as audio files don't exist
 };
