@@ -15,12 +15,21 @@ export interface UserProgress {
   totalDecisions: number;
 }
 
-export type QuestionType = 'dinner' | 'movie' | 'hangout' | 'choice';
+export type QuestionType = 'dinner' | 'movie' | 'hangout' | 'choice' | 'career' | 'finance';
 
 export type AppScreen = 'selector' | 'question' | 'questions' | 'answer';
+
+export type QuestionMode = 'fun' | 'serious';
 
 export interface SampleQuestion {
   id: string;
   text: string;
   category: QuestionType;
+}
+
+export interface AIResponse {
+  reflection: string;
+  considerations: string[];
+  nextSteps: string[];
+  deeperQuestion: string;
 }

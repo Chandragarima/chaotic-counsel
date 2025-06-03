@@ -1,5 +1,5 @@
 
-import { Character } from '../types';
+import { Character, QuestionMode } from '../types';
 import { Card } from '@/components/ui/card';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 import { useAnswerGeneration } from '../hooks/useAnswerGeneration';
@@ -12,13 +12,18 @@ import ActionButtons from './answer/ActionButtons';
 interface AnswerScreenProps {
   character: Character;
   question: string;
+  questionMode?: QuestionMode;
   onBack: () => void;
   onAskAgain: () => void;
   onStartOver: () => void;
 }
 
-const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: AnswerScreenProps) => {
-  const { answer, isRevealing, isThinking, responseType } = useAnswerGeneration({ character, question });
+const AnswerScreen = ({ character, question, questionMode = 'fun', onBack, onAskAgain, onStartOver }: AnswerScreenProps) => {
+  const { answer, isRevealing, isThinking, responseType, aiResponse } = useAnswerGeneration({ 
+    character, 
+    question, 
+    mode: questionMode 
+  });
   const theme = getPersonalityTheme(character.type);
 
   return (
@@ -52,7 +57,8 @@ const AnswerScreen = ({ character, question, onBack, onAskAgain, onStartOver }: 
             character={character} 
             answer={answer} 
             isRevealing={isRevealing} 
-            isThinking={isThinking} 
+            isThinking={isThinking}
+            aiResponse={aiResponse}
           />
 
           {/* Action Buttons */}

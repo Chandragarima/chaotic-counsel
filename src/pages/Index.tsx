@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Character, QuestionType, AppScreen } from '../types';
+import { Character, QuestionType, AppScreen, QuestionMode } from '../types';
 import { characters } from '../data/characters';
 import { useSupabaseProgress } from '../hooks/useSupabaseProgress';
 
@@ -15,6 +15,7 @@ const Index = () => {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>('selector');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [questionType, setQuestionType] = useState<QuestionType | null>(null);
+  const [questionMode, setQuestionMode] = useState<QuestionMode>('fun');
   const [currentQuestion, setCurrentQuestion] = useState<string>('');
   const { progress, incrementDecisions } = useSupabaseProgress();
 
@@ -32,8 +33,9 @@ const Index = () => {
       setCurrentScreen('question');
   };
 
-  const handleQuestionTypeSelect = (type: QuestionType) => {
+  const handleQuestionTypeSelect = (type: QuestionType, mode: QuestionMode) => {
     setQuestionType(type);
+    setQuestionMode(mode);
     setCurrentScreen('questions');
   };
 
@@ -47,12 +49,14 @@ const Index = () => {
     setCurrentScreen('selector');
     setSelectedCharacter(null);
     setQuestionType(null);
+    setQuestionMode('fun');
     setCurrentQuestion('');
   };
 
   const handleBackToQuestionType = () => {
     setCurrentScreen('question');
     setQuestionType(null);
+    setQuestionMode('fun');
     setCurrentQuestion('');
   };
 
@@ -77,6 +81,7 @@ const Index = () => {
     setCurrentScreen('selector');
     setSelectedCharacter(null);
     setQuestionType(null);
+    setQuestionMode('fun');
     setCurrentQuestion('');
   };
 
@@ -108,6 +113,7 @@ const Index = () => {
       {currentScreen === 'questions' && questionType && selectedCharacter && (
         <QuestionsScreen
           questionType={questionType}
+          questionMode={questionMode}
           character={selectedCharacter}
           onQuestionSelect={handleQuestionSelect}
           onBack={handleBackToQuestionType}
@@ -118,6 +124,7 @@ const Index = () => {
         <AnswerScreen
           character={selectedCharacter}
           question={currentQuestion}
+          questionMode={questionMode}
           onBack={handleBackToQuestionsList}
           onAskAgain={handleAskAgain}
           onStartOver={handleStartOver}

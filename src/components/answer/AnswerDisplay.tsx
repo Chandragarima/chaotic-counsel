@@ -1,5 +1,5 @@
 
-import { Character } from '../../types';
+import { Character, AIResponse } from '../../types';
 import { Card } from '@/components/ui/card';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 
@@ -8,9 +8,10 @@ interface AnswerDisplayProps {
   answer: string;
   isRevealing: boolean;
   isThinking: boolean;
+  aiResponse?: AIResponse | null;
 }
 
-const AnswerDisplay = ({ character, answer, isRevealing, isThinking }: AnswerDisplayProps) => {
+const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse }: AnswerDisplayProps) => {
   const theme = getPersonalityTheme(character.type);
 
   const getPersonalityPrompt = () => {
@@ -44,9 +45,53 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking }: AnswerDis
           <h3 className={`bg-gradient-to-r ${theme.colors.primary} bg-clip-text text-transparent ${theme.fonts.heading} text-xl`}>
             {character.name} speaks:
           </h3>
-          <p className={`${theme.colors.text} text-xl leading-relaxed ${theme.fonts.body}`}>
-            "{answer}"
-          </p>
+          
+          {aiResponse ? (
+            // AI Response Layout for Serious Mode
+            <div className="space-y-8 text-left">
+              <div>
+                <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} italic`}>
+                  "{aiResponse.reflection}"
+                </p>
+              </div>
+              
+              <div>
+                <h4 className={`${theme.colors.text} font-semibold mb-3 text-center`}>Key Considerations</h4>
+                <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
+                  {aiResponse.considerations.map((consideration, index) => (
+                    <li key={index} className="flex items-start space-x-3">
+                      <span className={`${theme.colors.accent} mt-1`}>•</span>
+                      <span>{consideration}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div>
+                <h4 className={`${theme.colors.text} font-semibold mb-3 text-center`}>Suggested Steps</h4>
+                <ol className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
+                  {aiResponse.nextSteps.map((step, index) => (
+                    <li key={index} className="flex items-start space-x-3">
+                      <span className={`${theme.colors.accent} font-semibold min-w-[1.5rem]`}>{index + 1}.</span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              
+              <div className="border-t border-amber-400/20 pt-6">
+                <h4 className={`${theme.colors.text} font-semibold mb-2 text-center`}>Reflect Deeper</h4>
+                <p className={`${theme.colors.text} ${theme.fonts.body} italic text-center opacity-90`}>
+                  "{aiResponse.deeperQuestion}"
+                </p>
+              </div>
+            </div>
+          ) : (
+            // Regular Fun Mode Response
+            <p className={`${theme.colors.text} text-xl leading-relaxed ${theme.fonts.body}`}>
+              "{answer}"
+            </p>
+          )}
         </div>
       )}
     </Card>

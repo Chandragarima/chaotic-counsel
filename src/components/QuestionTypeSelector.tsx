@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { QuestionType } from '../types';
+import { QuestionType, QuestionMode } from '../types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
@@ -8,16 +8,17 @@ import { audioManager } from '../utils/audioManager';
 
 interface QuestionTypeSelectorProps {
   selectedCharacter?: any;
-  onTypeSelect: (type: QuestionType) => void;
+  onTypeSelect: (type: QuestionType, mode: QuestionMode) => void;
   onBack: () => void;
 }
 
 const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: QuestionTypeSelectorProps) => {
   const [selectedType, setSelectedType] = useState<QuestionType | null>(null);
+  const [currentMode, setCurrentMode] = useState<QuestionMode>('fun');
   const theme = selectedCharacter ? getPersonalityTheme(selectedCharacter.type) : null;
 
-  // Personality-specific question types
-  const getPersonalityQuestionTypes = () => {
+  // Get question types based on mode and character
+  const getQuestionTypes = () => {
     if (!selectedCharacter) {
       return [
         { type: 'dinner' as QuestionType, title: 'Dinner', description: 'What should I eat?', icon: '🍽️', gradient: 'from-orange-500 to-red-500' },
@@ -27,20 +28,28 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
       ];
     }
 
+    if (currentMode === 'serious' && selectedCharacter.type === 'wise-owl') {
+      return [
+        { type: 'career' as QuestionType, title: 'Career & Growth', description: 'Professional wisdom and guidance', icon: '🎯', gradient: 'from-amber-500 to-orange-500' },
+        { type: 'finance' as QuestionType, title: 'Finance & Money', description: 'Financial decisions and planning', icon: '💰', gradient: 'from-amber-600 to-orange-600' },
+      ];
+    }
+
+    // Fun mode categories for Wise Owl (existing logic)
     switch (selectedCharacter.type) {
-      case 'sassy-cat':
-        return [
-          { type: 'choice' as QuestionType, title: 'Drama & Decisions', description: 'Let me judge your choices', icon: '💅', gradient: 'from-pink-500 to-purple-500' },
-          { type: 'hangout' as QuestionType, title: 'Social Situations', description: 'Should I deal with people?', icon: '👑', gradient: 'from-purple-500 to-pink-500' },
-          { type: 'movie' as QuestionType, title: 'Entertainment', description: 'What\'s worth my time?', icon: '🎭', gradient: 'from-pink-600 to-purple-600' },
-          { type: 'dinner' as QuestionType, title: 'Dining Choices', description: 'What deserves my attention?', icon: '🍷', gradient: 'from-purple-600 to-pink-600' }
-        ];
       case 'wise-owl':
         return [
           { type: 'choice' as QuestionType, title: 'Life Philosophy', description: 'Seek ancient wisdom', icon: '🦉', gradient: 'from-amber-500 to-orange-500' },
           { type: 'hangout' as QuestionType, title: 'Spiritual Guidance', description: 'Find your path', icon: '🔮', gradient: 'from-orange-500 to-amber-500' },
           { type: 'movie' as QuestionType, title: 'Knowledge & Stories', description: 'Learn from tales', icon: '📚', gradient: 'from-amber-600 to-orange-600' },
           { type: 'dinner' as QuestionType, title: 'Nourishment', description: 'Feed body and soul', icon: '🍯', gradient: 'from-orange-600 to-amber-600' }
+        ];
+      case 'sassy-cat':
+        return [
+          { type: 'choice' as QuestionType, title: 'Drama & Decisions', description: 'Let me judge your choices', icon: '💅', gradient: 'from-pink-500 to-purple-500' },
+          { type: 'hangout' as QuestionType, title: 'Social Situations', description: 'Should I deal with people?', icon: '👑', gradient: 'from-purple-500 to-pink-500' },
+          { type: 'movie' as QuestionType, title: 'Entertainment', description: 'What\'s worth my time?', icon: '🎭', gradient: 'from-pink-600 to-purple-600' },
+          { type: 'dinner' as QuestionType, title: 'Dining Choices', description: 'What deserves my attention?', icon: '🍷', gradient: 'from-purple-600 to-pink-600' }
         ];
       case 'lazy-panda':
         return [
@@ -73,7 +82,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
     }
   };
 
-  const questionTypes = getPersonalityQuestionTypes();
+  const questionTypes = getQuestionTypes();
 
   const handleTypeSelect = (type: QuestionType) => {
     setSelectedType(type);
@@ -81,22 +90,28 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
       audioManager.playSound(theme.sounds.select, selectedCharacter.type);
     }
     setTimeout(() => {
-      onTypeSelect(type);
+      onTypeSelect(type, currentMode);
     }, 150);
   };
 
   const getHeaderText = () => {
     if (!selectedCharacter) return "What do you seek?";
     
+    if (currentMode === 'serious') {
+      return "What profound wisdom do you seek?";
+    }
+    
     switch (selectedCharacter.type) {
-      case 'sassy-cat': return "What drama shall we address?";
       case 'wise-owl': return "What wisdom do you seek?";
+      case 'sassy-cat': return "What drama shall we address?";
       case 'lazy-panda': return "What requires minimal effort?";
       case 'sneaky-snake': return "What secrets shall we uncover?";
       case 'people-pleaser-pup': return "How can I help make you happy?";
       default: return "What do you seek?";
     }
   };
+
+  const canShowSeriousMode = selectedCharacter?.type === 'wise-owl';
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -115,6 +130,36 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
       </div>
 
       <div className="relative z-10 p-6 space-y-12">
+        {/* Mode Toggle for Wise Owl */}
+        {canShowSeriousMode && (
+          <div className="flex justify-center pt-4">
+            <div className="bg-slate-800/50 backdrop-blur-md rounded-xl p-1 border border-amber-400/20">
+              <div className="flex space-x-1">
+                <button
+                  onClick={() => setCurrentMode('fun')}
+                  className={`px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    currentMode === 'fun'
+                      ? 'bg-amber-500 text-slate-900 shadow-lg'
+                      : 'text-amber-200 hover:text-amber-100'
+                  }`}
+                >
+                  Fun Mode
+                </button>
+                <button
+                  onClick={() => setCurrentMode('serious')}
+                  className={`px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    currentMode === 'serious'
+                      ? 'bg-amber-500 text-slate-900 shadow-lg'
+                      : 'text-amber-200 hover:text-amber-100'
+                  }`}
+                >
+                  Serious Mode
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Sophisticated Header */}
         <div className="text-center space-y-8 pt-12">
           <div className="space-y-6">
