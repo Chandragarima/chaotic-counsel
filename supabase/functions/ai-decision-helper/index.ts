@@ -16,9 +16,16 @@ serve(async (req) => {
 
   try {
     const { question, character, category } = await req.json();
+    
+    console.log('Received request:', { question, character, category });
 
     if (!question || !character || !category) {
       throw new Error('Missing required parameters');
+    }
+
+    if (!openAIApiKey) {
+      console.error('OpenAI API key is missing');
+      throw new Error('OpenAI API key not configured');
     }
 
     // Create personality-specific system prompt for Wise Owl focused on decision-making
@@ -26,11 +33,13 @@ serve(async (req) => {
 
 CRITICAL: Your goal is to help the human make a DECISION, not just consider options. Be decisive while acknowledging uncertainty.
 
-Response Format Requirements:
-- reflection: 1-2 concise sentences (max 50 words) with your recommended decision/direction. Include a subtle owl reference like "Hoot!" or nature metaphor.
-- considerations: 2-3 key factors that support your recommendation 
-- nextSteps: 2-3 immediate, specific actions they should take to move forward
-- deeperQuestion: One focused question that helps them validate your recommendation
+You must respond with valid JSON in this exact format:
+{
+  "reflection": "1-2 concise sentences with your recommended decision/direction (max 50 words). Include a subtle owl reference like 'Hoot!' or nature metaphor.",
+  "considerations": ["2-3 key factors that support your recommendation"],
+  "nextSteps": ["2-3 immediate, specific actions they should take to move forward"],
+  "deeperQuestion": "One focused question that helps them validate your recommendation"
+}
 
 Decision-Making Guidelines:
 - Be analytical but decisive - give a clear lean/recommendation
@@ -46,6 +55,8 @@ Examples of decisive reflection:
 - "Trust your instincts on this one - they're sharper than you think!"
 
 Maintain your mystical, wise persona while being genuinely helpful for decision-making.`;
+
+    console.log('Making OpenAI API call...');
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -64,22 +75,39 @@ Maintain your mystical, wise persona while being genuinely helpful for decision-
       }),
     });
 
+    console.log('OpenAI API response status:', response.status);
+
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`OpenAI API error: ${response.status} - ${errorText}`);
       throw new Error(`OpenAI API error: ${response.status}`);
     }
 
     const data = await response.json();
+    console.log('OpenAI response data:', data);
+
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      console.error('Invalid OpenAI response structure:', data);
+      throw new Error('Invalid response from OpenAI');
+    }
+
     let aiResponse;
+    const messageContent = data.choices[0].message.content;
+    console.log('Raw message content:', messageContent);
 
     try {
-      aiResponse = JSON.parse(data.choices[0].message.content);
+      aiResponse = JSON.parse(messageContent);
+      console.log('Successfully parsed AI response:', aiResponse);
     } catch (parseError) {
-      // Fallback if JSON parsing fails
+      console.error('JSON parsing failed:', parseError);
+      console.error('Raw content that failed to parse:', messageContent);
+      
+      // Fallback response with more specific error info
       aiResponse = {
-        reflection: "Hoot! The wise owl senses this requires careful consideration of your unique circumstances.",
-        considerations: ["Trust your instincts - they often know more than logic", "Consider the long-term impact on your goals"],
-        nextSteps: ["Sleep on it and see how you feel tomorrow", "Discuss with someone you trust"],
-        deeperQuestion: "If you knew you couldn't fail, what would you choose?"
+        reflection: "Hoot! The wise owl's ancient wisdom whispers: when in doubt, choose growth over comfort.",
+        considerations: ["Your gut feeling often knows the answer", "Consider which choice aligns with your values"],
+        nextSteps: ["Make a small test first if possible", "Set a decision deadline to avoid overthinking"],
+        deeperQuestion: "What would your future self thank you for choosing?"
       };
     }
 
@@ -90,12 +118,12 @@ Maintain your mystical, wise persona while being genuinely helpful for decision-
   } catch (error) {
     console.error('Error in ai-decision-helper:', error);
     
-    // Fallback response in case of error
+    // Enhanced fallback response with error details
     const fallbackResponse = {
-      reflection: "Hoot! The wise owl's ancient wisdom whispers: when in doubt, choose growth over comfort.",
-      considerations: ["Your gut feeling often knows the answer", "Consider which choice aligns with your values"],
-      nextSteps: ["Make a small test first if possible", "Set a decision deadline to avoid overthinking"],
-      deeperQuestion: "What would your future self thank you for choosing?"
+      reflection: "Hoot! Technical difficulties cloud the owl's vision, but wisdom prevails: trust your instincts.",
+      considerations: ["Your inner wisdom often knows the right path", "Consider the long-term consequences"],
+      nextSteps: ["Take time for quiet reflection", "Seek advice from trusted sources"],
+      deeperQuestion: "If you could only choose based on your values, what would you pick?"
     };
 
     return new Response(JSON.stringify(fallbackResponse), {
