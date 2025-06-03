@@ -154,6 +154,17 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
       console.log('AI response:', data, 'Error:', error);
 
       if (error) throw error;
+      
+      // Parse the response if it's a string
+      if (typeof data === 'string') {
+        try {
+          return JSON.parse(data);
+        } catch (parseError) {
+          console.error('Failed to parse AI response:', parseError);
+          throw new Error('Invalid response format from AI');
+        }
+      }
+      
       return data;
     } catch (error) {
       console.error('AI response error:', error);
