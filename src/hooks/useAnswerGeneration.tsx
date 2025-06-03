@@ -12,6 +12,15 @@ interface UseAnswerGenerationProps {
   question: string;
 }
 
+// Personality-specific probability weights for yes/no/maybe responses
+const PERSONALITY_WEIGHTS = {
+  'people-pleaser-pup': { yes: 70, no: 15, maybe: 15 },
+  'wise-owl': { yes: 45, no: 45, maybe: 10 },
+  'lazy-panda': { yes: 20, no: 15, maybe: 65 },
+  'sassy-cat': { yes: 25, no: 50, maybe: 25 },
+  'sneaky-snake': { yes: 35, no: 45, maybe: 20 }
+};
+
 export const useAnswerGeneration = ({ character, question }: UseAnswerGenerationProps) => {
   const [answer, setAnswer] = useState('');
   const [isRevealing, setIsRevealing] = useState(false);
@@ -31,6 +40,20 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
     // Fallback to Math.random with additional entropy
     const entropy = Date.now() % 1000 + Math.random() * 1000;
     return array[Math.floor(entropy) % array.length];
+  };
+
+  // Weighted random selection for yes/no/maybe based on personality
+  const getWeightedResponse = (characterType: Character['type']): 'yes' | 'no' | 'maybe' => {
+    const weights = PERSONALITY_WEIGHTS[characterType];
+    const random = Math.random() * 100;
+    
+    if (random < weights.yes) {
+      return 'yes';
+    } else if (random < weights.yes + weights.no) {
+      return 'no';
+    } else {
+      return 'maybe';
+    }
   };
 
   // Function to detect and handle "or" questions
@@ -126,9 +149,8 @@ export const useAnswerGeneration = ({ character, question }: UseAnswerGeneration
         formattedAnswer = orResult.answer;
         templateType = orResult.templateType;
       } else {
-        // Regular yes/no/maybe logic for other questions with improved randomization
-        const responses = ['yes', 'no', 'maybe'] as const;
-        const randomResponse = getRandomChoice(responses);
+        // Use weighted random selection based on personality
+        const randomResponse = getWeightedResponse(character.type);
         templateType = randomResponse;
         
         // Use the new modular response system
