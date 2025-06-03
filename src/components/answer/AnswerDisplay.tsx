@@ -46,7 +46,7 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
             {character.name} speaks:
           </h3>
           
-          {aiResponse ? (
+          {aiResponse && aiResponse.reflection ? (
             // AI Response Layout for Serious Mode
             <div className="space-y-8 text-left">
               <div>
@@ -55,41 +55,52 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
                 </p>
               </div>
               
-              <div>
-                <h4 className={`${theme.colors.text} font-semibold mb-3 text-center`}>Key Considerations</h4>
-                <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
-                  {aiResponse.considerations.map((consideration, index) => (
-                    <li key={index} className="flex items-start space-x-3">
-                      <span className={`${theme.colors.accent} mt-1`}>•</span>
-                      <span>{consideration}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {aiResponse.considerations && aiResponse.considerations.length > 0 && (
+                <div>
+                  <h4 className={`${theme.colors.text} font-semibold mb-3 text-center`}>Key Considerations</h4>
+                  <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
+                    {aiResponse.considerations.map((consideration, index) => (
+                      <li key={index} className="flex items-start space-x-3">
+                        <span className={`${theme.colors.accent} mt-1`}>•</span>
+                        <span>{consideration}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               
-              <div>
-                <h4 className={`${theme.colors.text} font-semibold mb-3 text-center`}>Suggested Steps</h4>
-                <ol className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
-                  {aiResponse.nextSteps.map((step, index) => (
-                    <li key={index} className="flex items-start space-x-3">
-                      <span className={`${theme.colors.accent} font-semibold min-w-[1.5rem]`}>{index + 1}.</span>
-                      <span>{step}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
+              {aiResponse.nextSteps && aiResponse.nextSteps.length > 0 && (
+                <div>
+                  <h4 className={`${theme.colors.text} font-semibold mb-3 text-center`}>Suggested Steps</h4>
+                  <ol className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
+                    {aiResponse.nextSteps.map((step, index) => (
+                      <li key={index} className="flex items-start space-x-3">
+                        <span className={`${theme.colors.accent} font-semibold min-w-[1.5rem]`}>{index + 1}.</span>
+                        <span>{step}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
               
-              <div className="border-t border-amber-400/20 pt-6">
-                <h4 className={`${theme.colors.text} font-semibold mb-2 text-center`}>Reflect Deeper</h4>
-                <p className={`${theme.colors.text} ${theme.fonts.body} italic text-center opacity-90`}>
-                  "{aiResponse.deeperQuestion}"
-                </p>
-              </div>
+              {aiResponse.deeperQuestion && (
+                <div className="border-t border-amber-400/20 pt-6">
+                  <h4 className={`${theme.colors.text} font-semibold mb-2 text-center`}>Reflect Deeper</h4>
+                  <p className={`${theme.colors.text} ${theme.fonts.body} italic text-center opacity-90`}>
+                    "{aiResponse.deeperQuestion}"
+                  </p>
+                </div>
+              )}
             </div>
-          ) : (
+          ) : answer ? (
             // Regular Fun Mode Response
             <p className={`${theme.colors.text} text-xl leading-relaxed ${theme.fonts.body}`}>
               "{answer}"
+            </p>
+          ) : (
+            // Fallback when no response is available
+            <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} opacity-70`}>
+              "The universe whispers its answer, but the winds carry it away..."
             </p>
           )}
         </div>

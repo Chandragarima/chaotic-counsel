@@ -151,20 +151,23 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
         }
       });
 
-      console.log('AI response:', data, 'Error:', error);
+      console.log('Raw AI response:', data, 'Error:', error);
 
       if (error) throw error;
       
       // Parse the response if it's a string
       if (typeof data === 'string') {
         try {
-          return JSON.parse(data);
+          const parsed = JSON.parse(data);
+          console.log('Parsed AI response:', parsed);
+          return parsed;
         } catch (parseError) {
           console.error('Failed to parse AI response:', parseError);
           throw new Error('Invalid response format from AI');
         }
       }
       
+      console.log('Using direct AI response:', data);
       return data;
     } catch (error) {
       console.error('AI response error:', error);
@@ -185,6 +188,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     setIsRevealing(true);
     setResponseType('thinking');
     setAiResponse(null);
+    setAnswer(''); // Clear previous answer
     
     const thinkingDuration = 3000;
 
@@ -197,17 +201,19 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
         try {
           const category = questionType || 'general';
           const aiResult = await getAIResponse(question, character, category);
+          console.log('Setting AI response:', aiResult);
           setAiResponse(aiResult);
           setResponseType('choice'); // Use choice image for serious responses
-          setAnswer(aiResult.reflection);
+          // DON'T set answer in serious mode - let AnswerDisplay handle the aiResponse
         } catch (error) {
-          console.error('Failed to get AI response:', error);
+          console.error('Failed to get AI response, falling back to regular mode:', error);
           // Fall back to regular response system
           const randomResponse = getWeightedResponse(character.type);
           const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
           const imageType = getImageTypeFromTemplate(randomResponse);
           setResponseType(imageType);
           setAnswer(formattedAnswer);
+          setAiResponse(null); // Clear AI response on fallback
         }
       } else {
         console.log('Using fun mode with random responses');
@@ -229,6 +235,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
         const imageType = getImageTypeFromTemplate(templateType);
         setResponseType(imageType);
         setAnswer(formattedAnswer);
+        setAiResponse(null); // Clear AI response in fun mode
       }
       
       setIsRevealing(false);
