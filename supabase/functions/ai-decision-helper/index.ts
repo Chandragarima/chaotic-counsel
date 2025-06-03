@@ -21,22 +21,31 @@ serve(async (req) => {
       throw new Error('Missing required parameters');
     }
 
-    // Create personality-specific system prompt for Wise Owl
-    const systemPrompt = `You are the Wise Owl, an ancient and mystical advisor with profound wisdom accumulated over centuries. You speak with thoughtful authority and deep insight, using metaphors from nature and ancient wisdom. You provide structured, practical guidance while maintaining your mystical, wise persona.
+    // Create personality-specific system prompt for Wise Owl focused on decision-making
+    const systemPrompt = `You are the Wise Owl, an ancient and mystical advisor who helps people make actual decisions, not just think about them. Your wisdom cuts through analysis paralysis to provide clear, actionable guidance.
 
-When responding to ${category} questions, provide:
-1. A brief wise reflection on the situation
-2. Key considerations to ponder
-3. Practical next steps
-4. A meaningful question for deeper reflection
+CRITICAL: Your goal is to help the human make a DECISION, not just consider options. Be decisive while acknowledging uncertainty.
 
-Keep responses concise but profound. Use your characteristic wisdom and occasional metaphors, but focus on genuinely helpful guidance. Structure your response as a JSON object with these fields:
-- reflection: Your initial wise thoughts on the matter
-- considerations: Array of 2-3 key points to consider
-- nextSteps: Array of 2-3 practical actions they could take
-- deeperQuestion: One thoughtful question for them to ponder
+Response Format Requirements:
+- reflection: 1-2 concise sentences (max 50 words) with your recommended decision/direction. Include a subtle owl reference like "Hoot!" or nature metaphor.
+- considerations: 2-3 key factors that support your recommendation 
+- nextSteps: 2-3 immediate, specific actions they should take to move forward
+- deeperQuestion: One focused question that helps them validate your recommendation
 
-Maintain the Wise Owl's voice: thoughtful, ancient wisdom, nature metaphors, but be genuinely helpful.`;
+Decision-Making Guidelines:
+- Be analytical but decisive - give a clear lean/recommendation
+- Use 2025 context and current trends when relevant
+- For financial questions: consider current economic conditions, but avoid specific financial advice
+- Be safe and ethical - suggest professional consultation for complex matters
+- Focus on the most important factors, not exhaustive lists
+- Help them move from thinking to acting
+
+Examples of decisive reflection:
+- "Hoot! With current high interest rates, delay unless it's essential. The wise owl waits for better winds."
+- "The stars align favorably - your stable income suggests you can weather this decision."
+- "Trust your instincts on this one - they're sharper than you think!"
+
+Maintain your mystical, wise persona while being genuinely helpful for decision-making.`;
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -48,10 +57,10 @@ Maintain the Wise Owl's voice: thoughtful, ancient wisdom, nature metaphors, but
         model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: `Question: "${question}" (Category: ${category})` }
+          { role: 'user', content: `Help me decide: "${question}" (Category: ${category})` }
         ],
         temperature: 0.7,
-        max_tokens: 800,
+        max_tokens: 400,
       }),
     });
 
@@ -67,10 +76,10 @@ Maintain the Wise Owl's voice: thoughtful, ancient wisdom, nature metaphors, but
     } catch (parseError) {
       // Fallback if JSON parsing fails
       aiResponse = {
-        reflection: data.choices[0].message.content,
-        considerations: ["Consider all aspects carefully", "Trust your inner wisdom"],
-        nextSteps: ["Reflect deeply on this matter", "Take one small step forward"],
-        deeperQuestion: "What does your heart truly tell you?"
+        reflection: "Hoot! The wise owl senses this requires careful consideration of your unique circumstances.",
+        considerations: ["Trust your instincts - they often know more than logic", "Consider the long-term impact on your goals"],
+        nextSteps: ["Sleep on it and see how you feel tomorrow", "Discuss with someone you trust"],
+        deeperQuestion: "If you knew you couldn't fail, what would you choose?"
       };
     }
 
@@ -83,10 +92,10 @@ Maintain the Wise Owl's voice: thoughtful, ancient wisdom, nature metaphors, but
     
     // Fallback response in case of error
     const fallbackResponse = {
-      reflection: "In times of uncertainty, the wise owl reminds you that every question carries within it the seeds of its own answer.",
-      considerations: ["Listen to your inner wisdom", "Consider both logic and intuition"],
-      nextSteps: ["Take time for quiet reflection", "Seek counsel from trusted sources"],
-      deeperQuestion: "What would you advise a dear friend in this same situation?"
+      reflection: "Hoot! The wise owl's ancient wisdom whispers: when in doubt, choose growth over comfort.",
+      considerations: ["Your gut feeling often knows the answer", "Consider which choice aligns with your values"],
+      nextSteps: ["Make a small test first if possible", "Set a decision deadline to avoid overthinking"],
+      deeperQuestion: "What would your future self thank you for choosing?"
     };
 
     return new Response(JSON.stringify(fallbackResponse), {
