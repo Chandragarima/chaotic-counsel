@@ -236,6 +236,9 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
       
       setIsThinking(false);
       setIsRevealing(false);
+
+      // Play response sound when the answer is provided
+      audioManager.playSound('response', character.type);
     };
 
     // Start the answer generation after the thinking duration
