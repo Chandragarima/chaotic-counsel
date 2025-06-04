@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { QuestionType, QuestionMode } from '../types';
 import { Card } from '@/components/ui/card';
@@ -130,9 +131,28 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
       </div>
 
       <div className="relative z-10 p-6 space-y-12">
-        {/* Mode Toggle for Wise Owl */}
+        {/* Sophisticated Header */}
+        <div className="text-center space-y-8 pt-12">
+          <div className="space-y-6">
+            <h1 className={`text-5xl font-thin tracking-[0.3em] ${theme ? theme.colors.text : 'text-amber-100'}`}>
+              {getHeaderText()}
+            </h1>
+            
+            <div className="flex items-center justify-center space-x-6">
+              <div className={`w-16 h-px bg-gradient-to-r from-transparent via-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 to-transparent`}></div>
+              <div className={`w-3 h-3 border border-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 rotate-45 bg-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/10`}></div>
+              <div className={`w-16 h-px bg-gradient-to-l from-transparent via-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 to-transparent`}></div>
+            </div>
+          </div>
+          
+          <p className={`text-xl ${theme ? theme.colors.text : 'text-amber-200'} opacity-80 font-light tracking-wider`}>
+            {selectedCharacter ? `${selectedCharacter.name} awaits your inquiry` : 'Choose your path to wisdom'}
+          </p>
+        </div>
+
+        {/* Mode Toggle for Wise Owl - Now prominently placed after header */}
         {canShowSeriousMode && (
-          <div className="flex justify-center pt-4">
+          <div className="flex justify-center">
             <div className="bg-slate-800/50 backdrop-blur-md rounded-xl p-1 border border-amber-400/20">
               <div className="flex space-x-1">
                 <button
@@ -159,25 +179,6 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
             </div>
           </div>
         )}
-
-        {/* Sophisticated Header */}
-        <div className="text-center space-y-8 pt-12">
-          <div className="space-y-6">
-            <h1 className={`text-5xl font-thin tracking-[0.3em] ${theme ? theme.colors.text : 'text-amber-100'}`}>
-              {getHeaderText()}
-            </h1>
-            
-            <div className="flex items-center justify-center space-x-6">
-              <div className={`w-16 h-px bg-gradient-to-r from-transparent via-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 to-transparent`}></div>
-              <div className={`w-3 h-3 border border-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 rotate-45 bg-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/10`}></div>
-              <div className={`w-16 h-px bg-gradient-to-l from-transparent via-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 to-transparent`}></div>
-            </div>
-          </div>
-          
-          <p className={`text-xl ${theme ? theme.colors.text : 'text-amber-200'} opacity-80 font-light tracking-wider`}>
-            {selectedCharacter ? `${selectedCharacter.name} awaits your inquiry` : 'Choose your path to wisdom'}
-          </p>
-        </div>
 
         {/* Sophisticated Question Type Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
