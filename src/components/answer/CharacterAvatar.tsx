@@ -90,35 +90,26 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking', que
         handleFallback();
       }
     } else {
-      // Not thinking - prepare for transition to response image
+      // Not thinking - transition to response image
       if (responseImageRef.current && responseImageReady) {
-        // Start transition
+        // Start fade out
         setIsTransitioning(true);
-        // Wait for transition animation before changing media
+        
+        // Wait for fade out before changing media
         transitionTimeoutRef.current = window.setTimeout(() => {
           setCurrentMedia(responseImageRef.current);
           setIsVideo(false);
           setFallbackToCat(false);
           setMediaReady(true);
-          // Complete transition
-          setIsTransitioning(false);
-        }, 150); // Half of the transition duration
-      } else {
-        // If response image isn't ready yet, try loading it now
-        const responseImage = personalityImageManager.getRandomImage(character.type, responseType);
-        if (responseImage) {
-          personalityImageManager.waitForImageLoad(responseImage).then(() => {
-            setCurrentMedia(responseImage);
-            setIsVideo(false);
-            setFallbackToCat(false);
-            setMediaReady(true);
-          }).catch((error) => {
-            console.warn('Failed to load response image:', error);
-            handleFallback();
+          
+          // Wait a frame before starting fade in
+          requestAnimationFrame(() => {
+            setIsTransitioning(false);
           });
-        } else {
-          handleFallback();
-        }
+        }, 300); // Full transition duration
+      } else {
+        // If response image isn't ready yet, keep showing current media
+        console.warn('Response image not ready yet');
       }
     }
 
