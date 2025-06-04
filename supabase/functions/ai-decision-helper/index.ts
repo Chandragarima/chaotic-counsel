@@ -1,4 +1,3 @@
-
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
@@ -129,9 +128,9 @@ serve(async (req) => {
   }
 
   try {
-    const { question, character, category } = await req.json();
+    const { question, character } = await req.json();
     
-    console.log('Received request:', { question, character, category });
+    console.log('Received request:', { question, character });
 
     if (!question || !character) {
       throw new Error('Missing required parameters');
@@ -160,7 +159,7 @@ serve(async (req) => {
         model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: `"${question}" (Category: ${category || 'general'})` }
+          { role: 'user', content: question }
         ],
         temperature: 0.7,
         max_tokens: 600,

@@ -201,12 +201,20 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
         if (mode === 'serious') {
           console.log('Using serious mode for Wise Owl with intelligent analysis');
           try {
-            const category = questionType || 'general';
-            const aiResult = await getAIResponse(question, character, category);
+            // Analyze the question to determine its type
+            const analysis = analyzeQuestion(question);
+            console.log('Question analysis:', analysis);
+            
+            // Use the detected category instead of the predefined one
+            const aiResult = await getAIResponse(question, character, analysis.category);
             console.log('Setting AI response:', aiResult);
             setAiResponse(aiResult);
-            setResponseType('choice'); // Use choice image for AI responses
-            // Don't set answer - let AnswerDisplay handle the aiResponse
+            
+            // Set response type based on the detected category
+            const responseImageType = analysis.category === 'binary' ? 'yes' : 
+                                   analysis.category === 'choice' ? 'choice' : 'maybe';
+            setResponseType(responseImageType);
+            
           } catch (error) {
             console.error('Failed to get AI response, falling back to regular mode:', error);
             // Fall back to regular response system
