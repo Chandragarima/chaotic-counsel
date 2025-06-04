@@ -1,9 +1,9 @@
 
-import { Character } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { personalityImageManager, ImageType } from '../../utils/personalityImageManager';
 import { getRandomCatImage } from '../../utils/catImages';
 import { useState, useEffect, useRef } from 'react';
+import { Character, QuestionMode } from '../types';
 
 interface CharacterAvatarProps {
   character: Character;
@@ -57,6 +57,14 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
           setIsVideo(true);
           setFallbackToCat(false);
           setMediaReady(true);
+          // For serious mode, keep the video looping until answer is ready
+        if (QuestionMode === 'serious') {
+        // Set video to loop continuously
+          const videoElement = document.querySelector(personalityVideo) as HTMLVideoElement; // or however you reference your video
+          if (videoElement) {
+            videoElement.loop = true;
+            }
+          }
         }).catch(() => {
           // Fallback to cat image for thinking
           const randomCatImage = getRandomCatImage();

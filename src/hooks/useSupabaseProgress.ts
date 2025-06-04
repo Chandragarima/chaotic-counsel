@@ -113,11 +113,11 @@ export const useSupabaseProgress = () => {
         const newUnlockedCharacters = [...currentUnlocked];
 
         // Unlock characters based on decisions
-        if (newTotalDecisions >= 5 && !newUnlockedCharacters.includes('anxious-bunny')) {
-          newUnlockedCharacters.push('anxious-bunny');
+        if (newTotalDecisions >= 15 && !newUnlockedCharacters.includes('sneaky-snake')) {
+          newUnlockedCharacters.push('sneaky-snake');
         }
-        if (newTotalDecisions >= 10 && !newUnlockedCharacters.includes('quirky-duck')) {
-          newUnlockedCharacters.push('quirky-duck');
+        if (newTotalDecisions >= 30 && !newUnlockedCharacters.includes('people-pleaser-pup')) {
+          newUnlockedCharacters.push('people-pleaser-pup');
         }
 
         // Update progress
@@ -162,11 +162,11 @@ export const useSupabaseProgress = () => {
     };
 
     // Unlock characters based on decisions
-    if (newProgress.totalDecisions >= 5 && !newProgress.unlockedCharacters.includes('anxious-bunny')) {
-      newProgress.unlockedCharacters.push('anxious-bunny');
+    if (newProgress.totalDecisions >= 15 && !newProgress.unlockedCharacters.includes('sneaky-snake')) {
+      newProgress.unlockedCharacters.push('sneaky-snake');
     }
-    if (newProgress.totalDecisions >= 10 && !newProgress.unlockedCharacters.includes('quirky-duck')) {
-      newProgress.unlockedCharacters.push('quirky-duck');
+    if (newProgress.totalDecisions >= 30 && !newProgress.unlockedCharacters.includes('people-pleaser-pup')) {
+      newProgress.unlockedCharacters.push('people-pleaser-pup');
     }
 
     setProgress(newProgress);

@@ -191,8 +191,12 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     setResponseType('thinking');
     setAiResponse(null);
     setAnswer(''); // Clear previous answer
-    
-    const thinkingDuration = 3000;
+
+    // Only use timeout for non-serious modes
+  
+// For fun mode, animation will run only for 3000
+     if (mode === 'fun'){
+        const thinkingDuration = 3000;}
 
     setTimeout(async () => {
       setIsThinking(false);
