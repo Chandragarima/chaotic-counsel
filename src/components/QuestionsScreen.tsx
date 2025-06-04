@@ -385,7 +385,8 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
             <h3 className={`${theme.colors.text} ${theme.fonts.heading} text-xl opacity-80`}>
               Or Ask Your Own
             </h3>
-            <QuestionHelpTooltip character={character} />
+            {questionMode === 'serious' && <QuestionHelpTooltip character={character} />}
+            {/* <QuestionHelpTooltip character={character} /> */}
           </div>
           
           <div className="flex gap-3">
