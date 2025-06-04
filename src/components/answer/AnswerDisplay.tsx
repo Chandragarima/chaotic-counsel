@@ -46,19 +46,18 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
     <div className="space-y-6 text-left">
       {/* Main Recommendation - Prominent at top */}
       <div className="text-center border-b border-amber-400/20 pb-6">
-        <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>The Wise Owl's Decision</h4>
         <p className={`${theme.colors.text} text-xl leading-relaxed ${theme.fonts.body} font-semibold`}>
           "{response.personalityRecommendation}"
         </p>
       </div>
 
-      {/* Risk Assessment - Quick visibility */}
-      <div className="text-center">
-        <h4 className={`${theme.colors.text} font-semibold mb-2`}>Risk Level</h4>
-        <p className={`${theme.colors.text} ${theme.fonts.body} opacity-90`}>
-          {response.calculatedRisk}
-        </p>
-      </div>
+     // {/* Risk Assessment - Quick visibility */}
+      //<div className="text-center">
+        //<h4 className={`${theme.colors.text} font-semibold mb-2`}>Risk Level</h4>
+        //<p className={`${theme.colors.text} ${theme.fonts.body} opacity-90`}>
+        //  {response.calculatedRisk}
+        //</p>
+      //</div>
 
       {/* Collapsible Deeper Question */}
       {response.deeperQuestion && (
