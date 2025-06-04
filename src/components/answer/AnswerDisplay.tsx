@@ -79,7 +79,10 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
         {response.reasonsForYes && response.reasonsForYes.length > 0 && (
           <Collapsible open={expandedSections.pros} onOpenChange={() => toggleSection('pros')}>
             <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
-              <h4 className={`${theme.colors.text} font-semibold`}>Reasons to Say YES</h4>
+              <h4 className={`${theme.colors.text} font-semibold flex items-center`}>
+                {/* <span className="text-amber-400 mr-2">🌟</span> */}
+                Celestial Signs Point To YES
+              </h4>
               <ChevronDown className={`h-4 w-4 ${theme.colors.text} transition-transform ${expandedSections.pros ? 'rotate-180' : ''}`} />
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-3">
