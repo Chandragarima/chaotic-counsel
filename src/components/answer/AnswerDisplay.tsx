@@ -51,13 +51,13 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
         </p>
       </div>
 
-     // {/* Risk Assessment - Quick visibility */}
-      //<div className="text-center">
-        //<h4 className={`${theme.colors.text} font-semibold mb-2`}>Risk Level</h4>
-        //<p className={`${theme.colors.text} ${theme.fonts.body} opacity-90`}>
-        //  {response.calculatedRisk}
-        //</p>
-      //</div>
+     {/* Risk Assessment - Quick visibility */}
+      {/* <div className="text-center">
+        <h4 className={`${theme.colors.text} font-semibold mb-2`}>Risk Level</h4>
+        <p className={`${theme.colors.text} ${theme.fonts.body} opacity-90`}>
+          {response.calculatedRisk}
+        </p>
+      </div> */}
 
       {/* Collapsible Deeper Question */}
       {response.deeperQuestion && (
