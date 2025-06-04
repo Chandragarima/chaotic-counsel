@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Character, QuestionMode, AIResponse } from '../types';
+import { Character, QuestionMode, AIResponse, LegacyAIResponse } from '../types';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 import { audioManager } from '../utils/audioManager';
 import { formatChoiceResponse, formatYesNoMaybeResponse } from '../utils/responseTemplates';
 import { getImageTypeFromTemplate } from '../utils/responseTypeDetector';
 import { ImageType } from '../utils/personalityImageManager';
 import { supabase } from '../integrations/supabase/client';
+import { analyzeQuestion } from '../utils/questionTypeDetector';
 
 interface UseAnswerGenerationProps {
   character: Character;
@@ -137,7 +138,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     return null;
   };
 
-  // New function to get AI response for serious mode
+  // Enhanced AI response function
   const getAIResponse = async (question: string, character: Character, category: string): Promise<AIResponse> => {
     try {
       console.log('Calling AI decision helper with:', { question, character: character.type, category });
@@ -172,12 +173,13 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
       console.error('AI response error:', error);
       // Fallback response with correct property names
       return {
+        responseType: 'binary',
         deeperQuestion: "What would you advise a dear friend facing this same decision?",
         reasonsForYes: ["Consider both logic and intuition", "Reflect on your deeper values"],
         reasonsForNo: ["Take time for quiet contemplation", "Seek wisdom from trusted sources"],
         calculatedRisk: "In times of uncertainty, ancient wisdom reminds us that every question carries the seeds of its own answer within.",
         personalityRecommendation: "Hoot! When the path is unclear, the wise owl chooses growth over comfort."
-      };
+      } as AIResponse;
     }
   };
 
@@ -195,29 +197,56 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     setTimeout(async () => {
       setIsThinking(false);
       
-      // Check if this is serious mode for Wise Owl
-      if (mode === 'serious' && character.type === 'wise-owl') {
-        console.log('Using serious mode for Wise Owl');
-        try {
-          const category = questionType || 'general';
-          const aiResult = await getAIResponse(question, character, category);
-          console.log('Setting AI response:', aiResult);
-          setAiResponse(aiResult);
-          setResponseType('choice'); // Use choice image for serious responses
-          // DON'T set answer in serious mode - let AnswerDisplay handle the aiResponse
-        } catch (error) {
-          console.error('Failed to get AI response, falling back to regular mode:', error);
-          // Fall back to regular response system
-          const randomResponse = getWeightedResponse(character.type);
-          const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
-          const imageType = getImageTypeFromTemplate(randomResponse);
+      // Enhanced Wise Owl logic for both fun and serious modes
+      if (character.type === 'wise-owl') {
+        if (mode === 'serious') {
+          console.log('Using serious mode for Wise Owl with intelligent analysis');
+          try {
+            const category = questionType || 'general';
+            const aiResult = await getAIResponse(question, character, category);
+            console.log('Setting AI response:', aiResult);
+            setAiResponse(aiResult);
+            setResponseType('choice'); // Use choice image for AI responses
+            // Don't set answer - let AnswerDisplay handle the aiResponse
+          } catch (error) {
+            console.error('Failed to get AI response, falling back to regular mode:', error);
+            // Fall back to regular response system
+            const randomResponse = getWeightedResponse(character.type);
+            const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
+            const imageType = getImageTypeFromTemplate(randomResponse);
+            setResponseType(imageType);
+            setAnswer(formattedAnswer);
+            setAiResponse(null);
+          }
+        } else {
+          console.log('Using enhanced fun mode for Wise Owl');
+          // Enhanced fun mode - still random but more contextually aware
+          const questionAnalysis = analyzeQuestion(question);
+          console.log('Question analysis for fun mode:', questionAnalysis);
+          
+          // Check for special question types even in fun mode
+          const orResult = handleOrQuestion(question);
+          
+          let formattedAnswer = '';
+          let templateType: 'yes' | 'no' | 'maybe' | 'choice';
+          
+          if (orResult) {
+            formattedAnswer = orResult.answer;
+            templateType = orResult.templateType;
+          } else {
+            const randomResponse = getWeightedResponse(character.type);
+            templateType = randomResponse;
+            formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
+          }
+          
+          const imageType = getImageTypeFromTemplate(templateType);
           setResponseType(imageType);
           setAnswer(formattedAnswer);
-          setAiResponse(null); // Clear AI response on fallback
+          setAiResponse(null);
         }
       } else {
-        console.log('Using fun mode with random responses');
-        // Regular fun mode logic
+        console.log('Using regular mode for other characters');
+        // Regular fun mode logic for other characters
         const orResult = handleOrQuestion(question);
         
         let formattedAnswer = '';
@@ -235,7 +264,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
         const imageType = getImageTypeFromTemplate(templateType);
         setResponseType(imageType);
         setAnswer(formattedAnswer);
-        setAiResponse(null); // Clear AI response in fun mode
+        setAiResponse(null);
       }
       
       setIsRevealing(false);
