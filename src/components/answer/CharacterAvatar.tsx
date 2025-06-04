@@ -90,6 +90,19 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking', que
             setMediaReady(true);
           }
         });
+      } else {
+        // No video available, try to show response image if ready
+        if (responseImageRef.current && responseImageReady) {
+          setCurrentMedia(responseImageRef.current);
+          setIsVideo(false);
+          setMediaReady(true);
+        } else {
+          // Last resort fallback to cat image
+          setCurrentMedia(getRandomCatImage());
+          setIsVideo(false);
+          setFallbackToCat(true);
+          setMediaReady(true);
+        }
       }
     } else {
       // Not thinking - show response image

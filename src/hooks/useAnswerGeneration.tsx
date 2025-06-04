@@ -192,15 +192,10 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     setAiResponse(null);
     setAnswer(''); // Clear previous answer
 
-    // Only use timeout for non-serious modes
-  
-// For fun mode, animation will run only for 3000
-     if (mode === 'fun'){
-        const thinkingDuration = 3000;}
+    // Determine thinking duration based on mode
+    const thinkingDuration = mode === 'fun' ? 3000 : 5000; // 3s for fun, 5s for serious
 
-    setTimeout(async () => {
-      setIsThinking(false);
-      
+    const generateAnswer = async () => {
       // Enhanced Wise Owl logic for both fun and serious modes
       if (character.type === 'wise-owl') {
         if (mode === 'serious') {
@@ -223,60 +218,33 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
             setAiResponse(null);
           }
         } else {
-          console.log('Using enhanced fun mode for Wise Owl');
-          // Enhanced fun mode - still random but more contextually aware
-          const questionAnalysis = analyzeQuestion(question);
-          console.log('Question analysis for fun mode:', questionAnalysis);
-          
-          // Check for special question types even in fun mode
-          const orResult = handleOrQuestion(question);
-          
-          let formattedAnswer = '';
-          let templateType: 'yes' | 'no' | 'maybe' | 'choice';
-          
-          if (orResult) {
-            formattedAnswer = orResult.answer;
-            templateType = orResult.templateType;
-          } else {
-            const randomResponse = getWeightedResponse(character.type);
-            templateType = randomResponse;
-            formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
-          }
-          
-          const imageType = getImageTypeFromTemplate(templateType);
+          // Fun mode for Wise Owl
+          const randomResponse = getWeightedResponse(character.type);
+          const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
+          const imageType = getImageTypeFromTemplate(randomResponse);
           setResponseType(imageType);
           setAnswer(formattedAnswer);
-          setAiResponse(null);
         }
       } else {
-        console.log('Using regular mode for other characters');
-        // Regular fun mode logic for other characters
-        const orResult = handleOrQuestion(question);
-        
-        let formattedAnswer = '';
-        let templateType: 'yes' | 'no' | 'maybe' | 'choice';
-        
-        if (orResult) {
-          formattedAnswer = orResult.answer;
-          templateType = orResult.templateType;
-        } else {
-          const randomResponse = getWeightedResponse(character.type);
-          templateType = randomResponse;
-          formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
-        }
-        
-        const imageType = getImageTypeFromTemplate(templateType);
+        // Other characters - same behavior for both modes
+        const randomResponse = getWeightedResponse(character.type);
+        const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
+        const imageType = getImageTypeFromTemplate(randomResponse);
         setResponseType(imageType);
         setAnswer(formattedAnswer);
-        setAiResponse(null);
       }
       
+      setIsThinking(false);
       setIsRevealing(false);
-      
-      // Play response sound when the answer is provided
-      audioManager.playSound('response', character.type, answer);
-    }, thinkingDuration);
-  }, [character, question, mode, questionType, character.type]);
+    };
+
+    // Start the answer generation after the thinking duration
+    const timer = setTimeout(generateAnswer, thinkingDuration);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [character, question, mode, questionType]);
 
   return {
     answer,
