@@ -1,4 +1,3 @@
-
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { personalityImageManager, ImageType } from '../../utils/personalityImageManager';
 import { getRandomCatImage } from '../../utils/catImages';
@@ -9,9 +8,10 @@ interface CharacterAvatarProps {
   character: Character;
   isThinking: boolean;
   responseType?: ImageType;
+  questionMode?: QuestionMode;
 }
 
-const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: CharacterAvatarProps) => {
+const CharacterAvatar = ({ character, isThinking, responseType = 'thinking', questionMode = 'fun' }: CharacterAvatarProps) => {
   const theme = getPersonalityTheme(character.type);
   const [currentMedia, setCurrentMedia] = useState<string>('');
   const [isVideo, setIsVideo] = useState<boolean>(false);
@@ -20,6 +20,7 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
   const [responseImageReady, setResponseImageReady] = useState(false);
   const responseImageRef = useRef<string>('');
   const videoRef = useRef<HTMLVideoElement>(null);
+  const videoTimeoutRef = useRef<number | null>(null);
 
   // Preload response image during thinking phase
   useEffect(() => {
@@ -33,20 +34,21 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
         personalityImageManager.waitForImageLoad(responseImage).then(() => {
           setResponseImageReady(true);
           console.log(`Response image preloaded and ready: ${responseImage}`);
-        }).catch(() => {
-          console.warn(`Failed to preload response image: ${responseImage}`);
-          // Fallback will be handled in the main effect
+        }).catch((error) => {
+          console.warn(`Failed to preload response image: ${responseImage}`, error);
         });
       }
-    } else if (!isThinking) {
-      // Clear the response image ref when not thinking
-      responseImageRef.current = '';
-      setResponseImageReady(false);
     }
   }, [isThinking, responseType, character.type]);
 
   // Handle media loading and transitions
   useEffect(() => {
+    // Clear any existing timeout
+    if (videoTimeoutRef.current) {
+      clearTimeout(videoTimeoutRef.current);
+      videoTimeoutRef.current = null;
+    }
+
     if (isThinking) {
       // Thinking phase - load video
       const personalityVideo = personalityImageManager.getRandomVideo(character.type, 'thinking');
@@ -57,86 +59,93 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
           setIsVideo(true);
           setFallbackToCat(false);
           setMediaReady(true);
-          // For serious mode, keep the video looping until answer is ready
-        if (QuestionMode === 'serious') {
-        // Set video to loop continuously
-          const videoElement = document.querySelector(personalityVideo) as HTMLVideoElement; // or however you reference your video
-          if (videoElement) {
-            videoElement.loop = true;
+
+          // Set up video behavior based on questionMode
+          if (videoRef.current) {
+            if (questionMode === 'fun') {
+              // For fun mode, video plays once for 3000ms
+              videoRef.current.loop = false;
+              videoTimeoutRef.current = window.setTimeout(() => {
+                if (videoRef.current) {
+                  videoRef.current.pause();
+                }
+              }, 3000);
+            } else {
+              // For serious mode, video loops continuously
+              videoRef.current.loop = true;
             }
           }
-        }).catch(() => {
-          // Fallback to cat image for thinking
-          const randomCatImage = getRandomCatImage();
-          setCurrentMedia(randomCatImage);
-          setIsVideo(false);
-          setFallbackToCat(true);
-          setMediaReady(true);
+        }).catch((error) => {
+          console.warn('Failed to load thinking video:', error);
+          // If video fails, show the response image if it's ready
+          if (responseImageRef.current && responseImageReady) {
+            setCurrentMedia(responseImageRef.current);
+            setIsVideo(false);
+            setMediaReady(true);
+          } else {
+            // Last resort fallback to cat image
+            setCurrentMedia(getRandomCatImage());
+            setIsVideo(false);
+            setFallbackToCat(true);
+            setMediaReady(true);
+          }
         });
-      } else {
-        // No personality video available, use cat image
-        const randomCatImage = getRandomCatImage();
-        setCurrentMedia(randomCatImage);
-        setIsVideo(false);
-        setFallbackToCat(true);
-        setMediaReady(true);
       }
     } else {
-      // Response phase - switch to preloaded image if available
+      // Not thinking - show response image
       if (responseImageRef.current && responseImageReady) {
-        // Use the preloaded response image
+        // Immediately switch to the preloaded response image
         setCurrentMedia(responseImageRef.current);
         setIsVideo(false);
         setFallbackToCat(false);
         setMediaReady(true);
-        console.log(`Switched to preloaded response image: ${responseImageRef.current}`);
       } else {
-        // Fallback to regular loading if preloading failed
-        const personalityImage = personalityImageManager.getRandomImage(character.type, responseType);
-        
-        if (personalityImage) {
-          personalityImageManager.waitForImageLoad(personalityImage).then(() => {
-            setCurrentMedia(personalityImage);
+        // If response image isn't ready yet, try loading it now
+        const responseImage = personalityImageManager.getRandomImage(character.type, responseType);
+        if (responseImage) {
+          personalityImageManager.waitForImageLoad(responseImage).then(() => {
+            setCurrentMedia(responseImage);
             setIsVideo(false);
             setFallbackToCat(false);
             setMediaReady(true);
-          }).catch(() => {
-            // Final fallback to cat image
-            const randomCatImage = getRandomCatImage();
-            setCurrentMedia(randomCatImage);
+          }).catch((error) => {
+            console.warn('Failed to load response image:', error);
+            setCurrentMedia(getRandomCatImage());
             setIsVideo(false);
             setFallbackToCat(true);
             setMediaReady(true);
           });
-        } else {
-          // No personality image available, use cat image
-          const randomCatImage = getRandomCatImage();
-          setCurrentMedia(randomCatImage);
-          setIsVideo(false);
-          setFallbackToCat(true);
-          setMediaReady(true);
         }
       }
     }
-  }, [character.type, isThinking, responseType, responseImageReady]);
+
+    return () => {
+      if (videoTimeoutRef.current) {
+        clearTimeout(videoTimeoutRef.current);
+      }
+    };
+  }, [character.type, isThinking, responseType, questionMode, responseImageReady]);
 
   const handleVideoError = () => {
-    console.warn('Video failed to play, falling back to cat image');
-    if (!fallbackToCat) {
-      const randomCatImage = getRandomCatImage();
-      setCurrentMedia(randomCatImage);
+    console.warn('Video failed to play');
+    // On video error, try to show response image if available
+    if (responseImageRef.current && responseImageReady) {
+      setCurrentMedia(responseImageRef.current);
+      setIsVideo(false);
+      setMediaReady(true);
+    } else {
+      // Last resort fallback to cat image
+      setCurrentMedia(getRandomCatImage());
       setIsVideo(false);
       setFallbackToCat(true);
+      setMediaReady(true);
     }
   };
 
   const handleImageError = () => {
-    console.warn('Image failed to load, falling back to cat image');
-    if (!fallbackToCat) {
-      const randomCatImage = getRandomCatImage();
-      setCurrentMedia(randomCatImage);
-      setFallbackToCat(true);
-    }
+    console.warn('Image failed to load');
+    setCurrentMedia(getRandomCatImage());
+    setFallbackToCat(true);
   };
 
   return (
@@ -148,7 +157,6 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
               ref={videoRef}
               src={currentMedia} 
               autoPlay
-              loop
               muted
               playsInline
               className="w-full h-full object-cover transition-opacity duration-300"
@@ -183,3 +191,4 @@ const CharacterAvatar = ({ character, isThinking, responseType = 'thinking' }: C
 };
 
 export default CharacterAvatar;
+
