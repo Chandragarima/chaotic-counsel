@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { ArrowLeft, Send } from 'lucide-react';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 import PersonalityEffects from './PersonalityEffects';
+import QuestionHelpTooltip from './QuestionHelpTooltip';
 
 interface QuestionsScreenProps {
   questionType: QuestionType;
@@ -380,9 +381,12 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
 
         {/* Custom Question Input */}
         <div className="max-w-2xl mx-auto space-y-6">
-          <h3 className={`${theme.colors.text} ${theme.fonts.heading} text-xl text-center opacity-80`}>
-            Or Ask Your Own
-          </h3>
+          <div className="flex items-center justify-center gap-2">
+            <h3 className={`${theme.colors.text} ${theme.fonts.heading} text-xl opacity-80`}>
+              Or Ask Your Own
+            </h3>
+            <QuestionHelpTooltip character={character} />
+          </div>
           
           <div className="flex gap-3">
             <Input
