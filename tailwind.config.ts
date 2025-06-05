@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -248,13 +247,12 @@ export default {
 					'100%': { opacity: '1', transform: 'rotate(0deg)' }
 				},
 				'quirky-float': {
-					'0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-					'33%': { transform: 'translateY(-8px) rotate(2deg)' },
-					'66%': { transform: 'translateY(-4px) rotate(-2deg)' }
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-5px)' }
 				},
 				'quirky-spin': {
-					'0%, 100%': { transform: 'rotate(0deg)' },
-					'50%': { transform: 'rotate(180deg)' }
+					'0%, 100%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.02)' }
 				},
 				'quirky-wobble': {
 					'0%, 100%': { transform: 'rotate(0deg) scale(1)' },
