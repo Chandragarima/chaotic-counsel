@@ -144,7 +144,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
   return (
     <div className={`relative ${className}`}>
       <div 
-        className={`w-40 h-40 mx-auto rounded-full overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : theme.animations.floating}`}
+        className={`w-40 h-40 mx-auto object-cover overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : theme.animations.floating}`}
         // style={{ 
         //   borderColor: theme.colors.accent,
         //   boxShadow: `0 0 30px ${theme.colors.accent}40`
@@ -156,8 +156,8 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
       {/* Animated thinking indicator */}
       {isThinking && (
         <div className="absolute -bottom-2 -right-2">
-          <div className={`w-6 h-6 rounded-full ${theme.colors.primary} animate-pulse flex items-center justify-center`}>
-            <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
+          <div className={`w-6 h-6 ${theme.colors.primary} animate-pulse flex items-center justify-center`}>
+            <div className="w-2 h-2 object-cover bg-white  animate-bounce"></div>
           </div>
         </div>
       )}
