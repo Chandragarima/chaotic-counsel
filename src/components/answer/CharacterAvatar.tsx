@@ -63,7 +63,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
         <img
           src={fallbackImage || '/placeholder.svg'}
           alt={`${character.name} ${responseType}`}
-          className="w-full h-full object-cover transition-opacity duration-300"
+          className="w-full h-full object-cover transition-opacity duration-500"
           onError={(e) => {
             console.error('Fallback image failed to load:', fallbackImage);
             e.currentTarget.src = character.image || '/placeholder.svg';
