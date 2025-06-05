@@ -100,7 +100,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
             loop
             muted
             playsInline
-            className="w-full h-full object-cover rounded-full"
+            className="w-full h-full object-cover"
             onLoadStart={() => console.log('Thinking video loading started')}
             onError={(e) => {
               console.error('Thinking video error:', e);
@@ -110,7 +110,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
                 e.currentTarget.style.display = 'none';
                 const img = document.createElement('img');
                 img.src = thinkingImage;
-                img.className = 'w-full h-full object-cover rounded-full';
+                img.className = 'w-full h-full object-cover';
                 e.currentTarget.parentNode?.appendChild(img);
               }
             }}
@@ -125,7 +125,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
           <img
             src={thinkingImage || character.image || '/placeholder.svg'}
             alt={`${character.name} thinking`}
-            className="w-full h-full object-cover rounded-full transition-opacity duration-500"
+            className="w-full h-full object-cover transition-opacity duration-300"
           />
         );
       }
@@ -136,7 +136,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
       <img
         src={character.image || '/placeholder.svg'}
         alt={character.name}
-        className="w-full h-full object-cover rounded-full transition-opacity duration-500"
+        className="w-full h-full object-cover transition-opacity duration-300"
       />
     );
   };
@@ -144,11 +144,11 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
   return (
     <div className={`relative ${className}`}>
       <div 
-        className={`w-32 h-32 rounded-full overflow-hidden border-4 ${theme.effects.borderStyle} shadow-2xl ${theme.animations.floating}`}
-        style={{ 
-          borderColor: theme.colors.accent,
-          boxShadow: `0 0 30px ${theme.colors.accent}40`
-        }}
+        className={`w-40 h-40 mx-auto rounded-full overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : theme.animations.floating}`}
+        // style={{ 
+        //   borderColor: theme.colors.accent,
+        //   boxShadow: `0 0 30px ${theme.colors.accent}40`
+        // }}
       >
         {getMediaContent()}
       </div>
