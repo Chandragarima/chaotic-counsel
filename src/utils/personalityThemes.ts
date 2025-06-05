@@ -135,8 +135,8 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       response: 'content-sigh'
     }
   },
-  'anxious-bunny': {
-    id: 'anxious-bunny',
+  'sneaky-snake': {
+    id: 'sneaky-snake',
     colors: {
       primary: 'from-orange-600 to-red-500',
       secondary: 'from-orange-100/20 to-red-100/20',
@@ -168,8 +168,8 @@ export const personalityThemes: Record<string, PersonalityTheme> = {
       response: 'excited-chatter'
     }
   },
-  'quirky-duck': {
-    id: 'quirky-duck',
+  'people-pleaser-pup': {
+    id: 'people-pleaser-pup',
     colors: {
       primary: 'from-yellow-600 to-blue-500',
       secondary: 'from-yellow-100/20 to-blue-100/20',

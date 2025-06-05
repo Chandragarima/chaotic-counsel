@@ -188,9 +188,13 @@ export default {
 					'0%, 100%': { transform: 'translateY(0px)' },
 					'50%': { transform: 'translateY(-6px)' }
 				},
+				// 'lazy-sway': {
+				// 	'0%, 100%': { transform: 'rotate(0deg)' },
+				// 	'50%': { transform: 'rotate(2deg)' }
+				// },
 				'lazy-sway': {
-					'0%, 100%': { transform: 'rotate(0deg)' },
-					'50%': { transform: 'rotate(2deg)' }
+					'0%, 100%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.01) translateY(-2px)' }
 				},
 				'lazy-drift': {
 					'0%, 100%': { transform: 'translateX(0px)' },
@@ -282,8 +286,8 @@ export default {
 				'lazy-entrance': 'lazy-entrance 1s ease-out',
 				'lazy-thinking': 'lazy-thinking 4s ease-in-out infinite',
 				'lazy-responding': 'lazy-responding 0.6s ease-out',
-				'lazy-float': 'lazy-float 10s ease-in-out infinite',
-				'lazy-sway': 'lazy-sway 3s ease-in-out infinite',
+				// 'lazy-float': 'lazy-float 10s ease-in-out infinite',
+				'lazy-sway': 'lazy-sway 2s ease-in-out infinite',
 				'lazy-drift': 'lazy-drift 0.6s ease-in-out',
 				// Anxious Bunny Animations
 				'anxious-entrance': 'anxious-entrance 0.4s ease-out',
