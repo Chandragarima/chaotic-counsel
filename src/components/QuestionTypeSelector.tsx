@@ -29,14 +29,16 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
       ];
     }
 
-    if (currentMode === 'serious' && selectedCharacter.type === 'wise-owl') {
+    if (currentMode === 'serious') {
       return [
         { type: 'career' as QuestionType, title: 'Career & Growth', description: 'Professional wisdom and guidance', icon: '🎯', gradient: 'from-amber-500 to-orange-500' },
         { type: 'finance' as QuestionType, title: 'Finance & Money', description: 'Financial decisions and planning', icon: '💰', gradient: 'from-amber-600 to-orange-600' },
+        { type: 'personal-growth' as QuestionType, title: 'Personal Growth', description: 'Self-development and improvement', icon: '🌱', gradient: 'from-green-500 to-emerald-500' },
+        { type: 'relationships' as QuestionType, title: 'Relationships', description: 'Love, friendship, and social guidance', icon: '💝', gradient: 'from-pink-500 to-rose-500' },
       ];
     }
 
-    // Fun mode categories for Wise Owl (existing logic)
+    // Fun mode categories - personality specific
     switch (selectedCharacter.type) {
       case 'wise-owl':
         return [
@@ -99,7 +101,14 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
     if (!selectedCharacter) return "What do you seek?";
     
     if (currentMode === 'serious') {
-      return "What profound wisdom do you seek?";
+      switch (selectedCharacter.type) {
+        case 'wise-owl': return "What profound wisdom do you seek?";
+        case 'sassy-cat': return "What life challenge needs some real talk?";
+        case 'lazy-panda': return "What's stressing you out that we need to simplify?";
+        case 'sneaky-snake': return "What strategic life decision requires cunning insight?";
+        case 'people-pleaser-pup': return "What life situation needs supportive guidance?";
+        default: return "What serious guidance do you need?";
+      }
     }
     
     switch (selectedCharacter.type) {
@@ -112,7 +121,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
     }
   };
 
-  const canShowSeriousMode = selectedCharacter?.type === 'wise-owl';
+  const canShowSeriousMode = selectedCharacter;
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -150,7 +159,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
           </p>
         </div>
 
-        {/* Mode Toggle for Wise Owl - Now prominently placed after header */}
+        {/* Mode Toggle for All Characters */}
         {canShowSeriousMode && (
           <div className="flex justify-center">
             <div className="bg-slate-800/50 backdrop-blur-md rounded-xl p-1 border border-amber-400/20">
@@ -207,7 +216,6 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
           ))}
         </div>
 
-        {/* Sophisticated Back Button */}
         <div className="flex justify-center pt-8">
           <Button 
             onClick={onBack}

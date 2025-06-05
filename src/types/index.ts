@@ -16,7 +16,7 @@ export interface UserProgress {
   totalDecisions: number;
 }
 
-export type QuestionType = 'dinner' | 'movie' | 'hangout' | 'choice' | 'career' | 'finance';
+export type QuestionType = 'dinner' | 'movie' | 'hangout' | 'choice' | 'career' | 'finance' | 'personal-growth' | 'relationships';
 
 export type AppScreen = 'selector' | 'question' | 'questions' | 'answer';
 

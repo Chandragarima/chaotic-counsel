@@ -178,7 +178,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
         reasonsForYes: ["Consider both logic and intuition", "Reflect on your deeper values"],
         reasonsForNo: ["Take time for quiet contemplation", "Seek wisdom from trusted sources"],
         calculatedRisk: "In times of uncertainty, ancient wisdom reminds us that every question carries the seeds of its own answer within.",
-        personalityRecommendation: "Hoot! When the path is unclear, the wise owl chooses growth over comfort."
+        personalityRecommendation: "When the path is unclear, choose growth over comfort."
       } as AIResponse;
     }
   };
@@ -196,50 +196,47 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     const thinkingDuration = mode === 'fun' ? 3000 : 5000; // 3s for fun, 5s for serious
 
     const generateAnswer = async () => {
-      // Enhanced Wise Owl logic for both fun and serious modes
-      if (character.type === 'wise-owl') {
-        if (mode === 'serious') {
-          console.log('Using serious mode for Wise Owl with intelligent analysis');
-          try {
-            // Analyze the question to determine its type
-            const analysis = analyzeQuestion(question);
-            console.log('Question analysis:', analysis);
-            
-            // Use the detected category instead of the predefined one
-            const aiResult = await getAIResponse(question, character, analysis.category);
-            console.log('Setting AI response:', aiResult);
-            setAiResponse(aiResult);
-            
-            // Set response type based on the detected category
-            const responseImageType = analysis.category === 'binary' ? 'yes' : 
-                                   analysis.category === 'choice' ? 'choice' : 'maybe';
-            setResponseType(responseImageType);
-            
-          } catch (error) {
-            console.error('Failed to get AI response, falling back to regular mode:', error);
-            // Fall back to regular response system
-            const randomResponse = getWeightedResponse(character.type);
-            const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
-            const imageType = getImageTypeFromTemplate(randomResponse);
-            setResponseType(imageType);
-            setAnswer(formattedAnswer);
-            setAiResponse(null);
-          }
+      // Serious mode logic for ALL characters
+      if (mode === 'serious') {
+        console.log(`Using serious mode for ${character.type} with intelligent analysis`);
+        try {
+          // Analyze the question to determine its type
+          const analysis = analyzeQuestion(question);
+          console.log('Question analysis:', analysis);
+          
+          // Use the detected category for AI response
+          const aiResult = await getAIResponse(question, character, analysis.category);
+          console.log('Setting AI response:', aiResult);
+          setAiResponse(aiResult);
+          
+          // Set response type based on the detected category
+          const responseImageType = analysis.category === 'binary' ? 'yes' : 
+                                 analysis.category === 'choice' ? 'choice' : 'maybe';
+          setResponseType(responseImageType);
+          
+        } catch (error) {
+          console.error('Failed to get AI response, falling back to regular mode:', error);
+          // Fall back to regular response system
+          const randomResponse = getWeightedResponse(character.type);
+          const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
+          const imageType = getImageTypeFromTemplate(randomResponse);
+          setResponseType(imageType);
+          setAnswer(formattedAnswer);
+          setAiResponse(null);
+        }
+      } else {
+        // Fun mode for all characters - existing logic
+        const orQuestionResult = handleOrQuestion(question);
+        if (orQuestionResult) {
+          setAnswer(orQuestionResult.answer);
+          setResponseType(getImageTypeFromTemplate(orQuestionResult.templateType));
         } else {
-          // Fun mode for Wise Owl
           const randomResponse = getWeightedResponse(character.type);
           const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
           const imageType = getImageTypeFromTemplate(randomResponse);
           setResponseType(imageType);
           setAnswer(formattedAnswer);
         }
-      } else {
-        // Other characters - same behavior for both modes
-        const randomResponse = getWeightedResponse(character.type);
-        const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
-        const imageType = getImageTypeFromTemplate(randomResponse);
-        setResponseType(imageType);
-        setAnswer(formattedAnswer);
       }
       
       setIsThinking(false);
