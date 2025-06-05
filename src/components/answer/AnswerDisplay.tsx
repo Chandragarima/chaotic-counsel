@@ -227,9 +227,9 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
     <div className="space-y-6 text-left">
       {/* Conclusion First */}
       <div className="text-center border-b border-amber-400/20 pb-6">
-        <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Key Understanding</h4>
+        {/* <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Key Understanding</h4> */}
         <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} font-medium`}>
-          {response.conclusion}
+        "{response.personalityReflection}"
         </p>
       </div>
 
