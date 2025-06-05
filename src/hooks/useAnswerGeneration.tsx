@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
-import { Character, QuestionMode, AIResponse, ImageType } from '../types';
+import { Character, QuestionMode, AIResponse } from '../types';
+import { ImageType } from '../utils/personalityImageManager';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 import { audioManager } from '../utils/audioManager';
 import { formatYesNoMaybeResponse } from '../utils/responseTemplates';
