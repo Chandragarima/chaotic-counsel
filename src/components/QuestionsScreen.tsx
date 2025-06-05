@@ -7,6 +7,7 @@ import { ArrowLeft, Send } from 'lucide-react';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 import PersonalityEffects from './PersonalityEffects';
 import QuestionHelpTooltip from './QuestionHelpTooltip';
+import { seriousQuestions } from '../data/seriousQuestions';
 
 interface QuestionsScreenProps {
   questionType: QuestionType;
@@ -22,31 +23,23 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
   const [isSubmitting, setIsSubmitting] = useState(false);
   const theme = getPersonalityTheme(character.type);
 
-  // Personality-specific sample questions with mix of basic, or, and category questions
-  const getPersonalityQuestions = (): SampleQuestion[] => {
-    const baseId = `${character.type}-${questionType}`;
-    
-    // Add serious mode questions for Wise Owl
-    if (character.type === 'wise-owl' && questionMode === 'serious') {
-      switch (questionType) {
-        case 'career':
-          return [
-            { id: `${baseId}-1`, text: 'Should I ask for a promotion at work?', category: 'career' },
-            { id: `${baseId}-2`, text: 'Is it time to change my career path?', category: 'career' },
-            { id: `${baseId}-3`, text: 'Should I pursue this professional certification?', category: 'career' },
-            { id: `${baseId}-4`, text: 'Should I accept this job offer?', category: 'career' },
-            { id: `${baseId}-5`, text: 'Is it worth going back to school for my career?', category: 'career' }
-          ];
-        case 'finance':
-          return [
-            { id: `${baseId}-1`, text: 'Should I invest in this opportunity?', category: 'finance' },
-            { id: `${baseId}-2`, text: 'Is this major purchase worth it right now?', category: 'finance' },
-            { id: `${baseId}-3`, text: 'Should I take out this loan?', category: 'finance' },
-            { id: `${baseId}-4`, text: 'Should I start investing in the stock market?', category: 'finance' },
-            { id: `${baseId}-5`, text: 'Is it time to buy a house?', category: 'finance' }
-          ];
-      }
+  // Get sample questions based on mode
+  const getSampleQuestions = (): SampleQuestion[] => {
+    // For serious mode, use the serious questions data
+    if (questionMode === 'serious') {
+      const matchingQuestions = seriousQuestions.filter(
+        q => q.characterType === character.type && q.category === questionType
+      );
+      
+      return matchingQuestions.map(q => ({
+        id: q.id,
+        text: q.text,
+        category: q.category
+      }));
     }
+
+    // For fun mode, use the existing personality-specific questions
+    const baseId = `${character.type}-${questionType}`;
     
     switch (character.type) {
       case 'sassy-cat':
@@ -246,7 +239,7 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
     return [];
   };
 
-  const sampleQuestions = getPersonalityQuestions();
+  const sampleQuestions = getSampleQuestions();
 
   const getTypeTitle = () => {
     const baseTitle = (() => {
@@ -257,6 +250,8 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
         case 'choice': return 'Life Choices';
         case 'career': return 'Career & Professional Growth';
         case 'finance': return 'Finance & Money Decisions';
+        case 'personal-growth': return 'Personal Growth';
+        case 'relationships': return 'Relationships';
       }
     })();
 
@@ -278,8 +273,15 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
   };
 
   const getPersonalityPrompt = () => {
-    if (character.type === 'wise-owl' && questionMode === 'serious') {
-      return "Ancient wisdom for life's important decisions";
+    if (questionMode === 'serious') {
+      switch (character.type) {
+        case 'wise-owl': return "Ancient wisdom for life's important decisions";
+        case 'sassy-cat': return "Real talk for your life challenges";
+        case 'lazy-panda': return "Stress-free guidance for big decisions";
+        case 'sneaky-snake': return "Strategic insights for life's complexities";
+        case 'people-pleaser-pup': return "Supportive guidance for difficult choices";
+        default: return "Thoughtful wisdom for serious matters";
+      }
     }
     
     switch (character.type) {
@@ -386,7 +388,6 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
               Or Ask Your Own
             </h3>
             {questionMode === 'serious' && <QuestionHelpTooltip character={character} />}
-            {/* <QuestionHelpTooltip character={character} /> */}
           </div>
           
           <div className="flex gap-3">
