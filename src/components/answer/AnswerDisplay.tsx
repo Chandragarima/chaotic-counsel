@@ -81,7 +81,7 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
             <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
               <h4 className={`${theme.colors.text} font-semibold flex items-center`}>
                 {/* <span className="text-amber-400 mr-2">🌟</span> */}
-                Celestial Signs Point To YES
+                Reasons to Say YES
               </h4>
               <ChevronDown className={`h-4 w-4 ${theme.colors.text} transition-transform ${expandedSections.pros ? 'rotate-180' : ''}`} />
             </CollapsibleTrigger>
