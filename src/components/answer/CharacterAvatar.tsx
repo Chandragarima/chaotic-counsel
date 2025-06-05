@@ -1,9 +1,8 @@
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { personalityImageManager } from '../../utils/personalityImageManager';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { audioManager } from '../../utils/audioManager';
-import { Character } from '../../types';
+import { Character } from '../types';
 
 interface CharacterAvatarProps {
   character: Character;
