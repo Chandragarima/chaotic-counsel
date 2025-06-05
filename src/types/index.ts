@@ -84,3 +84,28 @@ export interface LegacyAIResponse {
   calculatedRisk: string;
   personalityRecommendation: string;
 }
+
+// Legacy types for backward compatibility from the old types.ts file
+export interface AdviceAIResponse2 {
+  advice: string;
+  considerations?: string[];
+  nextSteps?: string[];
+}
+
+export interface RecommendationAIResponse2 {
+  recommendation: string;
+  pros?: string[];
+  cons?: string[];
+}
+
+export interface AnalysisAIResponse2 {
+  analysis: string;
+  keyPoints?: string[];
+  implications?: string[];
+}
+
+export interface ChoiceAIResponse2 {
+  recommendation: string;
+  options?: string[];
+  factors?: string[];
+}

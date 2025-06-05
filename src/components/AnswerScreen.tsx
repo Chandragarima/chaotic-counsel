@@ -1,3 +1,4 @@
+
 import { Character, QuestionMode, QuestionType } from '../types';
 import { Card } from '@/components/ui/card';
 import { getPersonalityTheme } from '../utils/personalityThemes';
@@ -51,7 +52,6 @@ const AnswerScreen = ({ character, question, questionMode = 'fun', questionType,
             character={character} 
             isThinking={isThinking} 
             responseType={responseType}
-            questionMode={questionMode}
           />
 
           {/* Answer Card */}

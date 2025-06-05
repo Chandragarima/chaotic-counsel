@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { getPersonalityImageManager } from '../../utils/personalityImageManager';
+import { personalityImageManager } from '../../utils/personalityImageManager';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { audioManager } from '../../utils/audioManager';
 import { Character } from '../../types';
@@ -18,12 +18,12 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
   isThinking,
   className = ''
 }) => {
-  const imageManager = getPersonalityImageManager(character.type);
+  const imageManager = personalityImageManager[character.type];
   const theme = getPersonalityTheme(character.type);
 
   // Get the appropriate image/video for the current state
   const getMediaContent = () => {
-    if (isThinking) {
+    if (isThinking && imageManager?.getRandomVideo) {
       const thinkingVideo = imageManager.getRandomVideo('thinking');
       if (thinkingVideo) {
         return (
@@ -43,11 +43,11 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
       }
     }
 
-    const imageUrl = imageManager.getRandomImage(responseType);
+    const imageUrl = imageManager?.getRandomImage ? imageManager.getRandomImage(responseType) : character.image;
     return (
       <img
         key={imageUrl}
-        src={imageUrl}
+        src={imageUrl || character.image || '/placeholder.svg'}
         alt={`${character.name} ${responseType}`}
         className="w-full h-full object-cover rounded-full transition-opacity duration-500"
         onError={(e) => {
