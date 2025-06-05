@@ -270,7 +270,7 @@ export default {
 				'sassy-entrance': 'sassy-entrance 0.6s ease-out',
 				'sassy-thinking': 'sassy-thinking 2s ease-in-out infinite',
 				'sassy-responding': 'sassy-responding 0.4s ease-out',
-				//'sassy-float': 'sassy-float 4s ease-in-out infinite',
+				'sassy-float': 'sassy-float 4s ease-in-out infinite',
 				'sassy-wiggle': 'sassy-wiggle 0.5s ease-in-out',
 				'sassy-bounce': 'sassy-bounce 0.3s ease-in-out',
 				// Wise Owl Animations
@@ -284,7 +284,7 @@ export default {
 				'lazy-entrance': 'lazy-entrance 1s ease-out',
 				'lazy-thinking': 'lazy-thinking 4s ease-in-out infinite',
 				'lazy-responding': 'lazy-responding 0.6s ease-out',
-				// 'lazy-float': 'lazy-float 10s ease-in-out infinite',
+				 'lazy-float': 'lazy-float 10s ease-in-out infinite',
 				'lazy-sway': 'lazy-sway 2s ease-in-out infinite',
 				'lazy-drift': 'lazy-drift 0.6s ease-in-out',
 				// Anxious Bunny Animations
@@ -298,7 +298,7 @@ export default {
 				'quirky-entrance': 'quirky-entrance 0.7s ease-out',
 				'quirky-thinking': 'quirky-thinking 1.5s ease-in-out infinite',
 				'quirky-responding': 'quirky-responding 0.4s ease-out',
-				'quirky-float': 'quirky-float 5s ease-in-out infinite',
+				'quirky-float': 'quirky-float 3s ease-in-out infinite',
 				'quirky-spin': 'quirky-spin 0.6s ease-in-out',
 				'quirky-wobble': 'quirky-wobble 0.4s ease-in-out',
 			}
