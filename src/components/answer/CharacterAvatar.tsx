@@ -1,8 +1,9 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { personalityImageManager } from '../../utils/personalityImageManager';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { audioManager } from '../../utils/audioManager';
-import { Character } from '../types';
+import { Character } from '../../types';
 
 interface CharacterAvatarProps {
   character: Character;
@@ -19,6 +20,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
 }) => {
   const [preloadedResponseImage, setPreloadedResponseImage] = useState<string | null>(null);
   const [showResponseImage, setShowResponseImage] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const theme = getPersonalityTheme(character.type);
 
   // Characters with full animation support
@@ -34,7 +36,9 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
         // Preload the image in the browser
         const img = new Image();
         img.src = responseImage;
-        console.log(`Preloaded response image: ${responseImage}`);
+        img.onload = () => {
+          console.log(`Preloaded response image: ${responseImage}`);
+        };
       }
     }
   }, [responseType, character.type, hasFullAnimationSupport]);
@@ -42,14 +46,17 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
   // Handle transition from thinking to response
   useEffect(() => {
     if (!isThinking && preloadedResponseImage && hasFullAnimationSupport) {
+      setIsTransitioning(true);
       // Small delay to ensure smooth transition
       const timer = setTimeout(() => {
         setShowResponseImage(true);
+        setIsTransitioning(false);
         console.log(`Transitioning to response image for ${character.type}`);
-      }, 100);
+      }, 200);
       return () => clearTimeout(timer);
     } else if (isThinking) {
       setShowResponseImage(false);
+      setIsTransitioning(false);
     }
   }, [isThinking, preloadedResponseImage, hasFullAnimationSupport]);
 
@@ -78,7 +85,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
           key={preloadedResponseImage}
           src={preloadedResponseImage}
           alt={`${character.name} ${responseType}`}
-          className="w-full h-full object-cover transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}"
+          className={`w-full h-full object-cover transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
           onError={(e) => {
             console.error('Response image failed to load:', preloadedResponseImage);
             e.currentTarget.src = character.image || '/placeholder.svg';
@@ -144,10 +151,6 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
     <div className={`relative ${className}`}>
       <div 
         className={`w-40 h-40 mx-auto object-cover overflow-hidden bg-gradient-to-br ${theme.colors.secondary} border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.colors.glow} shadow-2xl ${isThinking ? theme.animations.thinking : theme.animations.floating}`}
-        // style={{ 
-        //   borderColor: theme.colors.accent,
-        //   boxShadow: `0 0 30px ${theme.colors.accent}40`
-        // }}
       >
         {getMediaContent()}
       </div>
@@ -156,7 +159,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
       {isThinking && (
         <div className="absolute -bottom-2 -right-2">
           <div className={`w-6 h-6 ${theme.colors.primary} animate-pulse flex items-center justify-center`}>
-            <div className="w-2 h-2 object-cover bg-white  animate-bounce"></div>
+            <div className="w-2 h-2 object-cover bg-white animate-bounce"></div>
           </div>
         </div>
       )}
