@@ -122,11 +122,10 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
 
   const renderAdviceResponse = (response: AdviceAIResponse) => (
     <div className="space-y-6 text-left">
-      {/* Main Advice - Prominent */}
-      <div className="text-center border-b border-amber-400/20 pb-6">
-        <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Wise Guidance</h4>
-        <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} font-medium`}>
-          {response.mainAdvice}
+      {/* Final Wisdom */}
+      <div className="text-center border-t border-amber-400/20 pt-6">
+        <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
+          "{response.personalityWisdom}"
         </p>
       </div>
 
@@ -167,10 +166,11 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
         </Collapsible>
       )}
 
-      {/* Final Wisdom */}
-      <div className="text-center border-t border-amber-400/20 pt-6">
-        <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
-          "{response.personalityWisdom}"
+      {/* Main Advice - Prominent */}
+      <div className="text-center border-b border-amber-400/20 pb-6">
+        {/* <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Wise Guidance</h4> */}
+        <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} font-medium`}>
+          {response.mainAdvice}
         </p>
       </div>
     </div>
