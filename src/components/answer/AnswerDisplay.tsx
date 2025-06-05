@@ -228,7 +228,7 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
       {/* Conclusion First */}
       <div className="text-center border-b border-amber-400/20 pb-6">
         {/* <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Key Understanding</h4> */}
-        <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} font-medium`}>
+        <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
         "{response.personalityReflection}"
         </p>
       </div>
@@ -274,11 +274,11 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
       )}
 
       {/* Final Reflection */}
-      <div className="text-center border-t border-amber-400/20 pt-6">
+      {/* <div className="text-center border-t border-amber-400/20 pt-6">
         <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
           "{response.personalityReflection}"
         </p>
-      </div>
+      </div> */}
     </div>
   );
 
