@@ -125,8 +125,8 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
       {/* Main Advice - Prominent */}
       <div className="text-center border-b border-amber-400/20 pb-6">
         {/* <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Wise Guidance</h4> */}
-        <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} font-medium`}>
-          {response.mainAdvice}
+        <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
+          "{response.personalityWisdom}"
         </p>
       </div>
 
@@ -168,11 +168,11 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
       )}
 
       {/* Final Wisdom */}
-      <div className="text-center border-t border-amber-400/20 pt-6">
+      {/* <div className="text-center border-t border-amber-400/20 pt-6">
         <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
           "{response.personalityWisdom}"
         </p>
-      </div>
+      </div> */}
     </div>
   );
 
@@ -180,9 +180,9 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
     <div className="space-y-6 text-left">
       {/* Top Recommendation */}
       <div className="text-center border-b border-amber-400/20 pb-6">
-        <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Recommended Choice</h4>
-        <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} font-medium`}>
-          {response.topRecommendation}
+        {/* <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Recommended Choice</h4> */}
+        <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
+          "{response.personalityNote}"
         </p>
       </div>
 
@@ -215,11 +215,11 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
       )}
 
       {/* Final Note */}
-      <div className="text-center border-t border-amber-400/20 pt-6">
+      {/* <div className="text-center border-t border-amber-400/20 pt-6">
         <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
           "{response.personalityNote}"
         </p>
-      </div>
+      </div> */}
     </div>
   );
 
@@ -286,9 +286,9 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
     <div className="space-y-6 text-left">
       {/* Recommended Choice */}
       <div className="text-center border-b border-amber-400/20 pb-6">
-        <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Best Choice</h4>
-        <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} font-medium`}>
-          {response.recommendedChoice}
+        {/* <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Best Choice</h4> */}
+        <p className={`${theme.colors.text}  text-lg ${theme.fonts.body} font-medium italic`}>
+          "{response.finalThought}"
         </p>
       </div>
 
@@ -330,11 +330,11 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
       )}
 
       {/* Final Thought */}
-      <div className="text-center border-t border-amber-400/20 pt-6">
+      {/* <div className="text-center border-t border-amber-400/20 pt-6">
         <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
           "{response.finalThought}"
         </p>
-      </div>
+      </div> */}
     </div>
   );
 
