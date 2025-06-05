@@ -1,5 +1,5 @@
 
-import { Character, AIResponse, BinaryAIResponse, AdviceAIResponse, RecommendationAIResponse, AnalysisAIResponse, ChoiceAIResponse } from '../../types';
+import { Character, AIResponse, BinaryAIResponse, AdviceAIResponseEnhanced, RecommendationAIResponseEnhanced, AnalysisAIResponseEnhanced, ChoiceAIResponseEnhanced } from '../../types';
 import { Card } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown } from 'lucide-react';
@@ -51,14 +51,6 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
         </p>
       </div>
 
-     {/* Risk Assessment - Quick visibility */}
-      {/* <div className="text-center">
-        <h4 className={`${theme.colors.text} font-semibold mb-2`}>Risk Level</h4>
-        <p className={`${theme.colors.text} ${theme.fonts.body} opacity-90`}>
-          {response.calculatedRisk}
-        </p>
-      </div> */}
-
       {/* Collapsible Deeper Question */}
       {response.deeperQuestion && (
         <Collapsible open={expandedSections.deeper} onOpenChange={() => toggleSection('deeper')}>
@@ -80,7 +72,6 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
           <Collapsible open={expandedSections.pros} onOpenChange={() => toggleSection('pros')}>
             <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
               <h4 className={`${theme.colors.text} font-semibold flex items-center`}>
-                {/* <span className="text-amber-400 mr-2">🌟</span> */}
                 Reasons to Say YES
               </h4>
               <ChevronDown className={`h-4 w-4 ${theme.colors.text} transition-transform ${expandedSections.pros ? 'rotate-180' : ''}`} />
@@ -120,11 +111,10 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
     </div>
   );
 
-  const renderAdviceResponse = (response: AdviceAIResponse) => (
+  const renderAdviceResponse = (response: AdviceAIResponseEnhanced) => (
     <div className="space-y-6 text-left">
       {/* Main Advice - Prominent */}
       <div className="text-center border-b border-amber-400/20 pb-6">
-        {/* <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Wise Guidance</h4> */}
         <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
           "{response.personalityWisdom}"
         </p>
@@ -166,21 +156,13 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
           </CollapsibleContent>
         </Collapsible>
       )}
-
-      {/* Final Wisdom */}
-      {/* <div className="text-center border-t border-amber-400/20 pt-6">
-        <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
-          "{response.personalityWisdom}"
-        </p>
-      </div> */}
     </div>
   );
 
-  const renderRecommendationResponse = (response: RecommendationAIResponse) => (
+  const renderRecommendationResponse = (response: RecommendationAIResponseEnhanced) => (
     <div className="space-y-6 text-left">
       {/* Top Recommendation */}
       <div className="text-center border-b border-amber-400/20 pb-6">
-        {/* <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Recommended Choice</h4> */}
         <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
           "{response.personalityNote}"
         </p>
@@ -213,21 +195,13 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
           </CollapsibleContent>
         </Collapsible>
       )}
-
-      {/* Final Note */}
-      {/* <div className="text-center border-t border-amber-400/20 pt-6">
-        <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
-          "{response.personalityNote}"
-        </p>
-      </div> */}
     </div>
   );
 
-  const renderAnalysisResponse = (response: AnalysisAIResponse) => (
+  const renderAnalysisResponse = (response: AnalysisAIResponseEnhanced) => (
     <div className="space-y-6 text-left">
       {/* Conclusion First */}
       <div className="text-center border-b border-amber-400/20 pb-6">
-        {/* <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Key Understanding</h4> */}
         <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
         "{response.personalityReflection}"
         </p>
@@ -272,21 +246,13 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
           </CollapsibleContent>
         </Collapsible>
       )}
-
-      {/* Final Reflection */}
-      {/* <div className="text-center border-t border-amber-400/20 pt-6">
-        <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
-          "{response.personalityReflection}"
-        </p>
-      </div> */}
     </div>
   );
 
-  const renderChoiceResponse = (response: ChoiceAIResponse) => (
+  const renderChoiceResponse = (response: ChoiceAIResponseEnhanced) => (
     <div className="space-y-6 text-left">
       {/* Recommended Choice */}
       <div className="text-center border-b border-amber-400/20 pb-6">
-        {/* <h4 className={`${theme.colors.text} font-bold text-xl mb-3`}>Best Choice</h4> */}
         <p className={`${theme.colors.text}  text-lg ${theme.fonts.body} font-medium italic`}>
           "{response.finalThought}"
         </p>
@@ -328,13 +294,6 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
           </CollapsibleContent>
         </Collapsible>
       )}
-
-      {/* Final Thought */}
-      {/* <div className="text-center border-t border-amber-400/20 pt-6">
-        <p className={`${theme.colors.text} text-lg ${theme.fonts.body} font-medium italic`}>
-          "{response.finalThought}"
-        </p>
-      </div> */}
     </div>
   );
 
@@ -343,13 +302,13 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
       case 'binary':
         return renderBinaryResponse(response as BinaryAIResponse);
       case 'advice':
-        return renderAdviceResponse(response as AdviceAIResponse);
+        return renderAdviceResponse(response as AdviceAIResponseEnhanced);
       case 'recommendation':
-        return renderRecommendationResponse(response as RecommendationAIResponse);
+        return renderRecommendationResponse(response as RecommendationAIResponseEnhanced);
       case 'analysis':
-        return renderAnalysisResponse(response as AnalysisAIResponse);
+        return renderAnalysisResponse(response as AnalysisAIResponseEnhanced);
       case 'choice':
-        return renderChoiceResponse(response as ChoiceAIResponse);
+        return renderChoiceResponse(response as ChoiceAIResponseEnhanced);
       default:
         // Fallback to binary format for legacy responses
         return renderBinaryResponse(response as BinaryAIResponse);

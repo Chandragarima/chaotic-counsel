@@ -52,7 +52,7 @@ export interface SampleQuestion {
   category: QuestionType;
 }
 
-// Enhanced AI Response types for different question categories
+// Enhanced AI Response types for different question categories - these match what AnswerDisplay.tsx expects
 export interface BinaryAIResponse {
   responseType: 'binary';
   deeperQuestion: string;
