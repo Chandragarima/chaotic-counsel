@@ -79,7 +79,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
           key={preloadedResponseImage}
           src={preloadedResponseImage}
           alt={`${character.name} ${responseType}`}
-          className="w-full h-full object-cover rounded-full transition-opacity duration-500"
+          className="w-full h-full object-cover transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}"
           onError={(e) => {
             console.error('Response image failed to load:', preloadedResponseImage);
             e.currentTarget.src = character.image || '/placeholder.svg';
