@@ -1,8 +1,9 @@
 
 import { useState } from "react";
-import { Character } from "../types";
+import { Character, QuestionType, QuestionMode } from "../types";
 import SplashScreen from "../components/SplashScreen";
 import CombinedHomePage from "../components/CombinedHomePage";
+import QuestionTypeSelector from "../components/QuestionTypeSelector";
 import QuestionsScreen from "../components/QuestionsScreen";
 import AnswerScreen from "../components/AnswerScreen";
 import UserMenu from "../components/UserMenu";
@@ -12,7 +13,9 @@ export default function Index() {
   const { loading } = useAuth();
   const [showSplash, setShowSplash] = useState(true);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
-  const [currentScreen, setCurrentScreen] = useState<'home' | 'questions' | 'answer'>('home');
+  const [currentScreen, setCurrentScreen] = useState<'home' | 'question-type' | 'questions' | 'answer'>('home');
+  const [selectedQuestionType, setSelectedQuestionType] = useState<QuestionType | null>(null);
+  const [selectedQuestionMode, setSelectedQuestionMode] = useState<QuestionMode>('fun');
   const [userQuestion, setUserQuestion] = useState('');
 
   if (loading) {
@@ -28,6 +31,12 @@ export default function Index() {
   }
 
   const handleStartGame = () => {
+    setCurrentScreen('question-type');
+  };
+
+  const handleTypeSelect = (type: QuestionType, mode: QuestionMode) => {
+    setSelectedQuestionType(type);
+    setSelectedQuestionMode(mode);
     setCurrentScreen('questions');
   };
 
@@ -43,6 +52,11 @@ export default function Index() {
   const handleBackToHome = () => {
     setCurrentScreen('home');
     setSelectedCharacter(null);
+    setSelectedQuestionType(null);
+  };
+
+  const handleBackToQuestionType = () => {
+    setCurrentScreen('question-type');
   };
 
   return (
@@ -59,11 +73,21 @@ export default function Index() {
         />
       )}
 
-      {currentScreen === 'questions' && selectedCharacter && (
-        <QuestionsScreen
-          character={selectedCharacter}
-          onQuestionSubmit={handleQuestionSubmit}
+      {currentScreen === 'question-type' && (
+        <QuestionTypeSelector
+          selectedCharacter={selectedCharacter}
+          onTypeSelect={handleTypeSelect}
           onBack={handleBackToHome}
+        />
+      )}
+
+      {currentScreen === 'questions' && selectedCharacter && selectedQuestionType && (
+        <QuestionsScreen
+          questionType={selectedQuestionType}
+          questionMode={selectedQuestionMode}
+          character={selectedCharacter}
+          onQuestionSelect={handleQuestionSubmit}
+          onBack={handleBackToQuestionType}
         />
       )}
 
@@ -71,6 +95,8 @@ export default function Index() {
         <AnswerScreen
           character={selectedCharacter}
           question={userQuestion}
+          questionMode={selectedQuestionMode}
+          questionType={selectedQuestionType}
           onBack={handleBackToHome}
           onAskAgain={handleAskAgain}
           onStartOver={handleBackToHome}
