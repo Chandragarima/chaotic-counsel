@@ -36,7 +36,7 @@ export default function Index() {
     setCurrentScreen('answer');
   };
 
-  const handleNewQuestion = () => {
+  const handleAskAgain = () => {
     setCurrentScreen('questions');
   };
 
@@ -62,7 +62,7 @@ export default function Index() {
       {currentScreen === 'questions' && selectedCharacter && (
         <QuestionsScreen
           character={selectedCharacter}
-          onSubmit={handleQuestionSubmit}
+          onQuestionSubmit={handleQuestionSubmit}
           onBack={handleBackToHome}
         />
       )}
@@ -71,8 +71,9 @@ export default function Index() {
         <AnswerScreen
           character={selectedCharacter}
           question={userQuestion}
-          onNewQuestion={handleNewQuestion}
-          onBackToHome={handleBackToHome}
+          onBack={handleBackToHome}
+          onAskAgain={handleAskAgain}
+          onStartOver={handleBackToHome}
         />
       )}
     </div>
