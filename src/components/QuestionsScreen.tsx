@@ -346,18 +346,18 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
           </div>
 
            {/* Elegant divider */}
-        <div className="flex items-center justify-center space-x-6">
+        {/* <div className="flex items-center justify-center space-x-6">
               <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"></div>
               <div className="w-3 h-3 border border-amber-400/70 rotate-45 bg-amber-400/15"></div>
               <div className="w-16 h-px bg-gradient-to-l from-transparent via-amber-400/70 to-transparent"></div>
-            </div>
+            </div> */}
             
           <h1 className={`text-4xl ${theme.fonts.heading} ${theme.colors.text} opacity-90 ${theme.animations.floating}`}>
             {getTypeTitle()}
           </h1>
-          <p className={`${theme.colors.text} opacity-70 ${theme.fonts.body}`}>
+          {/* <p className={`${theme.colors.text} opacity-70 ${theme.fonts.body}`}>
             {getPersonalityPrompt()}
-          </p>
+          </p> */}
         </div>
 
         {/* Elegant divider */}
@@ -369,9 +369,9 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
 
         {/* Sample Questions */}
         <div className="max-w-2xl mx-auto space-y-6">
-          <h3 className={`${theme.colors.text} ${theme.fonts.heading} text-xl text-center opacity-80`}>
+          {/* <h3 className={`${theme.colors.text} ${theme.fonts.heading} text-xl text-center opacity-80`}>
             {character.name}'s {questionMode === 'serious' ? 'Thoughtful' : 'Signature'} Questions
-          </h3>
+          </h3> */}
           
           <div className="grid gap-4">
             {sampleQuestions.map((question, index) => (
