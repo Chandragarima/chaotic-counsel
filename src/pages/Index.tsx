@@ -1,140 +1,80 @@
 
-import { useState } from 'react';
-import { Character, QuestionType, AppScreen, QuestionMode } from '../types';
-import { characters } from '../data/characters';
-import { useSupabaseProgress } from '../hooks/useSupabaseProgress';
+import { useState } from "react";
+import { Character } from "../types";
+import SplashScreen from "../components/SplashScreen";
+import CombinedHomePage from "../components/CombinedHomePage";
+import QuestionsScreen from "../components/QuestionsScreen";
+import AnswerScreen from "../components/AnswerScreen";
+import UserMenu from "../components/UserMenu";
+import { useAuth } from "@/contexts/AuthContext";
 
-import Sparkles from '../components/Sparkles';
-import CombinedHomePage from '../components/CombinedHomePage';
-import QuestionTypeSelector from '../components/QuestionTypeSelector';
-import QuestionsScreen from '../components/QuestionsScreen';
-import AnswerScreen from '../components/AnswerScreen';
-import UserMenu from '../components/UserMenu';
-
-const Index = () => {
-  const [currentScreen, setCurrentScreen] = useState<AppScreen>('selector');
+export default function Index() {
+  const { loading } = useAuth();
+  const [showSplash, setShowSplash] = useState(true);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
-  const [questionType, setQuestionType] = useState<QuestionType | null>(null);
-  const [questionMode, setQuestionMode] = useState<QuestionMode>('fun');
-  const [currentQuestion, setCurrentQuestion] = useState<string>('');
-  const { progress, incrementDecisions } = useSupabaseProgress();
+  const [currentScreen, setCurrentScreen] = useState<'home' | 'questions' | 'answer'>('home');
+  const [userQuestion, setUserQuestion] = useState('');
 
-  // Update characters with user's unlocked status
-  const availableCharacters = characters.map(char => ({
-    ...char,
-    unlocked: progress.unlockedCharacters.includes(char.id)
-  }));
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
+  }
 
-  const handleCharacterSelect = (character: Character) => {
-    setSelectedCharacter(character);
-  };
+  if (showSplash) {
+    return <SplashScreen onComplete={() => setShowSplash(false)} />;
+  }
 
-  const handleContinueToQuestions = () => {
-      setCurrentScreen('question');
-  };
-
-  const handleQuestionTypeSelect = (type: QuestionType, mode: QuestionMode) => {
-    console.log('Question type selected:', type, 'Mode:', mode);
-    setQuestionType(type);
-    setQuestionMode(mode);
+  const handleStartGame = () => {
     setCurrentScreen('questions');
   };
 
-  const handleQuestionSelect = (question: string) => {
-    console.log('Question selected:', question, 'Type:', questionType, 'Mode:', questionMode);
-    setCurrentQuestion(question);
+  const handleQuestionSubmit = (question: string) => {
+    setUserQuestion(question);
     setCurrentScreen('answer');
-    incrementDecisions();
   };
 
-  const handleBackToSelector = () => {
-    setCurrentScreen('selector');
-    setSelectedCharacter(null);
-    setQuestionType(null);
-    setQuestionMode('fun');
-    setCurrentQuestion('');
-  };
-
-  const handleBackToQuestionType = () => {
-    setCurrentScreen('question');
-    setQuestionType(null);
-    setQuestionMode('fun');
-    setCurrentQuestion('');
-  };
-
-  const handleBackToQuestionsList = () => {
+  const handleNewQuestion = () => {
     setCurrentScreen('questions');
-    setCurrentQuestion('');
   };
 
-  const handleAskAgain = () => {
-    if (currentQuestion) {
-      // Force re-render with new answer
-      const question = currentQuestion;
-      setCurrentQuestion('');
-      setTimeout(() => {
-        setCurrentQuestion(question);
-        incrementDecisions();
-      }, 100);
-    }
-  };
-
-  const handleStartOver = () => {
-    setCurrentScreen('selector');
+  const handleBackToHome = () => {
+    setCurrentScreen('home');
     setSelectedCharacter(null);
-    setQuestionType(null);
-    setQuestionMode('fun');
-    setCurrentQuestion('');
   };
 
   return (
-    <div className="relative min-h-screen">
-      <Sparkles />
-      
-      {/* User menu in top right */}
+    <div className="min-h-screen relative">
       <div className="absolute top-4 right-4 z-50">
         <UserMenu />
       </div>
       
-      {currentScreen === 'selector' && (
+      {currentScreen === 'home' && (
         <CombinedHomePage
           selectedCharacter={selectedCharacter}
-          onCharacterSelect={handleCharacterSelect}
-          onContinue={handleContinueToQuestions}
+          onCharacterSelect={setSelectedCharacter}
+          onStartGame={handleStartGame}
         />
       )}
 
-      {currentScreen === 'question' && (
-        <QuestionTypeSelector
-          selectedCharacter={selectedCharacter}
-          onTypeSelect={handleQuestionTypeSelect}
-          onBack={handleBackToSelector}
-        />
-      )}
-
-      {currentScreen === 'questions' && questionType && selectedCharacter && (
+      {currentScreen === 'questions' && selectedCharacter && (
         <QuestionsScreen
-          questionType={questionType}
-          questionMode={questionMode}
           character={selectedCharacter}
-          onQuestionSelect={handleQuestionSelect}
-          onBack={handleBackToQuestionType}
+          onSubmit={handleQuestionSubmit}
+          onBack={handleBackToHome}
         />
       )}
 
-      {currentScreen === 'answer' && selectedCharacter && currentQuestion && (
+      {currentScreen === 'answer' && selectedCharacter && (
         <AnswerScreen
           character={selectedCharacter}
-          question={currentQuestion}
-          questionMode={questionMode}
-          questionType={questionType}
-          onBack={handleBackToQuestionsList}
-          onAskAgain={handleAskAgain}
-          onStartOver={handleStartOver}
+          question={userQuestion}
+          onNewQuestion={handleNewQuestion}
+          onBackToHome={handleBackToHome}
         />
       )}
     </div>
   );
-};
-
-export default Index;
+}
