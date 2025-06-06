@@ -108,16 +108,28 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
       '/images/personalities/sneaky-snake/thinking/sneaky-snake-thinking-1.png'
     ],
     yes: [
-      '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-1.png'
+      '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-1.png',
+      '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-2.png',
+      '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-3.png',
+      '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-4.png'
     ],
     no: [
-      '/images/personalities/sneaky-snake/no/sneaky-snake-no-1.png'
+      '/images/personalities/sneaky-snake/no/sneaky-snake-no-1.png',
+      '/images/personalities/sneaky-snake/no/sneaky-snake-no-2.png',
+      '/images/personalities/sneaky-snake/no/sneaky-snake-no-3.png',
+      '/images/personalities/sneaky-snake/no/sneaky-snake-no-4.png'
     ],
     maybe: [
-      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-1.png'
+      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-1.png',
+      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-2.png',
+      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-3.png',
+      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-4.png'
     ],
     choice: [
-      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-1.png'
+      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-1.png',
+      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-2.png',
+      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-3.png',
+      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-4.png'
     ]
   },
   'people-pleaser-pup': {
@@ -125,16 +137,28 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
       '/images/personalities/people-pleaser-pup/thinking/people-pleaser-pup-thinking-1.png'
     ],
     yes: [
-      '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-1.png'
+      '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-1.png',
+      '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-2.png',
+      '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-3.png',
+      '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-4.png'
     ],
     no: [
-      '/images/personalities/people-pleaser-pup/no/people-pleaser-pup-no-1.png'
+      '/images/personalities/people-pleaser-pup/no/people-pleaser-pup-no-1.png',
+      '/images/personalities/people-pleaser-pup/no/people-pleaser-pup-no-2.png',
+      '/images/personalities/people-pleaser-pup/no/people-pleaser-pup-no-3.png',
+      '/images/personalities/people-pleaser-pup/no/people-pleaser-pup-no-4.png'
     ],
     maybe: [
-      '/images/personalities/people-pleaser-pup/maybe/people-pleaser-pup-maybe-1.png'
+      '/images/personalities/people-pleaser-pup/maybe/people-pleaser-pup-maybe-1.png',
+      '/images/personalities/people-pleaser-pup/maybe/people-pleaser-pup-maybe-2.png',
+      '/images/personalities/people-pleaser-pup/maybe/people-pleaser-pup-maybe-3.png',
+      '/images/personalities/people-pleaser-pup/maybe/people-pleaser-pup-maybe-4.png'
     ],
     choice: [
-      '/images/personalities/people-pleaser-pup/choice/people-pleaser-pup-choice-1.png'
+      '/images/personalities/people-pleaser-pup/choice/people-pleaser-pup-choice-1.png',
+      '/images/personalities/people-pleaser-pup/choice/people-pleaser-pup-choice-2.png',
+      '/images/personalities/people-pleaser-pup/choice/people-pleaser-pup-choice-3.png',
+      '/images/personalities/people-pleaser-pup/choice/people-pleaser-pup-choice-4.png'
     ]
   }
 };
@@ -160,12 +184,14 @@ const PERSONALITY_VIDEOS: PersonalityVideoConfig = {
   },
   'sneaky-snake': {
     thinking: [
-      '/videos/personalities/sneaky-snake/thinking/sneaky-snake-thinking-1.mp4'
+      '/videos/personalities/sneaky-snake/sneaky-snake-thinking-1.mp4',
+      '/videos/personalities/sneaky-snake/sneaky-snake-thinking-2.mp4'  
     ]
   },
   'people-pleaser-pup': {
     thinking: [
-      '/videos/personalities/people-pleaser-pup/thinking/people-pleaser-pup-thinking-1.mp4'
+      '/videos/personalities/people-pleaser-pup/people-pleaser-pup-thinking-1.mp4',
+      '/videos/personalities/people-pleaser-pup/people-pleaser-pup-thinking-2.mp4'
     ]
   }
 };
