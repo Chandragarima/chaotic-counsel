@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { Character, QuestionType, QuestionMode } from "../types";
-import SplashScreen from "../components/SplashScreen";
 import CombinedHomePage from "../components/CombinedHomePage";
 import QuestionTypeSelector from "../components/QuestionTypeSelector";
 import QuestionsScreen from "../components/QuestionsScreen";
@@ -11,7 +10,6 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function Index() {
   const { loading } = useAuth();
-  const [showSplash, setShowSplash] = useState(true);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [currentScreen, setCurrentScreen] = useState<'home' | 'question-type' | 'questions' | 'answer'>('home');
   const [selectedQuestionType, setSelectedQuestionType] = useState<QuestionType | null>(null);
@@ -24,10 +22,6 @@ export default function Index() {
         <div className="text-white text-xl">Loading...</div>
       </div>
     );
-  }
-
-  if (showSplash) {
-    return <SplashScreen onComplete={() => setShowSplash(false)} />;
   }
 
   const handleStartGame = () => {
