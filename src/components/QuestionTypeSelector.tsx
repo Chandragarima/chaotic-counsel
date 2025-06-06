@@ -143,7 +143,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
         {/* Sophisticated Header */}
         <div className="text-center space-y-8 pt-12">
           <div className="space-y-6">
-            <h1 className={`text-5xl font-thin tracking-[0.3em] ${theme ? theme.colors.text : 'text-amber-100'}`}>
+            <h1 className={`text-5xl font-thin tracking-[0em] ${theme ? theme.colors.text : 'text-amber-100'}`}>
               {getHeaderText()}
             </h1>
             
