@@ -1,91 +1,112 @@
-
-import { useState, useEffect } from 'react';
-import { characters } from '../data/characters';
 import { Character } from '../types';
+import { characters } from '../data/characters';
 import CharacterCard from './CharacterCard';
-import { Button } from './ui/button';
-import { Card } from './ui/card';
-import Sparkles from './Sparkles';
-import PersonalityEffects from './PersonalityEffects';
 import { audioManager } from '../utils/audioManager';
 
 interface CombinedHomePageProps {
   selectedCharacter: Character | null;
   onCharacterSelect: (character: Character) => void;
-  onStartGame: () => void;
+  onContinue: () => void;
 }
 
-const CombinedHomePage = ({ selectedCharacter, onCharacterSelect, onStartGame }: CombinedHomePageProps) => {
-  const [showSparkles, setShowSparkles] = useState(false);
-
-  useEffect(() => {
-    setShowSparkles(true);
-    const timer = setTimeout(() => setShowSparkles(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
+const CombinedHomePage = ({ 
+  selectedCharacter, 
+  onCharacterSelect, 
+  onContinue 
+}: CombinedHomePageProps) => {
   const handleCharacterSelect = (character: Character) => {
-    audioManager.playSound('selection', character.type);
     onCharacterSelect(character);
+    
+    // Play selection sound when character is selected
+    audioManager.playSound('selection', character.type);
+    
+    // Immediately continue to question type selection
+    onContinue();
+    console.log('called');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
-      {selectedCharacter && <PersonalityEffects character={selectedCharacter} />}
-      
-      {showSparkles && <Sparkles />}
-      
-      <div className="relative z-10 container mx-auto px-4 py-8">
-        <div className="text-center mb-12">
-          <h1 className="text-6xl font-bold text-white mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
-            Chaotic Counsel
-          </h1>
-          <p className="text-xl text-purple-200 max-w-2xl mx-auto leading-relaxed">
-            Welcome to the mystical realm where ancient wisdom meets quirky chaos. 
-            Choose your guide and unlock the secrets of destiny!
-          </p>
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      {/* Brighter, more sophisticated background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-600">
+        {/* Enhanced geometric patterns */}
+        <div className="absolute inset-0 opacity-8">
+          <div className="absolute top-1/4 left-1/3 w-96 h-96 border border-amber-400/25 rotate-45 rounded-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 border border-amber-400/20 rotate-12 rounded-2xl"></div>
+          <div className="absolute top-1/2 left-1/6 w-48 h-48 border border-amber-400/30 -rotate-12 rounded-xl"></div>
+        </div>
+        
+        {/* Brighter ambient light effects */}
+        <div className="absolute top-1/3 right-1/3 w-[500px] h-[500px] bg-amber-400/12 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-[400px] h-[400px] bg-amber-500/10 rounded-full blur-[80px]"></div>
+      </div>
+
+      {/* Main Content */}
+      <div className="text-center space-y-16 animate-fade-in relative z-10 max-w-5xl w-full">
+        {/* Enhanced branding with better fonts */}
+        <div className="space-y-8">
+          <div className="space-y-6">
+            {/* Main Title with improved typography */}
+            <div className="relative">
+              <h1 className="text-6xl md:text-8xl font-playfair font-medium tracking-[0.3em] text-slate-50 relative">
+                CHAOTIC
+              </h1>
+              <div className="absolute inset-0 text-amber-400/25 blur-sm">CHAOTICtest</div>
+            </div>
+            
+            {/* Elegant divider */}
+            <div className="flex items-center justify-center space-x-6">
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"></div>
+              <div className="w-3 h-3 border border-amber-400/70 rotate-45 bg-amber-400/15"></div>
+              <div className="w-16 h-px bg-gradient-to-l from-transparent via-amber-400/70 to-transparent"></div>
+            </div>
+            
+            {/* Subtitle with better contrast */}
+            <h2 className="text-3xl md:text-5xl font-playfair font-normal tracking-[0.2em] text-slate-100">
+              COUNSEL
+            </h2>
+          </div>
+          
+          {/* Refined tagline with better readability */}
+          <div className="space-y-4">
+            <p className="text-xl text-slate-200 font-inter font-light tracking-wider">
+              Ancient wisdom for modern decisions
+            </p>
+            <p className="text-sm text-amber-300/80 font-inter font-light italic tracking-widest uppercase">
+              Choose your guide
+            </p>
+          </div>
         </div>
 
-        <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8 mb-8">
-          <h2 className="text-3xl font-bold text-white text-center mb-8">
-            Choose Your Cosmic Guide
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
+        {/* Character Selection */}
+        <div className="space-y-8">
+          {/* Character Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {characters.map((character) => (
               <CharacterCard
                 key={character.id}
                 character={character}
                 onSelect={() => handleCharacterSelect(character)}
-                isSelected={selectedCharacter?.id === character.id}
+                isSelected={false}
               />
             ))}
           </div>
 
-          {selectedCharacter && (
-            <div className="text-center space-y-6">
-              <div className="bg-white/10 rounded-lg p-6 max-w-md mx-auto">
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  {selectedCharacter.name}
-                </h3>
-                <p className="text-purple-200 mb-4">
-                  {selectedCharacter.description}
-                </p>
-                <div className="text-sm text-purple-300 italic">
-                  Personality: {selectedCharacter.personality}
-                </div>
-              </div>
-              
-              <Button 
-                onClick={onStartGame}
-                size="lg"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold px-8 py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-              >
-                Begin Your Journey ✨
-              </Button>
-            </div>
-          )}
-        </Card>
+          {/* Instruction Text */}
+          <div className="pt-4">
+            <p className="text-amber-300/70 text-sm font-inter font-light tracking-wide">
+              Select an advisor to begin your session
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Enhanced border effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-amber-400/30 to-transparent"></div>
+        <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-amber-400/30 to-transparent"></div>
       </div>
     </div>
   );
