@@ -1,3 +1,4 @@
+
 import { Character } from '../types';
 import { characters } from '../data/characters';
 import CharacterCard from './CharacterCard';
@@ -20,9 +21,8 @@ const CombinedHomePage = ({
     // Play selection sound when character is selected
     audioManager.playSound('selection', character.type);
     
-    // Immediately continue to question type selection
+    // Go to question type selection instead of continuing directly
     onContinue();
-    console.log('called');
   };
 
   return (
@@ -51,7 +51,7 @@ const CombinedHomePage = ({
               <h1 className="text-6xl md:text-8xl font-playfair font-medium tracking-[0.3em] text-slate-50 relative">
                 CHAOTIC
               </h1>
-              <div className="absolute inset-0 text-amber-400/25 blur-sm">CHAOTICtest</div>
+              <div className="absolute inset-0 text-amber-400/25 blur-sm">CHAOTIC</div>
             </div>
             
             {/* Elegant divider */}

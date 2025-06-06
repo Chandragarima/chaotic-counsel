@@ -24,7 +24,8 @@ export default function Index() {
     );
   }
 
-  const handleStartGame = () => {
+  const handleCharacterSelectAndContinue = (character: Character) => {
+    setSelectedCharacter(character);
     setCurrentScreen('question-type');
   };
 
@@ -62,8 +63,8 @@ export default function Index() {
       {currentScreen === 'home' && (
         <CombinedHomePage
           selectedCharacter={selectedCharacter}
-          onCharacterSelect={setSelectedCharacter}
-          onStartGame={handleStartGame}
+          onCharacterSelect={handleCharacterSelectAndContinue}
+          onContinue={() => setCurrentScreen('question-type')}
         />
       )}
 
