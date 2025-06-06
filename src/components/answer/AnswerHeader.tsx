@@ -33,10 +33,10 @@ const AnswerHeader = ({ character }: AnswerHeaderProps) => {
           {character.name}
         </h1>
         <div className="flex items-center justify-center space-x-6">
-          <div className={`w-16 h-px bg-gradient-to-r from-transparent via-${theme.colors.accent.replace('#', '')}/60 to-transparent`}></div>
-          <div className={`w-2 h-2 border border-${theme.colors.accent.replace('#', '')}/60 rotate-45 bg-${theme.colors.accent.replace('#', '')}/10 ${theme.animations.floating}`}></div>
-          <div className={`w-16 h-px bg-gradient-to-l from-transparent via-${theme.colors.accent.replace('#', '')}/60 to-transparent`}></div>
-        </div>
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"></div>
+              <div className="w-3 h-3 border border-amber-400/70 rotate-45 bg-amber-400/15"></div>
+              <div className="w-16 h-px bg-gradient-to-l from-transparent via-amber-400/70 to-transparent"></div>
+            </div>
       </div>
       
       <p className={`${theme.colors.text} ${theme.fonts.body} opacity-80 text-lg`}>
