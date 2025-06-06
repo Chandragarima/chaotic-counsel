@@ -148,13 +148,13 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
             </h1>
             
             <div className="flex items-center justify-center space-x-6">
-              <div className={`w-16 h-px bg-gradient-to-r from-transparent via-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 to-transparent`}></div>
-              <div className={`w-3 h-3 border border-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 rotate-45 bg-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/10`}></div>
-              <div className={`w-16 h-px bg-gradient-to-l from-transparent via-${theme ? theme.colors.accent.replace('#', '') : 'amber-400'}/60 to-transparent`}></div>
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"></div>
+              <div className="w-3 h-3 border border-amber-400/70 rotate-45 bg-amber-400/15"></div>
+              <div className="w-16 h-px bg-gradient-to-l from-transparent via-amber-400/70 to-transparent"></div>
             </div>
           </div>
           
-          <p className={`text-xl ${theme ? theme.colors.text : 'text-amber-200'} opacity-80 font-light tracking-wider`}>
+          <p className={`text-xl ${theme ? theme.colors.text : 'text-amber-200'} opacity-80 font-light tracking-normal`}>
             {selectedCharacter ? `${selectedCharacter.name} awaits your inquiry` : 'Choose your path to wisdom'}
           </p>
         </div>

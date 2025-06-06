@@ -1,4 +1,3 @@
-
 import { Character, AIResponse, BinaryAIResponse, AdviceAIResponseEnhanced, RecommendationAIResponseEnhanced, AnalysisAIResponseEnhanced, ChoiceAIResponseEnhanced } from '../../types';
 import { Card } from '@/components/ui/card';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
@@ -58,7 +57,13 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
     <Card className={`${theme.effects.borderStyle} bg-gradient-to-br ${theme.colors.background} backdrop-blur-md p-10 ${theme.colors.glow} shadow-2xl ${theme.animations.cardHover}`}>
       {isRevealing ? (
         <div className={`text-center space-y-6 ${theme.animations.thinking}`}>
-          <div className={`w-8 h-8 border-2 border-transparent border-t-current animate-spin mx-auto ${theme.colors.text}`} style={{ borderTopColor: theme.colors.accent }}></div>
+          <div 
+            className={`w-8 h-8 border-4 rounded-full mx-auto animate-spin ${theme.colors.text}`} 
+            style={{ 
+              borderColor: theme.colors.accent,
+              borderTopColor: 'transparent'
+            }}
+          ></div>
           <p className={`${theme.colors.text} animate-pulse ${theme.fonts.body} text-lg opacity-70`}>
             {isThinking ? getPersonalityPrompt() : "Weaving threads of destiny..."}
           </p>

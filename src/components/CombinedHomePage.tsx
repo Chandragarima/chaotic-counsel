@@ -69,10 +69,10 @@ const CombinedHomePage = ({
           
           {/* Refined tagline with better readability */}
           <div className="space-y-4">
-            <p className="text-xl text-slate-200 font-inter font-light tracking-wider">
+            {/* <p className="text-xl text-slate-200 font-inter font-light tracking-wider">
               Ancient wisdom for modern decisions
-            </p>
-            <p className="text-sm text-amber-300/80 font-inter font-light italic tracking-widest uppercase">
+            </p> */}
+            <p className="text-sm text-amber-300/80 font-inter font-light tracking-normal uppercase">
               Choose your guide
             </p>
           </div>
