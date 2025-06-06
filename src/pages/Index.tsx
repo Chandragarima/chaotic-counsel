@@ -41,7 +41,10 @@ export default function Index() {
   };
 
   const handleAskAgain = () => {
-    setCurrentScreen('questions');
+    setUserQuestion(prev => prev + ' ');
+    setTimeout(() => {
+      setUserQuestion(prev => prev.trim());
+    }, 0);
   };
 
   const handleBackToHome = () => {
@@ -52,6 +55,10 @@ export default function Index() {
 
   const handleBackToQuestionType = () => {
     setCurrentScreen('question-type');
+  };
+
+  const handleBackToQuestions = () => {
+    setCurrentScreen('questions');
   };
 
   return (
@@ -92,7 +99,7 @@ export default function Index() {
           question={userQuestion}
           questionMode={selectedQuestionMode}
           questionType={selectedQuestionType}
-          onBack={handleBackToHome}
+          onBack={handleBackToQuestions}
           onAskAgain={handleAskAgain}
           onStartOver={handleBackToHome}
         />
