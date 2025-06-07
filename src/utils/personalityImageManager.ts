@@ -1,4 +1,3 @@
-
 export type ImageType = 'thinking' | 'yes' | 'no' | 'maybe' | 'choice';
 
 export interface PersonalityImageConfig {
@@ -104,9 +103,7 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
     ]
   },
   'sneaky-snake': {
-    thinking: [
-      '/images/personalities/sneaky-snake/thinking/sneaky-snake-thinking-1.png'
-    ],
+    thinking: [],
     yes: [
       '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-1.png',
       '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-2.png',
@@ -133,9 +130,7 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
     ]
   },
   'people-pleaser-pup': {
-    thinking: [
-      '/images/personalities/people-pleaser-pup/thinking/people-pleaser-pup-thinking-1.png'
-    ],
+    thinking: [],
     yes: [
       '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-1.png',
       '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-2.png',
