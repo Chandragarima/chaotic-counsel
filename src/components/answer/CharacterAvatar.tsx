@@ -53,14 +53,17 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
   // Handle transition from thinking to response
   useEffect(() => {
     if (!isThinking && hasFullAnimationSupport) {
-      setIsTransitioning(true);
-      // Small delay to ensure smooth transition
-      const timer = setTimeout(() => {
+      // Don't set transitioning state immediately to keep the video visible
+      const transitionTimer = setTimeout(() => {
+        setIsTransitioning(true);
+        // Show the response image immediately after setting transition
         setShowResponseImage(true);
-        setIsTransitioning(false);
-        console.log(`Transitioning to response image for ${character.type}`);
-      }, 200);
-      return () => clearTimeout(timer);
+        // Remove transition effect shortly after
+        setTimeout(() => {
+          setIsTransitioning(false);
+        }, 150);
+      }, 50); // Small delay before starting transition
+      return () => clearTimeout(transitionTimer);
     } else if (isThinking) {
       setShowResponseImage(false);
       setIsTransitioning(false);
@@ -85,14 +88,14 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
       );
     }
 
-    // Show response image if thinking is done and we have a preloaded image
-    if (!isThinking && showResponseImage && preloadedImages[responseType]) {
+    // Show response image if thinking is done
+    if (!isThinking) {
       return (
         <img
           key={preloadedImages[responseType]}
-          src={preloadedImages[responseType]}
+          src={preloadedImages[responseType] || personalityImageManager.getRandomImage(character.type, responseType)}
           alt={`${character.name} ${responseType}`}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+          className={`w-full h-full object-cover transition-all duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
           onError={(e) => {
             console.error('Response image failed to load:', preloadedImages[responseType]);
             e.currentTarget.src = character.image || '/placeholder.svg';
@@ -144,14 +147,8 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
       }
     }
 
-    // Fallback to character default image
-    return (
-      <img
-        src={character.image || '/placeholder.svg'}
-        alt={character.name}
-        className="w-full h-full object-cover transition-opacity duration-300"
-      />
-    );
+    // Return null instead of default image to prevent flicker
+    return null;
   };
 
   return (
