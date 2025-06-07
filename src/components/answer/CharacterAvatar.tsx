@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { personalityImageManager } from '../../utils/personalityImageManager';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
@@ -19,7 +20,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
 }) => {
   const [preloadedImages, setPreloadedImages] = useState<Record<string, string>>({});
   const [showResponseImage, setShowResponseImage] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [responseImageLoaded, setResponseImageLoaded] = useState(false);
   const theme = getPersonalityTheme(character.type);
 
   // Characters with full animation support
@@ -53,22 +54,34 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
   // Handle transition from thinking to response
   useEffect(() => {
     if (!isThinking && hasFullAnimationSupport) {
-      // Don't set transitioning state immediately to keep the video visible
-      const transitionTimer = setTimeout(() => {
-        setIsTransitioning(true);
-        // Show the response image immediately after setting transition
+      // Check if the response image is already preloaded
+      const responseImage = preloadedImages[responseType];
+      
+      if (responseImage) {
+        // Response image is preloaded, show it immediately
         setShowResponseImage(true);
-        // Remove transition effect shortly after
-        setTimeout(() => {
-          setIsTransitioning(false);
-        }, 150);
-      }, 50); // Small delay before starting transition
-      return () => clearTimeout(transitionTimer);
+        setResponseImageLoaded(true);
+      } else {
+        // Response image not preloaded, load it now and wait
+        const fallbackImage = personalityImageManager.getRandomImage(character.type, responseType);
+        if (fallbackImage) {
+          const img = new Image();
+          img.onload = () => {
+            setPreloadedImages(prev => ({
+              ...prev,
+              [responseType]: fallbackImage
+            }));
+            setResponseImageLoaded(true);
+            setShowResponseImage(true);
+          };
+          img.src = fallbackImage;
+        }
+      }
     } else if (isThinking) {
       setShowResponseImage(false);
-      setIsTransitioning(false);
+      setResponseImageLoaded(false);
     }
-  }, [isThinking, hasFullAnimationSupport]);
+  }, [isThinking, hasFullAnimationSupport, responseType, preloadedImages]);
 
   // Get the appropriate media content for the current state
   const getMediaContent = () => {
@@ -88,14 +101,14 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
       );
     }
 
-    // Show response image if thinking is done
-    if (!isThinking) {
+    // Show response image only when it's loaded and we're not thinking
+    if (!isThinking && showResponseImage && responseImageLoaded) {
       return (
         <img
           key={preloadedImages[responseType]}
-          src={preloadedImages[responseType] || personalityImageManager.getRandomImage(character.type, responseType)}
+          src={preloadedImages[responseType]}
           alt={`${character.name} ${responseType}`}
-          className={`w-full h-full object-cover transition-all duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+          className="w-full h-full object-cover transition-opacity duration-300"
           onError={(e) => {
             console.error('Response image failed to load:', preloadedImages[responseType]);
             e.currentTarget.src = character.image || '/placeholder.svg';
@@ -104,8 +117,8 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
       );
     }
 
-    // Show thinking video during thinking phase
-    if (isThinking) {
+    // Show thinking video during thinking phase OR during transition until response image is ready
+    if (isThinking || (!showResponseImage || !responseImageLoaded)) {
       const thinkingVideo = personalityImageManager.getRandomVideo(character.type, 'thinking');
       if (thinkingVideo) {
         console.log(`Playing thinking video: ${thinkingVideo}`);
