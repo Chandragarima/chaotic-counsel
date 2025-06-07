@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { personalityImageManager } from '../../utils/personalityImageManager';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
@@ -18,34 +17,42 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
   isThinking,
   className = ''
 }) => {
-  const [preloadedResponseImage, setPreloadedResponseImage] = useState<string | null>(null);
+  const [preloadedImages, setPreloadedImages] = useState<Record<string, string>>({});
   const [showResponseImage, setShowResponseImage] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const theme = getPersonalityTheme(character.type);
 
   // Characters with full animation support
-  const hasFullAnimationSupport = ['sassy-cat', 'wise-owl', 'lazy-panda'].includes(character.type);
+  const hasFullAnimationSupport = ['sassy-cat', 'wise-owl', 'lazy-panda', 'sneaky-snake', 'people-pleaser-pup'].includes(character.type);
 
-  // Preload the response image when responseType changes
+  // Preload all possible response images when thinking starts
   useEffect(() => {
-    if (responseType !== 'thinking' && hasFullAnimationSupport) {
-      console.log(`Preloading ${responseType} image for ${character.type}`);
-      const responseImage = personalityImageManager.getRandomImage(character.type, responseType);
-      if (responseImage) {
-        setPreloadedResponseImage(responseImage);
-        // Preload the image in the browser
-        const img = new Image();
-        img.src = responseImage;
-        img.onload = () => {
-          console.log(`Preloaded response image: ${responseImage}`);
-        };
-      }
+    if (isThinking && hasFullAnimationSupport) {
+      // List of possible response types
+      const possibleResponses: ('yes' | 'no' | 'maybe' | 'choice')[] = ['yes', 'no', 'maybe', 'choice'];
+      
+      // Preload an image for each possible response
+      possibleResponses.forEach(type => {
+        const responseImage = personalityImageManager.getRandomImage(character.type, type);
+        if (responseImage) {
+          // Create new Image object to preload
+          const img = new Image();
+          img.src = responseImage;
+          img.onload = () => {
+            console.log(`Preloaded ${type} image for ${character.type}: ${responseImage}`);
+            setPreloadedImages(prev => ({
+              ...prev,
+              [type]: responseImage
+            }));
+          };
+        }
+      });
     }
-  }, [responseType, character.type, hasFullAnimationSupport]);
+  }, [isThinking, character.type, hasFullAnimationSupport]);
 
   // Handle transition from thinking to response
   useEffect(() => {
-    if (!isThinking && preloadedResponseImage && hasFullAnimationSupport) {
+    if (!isThinking && hasFullAnimationSupport) {
       setIsTransitioning(true);
       // Small delay to ensure smooth transition
       const timer = setTimeout(() => {
@@ -58,7 +65,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
       setShowResponseImage(false);
       setIsTransitioning(false);
     }
-  }, [isThinking, preloadedResponseImage, hasFullAnimationSupport]);
+  }, [isThinking, hasFullAnimationSupport]);
 
   // Get the appropriate media content for the current state
   const getMediaContent = () => {
@@ -79,15 +86,15 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
     }
 
     // Show response image if thinking is done and we have a preloaded image
-    if (!isThinking && showResponseImage && preloadedResponseImage) {
+    if (!isThinking && showResponseImage && preloadedImages[responseType]) {
       return (
         <img
-          key={preloadedResponseImage}
-          src={preloadedResponseImage}
+          key={preloadedImages[responseType]}
+          src={preloadedImages[responseType]}
           alt={`${character.name} ${responseType}`}
           className={`w-full h-full object-cover transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
           onError={(e) => {
-            console.error('Response image failed to load:', preloadedResponseImage);
+            console.error('Response image failed to load:', preloadedImages[responseType]);
             e.currentTarget.src = character.image || '/placeholder.svg';
           }}
         />
