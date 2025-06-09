@@ -17,6 +17,7 @@ export default function Index() {
   const [selectedQuestionType, setSelectedQuestionType] = useState<QuestionType | null>(null);
   const [selectedQuestionMode, setSelectedQuestionMode] = useState<QuestionMode>('fun');
   const [userQuestion, setUserQuestion] = useState('');
+  const [answerComplete, setAnswerComplete] = useState(false);
 
   const { 
     questionCount, 
@@ -48,11 +49,17 @@ export default function Index() {
   const handleQuestionSubmit = (question: string) => {
     setUserQuestion(question);
     setCurrentScreen('answer');
+    setAnswerComplete(false);
     // Increment question count when a new question is asked
     incrementQuestionCount();
   };
 
+  const handleAnswerComplete = () => {
+    setAnswerComplete(true);
+  };
+
   const handleAskAgain = () => {
+    setAnswerComplete(false);
     setUserQuestion(prev => prev + ' ');
     setTimeout(() => {
       setUserQuestion(prev => prev.trim());
@@ -65,16 +72,19 @@ export default function Index() {
     setCurrentScreen('home');
     setSelectedCharacter(null);
     setSelectedQuestionType(null);
+    setAnswerComplete(false);
     // Reset session when going back to home
     resetSession();
   };
 
   const handleBackToQuestionType = () => {
     setCurrentScreen('question-type');
+    setAnswerComplete(false);
   };
 
   const handleBackToQuestions = () => {
     setCurrentScreen('questions');
+    setAnswerComplete(false);
   };
 
   return (
@@ -83,8 +93,8 @@ export default function Index() {
         <UserMenu />
       </div>
 
-      {/* Auto-triggered feedback - only show on answer screen */}
-      {currentScreen === 'answer' && (
+      {/* Auto-triggered feedback - only show on answer screen when answer is complete */}
+      {currentScreen === 'answer' && answerComplete && (
         <AutoFeedbackTrigger 
           shouldShow={shouldShowFeedback}
           character={selectedCharacter || undefined}
@@ -127,6 +137,7 @@ export default function Index() {
           onBack={handleBackToQuestions}
           onAskAgain={handleAskAgain}
           onStartOver={handleBackToHome}
+          onAnswerComplete={handleAnswerComplete}
         />
       )}
     </div>
