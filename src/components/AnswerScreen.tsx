@@ -1,4 +1,3 @@
-
 import { Character, QuestionMode, QuestionType } from '../types';
 import { Card } from '@/components/ui/card';
 import { getPersonalityTheme } from '../utils/personalityThemes';
@@ -8,6 +7,7 @@ import AnswerHeader from './answer/AnswerHeader';
 import CharacterAvatar from './answer/CharacterAvatar';
 import AnswerDisplay from './answer/AnswerDisplay';
 import ActionButtons from './answer/ActionButtons';
+import FeedbackTrigger from './feedback/FeedbackTrigger';
 
 interface AnswerScreenProps {
   character: Character;
@@ -63,14 +63,26 @@ const AnswerScreen = ({ character, question, questionMode = 'fun', questionType,
             aiResponse={aiResponse}
           />
 
-          {/* Action Buttons */}
+          {/* Action Buttons with Feedback */}
           {!isRevealing && (
-            <ActionButtons 
-              character={character}
-              onBack={onBack}
-              onAskAgain={onAskAgain}
-              onStartOver={onStartOver}
-            />
+            <>
+              <ActionButtons 
+                character={character}
+                onBack={onBack}
+                onAskAgain={onAskAgain}
+                onStartOver={onStartOver}
+              />
+              
+              {/* Post-Decision Feedback */}
+              <div className="flex justify-center pt-4">
+                <FeedbackTrigger 
+                  character={character}
+                  feedbackType="post_decision"
+                  variant="inline"
+                  className="opacity-80 hover:opacity-100 transition-opacity"
+                />
+              </div>
+            </>
           )}
         </div>
       </div>
