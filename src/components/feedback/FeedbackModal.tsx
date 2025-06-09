@@ -67,13 +67,13 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
           <button
             key={rating}
             onClick={() => setAppSatisfaction(rating)}
-            className={`p-2 rounded-full transition-all duration-200 ${
-              appSatisfaction === rating
-                ? 'bg-yellow-400 text-white scale-110'
-                : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+            className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
+              appSatisfaction && rating <= appSatisfaction
+                ? 'bg-yellow-400 text-white'
+                : 'bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800'
             }`}
           >
-            <Star className={`w-6 h-6 ${appSatisfaction === rating ? 'fill-current' : ''}`} />
+            <Star className={`w-6 h-6 ${appSatisfaction && rating <= appSatisfaction ? 'fill-current' : ''}`} />
           </button>
         ))}
       </div>
@@ -107,7 +107,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
             className={`w-full p-3 rounded-lg border transition-all duration-200 text-left ${
               favoriteCharacter === char
                 ? 'border-blue-500 bg-blue-50 text-blue-700'
-                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900'
             }`}
           >
             {char}
@@ -143,7 +143,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
         value={desiredCharacters}
         onChange={(e) => setDesiredCharacters(e.target.value)}
         placeholder="e.g., Mystical Dragon, Friendly Robot, Wise Turtle..."
-        className="w-full p-3 border border-gray-200 rounded-lg resize-none h-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full p-3 border border-gray-200 rounded-lg resize-none h-20 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
       />
       
       <div className="flex justify-center space-x-3 mt-6">
@@ -176,7 +176,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
           className={`w-full p-4 rounded-lg border transition-all duration-200 ${
             willingDetailedFeedback === true
               ? 'border-green-500 bg-green-50 text-green-700'
-              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900'
           }`}
         >
           <div className="flex items-center justify-center space-x-2">
@@ -191,7 +191,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
           className={`w-full p-4 rounded-lg border transition-all duration-200 ${
             willingDetailedFeedback === false
               ? 'border-blue-500 bg-blue-50 text-blue-700'
-              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900'
           }`}
         >
           Maybe another time
@@ -220,7 +220,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md mx-auto">
         <DialogHeader>
-          <div className="flex items-center justify-between">
+          {/* <div className="flex items-center justify-between">
             <DialogTitle className="text-xl font-bold">
               Quick Feedback
             </DialogTitle>
@@ -232,7 +232,10 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
             >
               <X className="h-4 w-4" />
             </Button>
-          </div>
+          </div> */}
+          <DialogTitle className="text-xl font-bold text-gray-900">
+            Quick Feedback
+          </DialogTitle>
         </DialogHeader>
         
         <div className="space-y-4">
