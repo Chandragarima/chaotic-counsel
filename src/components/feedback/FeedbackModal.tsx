@@ -58,7 +58,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
   const renderStep1 = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-lg font-semibold mb-2 text-gray-900">How are you liking the app?</h3>
+        <h3 className="text-lg font-semibold mb-2">How are you liking the app?</h3>
         <p className="text-sm text-gray-600 mb-4">Your feedback helps us improve! (Optional)</p>
       </div>
       
@@ -67,24 +67,24 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
           <button
             key={rating}
             onClick={() => setAppSatisfaction(rating)}
-            className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
-              appSatisfaction && rating <= appSatisfaction
-                ? 'bg-yellow-400 text-white'
-                : 'bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800'
+            className={`p-2 rounded-full transition-all duration-200 ${
+              appSatisfaction === rating
+                ? 'bg-yellow-400 text-white scale-110'
+                : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
             }`}
           >
-            <Star className={`w-6 h-6 ${appSatisfaction && rating <= appSatisfaction ? 'fill-current' : ''}`} />
+            <Star className={`w-6 h-6 ${appSatisfaction === rating ? 'fill-current' : ''}`} />
           </button>
         ))}
       </div>
       
       <div className="flex justify-center space-x-3 mt-6">
-        <Button variant="outline" onClick={handleSkip} className="text-gray-700 hover:text-gray-900">
+        <Button variant="outline" onClick={handleSkip}>
           Skip
         </Button>
         <Button 
           onClick={() => setCurrentStep(2)}
-          className={theme ? `${theme.colors.primary}` : 'bg-blue-600 hover:bg-blue-700'}
+          className={theme ? `${theme.colors.primary}` : ''}
         >
           Continue
         </Button>
@@ -95,7 +95,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
   const renderStep2 = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-lg font-semibold mb-2 text-gray-900">Which character is your favorite?</h3>
+        <h3 className="text-lg font-semibold mb-2">Which character is your favorite?</h3>
         <p className="text-sm text-gray-600 mb-4">We'd love to know! (Optional)</p>
       </div>
       
@@ -107,7 +107,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
             className={`w-full p-3 rounded-lg border transition-all duration-200 text-left ${
               favoriteCharacter === char
                 ? 'border-blue-500 bg-blue-50 text-blue-700'
-                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900'
+                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
             }`}
           >
             {char}
@@ -116,15 +116,15 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
       </div>
       
       <div className="flex justify-center space-x-3 mt-6">
-        <Button variant="outline" onClick={() => setCurrentStep(1)} className="text-gray-700 hover:text-gray-900">
+        <Button variant="outline" onClick={() => setCurrentStep(1)}>
           Back
         </Button>
-        <Button variant="outline" onClick={handleSkip} className="text-gray-700 hover:text-gray-900">
+        <Button variant="outline" onClick={handleSkip}>
           Skip
         </Button>
         <Button 
           onClick={() => setCurrentStep(3)}
-          className={theme ? `${theme.colors.primary}` : 'bg-blue-600 hover:bg-blue-700'}
+          className={theme ? `${theme.colors.primary}` : ''}
         >
           Continue
         </Button>
@@ -135,7 +135,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
   const renderStep3 = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-lg font-semibold mb-2 text-gray-900">What other characters would you like to see?</h3>
+        <h3 className="text-lg font-semibold mb-2">What other characters would you like to see?</h3>
         <p className="text-sm text-gray-600 mb-4">Share your ideas! (Optional)</p>
       </div>
       
@@ -143,19 +143,19 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
         value={desiredCharacters}
         onChange={(e) => setDesiredCharacters(e.target.value)}
         placeholder="e.g., Mystical Dragon, Friendly Robot, Wise Turtle..."
-        className="w-full p-3 border border-gray-200 rounded-lg resize-none h-20 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+        className="w-full p-3 border border-gray-200 rounded-lg resize-none h-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       
       <div className="flex justify-center space-x-3 mt-6">
-        <Button variant="outline" onClick={() => setCurrentStep(2)} className="text-gray-700 hover:text-gray-900">
+        <Button variant="outline" onClick={() => setCurrentStep(2)}>
           Back
         </Button>
-        <Button variant="outline" onClick={handleSkip} className="text-gray-700 hover:text-gray-900">
+        <Button variant="outline" onClick={handleSkip}>
           Skip
         </Button>
         <Button 
           onClick={() => setCurrentStep(4)}
-          className={theme ? `${theme.colors.primary}` : 'bg-blue-600 hover:bg-blue-700'}
+          className={theme ? `${theme.colors.primary}` : ''}
         >
           Continue
         </Button>
@@ -166,7 +166,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
   const renderStep4 = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-lg font-semibold mb-2 text-gray-900">Want to help us improve even more?</h3>
+        <h3 className="text-lg font-semibold mb-2">Want to help us improve even more?</h3>
         <p className="text-sm text-gray-600 mb-4">Would you be open to providing more detailed feedback?</p>
       </div>
       
@@ -176,7 +176,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
           className={`w-full p-4 rounded-lg border transition-all duration-200 ${
             willingDetailedFeedback === true
               ? 'border-green-500 bg-green-50 text-green-700'
-              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900'
+              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
           }`}
         >
           <div className="flex items-center justify-center space-x-2">
@@ -191,7 +191,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
           className={`w-full p-4 rounded-lg border transition-all duration-200 ${
             willingDetailedFeedback === false
               ? 'border-blue-500 bg-blue-50 text-blue-700'
-              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900'
+              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
           }`}
         >
           Maybe another time
@@ -199,16 +199,16 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
       </div>
       
       <div className="flex justify-center space-x-3 mt-6">
-        <Button variant="outline" onClick={() => setCurrentStep(3)} className="text-gray-700 hover:text-gray-900">
+        <Button variant="outline" onClick={() => setCurrentStep(3)}>
           Back
         </Button>
-        <Button variant="outline" onClick={handleSkip} className="text-gray-700 hover:text-gray-900">
+        <Button variant="outline" onClick={handleSkip}>
           Skip
         </Button>
         <Button 
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className={theme ? `${theme.colors.primary}` : 'bg-blue-600 hover:bg-blue-700'}
+          className={theme ? `${theme.colors.primary}` : ''}
         >
           {isSubmitting ? 'Submitting...' : 'Done'}
         </Button>
@@ -220,9 +220,19 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md mx-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-gray-900">
-            Quick Feedback
-          </DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle className="text-xl font-bold">
+              Quick Feedback
+            </DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onClose}
+              className="h-8 w-8 p-0"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
         
         <div className="space-y-4">
