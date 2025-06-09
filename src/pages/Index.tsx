@@ -6,7 +6,9 @@ import QuestionTypeSelector from "../components/QuestionTypeSelector";
 import QuestionsScreen from "../components/QuestionsScreen";
 import AnswerScreen from "../components/AnswerScreen";
 import UserMenu from "../components/UserMenu";
+import AutoFeedbackTrigger from "../components/feedback/AutoFeedbackTrigger";
 import { useAuth } from "@/contexts/AuthContext";
+import { useQuestionTracking } from "../hooks/useQuestionTracking";
 
 export default function Index() {
   const { loading } = useAuth();
@@ -15,6 +17,14 @@ export default function Index() {
   const [selectedQuestionType, setSelectedQuestionType] = useState<QuestionType | null>(null);
   const [selectedQuestionMode, setSelectedQuestionMode] = useState<QuestionMode>('fun');
   const [userQuestion, setUserQuestion] = useState('');
+
+  const { 
+    questionCount, 
+    shouldShowFeedback, 
+    incrementQuestionCount, 
+    resetFeedbackTrigger, 
+    resetSession 
+  } = useQuestionTracking();
 
   if (loading) {
     return (
@@ -38,6 +48,8 @@ export default function Index() {
   const handleQuestionSubmit = (question: string) => {
     setUserQuestion(question);
     setCurrentScreen('answer');
+    // Increment question count when a new question is asked
+    incrementQuestionCount();
   };
 
   const handleAskAgain = () => {
@@ -45,12 +57,16 @@ export default function Index() {
     setTimeout(() => {
       setUserQuestion(prev => prev.trim());
     }, 0);
+    // Increment question count for re-asks too
+    incrementQuestionCount();
   };
 
   const handleBackToHome = () => {
     setCurrentScreen('home');
     setSelectedCharacter(null);
     setSelectedQuestionType(null);
+    // Reset session when going back to home
+    resetSession();
   };
 
   const handleBackToQuestionType = () => {
@@ -66,6 +82,15 @@ export default function Index() {
       <div className="absolute top-4 right-4 z-50">
         <UserMenu />
       </div>
+
+      {/* Auto-triggered feedback - only show on answer screen */}
+      {currentScreen === 'answer' && (
+        <AutoFeedbackTrigger 
+          shouldShow={shouldShowFeedback}
+          character={selectedCharacter || undefined}
+          onFeedbackShown={resetFeedbackTrigger}
+        />
+      )}
       
       {currentScreen === 'home' && (
         <CombinedHomePage
