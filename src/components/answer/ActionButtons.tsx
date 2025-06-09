@@ -11,10 +11,9 @@ interface ActionButtonsProps {
   onBack: () => void;
   onAskAgain: () => void;
   onStartOver: () => void;
-  variant?: 'default' | 'compact';
 }
 
-const ActionButtons = ({ character, onBack, onAskAgain, onStartOver, variant = 'default' }: ActionButtonsProps) => {
+const ActionButtons = ({ character, onBack, onAskAgain, onStartOver }: ActionButtonsProps) => {
   const [isAsking, setIsAsking] = useState(false);
   const theme = getPersonalityTheme(character.type);
 
@@ -26,44 +25,6 @@ const ActionButtons = ({ character, onBack, onAskAgain, onStartOver, variant = '
       onAskAgain();
     }, 150);
   };
-
-  if (variant === 'compact') {
-    return (
-      <div className="flex justify-between items-center gap-4">
-        <Button 
-          onClick={onBack}
-          variant="ghost"
-          size="sm"
-          className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} transition-all duration-300`}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-        
-        <Button 
-          onClick={handleAskAgain}
-          disabled={isAsking}
-          size="sm"
-          className={`transition-all duration-300 bg-gradient-to-r ${theme.colors.primary} hover:${theme.colors.secondary} text-white ${theme.fonts.body} ${
-            isAsking ? 'scale-95 opacity-75' : 'hover:scale-[1.02]'
-          }`}
-        >
-          <RotateCcw className="mr-2 h-4 w-4" />
-          Ask Again
-        </Button>
-        
-        <Button 
-          onClick={onStartOver}
-          variant="ghost"
-          size="sm"
-          className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} transition-all duration-300`}
-        >
-          <Home className="mr-2 h-4 w-4" />
-          Start Over
-        </Button>
-      </div>
-    );
-  }
 
   return (
     <div className={`space-y-4 ${theme.animations.responding}`}>
