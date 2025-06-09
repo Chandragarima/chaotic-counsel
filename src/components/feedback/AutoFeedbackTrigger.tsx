@@ -7,21 +7,22 @@ interface AutoFeedbackTriggerProps {
   shouldShow: boolean;
   character?: Character;
   onFeedbackShown: () => void;
+  isAnswerRevealed: boolean; // New prop to check if answer is fully displayed
 }
 
-const AutoFeedbackTrigger = ({ shouldShow, character, onFeedbackShown }: AutoFeedbackTriggerProps) => {
+const AutoFeedbackTrigger = ({ shouldShow, character, onFeedbackShown, isAnswerRevealed }: AutoFeedbackTriggerProps) => {
   useEffect(() => {
-    if (shouldShow) {
-      // Small delay to ensure the page has loaded
+    if (shouldShow && isAnswerRevealed) {
+      // Small delay to ensure the answer has been displayed
       const timer = setTimeout(() => {
         onFeedbackShown();
-      }, 1000);
+      }, 2000); // Increased delay to ensure user has time to read the answer
 
       return () => clearTimeout(timer);
     }
-  }, [shouldShow, onFeedbackShown]);
+  }, [shouldShow, onFeedbackShown, isAnswerRevealed]);
 
-  if (!shouldShow) return null;
+  if (!shouldShow || !isAnswerRevealed) return null;
 
   return (
     <div className="fixed top-20 right-6 z-50 animate-in slide-in-from-right-5 duration-500">

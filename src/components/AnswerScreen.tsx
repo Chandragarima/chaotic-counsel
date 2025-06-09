@@ -33,8 +33,21 @@ const AnswerScreen = ({ character, question, questionMode = 'fun', questionType,
       <PersonalityEffects character={character} />
       
       <div className="relative z-10 p-6 space-y-8">
-        {/* Header */}
-        <AnswerHeader character={character} />
+        {/* Header with Navigation */}
+        <div className="space-y-4">
+          <AnswerHeader character={character} />
+          
+          {/* Top Navigation - Always visible */}
+          <div className="max-w-2xl mx-auto">
+            <ActionButtons 
+              character={character}
+              onBack={onBack}
+              onAskAgain={onAskAgain}
+              onStartOver={onStartOver}
+              variant="compact" // New variant for top placement
+            />
+          </div>
+        </div>
 
         {/* Question Display */}
         <div className="max-w-2xl mx-auto">
@@ -62,16 +75,6 @@ const AnswerScreen = ({ character, question, questionMode = 'fun', questionType,
             isThinking={isThinking}
             aiResponse={aiResponse}
           />
-
-          {/* Action Buttons */}
-          {!isRevealing && (
-            <ActionButtons 
-              character={character}
-              onBack={onBack}
-              onAskAgain={onAskAgain}
-              onStartOver={onStartOver}
-            />
-          )}
         </div>
       </div>
     </div>

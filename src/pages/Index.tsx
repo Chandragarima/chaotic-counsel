@@ -83,12 +83,13 @@ export default function Index() {
         <UserMenu />
       </div>
 
-      {/* Auto-triggered feedback - only show on answer screen */}
+      {/* Auto-triggered feedback - only show on answer screen after answer is revealed */}
       {currentScreen === 'answer' && (
         <AutoFeedbackTrigger 
           shouldShow={shouldShowFeedback}
           character={selectedCharacter || undefined}
           onFeedbackShown={resetFeedbackTrigger}
+          isAnswerRevealed={userQuestion !== ''} // Answer is revealed when we have a question
         />
       )}
       
