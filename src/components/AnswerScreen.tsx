@@ -88,6 +88,9 @@ const AnswerScreen = ({
               onBack={onBack}
               onAskAgain={onAskAgain}
               onStartOver={onStartOver}
+              answer={answer}
+              aiResponse={aiResponse}
+              question={question}
             />
           )}
         </div>

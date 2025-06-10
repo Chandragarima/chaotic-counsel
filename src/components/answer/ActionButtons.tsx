@@ -1,20 +1,33 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, RotateCcw, Home } from 'lucide-react';
-import { Character } from '../../types';
+import { ArrowLeft, RotateCcw, Home, Share } from 'lucide-react';
+import { Character, AIResponse } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { audioManager } from '../../utils/audioManager';
+import ShareModal from '../share/ShareModal';
 
 interface ActionButtonsProps {
   character: Character;
   onBack: () => void;
   onAskAgain: () => void;
   onStartOver: () => void;
+  answer?: string;
+  aiResponse?: AIResponse | null;
+  question?: string;
 }
 
-const ActionButtons = ({ character, onBack, onAskAgain, onStartOver }: ActionButtonsProps) => {
+const ActionButtons = ({ 
+  character, 
+  onBack, 
+  onAskAgain, 
+  onStartOver, 
+  answer, 
+  aiResponse, 
+  question 
+}: ActionButtonsProps) => {
   const [isAsking, setIsAsking] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const theme = getPersonalityTheme(character.type);
 
   const handleAskAgain = () => {
@@ -27,38 +40,61 @@ const ActionButtons = ({ character, onBack, onAskAgain, onStartOver }: ActionBut
   };
 
   return (
-    <div className={`space-y-4 ${theme.animations.responding}`}>
-      <Button 
-        onClick={handleAskAgain}
-        disabled={isAsking}
-        className={`w-full min-h-[52px] transition-all duration-300 bg-gradient-to-r ${theme.colors.primary} hover:${theme.colors.secondary} text-white ${theme.fonts.body} tracking-wide ${theme.colors.glow} shadow-lg hover:shadow-xl ${theme.animations.buttonHover} ${
-          isAsking ? 'scale-95 opacity-75' : 'hover:scale-[1.02]'
-        }`}
-      >
-        <RotateCcw className="mr-3 h-4 w-4" />
-        Consult {character.name} Again
-      </Button>
-      
-      <div className="grid grid-cols-2 gap-4">
+    <>
+      <div className={`space-y-4 ${theme.animations.responding}`}>
+        {/* Share Button */}
         <Button 
-          onClick={onBack}
-          variant="ghost"
-          className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} min-h-[48px] border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} tracking-wide transition-all duration-300 ${theme.animations.buttonHover}`}
+          onClick={() => setShareModalOpen(true)}
+          className={`w-full min-h-[52px] transition-all duration-300 bg-gradient-to-r ${theme.colors.secondary} hover:${theme.colors.primary} text-white ${theme.fonts.body} tracking-wide shadow-lg hover:shadow-xl ${theme.animations.buttonHover} hover:scale-[1.02]`}
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Return
+          <Share className="mr-3 h-4 w-4" />
+          Share This Wisdom
+        </Button>
+
+        <Button 
+          onClick={handleAskAgain}
+          disabled={isAsking}
+          className={`w-full min-h-[52px] transition-all duration-300 bg-gradient-to-r ${theme.colors.primary} hover:${theme.colors.secondary} text-white ${theme.fonts.body} tracking-wide ${theme.colors.glow} shadow-lg hover:shadow-xl ${theme.animations.buttonHover} ${
+            isAsking ? 'scale-95 opacity-75' : 'hover:scale-[1.02]'
+          }`}
+        >
+          <RotateCcw className="mr-3 h-4 w-4" />
+          Consult {character.name} Again
         </Button>
         
-        <Button 
-          onClick={onStartOver}
-          variant="ghost"
-          className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} min-h-[48px] border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} tracking-wide transition-all duration-300 ${theme.animations.buttonHover}`}
-        >
-          <Home className="mr-2 h-4 w-4" />
-          Begin Anew
-        </Button>
+        <div className="grid grid-cols-2 gap-4">
+          <Button 
+            onClick={onBack}
+            variant="ghost"
+            className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} min-h-[48px] border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} tracking-wide transition-all duration-300 ${theme.animations.buttonHover}`}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Return
+          </Button>
+          
+          <Button 
+            onClick={onStartOver}
+            variant="ghost"
+            className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} min-h-[48px] border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} tracking-wide transition-all duration-300 ${theme.animations.buttonHover}`}
+          >
+            <Home className="mr-2 h-4 w-4" />
+            Begin Anew
+          </Button>
+        </div>
       </div>
-    </div>
+
+      {/* Share Modal */}
+      {question && (
+        <ShareModal
+          open={shareModalOpen}
+          onOpenChange={setShareModalOpen}
+          character={character}
+          question={question}
+          answer={answer}
+          aiResponse={aiResponse}
+        />
+      )}
+    </>
   );
 };
 
