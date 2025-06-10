@@ -45,7 +45,7 @@ class ShareService {
     
     // Download the image for user to save
     const link = document.createElement('a');
-    link.download = 'answer-share.png';
+    link.download = 'mystical-answer.png';
     link.href = imageUrl;
     link.click();
 
@@ -62,13 +62,13 @@ class ShareService {
     if (imageUrl) {
       // For WhatsApp with image, we'll download the image and provide instructions
       const link = document.createElement('a');
-      link.download = 'answer-share.png';
+      link.download = 'mystical-answer.png';
       link.href = imageUrl;
       link.click();
     }
     
     window.open(whatsappUrl, '_blank');
-    return { success: true };
+    return { success: true, message: 'Image downloaded! Attach it to your WhatsApp message.' };
   }
 
   async shareGeneral(text: string, imageUrl?: string) {
@@ -77,10 +77,10 @@ class ShareService {
         // Convert data URL to blob for native sharing
         const response = await fetch(imageUrl);
         const blob = await response.blob();
-        const file = new File([blob], 'answer-share.png', { type: 'image/png' });
+        const file = new File([blob], 'mystical-answer.png', { type: 'image/png' });
 
         await navigator.share({
-          title: 'Check out this answer!',
+          title: 'Check out this mystical answer!',
           text: text,
           files: [file]
         });
@@ -104,14 +104,14 @@ class ShareService {
     if (imageUrl) {
       // Also download the image
       const link = document.createElement('a');
-      link.download = 'answer-share.png';
+      link.download = 'mystical-answer.png';
       link.href = imageUrl;
       link.click();
     }
     
     return { 
       success: true, 
-      message: 'Content copied to clipboard!' 
+      message: 'Content copied and image downloaded!' 
     };
   }
 

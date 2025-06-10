@@ -22,7 +22,6 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     let imageType: 'yes' | 'no' | 'maybe' | 'choice' = 'choice';
     
     if (aiResponse?.responseType === 'binary') {
-      // For binary responses, we could analyze the content to determine yes/no/maybe
       imageType = 'maybe'; // Default for binary
     } else if (aiResponse?.responseType === 'choice') {
       imageType = 'choice';
