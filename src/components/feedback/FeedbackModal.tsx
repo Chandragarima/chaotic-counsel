@@ -107,7 +107,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
             className={`w-full p-3 rounded-lg border transition-all duration-200 text-left ${
               favoriteCharacter === char
                 ? 'border-blue-500 bg-blue-50 text-blue-700'
-                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900'
+                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900'
             }`}
           >
             {char}
@@ -176,7 +176,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
           className={`w-full p-4 rounded-lg border transition-all duration-200 ${
             willingDetailedFeedback === true
               ? 'border-green-500 bg-green-50 text-green-700'
-              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900'
+              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900'
           }`}
         >
           <div className="flex items-center justify-center space-x-2">
@@ -191,7 +191,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
           className={`w-full p-4 rounded-lg border transition-all duration-200 ${
             willingDetailedFeedback === false
               ? 'border-blue-500 bg-blue-50 text-blue-700'
-              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900'
+              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900'
           }`}
         >
           Maybe another time
@@ -220,22 +220,22 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md mx-auto">
         <DialogHeader>
-          {/* <div className="flex items-center justify-between">
+          { <div className="flex items-center justify-between">
             <DialogTitle className="text-xl font-bold">
               Quick Feedback
             </DialogTitle>
-            <Button
+            {/* <Button
               variant="ghost"
               size="sm"
               onClick={onClose}
               className="h-8 w-8 p-0"
             >
               <X className="h-4 w-4" />
-            </Button>
-          </div> */}
-          <DialogTitle className="text-xl font-bold text-gray-900">
+            </Button> */}
+          </div> }
+          {/* <DialogTitle className="text-xl font-bold text-gray-900">
             Quick Feedback
-          </DialogTitle>
+          </DialogTitle> */}
         </DialogHeader>
         
         <div className="space-y-4">
