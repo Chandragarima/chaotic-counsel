@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -214,14 +213,16 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
         </DialogContent>
       </Dialog>
 
-      {/* Hidden ShareCard for image generation */}
-      <ShareCard
-        character={character}
-        question={question}
-        answer={answer}
-        aiResponse={aiResponse}
-        isGenerating={true}
-      />
+      {/* Hidden ShareCard for image generation - only render when modal is open */}
+      {open && (
+        <ShareCard
+          character={character}
+          question={question}
+          answer={answer}
+          aiResponse={aiResponse}
+          isGenerating={true}
+        />
+      )}
     </>
   );
 };
