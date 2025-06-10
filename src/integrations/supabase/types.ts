@@ -36,6 +36,48 @@ export type Database = {
         }
         Relationships: []
       }
+      feedback: {
+        Row: {
+          additional_notes: string | null
+          app_satisfaction: number | null
+          character_used: string | null
+          created_at: string
+          desired_characters: string[] | null
+          favorite_character: string | null
+          feedback_type: string
+          id: string
+          session_id: string | null
+          user_id: string | null
+          willing_detailed_feedback: boolean | null
+        }
+        Insert: {
+          additional_notes?: string | null
+          app_satisfaction?: number | null
+          character_used?: string | null
+          created_at?: string
+          desired_characters?: string[] | null
+          favorite_character?: string | null
+          feedback_type: string
+          id?: string
+          session_id?: string | null
+          user_id?: string | null
+          willing_detailed_feedback?: boolean | null
+        }
+        Update: {
+          additional_notes?: string | null
+          app_satisfaction?: number | null
+          character_used?: string | null
+          created_at?: string
+          desired_characters?: string[] | null
+          favorite_character?: string | null
+          feedback_type?: string
+          id?: string
+          session_id?: string | null
+          user_id?: string | null
+          willing_detailed_feedback?: boolean | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

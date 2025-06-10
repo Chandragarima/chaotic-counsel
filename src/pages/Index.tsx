@@ -6,7 +6,9 @@ import QuestionTypeSelector from "../components/QuestionTypeSelector";
 import QuestionsScreen from "../components/QuestionsScreen";
 import AnswerScreen from "../components/AnswerScreen";
 import UserMenu from "../components/UserMenu";
+import AutoFeedbackTrigger from "../components/feedback/AutoFeedbackTrigger";
 import { useAuth } from "@/contexts/AuthContext";
+import { useQuestionTracking } from "../hooks/useQuestionTracking";
 
 export default function Index() {
   const { loading } = useAuth();
@@ -15,6 +17,15 @@ export default function Index() {
   const [selectedQuestionType, setSelectedQuestionType] = useState<QuestionType | null>(null);
   const [selectedQuestionMode, setSelectedQuestionMode] = useState<QuestionMode>('fun');
   const [userQuestion, setUserQuestion] = useState('');
+  const [answerComplete, setAnswerComplete] = useState(false);
+
+  const { 
+    questionCount, 
+    shouldShowFeedback, 
+    incrementQuestionCount, 
+    resetFeedbackTrigger, 
+    resetSession 
+  } = useQuestionTracking();
 
   if (loading) {
     return (
@@ -38,27 +49,42 @@ export default function Index() {
   const handleQuestionSubmit = (question: string) => {
     setUserQuestion(question);
     setCurrentScreen('answer');
+    setAnswerComplete(false);
+    // Increment question count when a new question is asked
+    incrementQuestionCount();
+  };
+
+  const handleAnswerComplete = () => {
+    setAnswerComplete(true);
   };
 
   const handleAskAgain = () => {
+    setAnswerComplete(false);
     setUserQuestion(prev => prev + ' ');
     setTimeout(() => {
       setUserQuestion(prev => prev.trim());
     }, 0);
+    // Increment question count for re-asks too
+    incrementQuestionCount();
   };
 
   const handleBackToHome = () => {
     setCurrentScreen('home');
     setSelectedCharacter(null);
     setSelectedQuestionType(null);
+    setAnswerComplete(false);
+    // Reset session when going back to home
+    resetSession();
   };
 
   const handleBackToQuestionType = () => {
     setCurrentScreen('question-type');
+    setAnswerComplete(false);
   };
 
   const handleBackToQuestions = () => {
     setCurrentScreen('questions');
+    setAnswerComplete(false);
   };
 
   return (
@@ -66,6 +92,15 @@ export default function Index() {
       <div className="absolute top-4 right-4 z-50">
         <UserMenu />
       </div>
+
+      {/* Auto-triggered feedback - only show on answer screen when answer is complete */}
+      {currentScreen === 'answer' && answerComplete && (
+        <AutoFeedbackTrigger 
+          shouldShow={shouldShowFeedback}
+          character={selectedCharacter || undefined}
+          onFeedbackShown={resetFeedbackTrigger}
+        />
+      )}
       
       {currentScreen === 'home' && (
         <CombinedHomePage
@@ -102,6 +137,7 @@ export default function Index() {
           onBack={handleBackToQuestions}
           onAskAgain={handleAskAgain}
           onStartOver={handleBackToHome}
+          onAnswerComplete={handleAnswerComplete}
         />
       )}
     </div>

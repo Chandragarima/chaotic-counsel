@@ -3,6 +3,7 @@ import { Character, QuestionMode, QuestionType } from '../types';
 import { Card } from '@/components/ui/card';
 import { getPersonalityTheme } from '../utils/personalityThemes';
 import { useAnswerGeneration } from '../hooks/useAnswerGeneration';
+import { useEffect } from 'react';
 import PersonalityEffects from './PersonalityEffects';
 import AnswerHeader from './answer/AnswerHeader';
 import CharacterAvatar from './answer/CharacterAvatar';
@@ -17,9 +18,19 @@ interface AnswerScreenProps {
   onBack: () => void;
   onAskAgain: () => void;
   onStartOver: () => void;
+  onAnswerComplete?: () => void;
 }
 
-const AnswerScreen = ({ character, question, questionMode = 'fun', questionType, onBack, onAskAgain, onStartOver }: AnswerScreenProps) => {
+const AnswerScreen = ({ 
+  character, 
+  question, 
+  questionMode = 'fun', 
+  questionType, 
+  onBack, 
+  onAskAgain, 
+  onStartOver,
+  onAnswerComplete 
+}: AnswerScreenProps) => {
   const { answer, isRevealing, isThinking, responseType, aiResponse } = useAnswerGeneration({ 
     character, 
     question, 
@@ -27,6 +38,13 @@ const AnswerScreen = ({ character, question, questionMode = 'fun', questionType,
     questionType: questionType || undefined
   });
   const theme = getPersonalityTheme(character.type);
+
+  // Notify parent when answer is complete
+  useEffect(() => {
+    if (!isRevealing && !isThinking && (answer || aiResponse) && onAnswerComplete) {
+      onAnswerComplete();
+    }
+  }, [isRevealing, isThinking, answer, aiResponse, onAnswerComplete]);
 
   return (
     <div className={`min-h-screen relative overflow-hidden ${theme.animations.entrance}`}>
@@ -70,6 +88,9 @@ const AnswerScreen = ({ character, question, questionMode = 'fun', questionType,
               onBack={onBack}
               onAskAgain={onAskAgain}
               onStartOver={onStartOver}
+              answer={answer}
+              aiResponse={aiResponse}
+              question={question}
             />
           )}
         </div>
