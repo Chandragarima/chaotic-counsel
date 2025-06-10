@@ -1,4 +1,3 @@
-
 import { Character, AIResponse } from '../../types';
 import { Card } from '@/components/ui/card';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
@@ -67,10 +66,10 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 p-16 h-full flex flex-col justify-between">
+      <div className="relative z-10 p-16 h-full flex flex-col items-center justify-between">
         {/* Header */}
-        <div className="text-center space-y-8">
-          <div className={`inline-block px-8 py-4 rounded-full bg-gradient-to-r ${theme.colors.primary} ${theme.colors.glow}`}>
+        <div className="text-center w-full">
+          <div className={`inline-block px-8 py-4 rounded-full bg-gradient-to-r ${theme.colors.primary}`}>
             <h1 className={`text-white text-4xl ${theme.fonts.heading}`}>
               Mystical Guidance
             </h1>
@@ -78,10 +77,10 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
         </div>
 
         {/* Character and Content */}
-        <div className="flex-1 flex flex-col items-center justify-center space-y-12">
+        <div className="flex flex-col items-center space-y-8 flex-grow justify-center w-full">
           {/* Character Image */}
           {characterImage && (
-            <div className={`relative w-48 h-48 rounded-full overflow-hidden ${theme.colors.glow} shadow-2xl`}>
+            <div className={`relative w-48 h-48 rounded-full overflow-hidden shadow-2xl`}>
               <img 
                 src={characterImage} 
                 alt={character.name}
@@ -96,14 +95,14 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
           </h2>
 
           {/* Question */}
-          <Card className={`${theme.effects.borderStyle} bg-gradient-to-br ${theme.colors.background} backdrop-blur-md p-8 max-w-4xl`}>
+          <Card className={`${theme.effects.borderStyle} bg-gradient-to-br ${theme.colors.background} backdrop-blur-md p-8 w-full max-w-4xl`}>
             <p className={`${theme.colors.text} text-center text-3xl leading-relaxed ${theme.fonts.body}`}>
               "{question}"
             </p>
           </Card>
 
           {/* Answer */}
-          <Card className={`${theme.effects.borderStyle} bg-gradient-to-br ${theme.colors.primary} p-8 max-w-4xl ${theme.colors.glow} shadow-2xl`}>
+          <Card className={`${theme.effects.borderStyle} bg-gradient-to-br ${theme.colors.primary} p-8 w-full max-w-4xl shadow-2xl`}>
             <p className="text-white text-center text-3xl leading-relaxed font-medium">
               "{getDisplayAnswer()}"
             </p>
@@ -111,7 +110,7 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
         </div>
 
         {/* Footer */}
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-4 w-full">
           <div className={`${theme.colors.text} text-2xl ${theme.fonts.body}`}>
             Get your own mystical guidance
           </div>
