@@ -51,6 +51,18 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     return answer || "The universe whispers its wisdom...";
   };
 
+  // Clean and format the answer text to prevent corruption
+  const cleanDisplayAnswer = () => {
+    const rawAnswer = getDisplayAnswer();
+    // Remove any potential encoding issues and clean the text
+    return rawAnswer.replace(/[^\w\s.,!?'"()-]/g, '').trim();
+  };
+
+  // Clean and format the question text
+  const cleanQuestion = () => {
+    return question.replace(/[^\w\s.,!?'"()-]/g, '').trim();
+  };
+
   // Get theme colors for inline styles
   const getGradientBackground = () => {
     const colorMap: Record<string, string> = {
@@ -84,7 +96,7 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     zIndex: isGenerating ? -1 : 'auto',
     display: 'flex',
     flexDirection: 'column',
-    fontFamily: 'Inter, sans-serif',
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     color: '#f8fafc',
     overflow: 'hidden',
     padding: '80px 60px'
@@ -111,10 +123,11 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
   const characterNameStyle: React.CSSProperties = {
     fontSize: '48px',
     fontWeight: '600',
-    fontFamily: 'Playfair Display, serif',
+    fontFamily: "'Playfair Display', 'Georgia', serif",
     textAlign: 'center',
     margin: '0',
-    textShadow: `0 0 20px ${getPrimaryColor()}80`
+    textShadow: `0 0 20px ${getPrimaryColor()}80`,
+    letterSpacing: '1px'
   };
 
   const questionStyle: React.CSSProperties = {
@@ -132,7 +145,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: '120px'
+    minHeight: '120px',
+    fontFamily: "'Inter', sans-serif"
   };
 
   const answerStyle: React.CSSProperties = {
@@ -145,7 +159,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     textAlign: 'center',
     maxWidth: '800px',
     fontWeight: '500',
-    boxShadow: `0 20px 40px ${getPrimaryColor()}30`
+    boxShadow: `0 20px 40px ${getPrimaryColor()}30`,
+    fontFamily: "'Inter', sans-serif"
   };
 
   const footerStyle: React.CSSProperties = {
@@ -157,7 +172,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     fontSize: '24px',
     fontWeight: '500',
     color: '#cbd5e1',
-    opacity: 0.8
+    opacity: 0.8,
+    fontFamily: "'Inter', sans-serif"
   };
 
   return (
@@ -189,12 +205,12 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
 
         {/* Question */}
         <div style={questionStyle}>
-          "{question}"
+          "{cleanQuestion()}"
         </div>
 
         {/* Answer */}
         <div style={answerStyle}>
-          "{getDisplayAnswer()}"
+          "{cleanDisplayAnswer()}"
         </div>
       </div>
 
