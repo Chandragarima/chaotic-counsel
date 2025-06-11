@@ -15,8 +15,11 @@ interface ShareCardProps {
 const ShareCard = ({ character, question, answer, aiResponse, isGenerating = false }: ShareCardProps) => {
   const theme = getPersonalityTheme(character.type);
   const [characterImage, setCharacterImage] = useState<string | null>(null);
+  const [imageLoadError, setImageLoadError] = useState(false);
 
   useEffect(() => {
+    console.log('ShareCard: Loading image for character:', character.type, 'with response type:', aiResponse?.responseType);
+    
     let imageType: 'yes' | 'no' | 'maybe' | 'choice' = 'choice';
     
     if (aiResponse?.responseType === 'binary') {
@@ -27,9 +30,40 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
       imageType = 'choice';
     }
 
-    const image = personalityImageManager.getRandomImage(character.type, imageType);
+    // Try to get the random image
+    let image = personalityImageManager.getRandomImage(character.type, imageType);
+    console.log('ShareCard: Selected image:', image, 'for type:', imageType);
+    
+    // If no image found for the specific type, try fallback to 'choice' type
+    if (!image && imageType !== 'choice') {
+      console.log('ShareCard: No image found for type', imageType, 'trying choice type');
+      image = personalityImageManager.getRandomImage(character.type, 'choice');
+    }
+    
+    // If still no image, try 'yes' type as another fallback
+    if (!image) {
+      console.log('ShareCard: No image found for choice type, trying yes type');
+      image = personalityImageManager.getRandomImage(character.type, 'yes');
+    }
+    
+    // Final fallback to character.image from character data
+    if (!image && character.image) {
+      console.log('ShareCard: Using character.image as final fallback:', character.image);
+      image = character.image;
+    }
+    
+    console.log('ShareCard: Final selected image:', image);
     setCharacterImage(image);
-  }, [character.type, aiResponse]);
+    setImageLoadError(false);
+  }, [character.type, character.image, aiResponse]);
+
+  const handleImageError = () => {
+    console.error('ShareCard: Image failed to load, using character fallback image');
+    setImageLoadError(true);
+    if (character.image && character.image !== characterImage) {
+      setCharacterImage(character.image);
+    }
+  };
 
   const getDisplayAnswer = () => {
     if (aiResponse) {
@@ -189,6 +223,7 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
             <img 
               src={characterImage} 
               alt={character.name}
+              onError={handleImageError}
               style={{
                 width: '100%',
                 height: '100%',
