@@ -54,11 +54,11 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
   // Get theme colors for inline styles
   const getGradientBackground = () => {
     const colorMap: Record<string, string> = {
-      'sassy-cat': 'linear-gradient(135deg, #1e293b 0%, #831843 20%, #1e293b 100%)',
-      'wise-owl': 'linear-gradient(135deg, #1e293b 0%, #92400e 20%, #1e293b 100%)',
-      'lazy-panda': 'linear-gradient(135deg, #1e293b 0%, #059669 20%, #1e293b 100%)',
-      'sneaky-snake': 'linear-gradient(135deg, #1e293b 0%, #c2410c 20%, #1e293b 100%)',
-      'people-pleaser-pup': 'linear-gradient(135deg, #1e293b 0%, #ca8a04 20%, #1e293b 100%)'
+      'sassy-cat': 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(131, 24, 67, 0.3) 20%, rgba(30, 41, 59, 0.95) 100%)',
+      'wise-owl': 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(146, 64, 14, 0.3) 20%, rgba(30, 41, 59, 0.95) 100%)',
+      'lazy-panda': 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(5, 150, 105, 0.3) 20%, rgba(30, 41, 59, 0.95) 100%)',
+      'sneaky-snake': 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(194, 65, 12, 0.3) 20%, rgba(30, 41, 59, 0.95) 100%)',
+      'people-pleaser-pup': 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(202, 138, 4, 0.3) 20%, rgba(30, 41, 59, 0.95) 100%)'
     };
     return colorMap[character.type] || colorMap['wise-owl'];
   };
@@ -86,24 +86,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     flexDirection: 'column',
     fontFamily: 'Inter, sans-serif',
     color: '#f8fafc',
-    overflow: 'hidden'
-  };
-
-  const headerStyle: React.CSSProperties = {
-    textAlign: 'center',
-    padding: '60px 60px 40px 60px'
-  };
-
-  const titleStyle: React.CSSProperties = {
-    background: `linear-gradient(90deg, ${getPrimaryColor()}, ${getPrimaryColor()}dd)`,
-    color: 'white',
-    padding: '20px 40px',
-    borderRadius: '50px',
-    fontSize: '36px',
-    fontWeight: '600',
-    fontFamily: 'Playfair Display, serif',
-    display: 'inline-block',
-    boxShadow: `0 0 30px ${getPrimaryColor()}40`
+    overflow: 'hidden',
+    padding: '80px 60px'
   };
 
   const contentStyle: React.CSSProperties = {
@@ -112,13 +96,12 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '0 60px',
-    gap: '50px'
+    gap: '40px'
   };
 
   const avatarStyle: React.CSSProperties = {
-    width: '200px',
-    height: '200px',
+    width: '280px',
+    height: '280px',
     borderRadius: '50%',
     overflow: 'hidden',
     border: `4px solid ${getPrimaryColor()}`,
@@ -135,17 +118,21 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
   };
 
   const questionStyle: React.CSSProperties = {
-    background: 'rgba(255, 255, 255, 0.1)',
+    background: 'rgba(255, 255, 255, 0.08)',
     backdropFilter: 'blur(10px)',
-    border: `1px solid ${getPrimaryColor()}40`,
+    border: `1px solid ${getPrimaryColor()}30`,
     borderRadius: '20px',
-    padding: '30px 40px',
+    padding: '35px 45px',
     fontSize: '28px',
     lineHeight: '1.4',
     textAlign: 'center',
     maxWidth: '800px',
     fontStyle: 'italic',
-    color: '#e2e8f0'
+    color: '#e2e8f0',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '120px'
   };
 
   const answerStyle: React.CSSProperties = {
@@ -163,24 +150,14 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
 
   const footerStyle: React.CSSProperties = {
     textAlign: 'center',
-    padding: '40px 60px 60px 60px',
-    borderTop: `1px solid ${getPrimaryColor()}20`
+    marginTop: '60px'
   };
 
-  const footerTitleStyle: React.CSSProperties = {
-    fontSize: '32px',
-    fontWeight: '600',
-    marginBottom: '15px',
-    color: '#f1f5f9'
-  };
-
-  const footerUrlStyle: React.CSSProperties = {
-    fontSize: '28px',
-    fontWeight: '700',
-    background: `linear-gradient(90deg, ${getPrimaryColor()}, ${getPrimaryColor()}cc)`,
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text'
+  const footerTextStyle: React.CSSProperties = {
+    fontSize: '24px',
+    fontWeight: '500',
+    color: '#cbd5e1',
+    opacity: 0.8
   };
 
   return (
@@ -188,13 +165,6 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
       id="share-card" 
       style={cardStyle}
     >
-      {/* Header */}
-      <div style={headerStyle}>
-        <div style={titleStyle}>
-          Mystical Guidance
-        </div>
-      </div>
-
       {/* Main Content */}
       <div style={contentStyle}>
         {/* Character Image */}
@@ -230,11 +200,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
 
       {/* Footer */}
       <div style={footerStyle}>
-        <div style={footerTitleStyle}>
-          Meet your chaotic counsel today!
-        </div>
-        <div style={footerUrlStyle}>
-          {window.location.origin}
+        <div style={footerTextStyle}>
+          chaoticcounsel.com
         </div>
       </div>
     </div>
