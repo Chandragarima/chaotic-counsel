@@ -1,4 +1,3 @@
-
 import html2canvas from 'html2canvas';
 
 export interface ShareData {
@@ -71,6 +70,22 @@ class ShareService {
     return { success: true, message: 'Image downloaded! Attach it to your WhatsApp message.' };
   }
 
+  async shareToTikTok(imageUrl: string, text: string) {
+    // TikTok doesn't have direct web sharing, so we'll copy text and download image
+    await navigator.clipboard.writeText(text);
+    
+    // Download the image for user to save
+    const link = document.createElement('a');
+    link.download = 'mystical-answer.png';
+    link.href = imageUrl;
+    link.click();
+
+    return {
+      success: true,
+      message: 'Image downloaded and text copied to clipboard. Share on TikTok!'
+    };
+  }
+
   async shareGeneral(text: string, imageUrl?: string) {
     if (navigator.share && imageUrl) {
       try {
@@ -134,6 +149,16 @@ Get your own mystical guidance at ${appUrl} ✨`;
 What would they tell you? Find out at the link in bio! ✨
 
 #MysticalGuidance #${data.characterType.replace('-', '')} #DailyWisdom`;
+  }
+
+  generateTikTokText(data: ShareData): string {
+    return `🔮 ${data.character} just gave me the BEST advice! 
+
+"${data.answer}"
+
+What would they tell you? 
+
+#MysticalGuidance #${data.characterType.replace('-', '')} #DailyWisdom #Advice #TikTokMade`;
   }
 }
 
