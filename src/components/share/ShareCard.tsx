@@ -84,7 +84,7 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
       return "The universe whispers its wisdom...";
     }
     
-    // Clean the text properly
+    // Clean the text properly but preserve readability
     return rawAnswer
       .replace(/[^\w\s.,!?'"()-]/g, ' ')
       .replace(/\s+/g, ' ')
@@ -134,10 +134,11 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     zIndex: isGenerating ? -1 : 'auto',
     display: 'flex',
     flexDirection: 'column',
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
     color: '#f8fafc',
     overflow: 'hidden',
-    padding: '80px 60px'
+    padding: '80px 60px',
+    boxSizing: 'border-box'
   };
 
   const contentStyle: React.CSSProperties = {
@@ -146,7 +147,10 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '32px'
+    gap: '32px',
+    width: '100%',
+    maxWidth: '960px',
+    margin: '0 auto'
   };
 
   const avatarStyle: React.CSSProperties = {
@@ -155,18 +159,22 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     borderRadius: '50%',
     overflow: 'hidden',
     border: `4px solid ${getPrimaryColor()}`,
-    boxShadow: `0 0 40px ${getPrimaryColor()}60`
+    boxShadow: `0 0 40px ${getPrimaryColor()}60`,
+    flexShrink: 0
   };
 
   const characterNameStyle: React.CSSProperties = {
     fontSize: '48px',
     fontWeight: '600',
-    fontFamily: "'Playfair Display', 'Georgia', serif",
+    fontFamily: "'Playfair Display', Georgia, serif",
     textAlign: 'center',
     margin: '0',
     textShadow: `0 0 20px ${getPrimaryColor()}80`,
     letterSpacing: '1px',
-    lineHeight: '1.2'
+    lineHeight: '1.2',
+    color: '#f8fafc',
+    width: '100%',
+    maxWidth: '800px'
   };
 
   const questionStyle: React.CSSProperties = {
@@ -179,14 +187,15 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     lineHeight: '1.4',
     textAlign: 'center',
     maxWidth: '800px',
+    width: '100%',
     fontStyle: 'italic',
     color: '#e2e8f0',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    wordBreak: 'break-word',
-    hyphens: 'auto'
+    display: 'block',
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+    wordWrap: 'break-word',
+    overflowWrap: 'break-word',
+    whiteSpace: 'normal',
+    boxSizing: 'border-box'
   };
 
   const answerStyle: React.CSSProperties = {
@@ -198,16 +207,21 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     lineHeight: '1.3',
     textAlign: 'center',
     maxWidth: '800px',
+    width: '100%',
     fontWeight: '500',
     boxShadow: `0 20px 40px ${getPrimaryColor()}30`,
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    wordBreak: 'break-word',
-    hyphens: 'auto'
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+    wordWrap: 'break-word',
+    overflowWrap: 'break-word',
+    whiteSpace: 'normal',
+    display: 'block',
+    boxSizing: 'border-box'
   };
 
   const footerStyle: React.CSSProperties = {
     textAlign: 'center',
-    marginTop: '40px'
+    marginTop: '40px',
+    width: '100%'
   };
 
   const footerTextStyle: React.CSSProperties = {
@@ -215,7 +229,7 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     fontWeight: '400',
     color: '#cbd5e1',
     opacity: 0.7,
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif"
   };
 
   return (
