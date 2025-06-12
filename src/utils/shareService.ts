@@ -1,4 +1,5 @@
-import html2canvas from 'html2canvas';
+
+import { canvasShareService } from './canvasShareService';
 
 export interface ShareData {
   character: string;
@@ -14,24 +15,9 @@ export interface ShareOptions {
 }
 
 class ShareService {
-  async generateShareImage(elementId: string): Promise<string> {
-    const element = document.getElementById(elementId);
-    if (!element) {
-      throw new Error('Element not found for sharing');
-    }
-
+  async generateShareImage(shareData: any): Promise<string> {
     try {
-      const canvas = await html2canvas(element, {
-        backgroundColor: null,
-        scale: 2,
-        logging: false,
-        useCORS: true,
-        allowTaint: true,
-        width: 1080,
-        height: 1080
-      });
-
-      return canvas.toDataURL('image/png', 0.95);
+      return await canvasShareService.generateShareImage(shareData);
     } catch (error) {
       console.error('Error generating share image:', error);
       throw error;
