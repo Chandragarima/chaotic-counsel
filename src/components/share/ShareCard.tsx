@@ -20,30 +20,20 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
   useEffect(() => {
     console.log('ShareCard: Loading image for character:', character.type, 'with response type:', aiResponse?.responseType);
     
-    let imageType: 'yes' | 'no' | 'maybe' | 'choice' = 'choice';
+    // Always try to get a 'yes' image first as it's most positive and available for all personalities
+    let image = personalityImageManager.getRandomImage(character.type, 'yes');
+    console.log('ShareCard: Selected yes image:', image);
     
-    if (aiResponse?.responseType === 'binary') {
-      imageType = 'maybe';
-    } else if (aiResponse?.responseType === 'choice') {
-      imageType = 'choice';
-    } else {
-      imageType = 'choice';
-    }
-
-    // Try to get the random image
-    let image = personalityImageManager.getRandomImage(character.type, imageType);
-    console.log('ShareCard: Selected image:', image, 'for type:', imageType);
-    
-    // If no image found for the specific type, try fallback to 'choice' type
-    if (!image && imageType !== 'choice') {
-      console.log('ShareCard: No image found for type', imageType, 'trying choice type');
+    // If no 'yes' image, try 'choice' as fallback
+    if (!image) {
+      console.log('ShareCard: No yes image found, trying choice type');
       image = personalityImageManager.getRandomImage(character.type, 'choice');
     }
     
-    // If still no image, try 'yes' type as another fallback
+    // If still no image, try 'maybe' type
     if (!image) {
-      console.log('ShareCard: No image found for choice type, trying yes type');
-      image = personalityImageManager.getRandomImage(character.type, 'yes');
+      console.log('ShareCard: No choice image found, trying maybe type');
+      image = personalityImageManager.getRandomImage(character.type, 'maybe');
     }
     
     // Final fallback to character.image from character data
@@ -58,10 +48,13 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
   }, [character.type, character.image, aiResponse]);
 
   const handleImageError = () => {
-    console.error('ShareCard: Image failed to load, using character fallback image');
+    console.error('ShareCard: Image failed to load, trying character fallback image');
     setImageLoadError(true);
     if (character.image && character.image !== characterImage) {
       setCharacterImage(character.image);
+    } else {
+      // If character image also fails, set to null to hide the image
+      setCharacterImage(null);
     }
   };
 
@@ -85,21 +78,19 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     return answer || "The universe whispers its wisdom...";
   };
 
-  // Improved text cleaning function to handle encoding and formatting issues
   const cleanDisplayAnswer = () => {
     const rawAnswer = getDisplayAnswer();
     if (!rawAnswer || typeof rawAnswer !== 'string') {
       return "The universe whispers its wisdom...";
     }
     
-    // Remove any potential encoding issues, extra whitespace, and clean the text
+    // Clean the text properly
     return rawAnswer
-      .replace(/[^\w\s.,!?'"()-]/g, ' ') // Replace special chars with space
-      .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+      .replace(/[^\w\s.,!?'"()-]/g, ' ')
+      .replace(/\s+/g, ' ')
       .trim();
   };
 
-  // Clean and format the question text
   const cleanQuestion = () => {
     if (!question || typeof question !== 'string') {
       return "What guidance do you seek?";
@@ -111,7 +102,6 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
       .trim();
   };
 
-  // Get theme colors for inline styles
   const getGradientBackground = () => {
     const colorMap: Record<string, string> = {
       'sassy-cat': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(131, 24, 67, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)',
@@ -233,9 +223,7 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
       id="share-card" 
       style={cardStyle}
     >
-      {/* Main Content */}
       <div style={contentStyle}>
-        {/* Character Image */}
         {characterImage && (
           <div style={avatarStyle}>
             <img 
@@ -251,23 +239,19 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
           </div>
         )}
 
-        {/* Character Name */}
         <h2 style={characterNameStyle}>
           You Asked {character.name}
         </h2>
 
-        {/* Question */}
         <div style={questionStyle}>
           "{cleanQuestion()}"
         </div>
 
-        {/* Answer */}
         <div style={answerStyle}>
           "{cleanDisplayAnswer()}"
         </div>
       </div>
 
-      {/* Footer */}
       <div style={footerStyle}>
         <div style={footerTextStyle}>
           chaoticcounsel.com
