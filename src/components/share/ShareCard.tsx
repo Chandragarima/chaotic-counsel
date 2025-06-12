@@ -69,15 +69,15 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     if (aiResponse) {
       switch (aiResponse.responseType) {
         case 'binary':
-          return aiResponse.personalityRecommendation;
+          return aiResponse.personalityRecommendation || "Trust your instincts on this one.";
         case 'advice':
-          return aiResponse.mainAdvice;
+          return aiResponse.mainAdvice || "Consider all perspectives before deciding.";
         case 'recommendation':
-          return aiResponse.topRecommendation;
+          return aiResponse.topRecommendation || "Follow your heart's guidance.";
         case 'analysis':
-          return aiResponse.conclusion;
+          return aiResponse.conclusion || "Reflect deeply on this matter.";
         case 'choice':
-          return aiResponse.recommendedChoice;
+          return aiResponse.recommendedChoice || "Choose what aligns with your values.";
         default:
           return answer || "The universe whispers its wisdom...";
       }
@@ -85,26 +85,40 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     return answer || "The universe whispers its wisdom...";
   };
 
-  // Clean and format the answer text to prevent corruption
+  // Improved text cleaning function to handle encoding and formatting issues
   const cleanDisplayAnswer = () => {
     const rawAnswer = getDisplayAnswer();
-    // Remove any potential encoding issues and clean the text
-    return rawAnswer.replace(/[^\w\s.,!?'"()-]/g, '').trim();
+    if (!rawAnswer || typeof rawAnswer !== 'string') {
+      return "The universe whispers its wisdom...";
+    }
+    
+    // Remove any potential encoding issues, extra whitespace, and clean the text
+    return rawAnswer
+      .replace(/[^\w\s.,!?'"()-]/g, ' ') // Replace special chars with space
+      .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+      .trim();
   };
 
   // Clean and format the question text
   const cleanQuestion = () => {
-    return question.replace(/[^\w\s.,!?'"()-]/g, '').trim();
+    if (!question || typeof question !== 'string') {
+      return "What guidance do you seek?";
+    }
+    
+    return question
+      .replace(/[^\w\s.,!?'"()-]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
   };
 
   // Get theme colors for inline styles
   const getGradientBackground = () => {
     const colorMap: Record<string, string> = {
-      'sassy-cat': 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(131, 24, 67, 0.3) 20%, rgba(30, 41, 59, 0.95) 100%)',
-      'wise-owl': 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(146, 64, 14, 0.3) 20%, rgba(30, 41, 59, 0.95) 100%)',
-      'lazy-panda': 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(5, 150, 105, 0.3) 20%, rgba(30, 41, 59, 0.95) 100%)',
-      'sneaky-snake': 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(194, 65, 12, 0.3) 20%, rgba(30, 41, 59, 0.95) 100%)',
-      'people-pleaser-pup': 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(202, 138, 4, 0.3) 20%, rgba(30, 41, 59, 0.95) 100%)'
+      'sassy-cat': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(131, 24, 67, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)',
+      'wise-owl': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(146, 64, 14, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)',
+      'lazy-panda': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(5, 150, 105, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)',
+      'sneaky-snake': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(194, 65, 12, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)',
+      'people-pleaser-pup': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(202, 138, 4, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)'
     };
     return colorMap[character.type] || colorMap['wise-owl'];
   };
@@ -130,7 +144,7 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     zIndex: isGenerating ? -1 : 'auto',
     display: 'flex',
     flexDirection: 'column',
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     color: '#f8fafc',
     overflow: 'hidden',
     padding: '80px 60px'
@@ -142,12 +156,12 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '40px'
+    gap: '32px'
   };
 
   const avatarStyle: React.CSSProperties = {
-    width: '280px',
-    height: '280px',
+    width: '300px',
+    height: '300px',
     borderRadius: '50%',
     overflow: 'hidden',
     border: `4px solid ${getPrimaryColor()}`,
@@ -161,7 +175,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     textAlign: 'center',
     margin: '0',
     textShadow: `0 0 20px ${getPrimaryColor()}80`,
-    letterSpacing: '1px'
+    letterSpacing: '1px',
+    lineHeight: '1.2'
   };
 
   const questionStyle: React.CSSProperties = {
@@ -169,8 +184,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     backdropFilter: 'blur(10px)',
     border: `1px solid ${getPrimaryColor()}30`,
     borderRadius: '20px',
-    padding: '35px 45px',
-    fontSize: '28px',
+    padding: '32px 40px',
+    fontSize: '26px',
     lineHeight: '1.4',
     textAlign: 'center',
     maxWidth: '800px',
@@ -179,35 +194,38 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: '120px',
-    fontFamily: "'Inter', sans-serif"
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    wordBreak: 'break-word',
+    hyphens: 'auto'
   };
 
   const answerStyle: React.CSSProperties = {
     background: `linear-gradient(135deg, ${getPrimaryColor()}dd, ${getPrimaryColor()}bb)`,
     color: 'white',
     borderRadius: '20px',
-    padding: '40px 50px',
-    fontSize: '32px',
+    padding: '36px 44px',
+    fontSize: '30px',
     lineHeight: '1.3',
     textAlign: 'center',
     maxWidth: '800px',
     fontWeight: '500',
     boxShadow: `0 20px 40px ${getPrimaryColor()}30`,
-    fontFamily: "'Inter', sans-serif"
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    wordBreak: 'break-word',
+    hyphens: 'auto'
   };
 
   const footerStyle: React.CSSProperties = {
     textAlign: 'center',
-    marginTop: '60px'
+    marginTop: '40px'
   };
 
   const footerTextStyle: React.CSSProperties = {
-    fontSize: '24px',
-    fontWeight: '500',
+    fontSize: '20px',
+    fontWeight: '400',
     color: '#cbd5e1',
-    opacity: 0.8,
-    fontFamily: "'Inter', sans-serif"
+    opacity: 0.7,
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
   };
 
   return (
