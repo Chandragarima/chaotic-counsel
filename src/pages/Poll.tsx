@@ -118,11 +118,11 @@ const Poll = () => {
     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
     if (days > 0) {
-      setTimeRemaining(`${days}d ${hours}h remaining`);
+      setTimeRemaining(`${days}d ${hours}h`);
     } else if (hours > 0) {
-      setTimeRemaining(`${hours}h ${minutes}m remaining`);
+      setTimeRemaining(`${hours}h ${minutes}m`);
     } else {
-      setTimeRemaining(`${minutes}m remaining`);
+      setTimeRemaining(`${minutes}m`);
     }
   };
 
@@ -211,32 +211,49 @@ const Poll = () => {
     <div className="min-h-screen relative overflow-hidden">
       <PersonalityEffects character={character} isActive={true} />
       
-      {/* Header Navigation */}
-      <div className="relative z-10 p-4">
-        <Button 
-          onClick={() => navigate('/')}
-          variant="ghost"
-          className="text-white/80 hover:text-white hover:bg-white/10 mb-4"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
-        </Button>
+      {/* Fixed Header with Stats */}
+      <div className="fixed top-0 left-0 right-0 z-20 bg-black/20 backdrop-blur-md border-b border-white/10">
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+          <Button 
+            onClick={() => navigate('/')}
+            variant="ghost"
+            className="text-white/80 hover:text-white hover:bg-white/10"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          
+          <div className="flex items-center space-x-6 text-white/80">
+            <div className="flex items-center space-x-2">
+              <Users className="w-4 h-4" />
+              <span className="font-medium">{poll.total_votes}</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Clock className="w-4 h-4" />
+              <span className="font-medium">{timeRemaining}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 pb-8">
-        {/* Page Header */}
-        <div className="text-center mb-8 space-y-3">
-          <h1 className={`text-4xl md:text-5xl font-bold text-white ${theme.fonts.heading} ${theme.animations.entrance}`}>
-            Community Decision Poll
-          </h1>
-          <p className="text-xl text-white/80 font-light">
-            Help decide what to do based on personality guidance
-          </p>
+      <div className="relative z-10 pt-20 pb-8 max-w-4xl mx-auto px-4">
+        
+        {/* 1. The Question - What user needs to think about */}
+        <div className="text-center mb-12">
+          <div className="inline-block">
+            <div className="text-white/60 text-sm font-medium mb-2 uppercase tracking-wide">
+              Community Decision
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+              "{poll.question}"
+            </h1>
+            <div className="w-20 h-1 bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto"></div>
+          </div>
         </div>
 
-        {/* Character Section with Avatar */}
-        <div className="flex flex-col items-center mb-8">
+        {/* 2. Character with Personality Animation */}
+        <div className="flex flex-col items-center mb-12">
           <CharacterAvatar
             character={character}
             responseType="choice"
@@ -244,142 +261,124 @@ const Poll = () => {
             className="mb-6"
           />
           
-          {/* Character Info Card */}
-          <Card className="bg-white/10 backdrop-blur-xl border border-white/20 p-6 max-w-2xl w-full">
-            <div className="text-center space-y-4">
-              <div className="flex items-center justify-center space-x-6 text-white/80">
-                <div className="flex items-center space-x-2">
-                  <Users className="w-5 h-5" />
-                  <span className="font-medium">{poll.total_votes} votes</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-5 h-5" />
-                  <span className="font-medium">{timeRemaining}</span>
-                </div>
-              </div>
-              
-              <h2 className={`text-2xl font-bold text-white ${theme.fonts.heading}`}>
-                {poll.character_name}'s Guidance
-              </h2>
-            </div>
-          </Card>
+          <div className={`text-center space-y-2 ${theme.animations.entrance}`}>
+            <h2 className={`text-xl font-bold text-white ${theme.fonts.heading}`}>
+              {poll.character_name}
+            </h2>
+            <p className="text-white/60">shares their wisdom</p>
+          </div>
         </div>
 
-        {/* Question Section */}
-        <Card className="bg-white/10 backdrop-blur-xl border border-white/20 p-8 mb-6">
-          <h3 className="text-xl font-semibold text-white mb-4 text-center">The Question:</h3>
+        {/* 3. The Recommended Answer */}
+        <div className="mb-12">
+          <div className={`relative bg-gradient-to-br ${theme.colors.primary}/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 ${theme.animations.entrance}`}>
+            <div className="absolute -top-3 left-8">
+              <div className={`bg-gradient-to-r ${theme.colors.primary} px-4 py-1 rounded-full text-white text-sm font-medium`}>
+                Recommendation
+              </div>
+            </div>
+            
+            <div className="text-center pt-4">
+              <blockquote className="text-xl md:text-2xl text-white font-light italic leading-relaxed">
+                "{poll.personality_answer}"
+              </blockquote>
+            </div>
+          </div>
+        </div>
+
+        {/* 4. Voting Section */}
+        <div className="space-y-8">
           <div className="text-center">
-            <p className="text-2xl text-white font-light italic leading-relaxed">
-              "{poll.question}"
+            <h3 className="text-2xl font-bold text-white mb-2">
+              What's your take?
+            </h3>
+            <p className="text-white/70">
+              Should they follow this advice?
             </p>
           </div>
-        </Card>
-
-        {/* Answer Section */}
-        <Card className={`bg-gradient-to-r ${theme.colors.primary}/20 backdrop-blur-xl border border-white/30 p-8 mb-8`}>
-          <h3 className="text-xl font-semibold text-white mb-4 text-center">
-            {poll.character_name}'s Recommendation:
-          </h3>
-          <div className="text-center">
-            <p className="text-xl text-white leading-relaxed font-medium">
-              "{poll.personality_answer}"
-            </p>
-          </div>
-        </Card>
-
-        {/* Voting Section */}
-        <Card className="bg-white/10 backdrop-blur-xl border border-white/20 p-8">
-          <h3 className="text-2xl font-bold text-white text-center mb-8">
-            What do you think? Should they follow this advice?
-          </h3>
 
           {!isExpired && !hasVoted ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            <div className="grid grid-cols-2 gap-4 max-w-lg mx-auto">
               <Button
                 onClick={() => vote('up')}
                 disabled={voting}
-                className="h-20 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 border-0"
+                className="h-16 bg-gradient-to-br from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 border-0 rounded-2xl"
               >
-                <ThumbsUp className="w-8 h-8 mr-3" />
-                Yes, Follow It!
+                <ThumbsUp className="w-6 h-6 mr-2" />
+                Yes!
               </Button>
               <Button
                 onClick={() => vote('down')}
                 disabled={voting}
-                className="h-20 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 border-0"
+                className="h-16 bg-gradient-to-br from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 text-white font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 border-0 rounded-2xl"
               >
-                <ThumbsDown className="w-8 h-8 mr-3" />
-                No, Don't Do It
+                <ThumbsDown className="w-6 h-6 mr-2" />
+                Nope
               </Button>
             </div>
           ) : (
             <div className="space-y-6 max-w-2xl mx-auto">
               {hasVoted && (
-                <div className="text-center p-6 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-2xl border border-green-400/30 backdrop-blur-sm">
-                  <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-400" />
-                  <p className="text-green-100 text-lg font-medium">
-                    You voted: <span className="font-bold text-white">
-                      {userVote === 'up' ? 'Yes, Follow It!' : 'No, Don\'t Do It'}
+                <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
+                  <CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-400" />
+                  <p className="text-white font-medium">
+                    You voted: <span className="text-green-400">
+                      {userVote === 'up' ? 'Yes!' : 'Nope'}
                     </span>
                   </p>
                 </div>
               )}
 
               {isExpired && (
-                <div className="text-center p-6 bg-gradient-to-r from-orange-500/20 to-amber-500/20 rounded-2xl border border-orange-400/30 backdrop-blur-sm">
-                  <Clock className="w-12 h-12 mx-auto mb-4 text-orange-400" />
-                  <p className="text-orange-100 text-lg font-medium">This poll has ended</p>
+                <div className="text-center p-4 bg-orange-500/20 backdrop-blur-sm rounded-2xl border border-orange-400/30">
+                  <Clock className="w-8 h-8 mx-auto mb-2 text-orange-400" />
+                  <p className="text-orange-100 font-medium">This poll has ended</p>
                 </div>
               )}
 
-              {/* Enhanced Results Display */}
-              <div className="space-y-6">
-                <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
+              {/* Results Display */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                        <ThumbsUp className="w-4 h-4 text-white" />
+                    <div className="flex items-center space-x-2">
+                      <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center">
+                        <ThumbsUp className="w-3 h-3 text-white" />
                       </div>
-                      <span className="text-white font-medium text-lg">Yes, Follow It</span>
+                      <span className="text-white font-medium">Yes</span>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-white">{poll.upvotes}</div>
-                      <div className="text-sm text-white/60">{upvotePercentage.toFixed(0)}%</div>
+                      <div className="text-xl font-bold text-white">{poll.upvotes}</div>
+                      <div className="text-xs text-white/60">{upvotePercentage.toFixed(0)}%</div>
                     </div>
                   </div>
-                  <Progress 
-                    value={upvotePercentage} 
-                    className="h-4 bg-white/10"
-                  />
+                  <Progress value={upvotePercentage} className="h-2" />
                 </div>
 
-                <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
+                <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                        <ThumbsDown className="w-4 h-4 text-white" />
+                    <div className="flex items-center space-x-2">
+                      <div className="w-6 h-6 bg-rose-500 rounded-full flex items-center justify-center">
+                        <ThumbsDown className="w-3 h-3 text-white" />
                       </div>
-                      <span className="text-white font-medium text-lg">No, Don't Do It</span>
+                      <span className="text-white font-medium">Nope</span>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-white">{poll.downvotes}</div>
-                      <div className="text-sm text-white/60">{downvotePercentage.toFixed(0)}%</div>
+                      <div className="text-xl font-bold text-white">{poll.downvotes}</div>
+                      <div className="text-xs text-white/60">{downvotePercentage.toFixed(0)}%</div>
                     </div>
                   </div>
-                  <Progress 
-                    value={downvotePercentage} 
-                    className="h-4 bg-white/10"
-                  />
+                  <Progress value={downvotePercentage} className="h-2" />
                 </div>
               </div>
             </div>
           )}
-        </Card>
+        </div>
 
         {/* Footer */}
-        <div className="text-center mt-8 text-white/60">
-          <p className="text-lg">
-            Get your own mystical guidance at <span className="font-semibold text-white/80">chaoticcounsel.com</span>
+        <div className="text-center mt-12 pt-8 border-t border-white/10">
+          <p className="text-white/60">
+            Get your own mystical guidance at{' '}
+            <span className="font-semibold text-white/80">chaoticcounsel.com</span>
           </p>
         </div>
       </div>
