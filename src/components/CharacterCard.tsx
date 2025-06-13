@@ -2,6 +2,8 @@
 import { Character } from '../types';
 import { personalityImageManager } from '../utils/personalityImageManager';
 import { useState, useEffect } from 'react';
+import { Card } from '@/components/ui/card';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface CharacterCardProps {
   character: Character;
@@ -10,7 +12,7 @@ interface CharacterCardProps {
   isLocked?: boolean;
 }
 
-const CharacterCard = ({ character, onSelect, isSelected = false }: CharacterCardProps) => {
+const CharacterCard = ({ character, onSelect, isSelected = false, isLocked = false }: CharacterCardProps) => {
   const getCharacterSymbol = (type: Character['type']) => {
     const symbols = {
       'sassy-cat': '◈',
@@ -22,18 +24,12 @@ const CharacterCard = ({ character, onSelect, isSelected = false }: CharacterCar
     return symbols[type];
   };
 
-  // useEffect(() => {
-  //   // Get a random image for the character
-  //   const image = personalityImageManager.getRandomImage(character.type, 'choice');
-  //   setImageSrc(image);
-  // }, [character.type]);
-
   const handleClick = () => {
     if (isLocked) return;
     onSelect();
   };
 
- return (
+  return (
     <Card 
       className={`group relative p-6 cursor-pointer transform transition-all duration-300 
         ${isSelected 
