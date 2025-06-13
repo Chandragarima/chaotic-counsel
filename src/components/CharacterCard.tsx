@@ -1,5 +1,7 @@
 
 import { Character } from '../types';
+import { personalityImageManager } from '../utils/personalityImageManager';
+import { useState, useEffect } from 'react';
 
 interface CharacterCardProps {
   character: Character;
@@ -9,6 +11,14 @@ interface CharacterCardProps {
 }
 
 const CharacterCard = ({ character, onSelect, isSelected, isLocked = false }: CharacterCardProps) => {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Get a random image for the character
+    const image = personalityImageManager.getRandomImage(character.type, 'choice');
+    setImageSrc(image);
+  }, [character.type]);
+
   const handleClick = () => {
     if (isLocked) return;
     onSelect();
@@ -29,13 +39,23 @@ const CharacterCard = ({ character, onSelect, isSelected, isLocked = false }: Ch
         text-center space-y-4 h-full
         ${!isLocked ? 'hover:border-amber-400/40 hover:shadow-lg hover:shadow-amber-400/10' : ''}
       `}>
-        {/* Character emoji/icon placeholder */}
-        <div className="text-4xl mb-4">
-          {character.id === 'wise-owl' && '🦉'}
-          {character.id === 'sassy-cat' && '😸'}
-          {character.id === 'lazy-panda' && '🐼'}
-          {character.id === 'sneaky-snake' && '🐍'}
-          {character.id === 'people-pleaser-pup' && '🐕'}
+        {/* Character image */}
+        <div className="h-24 w-24 mx-auto mb-4 rounded-full overflow-hidden bg-slate-700/50 flex items-center justify-center">
+          {imageSrc ? (
+            <img 
+              src={imageSrc} 
+              alt={character.name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="text-4xl">
+              {character.id === 'wise-owl' && '🦉'}
+              {character.id === 'sassy-cat' && '😸'}
+              {character.id === 'lazy-panda' && '🐼'}
+              {character.id === 'sneaky-snake' && '🐍'}
+              {character.id === 'people-pleaser-pup' && '🐕'}
+            </div>
+          )}
         </div>
 
         <h3 className="text-xl font-semibold text-amber-100">

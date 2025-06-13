@@ -7,7 +7,7 @@ export const characters: Character[] = [
     name: 'Wise Owl',
     type: 'wise-owl',
     personality: 'Philosophical and thoughtful, offering deep wisdom and careful consideration',
-    description: 'A mystical owl that sees through the veil of confusion with ancient wisdom and measured insights.',
+    description: 'Sees the bigger picture with ancient wisdom',
     unlocked: true
   },
   {
@@ -15,7 +15,7 @@ export const characters: Character[] = [
     name: 'Sassy Cat',
     type: 'sassy-cat',
     personality: 'Sharp-tongued but caring, delivers truth with wit and attitude',
-    description: 'A confident feline with a sharp wit who tells it like it is, but always has your best interests at heart.',
+    description: 'Tells it like it is with feline sass',
     unlocked: true
   },
   {
@@ -23,7 +23,7 @@ export const characters: Character[] = [
     name: 'Lazy Panda',
     type: 'lazy-panda',
     personality: 'Relaxed and zen-like, promotes balance and taking things slow',
-    description: 'A chill panda who believes in the power of taking it easy and finding balance in all things. Unlocked at 2-day streak.',
+    description: 'Takes life one bamboo shoot at a time',
     unlocked: false
   },
   {
@@ -31,7 +31,7 @@ export const characters: Character[] = [
     name: 'Sneaky Snake',
     type: 'sneaky-snake',
     personality: 'Cunning and strategic, excels at finding clever solutions',
-    description: 'A clever serpent who sees all angles and helps you navigate complex situations with strategic thinking. Unlocked at 4-day streak.',
+    description: 'Slithers through problems with cunning',
     unlocked: false
   },
   {
@@ -39,7 +39,7 @@ export const characters: Character[] = [
     name: 'People Pleaser Pup',
     type: 'people-pleaser-pup',
     personality: 'Enthusiastic and supportive, focuses on harmony and making everyone happy',
-    description: 'An eager golden retriever who wants everyone to be happy and helps you find solutions that work for everyone. Unlocked at 7-day streak.',
+    description: 'Wants everyone to be happy and get along',
     unlocked: false
   }
 ];
