@@ -78,6 +78,89 @@ export type Database = {
         }
         Relationships: []
       }
+      poll_votes: {
+        Row: {
+          created_at: string
+          id: string
+          poll_id: string
+          vote_type: string
+          voter_ip: string | null
+          voter_session: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          poll_id: string
+          vote_type: string
+          voter_ip?: string | null
+          voter_session: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          poll_id?: string
+          vote_type?: string
+          voter_ip?: string | null
+          voter_session?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "poll_votes_poll_id_fkey"
+            columns: ["poll_id"]
+            isOneToOne: false
+            referencedRelation: "polls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      polls: {
+        Row: {
+          character_name: string
+          character_type: string
+          created_at: string
+          creator_id: string
+          downvotes: number
+          expires_at: string
+          id: string
+          is_active: boolean
+          personality_answer: string
+          question: string
+          total_votes: number
+          updated_at: string
+          upvotes: number
+        }
+        Insert: {
+          character_name: string
+          character_type: string
+          created_at?: string
+          creator_id: string
+          downvotes?: number
+          expires_at: string
+          id?: string
+          is_active?: boolean
+          personality_answer: string
+          question: string
+          total_votes?: number
+          updated_at?: string
+          upvotes?: number
+        }
+        Update: {
+          character_name?: string
+          character_type?: string
+          created_at?: string
+          creator_id?: string
+          downvotes?: number
+          expires_at?: string
+          id?: string
+          is_active?: boolean
+          personality_answer?: string
+          question?: string
+          total_votes?: number
+          updated_at?: string
+          upvotes?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

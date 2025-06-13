@@ -1,11 +1,12 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, RotateCcw, Home, Share } from 'lucide-react';
+import { ArrowLeft, RotateCcw, Home, Share, Users } from 'lucide-react';
 import { Character, AIResponse } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { audioManager } from '../../utils/audioManager';
 import ShareModal from '../share/ShareModal';
+import CreatePollModal from '../polls/CreatePollModal';
 
 interface ActionButtonsProps {
   character: Character;
@@ -28,6 +29,7 @@ const ActionButtons = ({
 }: ActionButtonsProps) => {
   const [isAsking, setIsAsking] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [pollModalOpen, setPollModalOpen] = useState(false);
   const theme = getPersonalityTheme(character.type);
 
   const handleAskAgain = () => {
@@ -42,10 +44,19 @@ const ActionButtons = ({
   return (
     <>
       <div className={`space-y-4 ${theme.animations.responding}`}>
+        {/* Community Poll Button */}
+        <Button 
+          onClick={() => setPollModalOpen(true)}
+          className={`w-full min-h-[52px] transition-all duration-300 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white ${theme.fonts.body} tracking-wide shadow-lg hover:shadow-xl ${theme.animations.buttonHover} hover:scale-[1.02]`}
+        >
+          <Users className="mr-3 h-4 w-4" />
+          Ask the Community
+        </Button>
+
         {/* Share Button */}
         <Button 
           onClick={() => setShareModalOpen(true)}
-          className={`w-full min-h-[52px] transition-all duration-300 bg-gradient-to-r ${theme.colors.secondary} hover:${theme.colors.primary} text-white ${theme.fonts.body} tracking-wide shadow-lg hover:shadow-xl ${theme.animations.buttonHover} hover:scale-[1.02]`}
+          className={`w-full min-h-[52px] transition-all duration-300 bg-gradient-to-r ${theme.colors.secondary} hover: ${theme.colors.primary} text-white ${theme.fonts.body} tracking-wide shadow-lg hover:shadow-xl ${theme.animations.buttonHover} hover:scale-[1.02]`}
         >
           <Share className="mr-3 h-4 w-4" />
           Share This Wisdom
@@ -88,6 +99,18 @@ const ActionButtons = ({
         <ShareModal
           open={shareModalOpen}
           onOpenChange={setShareModalOpen}
+          character={character}
+          question={question}
+          answer={answer}
+          aiResponse={aiResponse}
+        />
+      )}
+
+      {/* Create Poll Modal */}
+      {question && (
+        <CreatePollModal
+          open={pollModalOpen}
+          onOpenChange={setPollModalOpen}
           character={character}
           question={question}
           answer={answer}
