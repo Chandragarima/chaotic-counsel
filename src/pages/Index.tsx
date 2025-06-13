@@ -99,9 +99,7 @@ export default function Index() {
 
       {/* Auto-triggered feedback - only show on answer screen when answer is complete */}
       {currentScreen === 'answer' && answerComplete && (
-        <AutoFee
-Complete the file continuation.
-backTrigger 
+        <AutoFeedbackTrigger 
           shouldShow={shouldShowFeedback}
           character={selectedCharacter || undefined}
           onFeedbackShown={resetFeedbackTrigger}
