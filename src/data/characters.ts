@@ -3,48 +3,43 @@ import { Character } from '../types';
 
 export const characters: Character[] = [
   {
-    id: 'sassy-cat',
-    name: 'Sassy Cat',
-    type: 'sassy-cat',
-    personality: 'Drama queen answers only',
-    description: 'Sarcastic, bold, and obviously always right (just ask her)',
-    unlocked: true,
-    image: '/lovable-uploads/3e3b0145-32d2-4801-b3ac-c7d5af5e5653.png'
-  },
-  {
     id: 'wise-owl',
     name: 'Wise Owl',
     type: 'wise-owl',
-    personality: 'Ancient, analytical, and prudent',
-    description: 'Thoughtful guidance with a scholarly tone and hooting wisdom',
-    unlocked: true,
-    image: '/lovable-uploads/2cfc8411-76b1-445c-9423-8a2df38f3788.png'
+    personality: 'Philosophical and thoughtful, offering deep wisdom and careful consideration',
+    description: 'A mystical owl that sees through the veil of confusion with ancient wisdom and measured insights.',
+    unlocked: true
+  },
+  {
+    id: 'sassy-cat',
+    name: 'Sassy Cat',
+    type: 'sassy-cat',
+    personality: 'Sharp-tongued but caring, delivers truth with wit and attitude',
+    description: 'A confident feline with a sharp wit who tells it like it is, but always has your best interests at heart.',
+    unlocked: true
   },
   {
     id: 'lazy-panda',
     name: 'Lazy Panda',
     type: 'lazy-panda',
-    personality: 'Relaxed and easygoing',
-    description: 'Cozy, low-effort suggestions delivered with snack-loving calm',
-    unlocked: true,
-    image: '/lovable-uploads/f6581916-a5a9-4852-9ef1-172b37caec2f.png'
+    personality: 'Relaxed and zen-like, promotes balance and taking things slow',
+    description: 'A chill panda who believes in the power of taking it easy and finding balance in all things. Unlocked at 2-day streak.',
+    unlocked: false
   },
   {
     id: 'sneaky-snake',
     name: 'Sneaky Snake',
     type: 'sneaky-snake',
-    personality: 'Cunning and strategic',
-    description: 'Sharp advice wrapped in charmingly calculated hisssstory',
-    unlocked: true,
-    image: '/lovable-uploads/sneaky-snake.png'
+    personality: 'Cunning and strategic, excels at finding clever solutions',
+    description: 'A clever serpent who sees all angles and helps you navigate complex situations with strategic thinking. Unlocked at 4-day streak.',
+    unlocked: false
   },
   {
     id: 'people-pleaser-pup',
-    name: 'People-Pleaser Pup',
+    name: 'People Pleaser Pup',
     type: 'people-pleaser-pup',
-    personality: 'Cheerful and encouraging',
-    description: 'Tail-wagging support and sweet validation to boost the mood',
-    unlocked: true,
-    image: '/lovable-uploads/pleaser-pup.png'
+    personality: 'Enthusiastic and supportive, focuses on harmony and making everyone happy',
+    description: 'An eager golden retriever who wants everyone to be happy and helps you find solutions that work for everyone. Unlocked at 7-day streak.',
+    unlocked: false
   }
 ];

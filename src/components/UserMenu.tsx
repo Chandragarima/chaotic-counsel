@@ -11,6 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { User, MessageCircle } from 'lucide-react';
 import FeedbackTrigger from './feedback/FeedbackTrigger';
+import StreakDisplay from './StreakDisplay';
 
 const UserMenu = () => {
   const { user, signOut } = useAuth();
@@ -37,7 +38,9 @@ const UserMenu = () => {
   }
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-3">
+      <StreakDisplay />
+      
       <FeedbackTrigger 
         feedbackType="general"
         variant="button"

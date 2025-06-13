@@ -140,6 +140,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      update_daily_streak: {
+        Args: { user_uuid: string }
+        Returns: {
+          current_streak: number
+          longest_streak: number
+          streak_updated: boolean
+          unlocked_characters: Json
+        }[]
+      }
       update_user_streak: {
         Args: { user_uuid: string }
         Returns: undefined

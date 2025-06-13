@@ -1,8 +1,9 @@
-
 import { Character } from '../types';
 import { characters } from '../data/characters';
 import CharacterCard from './CharacterCard';
+import UnlockCelebration from './UnlockCelebration';
 import { audioManager } from '../utils/audioManager';
+import { useSupabaseProgress } from '../hooks/useSupabaseProgress';
 
 interface CombinedHomePageProps {
   selectedCharacter: Character | null;
@@ -15,7 +16,14 @@ const CombinedHomePage = ({
   onCharacterSelect, 
   onContinue 
 }: CombinedHomePageProps) => {
+  const { progress, isNewUnlockAvailable, newlyUnlockedCharacter, dismissUnlockCelebration } = useSupabaseProgress();
+
   const handleCharacterSelect = (character: Character) => {
+    // Check if character is unlocked
+    if (!progress.unlockedCharacters.includes(character.id)) {
+      return; // Character is locked, don't allow selection
+    }
+
     onCharacterSelect(character);
     
     // Play selection sound when character is selected
@@ -25,8 +33,33 @@ const CombinedHomePage = ({
     onContinue();
   };
 
+  // Filter characters based on unlock status
+  const getCharacterUnlockStatus = (character: Character) => {
+    return progress.unlockedCharacters.includes(character.id);
+  };
+
+  const getUnlockRequirement = (characterId: string) => {
+    switch (characterId) {
+      case 'lazy-panda':
+        return '2-day streak required';
+      case 'sneaky-snake':
+        return '4-day streak required';
+      case 'people-pleaser-pup':
+        return '7-day streak required';
+      default:
+        return '';
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      {/* Unlock celebration popup */}
+      <UnlockCelebration 
+        isVisible={isNewUnlockAvailable}
+        unlockedCharacter={newlyUnlockedCharacter}
+        onDismiss={dismissUnlockCelebration}
+      />
+
       {/* Brighter, more sophisticated background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-600">
         {/* Enhanced geometric patterns */}
@@ -82,14 +115,34 @@ const CombinedHomePage = ({
         <div className="space-y-8">
           {/* Character Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {characters.map((character) => (
-              <CharacterCard
-                key={character.id}
-                character={character}
-                onSelect={() => handleCharacterSelect(character)}
-                isSelected={false}
-              />
-            ))}
+            {characters.map((character) => {
+              const isUnlocked = getCharacterUnlockStatus(character);
+              const unlockRequirement = getUnlockRequirement(character.id);
+              
+              return (
+                <div key={character.id} className="relative">
+                  <CharacterCard
+                    character={character}
+                    onSelect={() => handleCharacterSelect(character)}
+                    isSelected={false}
+                    isLocked={!isUnlocked}
+                  />
+                  {!isUnlocked && unlockRequirement && (
+                    <div className="absolute inset-0 bg-black/60 rounded-2xl flex items-center justify-center">
+                      <div className="text-center space-y-2">
+                        <div className="text-2xl">🔒</div>
+                        <p className="text-amber-300 text-sm font-medium">
+                          {unlockRequirement}
+                        </p>
+                        <p className="text-slate-400 text-xs">
+                          Current streak: {progress.streak} day{progress.streak !== 1 ? 's' : ''}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Instruction Text */}
