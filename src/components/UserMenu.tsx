@@ -23,7 +23,7 @@ const UserMenu = () => {
         <FeedbackTrigger 
           feedbackType="general"
           variant="button"
-          className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+          className="bg-white/10 border-white/20 text-white hover:bg-white/20 text-sm px-3 py-2"
         />
         <Button 
           onClick={() => navigate('/auth')}
@@ -38,14 +38,8 @@ const UserMenu = () => {
   }
 
   return (
-    <div className="flex items-center space-x-3">
+    <div className="flex items-center space-x-2">
       <StreakDisplay />
-      
-      <FeedbackTrigger 
-        feedbackType="general"
-        variant="button"
-        className="bg-white/10 border-white/20 text-white hover:bg-white/20"
-      />
       
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -59,6 +53,17 @@ const UserMenu = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem>
+            <FeedbackTrigger 
+              feedbackType="general"
+              variant="inline"
+              className="w-full justify-start p-0 h-auto font-normal"
+            >
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Send Feedback
+            </FeedbackTrigger>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={signOut}>
             Sign Out
           </DropdownMenuItem>
