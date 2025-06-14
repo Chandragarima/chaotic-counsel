@@ -115,7 +115,7 @@ const UserMenu = () => {
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={signOut}>
             Sign Out
-          </DropdownMenuContent>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
