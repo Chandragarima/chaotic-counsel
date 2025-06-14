@@ -72,6 +72,26 @@ class ShareService {
     };
   }
 
+  async shareToX(text: string, imageUrl?: string) {
+    // X (Twitter) sharing
+    const xText = encodeURIComponent(text);
+    const xUrl = `https://twitter.com/intent/tweet?text=${xText}`;
+    
+    if (imageUrl) {
+      // Download the image for user to save and attach manually
+      const link = document.createElement('a');
+      link.download = 'mystical-answer.png';
+      link.href = imageUrl;
+      link.click();
+    }
+    
+    window.open(xUrl, '_blank');
+    return { 
+      success: true, 
+      message: imageUrl ? 'Image downloaded! Attach it to your X post.' : 'Opening X...' 
+    };
+  }
+
   async shareGeneral(text: string, imageUrl?: string) {
     if (navigator.share && imageUrl) {
       try {
@@ -118,7 +138,7 @@ class ShareService {
 
   generateShareText(data: ShareData): string {
     const appUrl = window.location.origin;
-    return `🔮 Just got some ${data.characterType} wisdom from ${data.character}!
+    return `🔮 Just got some ${data.characterType.replace('-', ' ')} wisdom from ${data.character}!
 
 "${data.question}"
 
