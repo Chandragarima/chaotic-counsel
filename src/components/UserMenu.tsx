@@ -62,48 +62,63 @@ const UserMenu = () => {
         ? profile.username
         : 'AnonymousUser' + Math.floor(Math.random() * 1000);
 
-  // --- Universal styling for alignment and safety from title ---
-  // Use a flex container, always anchored top-right and with responsive gaps/margins,
-  // wrapping at small screens, with max-w and z-index.
-  const userMenuContainerClasses =
-    "fixed md:absolute top-2 md:top-4 right-2 md:right-4 z-50 " +
-    "flex flex-row flex-wrap items-center gap-x-2 gap-y-1 md:gap-x-3 " +
-    "max-w-full sm:max-w-[95vw] justify-end pointer-events-auto " +
-    "md:bg-transparent bg-slate-700/90 md:backdrop-blur-none backdrop-blur " +
-    "rounded-xl p-1 md:p-0 shadow-none";
+  // Modern glassmorphic card, vertical on desktop, floating bar on mobile
+  // z-50 to stay on top, with shadow/glass, pointer-events for safety, gap-2/gap-3 for rhythm
+  const floatingMenuClasses =
+    "fixed top-6 right-8 z-50 flex flex-col items-end gap-3 p-4 min-w-[175px] " +
+    "rounded-2xl bg-slate-900/60 bg-gradient-to-br from-slate-700/80 to-slate-800/70 " +
+    "backdrop-blur-lg shadow-xl border border-white/10 pointer-events-auto " +
+    "transition-all duration-300";
 
-  // On mobile, always show streak + menu.
+  // Compact bottom floating bar for mobile
+  const mobileBarClasses =
+    "fixed bottom-2 left-1/2 z-50 flex flex-row justify-center items-center gap-2 px-3 py-2 " +
+    "rounded-2xl bg-slate-900/70 backdrop-blur-lg shadow-2xl border border-white/10 " +
+    "transform -translate-x-1/2 pointer-events-auto w-auto";
+
   if (isMobile) {
     return (
-      <div className={userMenuContainerClasses}>
-        <StreakDisplay />
+      <div className={mobileBarClasses}>
+        <Button
+          size="icon"
+          className="rounded-full bg-transparent text-yellow-200 hover:bg-white/10"
+          aria-label="Show streak"
+          tabIndex={0}
+        >
+          <StreakDisplay />
+        </Button>
+        <FeedbackTrigger
+          feedbackType="general"
+          variant="inline"
+          className="rounded-full px-3 text-base text-white bg-transparent hover:bg-white/10"
+        >
+          <MessageCircle className="w-5 h-5 mr-1" />
+        </FeedbackTrigger>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button 
-              size="sm"
-              className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 rounded-full h-10 w-10 p-0"
+            <Button
+              size="icon"
+              className="rounded-full bg-transparent text-white hover:bg-white/10"
+              aria-label="Profile menu"
             >
-              <Menu className="h-4 w-4" />
+              <Menu className="w-6 h-6" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent 
+          <DropdownMenuContent
             align="end"
-            className="w-48 z-[80] bg-slate-800 text-white"
+            className="w-44 z-[80] bg-slate-800/90 text-white backdrop-blur-md rounded-2xl"
             sideOffset={8}
           >
             {user && (
               <>
-                <div className="px-2 py-1.5 flex items-center gap-2">
-                  <span className="text-sm font-medium text-muted-foreground truncate">
-                    {displayName}
-                  </span>
+                <div className="px-2 py-2 flex items-center gap-2">
+                  <span className="text-base font-medium text-muted-foreground truncate">{displayName}</span>
                 </div>
                 <DropdownMenuSeparator />
               </>
             )}
-            
             <DropdownMenuItem asChild>
-              <FeedbackTrigger 
+              <FeedbackTrigger
                 feedbackType="general"
                 variant="inline"
                 className="w-full justify-start"
@@ -114,13 +129,9 @@ const UserMenu = () => {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {user ? (
-              <DropdownMenuItem onClick={signOut}>
-                Sign Out
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={signOut}>Sign Out</DropdownMenuItem>
             ) : (
-              <DropdownMenuItem onClick={() => navigate('/auth')}>
-                Sign In
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate('/auth')}>Sign In</DropdownMenuItem>
             )}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -128,57 +139,52 @@ const UserMenu = () => {
     );
   }
 
-  // Desktop: flex row, always safely far right, but never covers site title area.
-  if (!user) {
-    return (
-      <div className={userMenuContainerClasses}>
+  // DESKTOP: glassmorphic card, vertical stacking, floating
+  return (
+    <div className={floatingMenuClasses}>
+      <div className="w-full mb-1">
         <StreakDisplay />
-        <FeedbackTrigger 
-          feedbackType="general"
-          variant="button"
-          className="bg-white/10 border-white/20 text-white hover:bg-white/20"
-        />
-        <Button 
+      </div>
+      <FeedbackTrigger
+        feedbackType="general"
+        variant="button"
+        className="w-full rounded-xl border-0 bg-transparent text-white font-semibold text-base hover:bg-slate-700/50 py-2"
+      >
+        <MessageCircle className="w-5 h-5 mr-2" />
+        Feedback
+      </FeedbackTrigger>
+      {user ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full flex justify-between items-center rounded-xl border-0 bg-slate-800/70 text-white text-base font-normal hover:bg-slate-700/60 py-2 truncate"
+              tabIndex={0}
+            >
+              <span className="truncate max-w-[90px]">{displayName}</span>
+              <Menu className="w-4 h-4 ml-2 text-slate-300" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-44 z-[80] bg-slate-800/95 text-white backdrop-blur-xl rounded-2xl"
+            sideOffset={8}
+          >
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={signOut}>Sign Out</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <Button
           onClick={() => navigate('/auth')}
           variant="outline"
           size="sm"
-          className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+          className="w-full rounded-xl border-0 bg-slate-800/80 text-white font-normal text-base hover:bg-slate-700/50 py-2"
         >
           Sign In
         </Button>
-      </div>
-    );
-  }
-
-  return (
-    <div className={userMenuContainerClasses}>
-      <StreakDisplay />
-      <FeedbackTrigger 
-        feedbackType="general"
-        variant="button"
-        className="bg-white/10 border-white/20 text-white hover:bg-white/20"
-      />
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button 
-            variant="outline" 
-            size="sm"
-            className="bg-white/10 border-white/20 text-white hover:bg-white/20 flex items-center gap-2"
-          >
-            <span className="max-w-24 truncate">{displayName}</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent 
-          align="end"
-          className="z-[80] bg-slate-800 text-white"
-          sideOffset={8}
-        >
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={signOut}>
-            Sign Out
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      )}
     </div>
   );
 };
