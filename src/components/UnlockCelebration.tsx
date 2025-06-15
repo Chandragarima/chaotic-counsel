@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Sparkles, Star, Flame } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,13 +24,13 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
   const character = characters.find(c => c.id === unlockedCharacter);
   if (!character) return null;
 
-  // FIXED: Correct unlock messages for new thresholds
+  // UPDATED: Correct unlock messages to match database changes
   const getUnlockMessage = (characterId: string) => {
     switch (characterId) {
       case 'lazy-panda':
-        return "1-day streak achieved! You've unlocked the Lazy Panda 🐼";
+        return "2-day streak achieved! You've unlocked the Lazy Panda 🐼";
       case 'sneaky-snake':
-        return "3-day streak achieved! You've unlocked the Sneaky Snake 🐍";
+        return "4-day streak achieved! You've unlocked the Sneaky Snake 🐍";
       case 'people-pleaser-pup':
         return "7-day streak achieved! You've unlocked the People Pleaser Pup 🐕";
       default:

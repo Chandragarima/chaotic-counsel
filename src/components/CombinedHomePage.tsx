@@ -38,13 +38,13 @@ const CombinedHomePage = ({
     return progress.unlockedCharacters.includes(character.id);
   };
 
-  // FIXED: Correct unlock requirements
+  // UPDATED: Correct unlock requirements to match database changes
   const getUnlockRequirement = (characterId: string) => {
     switch (characterId) {
       case 'lazy-panda':
-        return '1-day streak required';
+        return '2-day streak required';
       case 'sneaky-snake':
-        return '3-day streak required';
+        return '4-day streak required';
       case 'people-pleaser-pup':
         return '7-day streak required';
       default:
