@@ -27,7 +27,7 @@ export const characters: Character[] = [
     type: 'lazy-panda',
     personality: 'Relaxed and easygoing',
     description: 'Cozy, low-effort suggestions delivered with snack-loving calm',
-    unlocked: false, // Unlocked at 1-day streak
+    unlocked: false, // Unlocked at 2-day streak
     image: '/lovable-uploads/f6581916-a5a9-4852-9ef1-172b37caec2f.png'
   },
   {
@@ -36,7 +36,7 @@ export const characters: Character[] = [
     type: 'sneaky-snake',
     personality: 'Cunning and strategic',
     description: 'Sharp advice wrapped in charmingly calculated hisssstory',
-    unlocked: false, // Unlocked at 3-day streak
+    unlocked: false, // Unlocked at 4-day streak
     image: '/lovable-uploads/sneaky-snake.png'
   },
   {
