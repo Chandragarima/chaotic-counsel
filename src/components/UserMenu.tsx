@@ -7,9 +7,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { MessageCircle, User, Flame, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MessageCircle, User } from 'lucide-react';
 import FeedbackTrigger from './feedback/FeedbackTrigger';
 import StreakDisplay from './StreakDisplay';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -27,7 +33,6 @@ const UserMenu = () => {
   const isMobile = useIsMobile();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
-  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -63,25 +68,81 @@ const UserMenu = () => {
         ? profile.username
         : 'AnonymousUser' + Math.floor(Math.random() * 1000);
 
-  if (isMobile) {
-    return (
+  return (
+    <TooltipProvider>
       <div className="fixed top-4 right-4 z-50">
         <div className="flex items-center gap-2">
-          {/* Compact Streak Display */}
-          <div className="bg-slate-800/90 backdrop-blur-md rounded-full px-3 py-2 border border-white/10">
-            <StreakDisplay />
-          </div>
+          {/* Streak Display with Tooltip on Desktop */}
+          {!isMobile ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="bg-slate-800/90 backdrop-blur-md rounded-full px-3 py-2 border border-white/10 hover:bg-slate-700/90 transition-colors cursor-help">
+                  <StreakDisplay />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/20">
+                <p className="text-sm">Daily streak - ask questions to maintain it!</p>
+              </TooltipContent>
+            </Tooltip>
+          ) : (
+            <div className="bg-slate-800/90 backdrop-blur-md rounded-full px-3 py-2 border border-white/10">
+              <StreakDisplay />
+            </div>
+          )}
           
-          {/* Main Menu Button */}
+          {/* Feedback Button with Tooltip on Desktop */}
+          {!isMobile ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <FeedbackTrigger
+                  feedbackType="general"
+                  variant="inline"
+                  className="bg-slate-800/90 backdrop-blur-md hover:bg-slate-700/90 text-white border-white/10 rounded-full px-3 py-2 transition-colors"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                </FeedbackTrigger>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/20">
+                <p className="text-sm">Share your feedback with us</p>
+              </TooltipContent>
+            </Tooltip>
+          ) : (
+            <FeedbackTrigger
+              feedbackType="general"
+              variant="inline"
+              className="bg-slate-800/90 backdrop-blur-md hover:bg-slate-700/90 text-white border-white/10 rounded-full px-3 py-2"
+            >
+              <MessageCircle className="w-4 h-4" />
+            </FeedbackTrigger>
+          )}
+          
+          {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                size="icon"
-                className="rounded-full bg-slate-800/90 backdrop-blur-md text-white hover:bg-slate-700/90 border border-white/10 w-10 h-10"
-                aria-label="Menu"
-              >
-                <User className="w-5 h-5" />
-              </Button>
+              {!isMobile ? (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      className="rounded-full bg-slate-800/90 backdrop-blur-md text-white hover:bg-slate-700/90 border border-white/10 w-10 h-10 transition-colors"
+                      aria-label="User menu"
+                    >
+                      <User className="w-5 h-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/20">
+                    <p className="text-sm">{user ? `${displayName} - Account menu` : 'Sign in to your account'}</p>
+                  </TooltipContent>
+                </Tooltip>
+              ) : (
+                <Button
+                  size="icon"
+                  className="rounded-full bg-slate-800/90 backdrop-blur-md text-white hover:bg-slate-700/90 border border-white/10 w-10 h-10"
+                  aria-label="User menu"
+                >
+                  <User className="w-5 h-5" />
+                </Button>
+              )}
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
@@ -96,17 +157,6 @@ const UserMenu = () => {
                   <DropdownMenuSeparator className="bg-white/10" />
                 </>
               )}
-              <DropdownMenuItem asChild>
-                <FeedbackTrigger
-                  feedbackType="general"
-                  variant="inline"
-                  className="w-full justify-start text-white hover:bg-slate-700/70"
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Feedback
-                </FeedbackTrigger>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator className="bg-white/10" />
               {user ? (
                 <DropdownMenuItem onClick={signOut} className="text-white hover:bg-slate-700/70">
                   Sign Out
@@ -120,86 +170,7 @@ const UserMenu = () => {
           </DropdownMenu>
         </div>
       </div>
-    );
-  }
-
-  // Desktop: Slide-out menu design
-  return (
-    <div className="fixed top-6 right-0 z-50">
-      <div 
-        className={`flex items-center transition-all duration-300 ${
-          isExpanded ? 'translate-x-0' : 'translate-x-[calc(100%-3rem)]'
-        }`}
-        onMouseEnter={() => setIsExpanded(true)}
-        onMouseLeave={() => setIsExpanded(false)}
-      >
-        {/* Expanded Menu Content */}
-        <div className={`flex items-center gap-3 bg-slate-800/90 backdrop-blur-md rounded-l-2xl border border-white/10 pl-4 pr-2 py-3 transition-opacity duration-200 ${
-          isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}>
-          {/* Compact Streak */}
-          <div className="flex items-center gap-2">
-            <StreakDisplay />
-          </div>
-          
-          {/* Feedback Button */}
-          <FeedbackTrigger
-            feedbackType="general"
-            variant="inline"
-            className="bg-transparent hover:bg-white/10 text-white border-0 px-3 py-1.5 text-sm rounded-lg"
-          >
-            <MessageCircle className="w-4 h-4 mr-1" />
-            Feedback
-          </FeedbackTrigger>
-          
-          {/* User Menu */}
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="bg-transparent hover:bg-white/10 text-white border-0 px-3 py-1.5 text-sm rounded-lg max-w-[120px]"
-                >
-                  <User className="w-4 h-4 mr-1" />
-                  <span className="truncate">{displayName}</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                className="w-40 bg-slate-800/95 text-white backdrop-blur-md rounded-xl border border-white/10"
-                sideOffset={8}
-              >
-                <DropdownMenuItem onClick={signOut} className="text-white hover:bg-slate-700/70">
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button
-              onClick={() => navigate('/auth')}
-              variant="ghost"
-              size="sm"
-              className="bg-transparent hover:bg-white/10 text-white border-0 px-3 py-1.5 text-sm rounded-lg"
-            >
-              <User className="w-4 h-4 mr-1" />
-              Sign In
-            </Button>
-          )}
-        </div>
-        
-        {/* Slide Tab */}
-        <div className="bg-slate-800/90 backdrop-blur-md rounded-r-2xl border border-l-0 border-white/10 px-2 py-3 cursor-pointer">
-          <div className="flex items-center justify-center w-6 h-6 text-white/70">
-            {isExpanded ? (
-              <ChevronRight className="w-4 h-4" />
-            ) : (
-              <ChevronLeft className="w-4 h-4" />
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    </TooltipProvider>
   );
 };
 
