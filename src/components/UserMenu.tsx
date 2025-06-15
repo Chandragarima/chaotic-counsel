@@ -48,7 +48,6 @@ const UserMenu = () => {
         .single();
 
       if (!error) {
-        // Always set both fields to satisfy UserProfile type, avatar_url is always null
         setProfile({ username: data?.username ?? null, avatar_url: null });
       }
     } finally {
@@ -56,7 +55,6 @@ const UserMenu = () => {
     }
   };
 
-  // Only display username
   const displayName =
     profileLoading
       ? 'Loading...'
@@ -64,13 +62,21 @@ const UserMenu = () => {
         ? profile.username
         : 'AnonymousUser' + Math.floor(Math.random() * 1000);
 
-  // Mobile layout - compact floating menu
+  // --- Universal styling for alignment and safety from title ---
+  // Use a flex container, always anchored top-right and with responsive gaps/margins,
+  // wrapping at small screens, with max-w and z-index.
+  const userMenuContainerClasses =
+    "fixed md:absolute top-2 md:top-4 right-2 md:right-4 z-50 " +
+    "flex flex-row flex-wrap items-center gap-x-2 gap-y-1 md:gap-x-3 " +
+    "max-w-full sm:max-w-[95vw] justify-end pointer-events-auto " +
+    "md:bg-transparent bg-slate-700/90 md:backdrop-blur-none backdrop-blur " +
+    "rounded-xl p-1 md:p-0 shadow-none";
+
+  // On mobile, always show streak + menu.
   if (isMobile) {
     return (
-      <div className="fixed top-4 right-4 z-50 flex flex-col items-end space-y-2">
-        {/* Always show streak on mobile */}
+      <div className={userMenuContainerClasses}>
         <StreakDisplay />
-        
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button 
@@ -80,7 +86,11 @@ const UserMenu = () => {
               <Menu className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48">
+          <DropdownMenuContent 
+            align="end"
+            className="w-48 z-[80] bg-slate-800 text-white"
+            sideOffset={8}
+          >
             {user && (
               <>
                 <div className="px-2 py-1.5 flex items-center gap-2">
@@ -102,9 +112,7 @@ const UserMenu = () => {
                 Feedback
               </FeedbackTrigger>
             </DropdownMenuItem>
-            
             <DropdownMenuSeparator />
-            
             {user ? (
               <DropdownMenuItem onClick={signOut}>
                 Sign Out
@@ -120,10 +128,10 @@ const UserMenu = () => {
     );
   }
 
-  // Desktop layout - compact horizontal layout, always show streak
+  // Desktop: flex row, always safely far right, but never covers site title area.
   if (!user) {
     return (
-      <div className="flex items-center space-x-2">
+      <div className={userMenuContainerClasses}>
         <StreakDisplay />
         <FeedbackTrigger 
           feedbackType="general"
@@ -143,15 +151,13 @@ const UserMenu = () => {
   }
 
   return (
-    <div className="flex items-center space-x-3">
+    <div className={userMenuContainerClasses}>
       <StreakDisplay />
-      
       <FeedbackTrigger 
         feedbackType="general"
         variant="button"
         className="bg-white/10 border-white/20 text-white hover:bg-white/20"
       />
-      
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button 
@@ -162,7 +168,11 @@ const UserMenu = () => {
             <span className="max-w-24 truncate">{displayName}</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent 
+          align="end"
+          className="z-[80] bg-slate-800 text-white"
+          sideOffset={8}
+        >
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={signOut}>
             Sign Out
@@ -174,3 +184,4 @@ const UserMenu = () => {
 };
 
 export default UserMenu;
+
