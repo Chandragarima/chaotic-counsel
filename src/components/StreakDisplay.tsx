@@ -23,24 +23,13 @@ const StreakDisplay = () => {
     return 'from-gray-500/10 to-gray-600/10 border-gray-400/20';
   };
 
-  // Responsive sizing
-  const containerClasses = isMobile 
-    ? "flex items-center space-x-1 px-2 py-1 text-xs" 
-    : "flex items-center space-x-2 px-4 py-2 text-sm";
-  
-  const iconSize = isMobile ? "h-3 w-3" : "h-5 w-5";
-
+  // Simplified display - just flame icon and number
   return (
-    <div className={`${containerClasses} bg-gradient-to-r ${getBackgroundGradient(progress.streak)} backdrop-blur-sm border rounded-full`}>
-      <Flame className={`${iconSize} ${getFlameColor(progress.streak)}`} />
-      <span className="text-white font-medium">
-        {progress.streak} day{progress.streak !== 1 ? 's' : ''}
+    <div className="flex items-center space-x-1.5">
+      <Flame className={`w-4 h-4 ${getFlameColor(progress.streak)}`} />
+      <span className="text-white font-medium text-sm">
+        {progress.streak}
       </span>
-      {progress.streak === 0 && (
-        <span className="text-gray-300 text-xs opacity-75">
-          - Start your streak!
-        </span>
-      )}
     </div>
   );
 };

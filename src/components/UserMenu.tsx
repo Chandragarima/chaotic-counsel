@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { MessageCircle, Menu } from 'lucide-react';
+import { MessageCircle, User, Flame, ChevronLeft, ChevronRight } from 'lucide-react';
 import FeedbackTrigger from './feedback/FeedbackTrigger';
 import StreakDisplay from './StreakDisplay';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -27,6 +27,7 @@ const UserMenu = () => {
   const isMobile = useIsMobile();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -62,132 +63,144 @@ const UserMenu = () => {
         ? profile.username
         : 'AnonymousUser' + Math.floor(Math.random() * 1000);
 
-  // Modern glassmorphic card, vertical on desktop, floating bar on mobile
-  // z-50 to stay on top, with shadow/glass, pointer-events for safety, gap-2/gap-3 for rhythm
-  const floatingMenuClasses =
-    "fixed top-6 right-8 z-50 flex flex-col items-end gap-3 p-4 min-w-[175px] " +
-    "rounded-2xl bg-slate-900/60 bg-gradient-to-br from-slate-700/80 to-slate-800/70 " +
-    "backdrop-blur-lg shadow-xl border border-white/10 pointer-events-auto " +
-    "transition-all duration-300";
-
-  // Compact bottom floating bar for mobile
-  const mobileBarClasses =
-    "fixed bottom-2 left-1/2 z-50 flex flex-row justify-center items-center gap-2 px-3 py-2 " +
-    "rounded-2xl bg-slate-900/70 backdrop-blur-lg shadow-2xl border border-white/10 " +
-    "transform -translate-x-1/2 pointer-events-auto w-auto";
-
   if (isMobile) {
     return (
-      <div className={mobileBarClasses}>
-        <Button
-          size="icon"
-          className="rounded-full bg-transparent text-yellow-200 hover:bg-white/10"
-          aria-label="Show streak"
-          tabIndex={0}
-        >
-          <StreakDisplay />
-        </Button>
-        <FeedbackTrigger
-          feedbackType="general"
-          variant="inline"
-          className="rounded-full px-3 text-base text-white bg-transparent hover:bg-white/10"
-        >
-          <MessageCircle className="w-5 h-5 mr-1" />
-        </FeedbackTrigger>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              size="icon"
-              className="rounded-full bg-transparent text-white hover:bg-white/10"
-              aria-label="Profile menu"
-            >
-              <Menu className="w-6 h-6" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="w-44 z-[80] bg-slate-800/90 text-white backdrop-blur-md rounded-2xl"
-            sideOffset={8}
-          >
-            {user && (
-              <>
-                <div className="px-2 py-2 flex items-center gap-2">
-                  <span className="text-base font-medium text-muted-foreground truncate">{displayName}</span>
-                </div>
-                <DropdownMenuSeparator />
-              </>
-            )}
-            <DropdownMenuItem asChild>
-              <FeedbackTrigger
-                feedbackType="general"
-                variant="inline"
-                className="w-full justify-start"
+      <div className="fixed top-4 right-4 z-50">
+        <div className="flex items-center gap-2">
+          {/* Compact Streak Display */}
+          <div className="bg-slate-800/90 backdrop-blur-md rounded-full px-3 py-2 border border-white/10">
+            <StreakDisplay />
+          </div>
+          
+          {/* Main Menu Button */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="icon"
+                className="rounded-full bg-slate-800/90 backdrop-blur-md text-white hover:bg-slate-700/90 border border-white/10 w-10 h-10"
+                aria-label="Menu"
               >
-                <MessageCircle className="w-4 h-4 mr-2" />
-                Feedback
-              </FeedbackTrigger>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            {user ? (
-              <DropdownMenuItem onClick={signOut}>Sign Out</DropdownMenuItem>
-            ) : (
-              <DropdownMenuItem onClick={() => navigate('/auth')}>Sign In</DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+                <User className="w-5 h-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="w-48 bg-slate-800/95 text-white backdrop-blur-md rounded-xl border border-white/10"
+              sideOffset={8}
+            >
+              {user && (
+                <>
+                  <div className="px-3 py-2 text-sm font-medium text-slate-300 truncate">
+                    {displayName}
+                  </div>
+                  <DropdownMenuSeparator className="bg-white/10" />
+                </>
+              )}
+              <DropdownMenuItem asChild>
+                <FeedbackTrigger
+                  feedbackType="general"
+                  variant="inline"
+                  className="w-full justify-start text-white hover:bg-slate-700/70"
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Feedback
+                </FeedbackTrigger>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="bg-white/10" />
+              {user ? (
+                <DropdownMenuItem onClick={signOut} className="text-white hover:bg-slate-700/70">
+                  Sign Out
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem onClick={() => navigate('/auth')} className="text-white hover:bg-slate-700/70">
+                  Sign In
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     );
   }
 
-  // DESKTOP: glassmorphic card, vertical stacking, floating
+  // Desktop: Slide-out menu design
   return (
-    <div className={floatingMenuClasses}>
-      <div className="w-full mb-1">
-        <StreakDisplay />
-      </div>
-      <FeedbackTrigger
-        feedbackType="general"
-        variant="button"
-        className="w-full rounded-xl border-0 bg-transparent text-white font-semibold text-base hover:bg-slate-700/50 py-2"
+    <div className="fixed top-6 right-0 z-50">
+      <div 
+        className={`flex items-center transition-all duration-300 ${
+          isExpanded ? 'translate-x-0' : 'translate-x-[calc(100%-3rem)]'
+        }`}
+        onMouseEnter={() => setIsExpanded(true)}
+        onMouseLeave={() => setIsExpanded(false)}
       >
-        <MessageCircle className="w-5 h-5 mr-2" />
-        Feedback
-      </FeedbackTrigger>
-      {user ? (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full flex justify-between items-center rounded-xl border-0 bg-slate-800/70 text-white text-base font-normal hover:bg-slate-700/60 py-2 truncate"
-              tabIndex={0}
-            >
-              <span className="truncate max-w-[90px]">{displayName}</span>
-              <Menu className="w-4 h-4 ml-2 text-slate-300" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="w-44 z-[80] bg-slate-800/95 text-white backdrop-blur-xl rounded-2xl"
-            sideOffset={8}
+        {/* Expanded Menu Content */}
+        <div className={`flex items-center gap-3 bg-slate-800/90 backdrop-blur-md rounded-l-2xl border border-white/10 pl-4 pr-2 py-3 transition-opacity duration-200 ${
+          isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}>
+          {/* Compact Streak */}
+          <div className="flex items-center gap-2">
+            <StreakDisplay />
+          </div>
+          
+          {/* Feedback Button */}
+          <FeedbackTrigger
+            feedbackType="general"
+            variant="inline"
+            className="bg-transparent hover:bg-white/10 text-white border-0 px-3 py-1.5 text-sm rounded-lg"
           >
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={signOut}>Sign Out</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ) : (
-        <Button
-          onClick={() => navigate('/auth')}
-          variant="outline"
-          size="sm"
-          className="w-full rounded-xl border-0 bg-slate-800/80 text-white font-normal text-base hover:bg-slate-700/50 py-2"
-        >
-          Sign In
-        </Button>
-      )}
+            <MessageCircle className="w-4 h-4 mr-1" />
+            Feedback
+          </FeedbackTrigger>
+          
+          {/* User Menu */}
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="bg-transparent hover:bg-white/10 text-white border-0 px-3 py-1.5 text-sm rounded-lg max-w-[120px]"
+                >
+                  <User className="w-4 h-4 mr-1" />
+                  <span className="truncate">{displayName}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="w-40 bg-slate-800/95 text-white backdrop-blur-md rounded-xl border border-white/10"
+                sideOffset={8}
+              >
+                <DropdownMenuItem onClick={signOut} className="text-white hover:bg-slate-700/70">
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button
+              onClick={() => navigate('/auth')}
+              variant="ghost"
+              size="sm"
+              className="bg-transparent hover:bg-white/10 text-white border-0 px-3 py-1.5 text-sm rounded-lg"
+            >
+              <User className="w-4 h-4 mr-1" />
+              Sign In
+            </Button>
+          )}
+        </div>
+        
+        {/* Slide Tab */}
+        <div className="bg-slate-800/90 backdrop-blur-md rounded-r-2xl border border-l-0 border-white/10 px-2 py-3 cursor-pointer">
+          <div className="flex items-center justify-center w-6 h-6 text-white/70">
+            {isExpanded ? (
+              <ChevronRight className="w-4 h-4" />
+            ) : (
+              <ChevronLeft className="w-4 h-4" />
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default UserMenu;
-
