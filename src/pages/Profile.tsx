@@ -19,7 +19,7 @@ const Profile = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+        <div className="text-white text-lg md:text-xl">Loading...</div>
       </div>
     );
   }
@@ -35,7 +35,7 @@ const Profile = () => {
           <Button
             variant="ghost"
             onClick={() => navigate('/')}
-            className="text-white hover:bg-white/10"
+            className="text-white hover:bg-white/10 text-sm md:text-base"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Home

@@ -1,4 +1,3 @@
-
 import { Character } from '../types';
 import { characters } from '../data/characters';
 import CharacterCard from './CharacterCard';
@@ -81,9 +80,9 @@ const CombinedHomePage = ({
         {/* Enhanced branding with better fonts */}
         <div className="space-y-8">
           <div className="space-y-6">
-            {/* Main Title with improved typography */}
+            {/* Main Title with improved responsive typography */}
             <div className="relative">
-              <h1 className="text-6xl md:text-8xl font-playfair font-medium tracking-[0.3em] text-slate-50 relative">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-playfair font-medium tracking-[0.3em] text-slate-50 relative">
                 CHAOTIC
               </h1>
               <div className="absolute inset-0 text-amber-400/25 blur-sm">CHAOTIC</div>
@@ -96,18 +95,15 @@ const CombinedHomePage = ({
               <div className="w-16 h-px bg-gradient-to-l from-transparent via-amber-400/70 to-transparent"></div>
             </div>
             
-            {/* Subtitle with better contrast */}
-            <h2 className="text-3xl md:text-5xl font-playfair font-normal tracking-[0.2em] text-slate-100">
+            {/* Subtitle with better responsive sizing */}
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-playfair font-normal tracking-[0.2em] text-slate-100">
               COUNSEL
             </h2>
           </div>
           
           {/* Refined tagline with better readability */}
           <div className="space-y-4">
-            {/* <p className="text-xl text-slate-200 font-inter font-light tracking-wider">
-              Ancient wisdom for modern decisions
-            </p> */}
-            <p className="text-sm text-amber-300/80 font-inter font-light tracking-normal uppercase">
+            <p className="text-xs sm:text-sm text-amber-300/80 font-inter font-light tracking-normal uppercase">
               Choose your guide
             </p>
           </div>
@@ -149,7 +145,7 @@ const CombinedHomePage = ({
 
           {/* Instruction Text */}
           <div className="pt-4">
-            <p className="text-amber-300/70 text-sm font-inter font-light tracking-wide">
+            <p className="text-amber-300/70 text-xs sm:text-sm font-inter font-light tracking-wide">
               Select an advisor to begin your session
             </p>
           </div>

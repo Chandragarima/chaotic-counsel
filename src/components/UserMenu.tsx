@@ -131,7 +131,7 @@ const UserMenu = () => {
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/20">
-                    <p className="text-sm">{user ? `${displayName} - Account menu` : 'Sign in to your account'}</p>
+                    <p className="text-sm">{user ? displayName : 'Sign in to your account'}</p>
                   </TooltipContent>
                 </Tooltip>
               ) : (
