@@ -53,15 +53,15 @@ BEGIN
     -- Determine unlocked characters based on streak - FIXED THRESHOLDS
     new_unlocked := '["wise-owl", "sassy-cat"]'::jsonb;
     
-    IF new_streak >= 1 THEN
+    IF new_streak >= 2 THEN
       new_unlocked := new_unlocked || '["lazy-panda"]'::jsonb;
     END IF;
     
-    IF new_streak >= 3 THEN
+    IF new_streak >= 4 THEN
       new_unlocked := new_unlocked || '["sneaky-snake"]'::jsonb;
     END IF;
     
-    IF new_streak >= 5 THEN
+    IF new_streak >= 7 THEN
       new_unlocked := new_unlocked || '["people-pleaser-pup"]'::jsonb;
     END IF;
     
