@@ -7,7 +7,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { MessageCircle, Menu } from 'lucide-react';
@@ -21,9 +20,6 @@ interface UserProfile {
   username: string | null;
   avatar_url: string | null;
 }
-
-const isProbablyUrl = (value: string | null | undefined) =>
-  !!value && (value.startsWith('http://') || value.startsWith('https://'));
 
 const UserMenu = () => {
   const { user, signOut } = useAuth();
@@ -45,46 +41,25 @@ const UserMenu = () => {
     if (!user) return;
     try {
       setProfileLoading(true);
-      //console.log('Loading profile for user:', user.id);
       const { data, error } = await supabase
         .from('profiles')
-        .select('username, avatar_url')
+        .select('username')
         .eq('id', user.id)
         .single();
 
-      if (error) {
-        //console.error('Error loading user profile:', error);
-        // If profile doesn't exist, try to create one
-        if (error.code === 'PGRST116') {
-          //console.log('Profile not found, user might need to re-login to trigger profile creation');
-        }
-      } else {
-        //console.log('Profile loaded:', data);
-        setProfile(data);
-      }
-    } catch (error) {
-      //console.error('Error loading user profile:', error);
+      if (!error) setProfile(data);
     } finally {
       setProfileLoading(false);
     }
   };
 
-  // Fallback displayName and avatarDisplay logic
+  // Only display username
   const displayName =
     profileLoading
       ? 'Loading...'
       : profile?.username && profile.username.trim() !== ''
         ? profile.username
         : 'AnonymousUser' + Math.floor(Math.random() * 1000);
-
-  // Only display a valid emoji, never a url
-  let avatarDisplay = '⏳';
-  if (!profileLoading) {
-    avatarDisplay =
-      profile?.avatar_url && !isProbablyUrl(profile.avatar_url)
-        ? profile.avatar_url
-        : '🐱';
-  }
 
   // Mobile layout - compact floating menu
   if (isMobile) {
@@ -103,7 +78,6 @@ const UserMenu = () => {
             {user && (
               <>
                 <div className="px-2 py-1.5 flex items-center gap-2">
-                  <div className="text-lg">{avatarDisplay}</div>
                   <span className="text-sm font-medium text-muted-foreground truncate">
                     {displayName}
                   </span>
@@ -140,7 +114,7 @@ const UserMenu = () => {
     );
   }
 
-  // Desktop layout - original horizontal layout but more compact
+  // Desktop layout - original horizontal layout but more compact, no avatar at all
   if (!user) {
     return (
       <div className="flex items-center space-x-2">
@@ -178,7 +152,6 @@ const UserMenu = () => {
             size="sm"
             className="bg-white/10 border-white/20 text-white hover:bg-white/20 flex items-center gap-2"
           >
-            <div className="text-lg">{avatarDisplay}</div>
             <span className="max-w-24 truncate">{displayName}</span>
           </Button>
         </DropdownMenuTrigger>
@@ -194,4 +167,3 @@ const UserMenu = () => {
 };
 
 export default UserMenu;
-
