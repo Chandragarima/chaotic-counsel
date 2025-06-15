@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -98,10 +97,18 @@ export const useSupabaseProgress = () => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        setProgress({ ...defaultProgress, ...parsed });
+        // For anonymous users, always show streak as 0 and only default characters
+        setProgress({ 
+          ...defaultProgress, 
+          totalDecisions: parsed.totalDecisions || 0,
+          streak: 0, // Always 0 for anonymous users
+          unlockedCharacters: ['wise-owl', 'sassy-cat'] // Only default characters
+        });
       } catch {
         setProgress(defaultProgress);
       }
+    } else {
+      setProgress(defaultProgress);
     }
   };
 
@@ -168,11 +175,13 @@ export const useSupabaseProgress = () => {
   const incrementDecisionsLocal = () => {
     const today = new Date().toDateString();
     
+    // For anonymous users, only track decisions, keep streak at 0
     const newProgress = {
       ...progress,
       totalDecisions: progress.totalDecisions + 1,
       lastVisit: today,
-      streak: progress.lastVisit === today ? progress.streak : progress.streak + 1
+      streak: 0, // Always keep streak at 0 for anonymous users
+      unlockedCharacters: ['wise-owl', 'sassy-cat'] // Only default characters
     };
 
     setProgress(newProgress);
