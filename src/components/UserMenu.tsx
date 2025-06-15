@@ -27,10 +27,13 @@ const UserMenu = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
       loadUserProfile();
+    } else {
+      setProfileLoading(false);
     }
   }, [user]);
 
@@ -38,21 +41,39 @@ const UserMenu = () => {
     if (!user) return;
 
     try {
+      setProfileLoading(true);
+      console.log('Loading profile for user:', user.id);
+      
       const { data, error } = await supabase
         .from('profiles')
         .select('username, avatar_url')
         .eq('id', user.id)
         .single();
 
-      if (error) throw error;
-      setProfile(data);
+      if (error) {
+        console.error('Error loading user profile:', error);
+        // If profile doesn't exist, try to create one
+        if (error.code === 'PGRST116') {
+          console.log('Profile not found, user might need to re-login to trigger profile creation');
+        }
+      } else {
+        console.log('Profile loaded:', data);
+        setProfile(data);
+      }
     } catch (error) {
       console.error('Error loading user profile:', error);
+    } finally {
+      setProfileLoading(false);
     }
   };
 
-  const displayName = profile?.username || 'User';
-  const avatarDisplay = profile?.avatar_url || '🐱';
+  // Better fallbacks for username and avatar
+  const displayName = profileLoading 
+    ? 'Loading...' 
+    : profile?.username || 'AnonymousUser' + Math.floor(Math.random() * 1000);
+  const avatarDisplay = profileLoading 
+    ? '⏳' 
+    : profile?.avatar_url || '🐱';
 
   // Mobile layout - compact floating menu
   if (isMobile) {
