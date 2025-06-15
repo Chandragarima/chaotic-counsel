@@ -67,7 +67,10 @@ const UserMenu = () => {
   // Mobile layout - compact floating menu
   if (isMobile) {
     return (
-      <div className="fixed top-4 right-4 z-50">
+      <div className="fixed top-4 right-4 z-50 flex flex-col items-end space-y-2">
+        {/* Always show streak on mobile */}
+        <StreakDisplay />
+        
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button 
@@ -117,10 +120,11 @@ const UserMenu = () => {
     );
   }
 
-  // Desktop layout - compact horizontal layout, no avatar
+  // Desktop layout - compact horizontal layout, always show streak
   if (!user) {
     return (
       <div className="flex items-center space-x-2">
+        <StreakDisplay />
         <FeedbackTrigger 
           feedbackType="general"
           variant="button"
