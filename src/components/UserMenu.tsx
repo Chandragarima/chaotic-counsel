@@ -22,6 +22,9 @@ interface UserProfile {
   avatar_url: string | null;
 }
 
+const isProbablyUrl = (value: string | null | undefined) =>
+  !!value && (value.startsWith('http://') || value.startsWith('https://'));
+
 const UserMenu = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
@@ -35,15 +38,14 @@ const UserMenu = () => {
     } else {
       setProfileLoading(false);
     }
+    // eslint-disable-next-line
   }, [user]);
 
   const loadUserProfile = async () => {
     if (!user) return;
-
     try {
       setProfileLoading(true);
-      console.log('Loading profile for user:', user.id);
-      
+      //console.log('Loading profile for user:', user.id);
       const { data, error } = await supabase
         .from('profiles')
         .select('username, avatar_url')
@@ -51,29 +53,38 @@ const UserMenu = () => {
         .single();
 
       if (error) {
-        console.error('Error loading user profile:', error);
+        //console.error('Error loading user profile:', error);
         // If profile doesn't exist, try to create one
         if (error.code === 'PGRST116') {
-          console.log('Profile not found, user might need to re-login to trigger profile creation');
+          //console.log('Profile not found, user might need to re-login to trigger profile creation');
         }
       } else {
-        console.log('Profile loaded:', data);
+        //console.log('Profile loaded:', data);
         setProfile(data);
       }
     } catch (error) {
-      console.error('Error loading user profile:', error);
+      //console.error('Error loading user profile:', error);
     } finally {
       setProfileLoading(false);
     }
   };
 
-  // Better fallbacks for username and avatar
-  const displayName = profileLoading 
-    ? 'Loading...' 
-    : profile?.username || 'AnonymousUser' + Math.floor(Math.random() * 1000);
-  const avatarDisplay = profileLoading 
-    ? '⏳' 
-    : profile?.avatar_url || '🐱';
+  // Fallback displayName and avatarDisplay logic
+  const displayName =
+    profileLoading
+      ? 'Loading...'
+      : profile?.username && profile.username.trim() !== ''
+        ? profile.username
+        : 'AnonymousUser' + Math.floor(Math.random() * 1000);
+
+  // Only display a valid emoji, never a url
+  let avatarDisplay = '⏳';
+  if (!profileLoading) {
+    avatarDisplay =
+      profile?.avatar_url && !isProbablyUrl(profile.avatar_url)
+        ? profile.avatar_url
+        : '🐱';
+  }
 
   // Mobile layout - compact floating menu
   if (isMobile) {
@@ -183,3 +194,4 @@ const UserMenu = () => {
 };
 
 export default UserMenu;
+
