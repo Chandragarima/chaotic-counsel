@@ -7,17 +7,51 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { User, MessageCircle, Menu } from 'lucide-react';
+import { User, MessageCircle, Menu, Settings } from 'lucide-react';
 import FeedbackTrigger from './feedback/FeedbackTrigger';
 import StreakDisplay from './StreakDisplay';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface UserProfile {
+  username: string | null;
+  avatar_url: string | null;
+}
 
 const UserMenu = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    if (user) {
+      loadUserProfile();
+    }
+  }, [user]);
+
+  const loadUserProfile = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('username, avatar_url')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+      setProfile(data);
+    } catch (error) {
+      console.error('Error loading user profile:', error);
+    }
+  };
+
+  const displayName = profile?.username || user?.email?.split('@')[0] || 'User';
 
   // Mobile layout - compact floating menu
   if (isMobile) {
@@ -35,11 +69,24 @@ const UserMenu = () => {
           <DropdownMenuContent align="end" className="w-48">
             {user && (
               <>
-                <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
-                  {user.email?.split('@')[0] || 'User'}
+                <div className="px-2 py-1.5 flex items-center gap-2">
+                  <Avatar className="h-6 w-6">
+                    <AvatarImage src={profile?.avatar_url || ''} />
+                    <AvatarFallback className="text-xs">{displayName[0]}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm font-medium text-muted-foreground truncate">
+                    {displayName}
+                  </span>
                 </div>
                 <DropdownMenuSeparator />
               </>
+            )}
+            
+            {user && (
+              <DropdownMenuItem onClick={() => navigate('/profile')}>
+                <Settings className="w-4 h-4 mr-2" />
+                Edit Profile
+              </DropdownMenuItem>
             )}
             
             <DropdownMenuItem asChild>
@@ -106,13 +153,21 @@ const UserMenu = () => {
           <Button 
             variant="outline" 
             size="sm"
-            className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+            className="bg-white/10 border-white/20 text-white hover:bg-white/20 flex items-center gap-2"
           >
-            <User className="h-4 w-4 mr-2" />
-            {user.email?.split('@')[0] || 'User'}
+            <Avatar className="h-5 w-5">
+              <AvatarImage src={profile?.avatar_url || ''} />
+              <AvatarFallback className="text-xs">{displayName[0]}</AvatarFallback>
+            </Avatar>
+            <span className="max-w-24 truncate">{displayName}</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => navigate('/profile')}>
+            <Settings className="h-4 w-4 mr-2" />
+            Edit Profile
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={signOut}>
             Sign Out
           </DropdownMenuItem>

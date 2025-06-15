@@ -223,6 +223,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_unique_animal_username: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       update_daily_streak: {
         Args: { user_uuid: string }
         Returns: {
