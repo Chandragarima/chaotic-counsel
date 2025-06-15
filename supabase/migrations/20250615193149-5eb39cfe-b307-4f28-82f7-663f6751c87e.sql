@@ -67,24 +67,24 @@ SET search_path = 'public'
 AS $$
 DECLARE
   animal_username TEXT;
-  avatar_urls TEXT[] := ARRAY[
-    'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=200&h=200&fit=crop&crop=face',
-    'https://images.unsplash.com/photo-1466721591366-2d5fba72006d?w=200&h=200&fit=crop&crop=face',
-    'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?w=200&h=200&fit=crop&crop=face',
-    'https://images.unsplash.com/photo-1441057206919-63d19fac2369?w=200&h=200&fit=crop&crop=face',
-    'https://images.unsplash.com/photo-1501286353178-1ec881214838?w=200&h=200&fit=crop&crop=face'
+  avatar_emojis TEXT[] := ARRAY[
+    '🐱', '🐶', '🦊', '🐺', '🦁', '🐯', '🐨', '🐼',
+    '🐸', '🐙', '🦉', '🦅', '🐧', '🦋', '🐝', '🦒',
+    '🐘', '🦏', '🦛', '🐊', '🐢', '🦕', '🦖', '🐳',
+    '🐬', '🦈', '🐟', '🐠', '🐡', '🦞', '🦀', '🐚',
+    '🌟', '⭐', '🌙', '☀️', '🌈', '⚡', '🔥', '💎'
   ];
-  random_avatar_url TEXT;
+  random_avatar TEXT;
 BEGIN
   -- Generate unique animal username
   animal_username := generate_unique_animal_username();
   
-  -- Select random avatar
-  random_avatar_url := avatar_urls[floor(random() * array_length(avatar_urls, 1) + 1)];
+  -- Select random emoji avatar
+  random_avatar := avatar_emojis[floor(random() * array_length(avatar_emojis, 1) + 1)];
   
   -- Insert profile with generated username and avatar
   INSERT INTO public.profiles (id, username, avatar_url)
-  VALUES (new.id, animal_username, random_avatar_url);
+  VALUES (new.id, animal_username, random_avatar);
   
   -- Insert user progress
   INSERT INTO public.user_progress (user_id)

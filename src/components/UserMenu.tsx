@@ -7,10 +7,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { User, MessageCircle, Menu, Settings } from 'lucide-react';
+import { MessageCircle, Menu } from 'lucide-react';
 import FeedbackTrigger from './feedback/FeedbackTrigger';
 import StreakDisplay from './StreakDisplay';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -51,7 +51,8 @@ const UserMenu = () => {
     }
   };
 
-  const displayName = profile?.username || user?.email?.split('@')[0] || 'User';
+  const displayName = profile?.username || 'User';
+  const avatarDisplay = profile?.avatar_url || '🐱';
 
   // Mobile layout - compact floating menu
   if (isMobile) {
@@ -70,23 +71,13 @@ const UserMenu = () => {
             {user && (
               <>
                 <div className="px-2 py-1.5 flex items-center gap-2">
-                  <Avatar className="h-6 w-6">
-                    <AvatarImage src={profile?.avatar_url || ''} />
-                    <AvatarFallback className="text-xs">{displayName[0]}</AvatarFallback>
-                  </Avatar>
+                  <div className="text-lg">{avatarDisplay}</div>
                   <span className="text-sm font-medium text-muted-foreground truncate">
                     {displayName}
                   </span>
                 </div>
                 <DropdownMenuSeparator />
               </>
-            )}
-            
-            {user && (
-              <DropdownMenuItem onClick={() => navigate('/profile')}>
-                <Settings className="w-4 h-4 mr-2" />
-                Edit Profile
-              </DropdownMenuItem>
             )}
             
             <DropdownMenuItem asChild>
@@ -155,18 +146,11 @@ const UserMenu = () => {
             size="sm"
             className="bg-white/10 border-white/20 text-white hover:bg-white/20 flex items-center gap-2"
           >
-            <Avatar className="h-5 w-5">
-              <AvatarImage src={profile?.avatar_url || ''} />
-              <AvatarFallback className="text-xs">{displayName[0]}</AvatarFallback>
-            </Avatar>
+            <div className="text-lg">{avatarDisplay}</div>
             <span className="max-w-24 truncate">{displayName}</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => navigate('/profile')}>
-            <Settings className="h-4 w-4 mr-2" />
-            Edit Profile
-          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={signOut}>
             Sign Out
