@@ -1,3 +1,4 @@
+
 import { Character } from '../types';
 import { characters } from '../data/characters';
 import CharacterCard from './CharacterCard';
@@ -53,7 +54,7 @@ const CombinedHomePage = ({
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 pt-20 md:pt-6 relative overflow-hidden">
       {/* Unlock celebration popup */}
       <UnlockCelebration 
         isVisible={isNewUnlockAvailable}
