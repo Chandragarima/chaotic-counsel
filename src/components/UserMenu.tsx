@@ -47,7 +47,10 @@ const UserMenu = () => {
         .eq('id', user.id)
         .single();
 
-      if (!error) setProfile(data);
+      if (!error) {
+        // Always set both fields to satisfy UserProfile type, avatar_url is always null
+        setProfile({ username: data?.username ?? null, avatar_url: null });
+      }
     } finally {
       setProfileLoading(false);
     }
@@ -114,7 +117,7 @@ const UserMenu = () => {
     );
   }
 
-  // Desktop layout - original horizontal layout but more compact, no avatar at all
+  // Desktop layout - compact horizontal layout, no avatar
   if (!user) {
     return (
       <div className="flex items-center space-x-2">
