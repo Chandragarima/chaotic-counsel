@@ -19,7 +19,7 @@ const CombinedHomePage = ({
   const { progress, isNewUnlockAvailable, newlyUnlockedCharacter, dismissUnlockCelebration } = useSupabaseProgress();
 
   const handleCharacterSelect = (character: Character) => {
-    // Check if character is unlocked
+    // Check if character is unlocked based on progress only
     if (!progress.unlockedCharacters.includes(character.id)) {
       return; // Character is locked, don't allow selection
     }
@@ -33,7 +33,7 @@ const CombinedHomePage = ({
     onContinue();
   };
 
-  // Filter characters based on unlock status
+  // Filter characters based on unlock status from progress only
   const getCharacterUnlockStatus = (character: Character) => {
     return progress.unlockedCharacters.includes(character.id);
   };
