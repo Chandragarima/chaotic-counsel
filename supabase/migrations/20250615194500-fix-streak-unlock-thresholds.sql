@@ -61,7 +61,7 @@ BEGIN
       new_unlocked := new_unlocked || '["sneaky-snake"]'::jsonb;
     END IF;
     
-    IF new_streak >= 7 THEN
+    IF new_streak >= 5 THEN
       new_unlocked := new_unlocked || '["people-pleaser-pup"]'::jsonb;
     END IF;
     
