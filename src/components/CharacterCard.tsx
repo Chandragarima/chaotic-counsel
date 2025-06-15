@@ -36,9 +36,9 @@ const CharacterCard = ({ character, onSelect, isSelected = false, isLocked = fal
           ? 'bg-slate-800/60 border-amber-400/70 shadow-lg shadow-amber-400/20 scale-105' 
           : 'bg-slate-900/60 border-slate-700/50 hover:border-amber-400/50 hover:bg-slate-800/40'
         } 
-        ${!character.unlocked ? 'opacity-40 grayscale cursor-not-allowed' : 'hover:scale-102'}
+        ${isLocked ? 'opacity-40 grayscale cursor-not-allowed' : 'hover:scale-102'}
         backdrop-blur-md rounded-2xl border`}
-      onClick={character.unlocked ? onSelect : undefined}
+      onClick={!isLocked ? onSelect : undefined}
     >
       <div className="text-center space-y-4">
         {/* Character Avatar */}
@@ -78,14 +78,6 @@ const CharacterCard = ({ character, onSelect, isSelected = false, isLocked = fal
             {character.description}
           </p>
         </div>
-
-        {/* Lock Status */}
-        {!character.unlocked && (
-          <div className="flex items-center justify-center space-x-2 text-slate-500 pt-2">
-            <span className="text-sm">🔒</span>
-            <span className="text-xs font-light tracking-wide">Locked</span>
-          </div>
-        )}
       </div>
 
       {/* Selection indicator overlay */}
