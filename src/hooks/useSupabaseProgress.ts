@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -20,9 +21,11 @@ export const useSupabaseProgress = () => {
     if (loading) return;
 
     if (user) {
+      console.log('🔵 User logged in, loading progress and updating streak for user:', user.id);
       loadUserProgress();
       updateDailyStreak();
     } else {
+      console.log('🔴 No user, loading local progress');
       loadLocalProgress();
     }
   }, [user, loading]);
@@ -31,6 +34,7 @@ export const useSupabaseProgress = () => {
     if (!user) return;
 
     try {
+      console.log('📊 Loading user progress for:', user.id);
       const { data: userProgress, error } = await supabase
         .from('user_progress')
         .select('*')
@@ -38,20 +42,23 @@ export const useSupabaseProgress = () => {
         .single();
 
       if (error && error.code !== 'PGRST116') {
-        console.error('Error loading user progress:', error);
+        console.error('❌ Error loading user progress:', error);
         return;
       }
 
       if (userProgress) {
+        console.log('✅ Loaded user progress:', userProgress);
         setProgress({
           streak: userProgress.current_streak,
           lastVisit: new Date().toDateString(),
           unlockedCharacters: userProgress.unlocked_characters as string[],
           totalDecisions: userProgress.total_decisions
         });
+      } else {
+        console.log('ℹ️ No user progress found, will be created on first streak update');
       }
     } catch (error) {
-      console.error('Error in loadUserProgress:', error);
+      console.error('💥 Error in loadUserProgress:', error);
     }
   };
 
@@ -59,23 +66,30 @@ export const useSupabaseProgress = () => {
     if (!user) return;
 
     try {
+      console.log('🔥 Updating daily streak for user:', user.id);
       const { data, error } = await supabase.rpc('update_daily_streak', {
         user_uuid: user.id
       });
 
       if (error) {
-        console.error('Error updating daily streak:', error);
+        console.error('❌ Error updating daily streak:', error);
         return;
       }
+
+      console.log('🎯 Streak update result:', data);
 
       if (data && data.length > 0) {
         const streakData = data[0];
         const previousUnlocked = progress.unlockedCharacters;
         const newUnlocked = streakData.unlocked_characters as string[];
         
+        console.log('📈 New streak:', streakData.current_streak);
+        console.log('🔓 Unlocked characters:', newUnlocked);
+        
         // Check if a new character was unlocked
         const newCharacter = newUnlocked.find(char => !previousUnlocked.includes(char));
         if (newCharacter && streakData.streak_updated) {
+          console.log('🎉 New character unlocked:', newCharacter);
           setNewlyUnlockedCharacter(newCharacter);
           setIsNewUnlockAvailable(true);
         }
@@ -88,7 +102,7 @@ export const useSupabaseProgress = () => {
         });
       }
     } catch (error) {
-      console.error('Error in updateDailyStreak:', error);
+      console.error('💥 Error in updateDailyStreak:', error);
     }
   };
 

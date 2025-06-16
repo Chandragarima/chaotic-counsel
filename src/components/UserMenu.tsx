@@ -149,18 +149,16 @@ const UserMenu = () => {
               className="w-48 bg-slate-800/95 text-white backdrop-blur-md rounded-xl border border-white/10"
               sideOffset={8}
             >
-              {user && (
+              {user ? (
                 <>
                   <div className="px-3 py-2 text-sm font-medium text-slate-300 truncate">
                     {displayName}
                   </div>
                   <DropdownMenuSeparator className="bg-white/10" />
+                  <DropdownMenuItem onClick={signOut} className="text-white hover:bg-slate-700/70">
+                    Sign Out
+                  </DropdownMenuItem>
                 </>
-              )}
-              {user ? (
-                <DropdownMenuItem onClick={signOut} className="text-white hover:bg-slate-700/70">
-                  Sign Out
-                </DropdownMenuItem>
               ) : (
                 <DropdownMenuItem onClick={() => navigate('/auth')} className="text-white hover:bg-slate-700/70">
                   Sign In
