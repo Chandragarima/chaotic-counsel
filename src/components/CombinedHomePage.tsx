@@ -1,8 +1,9 @@
-
 import { Character } from '../types';
 import { characters } from '../data/characters';
 import CharacterCard from './CharacterCard';
+import UnlockCelebration from './UnlockCelebration';
 import { audioManager } from '../utils/audioManager';
+import { useSupabaseProgress } from '../hooks/useSupabaseProgress';
 
 interface CombinedHomePageProps {
   selectedCharacter: Character | null;
@@ -15,7 +16,14 @@ const CombinedHomePage = ({
   onCharacterSelect, 
   onContinue 
 }: CombinedHomePageProps) => {
+  const { progress, isNewUnlockAvailable, newlyUnlockedCharacter, dismissUnlockCelebration } = useSupabaseProgress();
+
   const handleCharacterSelect = (character: Character) => {
+    // Check if character is unlocked based on progress only
+    if (!progress.unlockedCharacters.includes(character.id)) {
+      return; // Character is locked, don't allow selection
+    }
+
     onCharacterSelect(character);
     
     // Play selection sound when character is selected
@@ -25,8 +33,34 @@ const CombinedHomePage = ({
     onContinue();
   };
 
+  // Filter characters based on unlock status from progress only
+  const getCharacterUnlockStatus = (character: Character) => {
+    return progress.unlockedCharacters.includes(character.id);
+  };
+
+  // UPDATED: Correct unlock requirements to match database changes
+  const getUnlockRequirement = (characterId: string) => {
+    switch (characterId) {
+      case 'lazy-panda':
+        return '2-day streak required';
+      case 'sneaky-snake':
+        return '4-day streak required';
+      case 'people-pleaser-pup':
+        return '7-day streak required';
+      default:
+        return '';
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 pt-20 md:pt-6 relative overflow-hidden">
+      {/* Unlock celebration popup */}
+      <UnlockCelebration 
+        isVisible={isNewUnlockAvailable}
+        unlockedCharacter={newlyUnlockedCharacter}
+        onDismiss={dismissUnlockCelebration}
+      />
+
       {/* Brighter, more sophisticated background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-600">
         {/* Enhanced geometric patterns */}
@@ -46,9 +80,9 @@ const CombinedHomePage = ({
         {/* Enhanced branding with better fonts */}
         <div className="space-y-8">
           <div className="space-y-6">
-            {/* Main Title with improved typography */}
+            {/* Main Title with improved responsive typography */}
             <div className="relative">
-              <h1 className="text-6xl md:text-8xl font-playfair font-medium tracking-[0.3em] text-slate-50 relative">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-playfair font-medium tracking-[0.3em] text-slate-50 relative">
                 CHAOTIC
               </h1>
               <div className="absolute inset-0 text-amber-400/25 blur-sm">CHAOTIC</div>
@@ -61,18 +95,15 @@ const CombinedHomePage = ({
               <div className="w-16 h-px bg-gradient-to-l from-transparent via-amber-400/70 to-transparent"></div>
             </div>
             
-            {/* Subtitle with better contrast */}
-            <h2 className="text-3xl md:text-5xl font-playfair font-normal tracking-[0.2em] text-slate-100">
+            {/* Subtitle with better responsive sizing */}
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-playfair font-normal tracking-[0.2em] text-slate-100">
               COUNSEL
             </h2>
           </div>
           
           {/* Refined tagline with better readability */}
           <div className="space-y-4">
-            {/* <p className="text-xl text-slate-200 font-inter font-light tracking-wider">
-              Ancient wisdom for modern decisions
-            </p> */}
-            <p className="text-sm text-amber-300/80 font-inter font-light tracking-normal uppercase">
+            <p className="text-xs sm:text-sm text-amber-300/80 font-inter font-light tracking-normal uppercase">
               Choose your guide
             </p>
           </div>
@@ -82,19 +113,39 @@ const CombinedHomePage = ({
         <div className="space-y-8">
           {/* Character Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {characters.map((character) => (
-              <CharacterCard
-                key={character.id}
-                character={character}
-                onSelect={() => handleCharacterSelect(character)}
-                isSelected={false}
-              />
-            ))}
+            {characters.map((character) => {
+              const isUnlocked = getCharacterUnlockStatus(character);
+              const unlockRequirement = getUnlockRequirement(character.id);
+              
+              return (
+                <div key={character.id} className="relative">
+                  <CharacterCard
+                    character={character}
+                    onSelect={() => handleCharacterSelect(character)}
+                    isSelected={false}
+                    isLocked={!isUnlocked}
+                  />
+                  {!isUnlocked && unlockRequirement && (
+                    <div className="absolute inset-0 bg-black/60 rounded-2xl flex items-center justify-center">
+                      <div className="text-center space-y-2">
+                        <div className="text-2xl">🔒</div>
+                        <p className="text-amber-300 text-sm font-medium">
+                          {unlockRequirement}
+                        </p>
+                        <p className="text-slate-400 text-xs">
+                          Current streak: {progress.streak} day{progress.streak !== 1 ? 's' : ''}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Instruction Text */}
           <div className="pt-4">
-            <p className="text-amber-300/70 text-sm font-inter font-light tracking-wide">
+            <p className="text-amber-300/70 text-xs sm:text-sm font-inter font-light tracking-wide">
               Select an advisor to begin your session
             </p>
           </div>

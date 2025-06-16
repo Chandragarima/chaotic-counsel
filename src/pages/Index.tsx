@@ -9,6 +9,7 @@ import UserMenu from "../components/UserMenu";
 import AutoFeedbackTrigger from "../components/feedback/AutoFeedbackTrigger";
 import { useAuth } from "@/contexts/AuthContext";
 import { useQuestionTracking } from "../hooks/useQuestionTracking";
+import { useSupabaseProgress } from "../hooks/useSupabaseProgress";
 
 export default function Index() {
   const { loading } = useAuth();
@@ -26,6 +27,8 @@ export default function Index() {
     resetFeedbackTrigger, 
     resetSession 
   } = useQuestionTracking();
+
+  const { incrementDecisions } = useSupabaseProgress();
 
   if (loading) {
     return (
@@ -50,8 +53,9 @@ export default function Index() {
     setUserQuestion(question);
     setCurrentScreen('answer');
     setAnswerComplete(false);
-    // Increment question count when a new question is asked
+    // Increment question count and decisions when a new question is asked
     incrementQuestionCount();
+    incrementDecisions();
   };
 
   const handleAnswerComplete = () => {
@@ -64,8 +68,9 @@ export default function Index() {
     setTimeout(() => {
       setUserQuestion(prev => prev.trim());
     }, 0);
-    // Increment question count for re-asks too
+    // Increment counters for re-asks too
     incrementQuestionCount();
+    incrementDecisions();
   };
 
   const handleBackToHome = () => {
@@ -73,7 +78,6 @@ export default function Index() {
     setSelectedCharacter(null);
     setSelectedQuestionType(null);
     setAnswerComplete(false);
-    // Reset session when going back to home
     resetSession();
   };
 

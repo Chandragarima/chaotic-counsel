@@ -1,14 +1,18 @@
+
 import { Character } from '../types';
+import { personalityImageManager } from '../utils/personalityImageManager';
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface CharacterCardProps {
   character: Character;
   onSelect: () => void;
-  isSelected?: boolean;
+  isSelected: boolean;
+  isLocked?: boolean;
 }
 
-const CharacterCard = ({ character, onSelect, isSelected = false }: CharacterCardProps) => {
+const CharacterCard = ({ character, onSelect, isSelected = false, isLocked = false }: CharacterCardProps) => {
   const getCharacterSymbol = (type: Character['type']) => {
     const symbols = {
       'sassy-cat': '◈',
@@ -20,6 +24,11 @@ const CharacterCard = ({ character, onSelect, isSelected = false }: CharacterCar
     return symbols[type];
   };
 
+  const handleClick = () => {
+    if (isLocked) return;
+    onSelect();
+  };
+
   return (
     <Card 
       className={`group relative p-6 cursor-pointer transform transition-all duration-300 
@@ -27,9 +36,9 @@ const CharacterCard = ({ character, onSelect, isSelected = false }: CharacterCar
           ? 'bg-slate-800/60 border-amber-400/70 shadow-lg shadow-amber-400/20 scale-105' 
           : 'bg-slate-900/60 border-slate-700/50 hover:border-amber-400/50 hover:bg-slate-800/40'
         } 
-        ${!character.unlocked ? 'opacity-40 grayscale cursor-not-allowed' : 'hover:scale-102'}
+        ${isLocked ? 'opacity-40 grayscale cursor-not-allowed' : 'hover:scale-102'}
         backdrop-blur-md rounded-2xl border`}
-      onClick={character.unlocked ? onSelect : undefined}
+      onClick={!isLocked ? onSelect : undefined}
     >
       <div className="text-center space-y-4">
         {/* Character Avatar */}
@@ -69,14 +78,6 @@ const CharacterCard = ({ character, onSelect, isSelected = false }: CharacterCar
             {character.description}
           </p>
         </div>
-
-        {/* Lock Status */}
-        {!character.unlocked && (
-          <div className="flex items-center justify-center space-x-2 text-slate-500 pt-2">
-            <span className="text-sm">🔒</span>
-            <span className="text-xs font-light tracking-wide">Locked</span>
-          </div>
-        )}
       </div>
 
       {/* Selection indicator overlay */}
