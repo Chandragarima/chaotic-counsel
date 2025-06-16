@@ -1,4 +1,3 @@
-
 import { Character, AIResponse } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { personalityImageManager } from '../../utils/personalityImageManager';
@@ -147,7 +146,7 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '32px',
+    gap: '80px',
     width: '100%',
     maxWidth: '960px',
     margin: '0 auto'
@@ -182,8 +181,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     backdropFilter: 'blur(10px)',
     border: `1px solid ${getPrimaryColor()}30`,
     borderRadius: '20px',
-    padding: '32px 40px',
-    fontSize: '26px',
+    padding: '48px 40px',
+    fontSize: '24px',
     lineHeight: '1.4',
     textAlign: 'center',
     maxWidth: '800px',
@@ -195,7 +194,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     wordWrap: 'break-word',
     overflowWrap: 'break-word',
     whiteSpace: 'normal',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    overflow: 'hidden',
   };
 
   const answerStyle: React.CSSProperties = {
@@ -203,7 +203,7 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     color: 'white',
     borderRadius: '20px',
     padding: '36px 44px',
-    fontSize: '30px',
+    fontSize: '28px',
     lineHeight: '1.3',
     textAlign: 'center',
     maxWidth: '800px',
@@ -215,7 +215,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     overflowWrap: 'break-word',
     whiteSpace: 'normal',
     display: 'block',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    // overflow: 'hidden',
   };
 
   const footerStyle: React.CSSProperties = {
