@@ -190,6 +190,7 @@ export type Database = {
           created_at: string
           current_streak: number
           id: string
+          last_streak_date: string | null
           longest_streak: number
           total_decisions: number
           unlocked_characters: Json
@@ -200,6 +201,7 @@ export type Database = {
           created_at?: string
           current_streak?: number
           id?: string
+          last_streak_date?: string | null
           longest_streak?: number
           total_decisions?: number
           unlocked_characters?: Json
@@ -210,6 +212,7 @@ export type Database = {
           created_at?: string
           current_streak?: number
           id?: string
+          last_streak_date?: string | null
           longest_streak?: number
           total_decisions?: number
           unlocked_characters?: Json
