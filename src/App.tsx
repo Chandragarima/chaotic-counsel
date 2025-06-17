@@ -24,7 +24,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/poll/:id" element={<Poll />} />
+            <Route path="/poll/:pollId" element={<Poll />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
