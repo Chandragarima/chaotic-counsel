@@ -25,12 +25,12 @@ const PERSONALITY_AUDIO_FILES: PersonalityAudioMap = {
     response: '/audio/panda-response.mp3'
   },
   'sneaky-snake': {
-    selection: '/audio/owl-selection.mp3',
-    response: '/audio/owl-response.mp3'
+    selection: '/audio/snake-selection.mp3',
+    response: '/audio/snake-response.mp3'
   },
   'people-pleaser-pup': {
-    selection: '/audio/panda-selection.mp3',
-    response: '/audio/panda-response.mp3'
+    selection: '/audio/pup-selection.mp3',
+    response: '/audio/pup-response.mp3'
   }
 };
 

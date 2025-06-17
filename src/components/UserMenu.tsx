@@ -17,9 +17,10 @@ import { useNavigate } from 'react-router-dom';
 import { MessageCircle, User } from 'lucide-react';
 import FeedbackTrigger from './feedback/FeedbackTrigger';
 import StreakDisplay from './StreakDisplay';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile, useIsTablet, useIsDesktop } from '@/hooks/use-mobile';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 
 interface UserProfile {
   username: string | null;
@@ -30,6 +31,8 @@ const UserMenu = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
+  const isDesktop = useIsDesktop();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
 
@@ -71,8 +74,8 @@ const UserMenu = () => {
     <TooltipProvider>
       <div className="fixed top-4 right-4 z-50">
         <div className="flex items-center gap-2">
-          {/* Streak Display with Tooltip on Desktop */}
-          {!isMobile ? (
+          {/* Streak Display with Tooltip/Popover */}
+          {isDesktop ? (
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="bg-slate-800/90 backdrop-blur-md rounded-full px-3 py-2 border border-white/10 hover:bg-slate-700/90 transition-colors cursor-help">
@@ -80,13 +83,42 @@ const UserMenu = () => {
                 </div>
               </TooltipTrigger>
               <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/20">
-                <p className="text-sm">Daily streak - ask questions to maintain it!</p>
+                <p className="text-xs flex flex-col items-center mt-2">Daily streak - ask questions to maintain it!</p>
+                <div className="text-xs flex items-center justify-center mt-2">
+                  <span className="mr-1">Update at:</span>
+                  <span className="font-mono text-green-200">
+                    {new Date(Date.UTC(
+                      new Date().getUTCFullYear(),
+                      new Date().getUTCMonth(),
+                      new Date().getUTCDate() + 1,
+                      0, 0, 0
+                    )).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
               </TooltipContent>
             </Tooltip>
           ) : (
-            <div className="bg-slate-800/90 backdrop-blur-md rounded-full px-3 py-2 border border-white/10">
-              <StreakDisplay />
-            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <div className="bg-slate-800/90 backdrop-blur-md rounded-full px-3 py-2 border border-white/10 active:bg-slate-700/90 transition-colors cursor-pointer">
+                  <StreakDisplay />
+                </div>
+              </PopoverTrigger>
+              <PopoverContent className="bg-slate-800 text-white border-white/20 w-64 text-center">
+                <p className="text-xs flex flex-col items-center mt-2">Daily streak - ask questions to maintain it!</p>
+                <div className="text-xs flex items-center justify-center mt-2">
+                  <span className="mr-1">Update at:</span>
+                  <span className="font-mono text-green-200">
+                    {new Date(Date.UTC(
+                      new Date().getUTCFullYear(),
+                      new Date().getUTCMonth(),
+                      new Date().getUTCDate() + 1,
+                      0, 0, 0
+                    )).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
+              </PopoverContent>
+            </Popover>
           )}
           
           {/* Feedback Button with Tooltip on Desktop */}
