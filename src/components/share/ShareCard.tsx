@@ -1,3 +1,4 @@
+
 import { Character, AIResponse } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { personalityImageManager } from '../../utils/personalityImageManager';
@@ -101,17 +102,6 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
       .trim();
   };
 
-  const getGradientBackground = () => {
-    const colorMap: Record<string, string> = {
-      'sassy-cat': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(131, 24, 67, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)',
-      'wise-owl': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(146, 64, 14, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)',
-      'lazy-panda': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(5, 150, 105, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)',
-      'sneaky-snake': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(194, 65, 12, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)',
-      'people-pleaser-pup': 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(202, 138, 4, 0.2) 20%, rgba(30, 41, 59, 0.85) 100%)'
-    };
-    return colorMap[character.type] || colorMap['wise-owl'];
-  };
-
   const getPrimaryColor = () => {
     const colorMap: Record<string, string> = {
       'sassy-cat': '#ec4899',
@@ -123,10 +113,26 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     return colorMap[character.type] || colorMap['wise-owl'];
   };
 
+  const getSecondaryColor = () => {
+    const colorMap: Record<string, string> = {
+      'sassy-cat': '#be185d',
+      'wise-owl': '#d97706',
+      'lazy-panda': '#059669',
+      'sneaky-snake': '#ea580c',
+      'people-pleaser-pup': '#ca8a04'
+    };
+    return colorMap[character.type] || colorMap['wise-owl'];
+  };
+
   const cardStyle: React.CSSProperties = {
     width: '1080px',
-    height: '1080px',
-    background: getGradientBackground(),
+    height: '1350px',
+    background: `linear-gradient(135deg, 
+      #0f172a 0%, 
+      #1e293b 15%, 
+      ${getPrimaryColor()}15 30%, 
+      #1e293b 60%, 
+      #0f172a 100%)`,
     position: isGenerating ? 'fixed' : 'relative',
     top: isGenerating ? '-2000px' : 'auto',
     left: isGenerating ? '0' : 'auto',
@@ -137,7 +143,8 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     color: '#f8fafc',
     overflow: 'hidden',
     padding: '80px 60px',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    position: 'relative' as const,
   };
 
   const contentStyle: React.CSSProperties = {
@@ -146,91 +153,167 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '80px',
+    gap: '60px',
     width: '100%',
     maxWidth: '960px',
-    margin: '0 auto'
+    margin: '0 auto',
+    position: 'relative',
+    zIndex: 2,
   };
 
-  const avatarStyle: React.CSSProperties = {
-    width: '300px',
-    height: '300px',
-    borderRadius: '50%',
-    overflow: 'hidden',
-    border: `4px solid ${getPrimaryColor()}`,
-    boxShadow: `0 0 40px ${getPrimaryColor()}60`,
-    flexShrink: 0
-  };
-
-  const characterNameStyle: React.CSSProperties = {
-    fontSize: '48px',
-    fontWeight: '600',
+  const headerStyle: React.CSSProperties = {
+    fontSize: '56px',
+    fontWeight: '700',
     fontFamily: "'Playfair Display', Georgia, serif",
     textAlign: 'center',
     margin: '0',
-    textShadow: `0 0 20px ${getPrimaryColor()}80`,
+    background: `linear-gradient(135deg, ${getPrimaryColor()}, ${getSecondaryColor()}, #ffffff)`,
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
     letterSpacing: '1px',
-    lineHeight: '1.2',
-    color: '#f8fafc',
+    lineHeight: '1.1',
+    textShadow: `0 0 30px ${getPrimaryColor()}60`,
+    position: 'relative',
+  };
+
+  const avatarContainerStyle: React.CSSProperties = {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+
+  const avatarStyle: React.CSSProperties = {
+    width: '280px',
+    height: '280px',
+    borderRadius: '50%',
+    overflow: 'hidden',
+    border: `6px solid transparent`,
+    background: `linear-gradient(135deg, ${getPrimaryColor()}, ${getSecondaryColor()})`,
+    padding: '6px',
+    boxShadow: `
+      0 0 60px ${getPrimaryColor()}40,
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      inset 0 0 0 2px rgba(255, 255, 255, 0.1)
+    `,
+    position: 'relative',
+  };
+
+  const avatarImageStyle: React.CSSProperties = {
     width: '100%',
-    maxWidth: '800px'
+    height: '100%',
+    objectFit: 'cover',
+    borderRadius: '50%',
+  };
+
+  const questionContainerStyle: React.CSSProperties = {
+    position: 'relative',
+    width: '100%',
+    maxWidth: '850px',
   };
 
   const questionStyle: React.CSSProperties = {
-    background: 'rgba(255, 255, 255, 0.08)',
-    backdropFilter: 'blur(10px)',
-    border: `1px solid ${getPrimaryColor()}30`,
-    borderRadius: '20px',
-    padding: '48px 40px',
-    fontSize: '24px',
-    lineHeight: '1.4',
+    background: `linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.12) 0%, 
+      rgba(255, 255, 255, 0.08) 50%, 
+      rgba(255, 255, 255, 0.05) 100%)`,
+    backdropFilter: 'blur(20px)',
+    border: `2px solid ${getPrimaryColor()}30`,
+    borderRadius: '32px',
+    padding: '40px 48px',
+    fontSize: '28px',
+    lineHeight: '1.5',
     textAlign: 'center',
-    maxWidth: '800px',
     width: '100%',
     fontStyle: 'italic',
     color: '#e2e8f0',
-    display: 'block',
     fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
     wordWrap: 'break-word',
     overflowWrap: 'break-word',
     whiteSpace: 'normal',
     boxSizing: 'border-box',
-    overflow: 'hidden',
+    boxShadow: `
+      0 25px 50px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2)
+    `,
+    position: 'relative',
+  };
+
+  const answerContainerStyle: React.CSSProperties = {
+    position: 'relative',
+    width: '100%',
+    maxWidth: '850px',
   };
 
   const answerStyle: React.CSSProperties = {
-    background: `linear-gradient(135deg, ${getPrimaryColor()}dd, ${getPrimaryColor()}bb)`,
-    color: 'white',
-    borderRadius: '20px',
-    padding: '36px 44px',
-    fontSize: '28px',
-    lineHeight: '1.3',
+    background: `linear-gradient(135deg, 
+      ${getPrimaryColor()}f0 0%, 
+      ${getPrimaryColor()}e0 30%, 
+      ${getSecondaryColor()}e0 70%, 
+      ${getSecondaryColor()}f0 100%)`,
+    color: '#ffffff',
+    borderRadius: '32px',
+    padding: '48px 52px',
+    fontSize: '32px',
+    lineHeight: '1.4',
     textAlign: 'center',
-    maxWidth: '800px',
     width: '100%',
-    fontWeight: '500',
-    boxShadow: `0 20px 40px ${getPrimaryColor()}30`,
+    fontWeight: '600',
+    boxShadow: `
+      0 30px 60px ${getPrimaryColor()}40,
+      0 15px 30px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2)
+    `,
     fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
     wordWrap: 'break-word',
     overflowWrap: 'break-word',
     whiteSpace: 'normal',
-    display: 'block',
     boxSizing: 'border-box',
-    // overflow: 'hidden',
+    position: 'relative',
+    textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
   };
 
   const footerStyle: React.CSSProperties = {
     textAlign: 'center',
-    marginTop: '40px',
-    width: '100%'
+    marginTop: '60px',
+    width: '100%',
+    position: 'relative',
+    zIndex: 2,
   };
 
   const footerTextStyle: React.CSSProperties = {
-    fontSize: '20px',
-    fontWeight: '400',
-    color: '#cbd5e1',
-    opacity: 0.7,
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif"
+    fontSize: '24px',
+    fontWeight: '500',
+    color: '#94a3b8',
+    opacity: 0.8,
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+    letterSpacing: '0.5px',
+  };
+
+  const decorativeElement1Style: React.CSSProperties = {
+    position: 'absolute',
+    top: '120px',
+    right: '80px',
+    width: '120px',
+    height: '120px',
+    background: `radial-gradient(circle, ${getPrimaryColor()}20, transparent 70%)`,
+    borderRadius: '50%',
+    filter: 'blur(40px)',
+    zIndex: 1,
+  };
+
+  const decorativeElement2Style: React.CSSProperties = {
+    position: 'absolute',
+    bottom: '200px',
+    left: '60px',
+    width: '160px',
+    height: '160px',
+    background: `radial-gradient(circle, ${getSecondaryColor()}15, transparent 70%)`,
+    borderRadius: '50%',
+    filter: 'blur(50px)',
+    zIndex: 1,
   };
 
   return (
@@ -238,32 +321,38 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
       id="share-card" 
       style={cardStyle}
     >
+      {/* Decorative background elements */}
+      <div style={decorativeElement1Style}></div>
+      <div style={decorativeElement2Style}></div>
+
       <div style={contentStyle}>
+        <h2 style={headerStyle}>
+          Asked {character.name}
+        </h2>
+
+        <div style={questionContainerStyle}>
+          <div style={questionStyle}>
+            "{cleanQuestion()}"
+          </div>
+        </div>
+
         {characterImage && (
-          <div style={avatarStyle}>
-            <img 
-              src={characterImage} 
-              alt={character.name}
-              onError={handleImageError}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
-            />
+          <div style={avatarContainerStyle}>
+            <div style={avatarStyle}>
+              <img 
+                src={characterImage} 
+                alt={character.name}
+                onError={handleImageError}
+                style={avatarImageStyle}
+              />
+            </div>
           </div>
         )}
 
-        <h2 style={characterNameStyle}>
-          You Asked {character.name}
-        </h2>
-
-        <div style={questionStyle}>
-          "{cleanQuestion()}"
-        </div>
-
-        <div style={answerStyle}>
-          "{cleanDisplayAnswer()}"
+        <div style={answerContainerStyle}>
+          <div style={answerStyle}>
+            "{cleanDisplayAnswer()}"
+          </div>
         </div>
       </div>
 
