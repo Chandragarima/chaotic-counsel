@@ -1,4 +1,3 @@
-
 import { Character, AIResponse } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { personalityImageManager } from '../../utils/personalityImageManager';
@@ -144,7 +143,6 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     overflow: 'hidden',
     padding: '80px 60px',
     boxSizing: 'border-box',
-    position: 'relative' as const,
   };
 
   const contentStyle: React.CSSProperties = {
@@ -292,38 +290,34 @@ const ShareCard = ({ character, question, answer, aiResponse, isGenerating = fal
     letterSpacing: '0.5px',
   };
 
-  const decorativeElement1Style: React.CSSProperties = {
-    position: 'absolute',
-    top: '120px',
-    right: '80px',
-    width: '120px',
-    height: '120px',
-    background: `radial-gradient(circle, ${getPrimaryColor()}20, transparent 70%)`,
-    borderRadius: '50%',
-    filter: 'blur(40px)',
-    zIndex: 1,
-  };
-
-  const decorativeElement2Style: React.CSSProperties = {
-    position: 'absolute',
-    bottom: '200px',
-    left: '60px',
-    width: '160px',
-    height: '160px',
-    background: `radial-gradient(circle, ${getSecondaryColor()}15, transparent 70%)`,
-    borderRadius: '50%',
-    filter: 'blur(50px)',
-    zIndex: 1,
-  };
-
   return (
     <div 
       id="share-card" 
       style={cardStyle}
     >
       {/* Decorative background elements */}
-      <div style={decorativeElement1Style}></div>
-      <div style={decorativeElement2Style}></div>
+      <div style={{
+        position: 'absolute',
+        top: '120px',
+        right: '80px',
+        width: '120px',
+        height: '120px',
+        background: `radial-gradient(circle, ${getPrimaryColor()}20, transparent 70%)`,
+        borderRadius: '50%',
+        filter: 'blur(40px)',
+        zIndex: 1,
+      }}></div>
+      <div style={{
+        position: 'absolute',
+        bottom: '200px',
+        left: '60px',
+        width: '160px',
+        height: '160px',
+        background: `radial-gradient(circle, ${getSecondaryColor()}15, transparent 70%)`,
+        borderRadius: '50%',
+        filter: 'blur(50px)',
+        zIndex: 1,
+      }}></div>
 
       <div style={contentStyle}>
         <h2 style={headerStyle}>
