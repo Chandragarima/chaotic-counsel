@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Copy, Loader2, Download, ExternalLink, Instagram, Twitter } from 'lucide-react';
+import { Loader2, Download, Instagram, Twitter, Sparkles, Zap } from 'lucide-react';
 import { Character, AIResponse } from '../../types';
 import { shareService, ShareData } from '../../utils/shareService';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
@@ -88,10 +88,8 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
           if (instagramImage) {
             const instagramText = shareService.generateInstagramText(shareData);
             if (isMobile) {
-              // Try to open Instagram app on mobile
               const instagramUrl = `instagram://camera`;
               window.open(instagramUrl, '_blank');
-              // Fallback to regular sharing
               setTimeout(() => {
                 result = shareService.shareToInstagram(instagramImage, instagramText);
               }, 1000);
@@ -111,10 +109,8 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
           const tiktokImage = await generateImage();
           const tiktokText = shareService.generateTikTokText(shareData);
           if (isMobile) {
-            // Try to open TikTok app on mobile
             const tiktokUrl = `snssdk1233://`;
             window.open(tiktokUrl, '_blank');
-            // Fallback to regular sharing
             setTimeout(() => {
               result = shareService.shareToTikTok(tiktokImage, tiktokText);
             }, 1000);
@@ -127,10 +123,8 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
           const xText = shareService.generateShareText(shareData);
           const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(xText)}`;
           if (isMobile) {
-            // Try to open X app on mobile
             const xAppUrl = `twitter://post?message=${encodeURIComponent(xText)}`;
             window.open(xAppUrl, '_blank');
-            // Fallback to web
             setTimeout(() => {
               window.open(xUrl, '_blank');
             }, 1000);
@@ -161,52 +155,55 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md mx-4 sm:mx-auto bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-amber-400/20 shadow-2xl">
-        <DialogHeader className="space-y-4 pb-2">
-          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent text-center">
-            Share Your Mystical Answer
+        <DialogHeader className="space-y-3 pb-2">
+          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent text-center flex items-center justify-center gap-2">
+            <Sparkles className="w-6 h-6 text-amber-400" />
+            Share Your Wisdom
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* Preview Card - More Compact */}
-          <Card className="p-4 bg-gradient-to-br from-slate-800/80 to-slate-700/80 backdrop-blur-sm border border-amber-400/20 rounded-xl">
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <div className={`w-10 h-10 rounded-full bg-gradient-to-r ${theme.colors.primary} flex items-center justify-center shadow-lg`}>
-                  <span className="text-white font-semibold text-sm">{character.name[0]}</span>
+          {/* Compact Preview */}
+          <div className="relative bg-gradient-to-br from-amber-500/10 to-orange-500/10 backdrop-blur-sm border border-amber-400/20 rounded-2xl p-5 overflow-hidden">
+            <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-amber-400/30 to-orange-400/30 rounded-full -translate-y-8 translate-x-8"></div>
+            
+            <div className="relative space-y-3">
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-full bg-gradient-to-r ${theme.colors.primary} flex items-center justify-center shadow-lg ring-2 ring-white/20`}>
+                  <span className="text-white font-bold text-sm">{character.name[0]}</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-amber-100">{character.name}</h3>
+                  <h3 className="font-bold text-amber-100 text-sm">{character.name}</h3>
                   <p className="text-xs text-amber-200/70">Mystical Guidance</p>
                 </div>
               </div>
               
               <div className="space-y-2">
-                <p className="text-sm text-amber-100/90 italic font-medium">"{question}"</p>
-                <div className="bg-gradient-to-r from-amber-400/10 to-amber-600/10 p-3 rounded-lg border border-amber-400/20">
-                  <p className="text-sm text-amber-50 leading-relaxed">
-                    "{getDisplayAnswer()}"
-                  </p>
+                <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+                  <p className="text-xs text-amber-100/90 italic">"{question}"</p>
+                </div>
+                <div className="bg-gradient-to-r from-amber-400/20 to-orange-400/20 rounded-lg p-3 border border-amber-300/30">
+                  <p className="text-xs text-amber-50 leading-relaxed">"{getDisplayAnswer()}"</p>
                 </div>
               </div>
             </div>
-          </Card>
+          </div>
 
-          {/* Modern Share Buttons */}
+          {/* Share Buttons Grid */}
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-3">
               {/* Instagram */}
               <Button
                 onClick={() => handleShare('instagram')}
                 disabled={isGenerating}
-                className="h-14 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 rounded-xl border-0"
+                className="h-16 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 text-white font-bold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-2xl border-0"
               >
                 {isGenerating ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-6 h-6 animate-spin" />
                 ) : (
-                  <div className="flex items-center space-x-2">
-                    <Instagram className="w-5 h-5" />
-                    <span>Instagram</span>
+                  <div className="flex flex-col items-center gap-1">
+                    <Instagram className="w-6 h-6" />
+                    <span className="text-xs">Instagram</span>
                   </div>
                 )}
               </Button>
@@ -215,16 +212,16 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
               <Button
                 onClick={() => handleShare('tiktok')}
                 disabled={isGenerating}
-                className="h-14 bg-gradient-to-r from-black to-gray-800 hover:from-gray-900 hover:to-gray-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 rounded-xl border-0"
+                className="h-16 bg-gradient-to-br from-black via-gray-800 to-gray-900 hover:from-gray-900 hover:via-gray-700 hover:to-black text-white font-bold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-2xl border-0"
               >
                 {isGenerating ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-6 h-6 animate-spin" />
                 ) : (
-                  <div className="flex items-center space-x-2">
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <div className="flex flex-col items-center gap-1">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-.88-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
                     </svg>
-                    <span>TikTok</span>
+                    <span className="text-xs">TikTok</span>
                   </div>
                 )}
               </Button>
@@ -235,44 +232,45 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
               <Button
                 onClick={() => handleShare('x')}
                 disabled={isGenerating}
-                className="h-14 bg-gradient-to-r from-slate-900 to-black hover:from-black hover:to-slate-800 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 rounded-xl border-0"
+                className="h-16 bg-gradient-to-br from-slate-900 via-black to-slate-800 hover:from-black hover:via-slate-800 hover:to-slate-900 text-white font-bold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-2xl border-0"
               >
                 {isGenerating ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-6 h-6 animate-spin" />
                 ) : (
-                  <div className="flex items-center space-x-2">
-                    <Twitter className="w-5 h-5" />
-                    <span>X</span>
+                  <div className="flex flex-col items-center gap-1">
+                    <Twitter className="w-6 h-6" />
+                    <span className="text-xs">X</span>
                   </div>
                 )}
               </Button>
 
-              {/* Download & Share */}
+              {/* Download */}
               <Button
                 onClick={() => handleShare('copy')}
                 disabled={isGenerating}
-                className="h-14 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-900 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 rounded-xl border-0"
+                className="h-16 bg-gradient-to-br from-amber-600 via-amber-500 to-orange-500 hover:from-amber-500 hover:via-amber-400 hover:to-orange-400 text-slate-900 font-bold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-2xl border-0"
               >
                 {isGenerating ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-6 h-6 animate-spin" />
                 ) : (
-                  <div className="flex items-center space-x-2">
-                    <Download className="w-5 h-5" />
-                    <span>Download</span>
+                  <div className="flex flex-col items-center gap-1">
+                    <Download className="w-6 h-6" />
+                    <span className="text-xs">Download</span>
                   </div>
                 )}
               </Button>
             </div>
           </div>
 
+          {/* Loading Animation */}
           {isGenerating && (
-            <div className="text-center">
-              <div className="flex items-center justify-center space-x-2 text-amber-200/80">
+            <div className="text-center py-4">
+              <div className="flex items-center justify-center gap-1 mb-2">
                 <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce"></div>
                 <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
                 <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
               </div>
-              <p className="text-sm text-amber-200/70 mt-2">Crafting your mystical share card...</p>
+              <p className="text-xs text-amber-200/70">Crafting your mystical card...</p>
             </div>
           )}
         </div>
