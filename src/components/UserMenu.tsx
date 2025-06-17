@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -120,20 +119,22 @@ const UserMenu = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               {!isMobile ? (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      size="icon"
-                      className="rounded-full bg-slate-800/90 backdrop-blur-md text-white hover:bg-slate-700/90 border border-white/10 w-10 h-10 transition-colors"
-                      aria-label="User menu"
-                    >
-                      <User className="w-5 h-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/20">
-                    <p className="text-sm">{user ? displayName : 'Sign in to your account'}</p>
-                  </TooltipContent>
-                </Tooltip>
+                user ? (
+                  <Button
+                    size="icon"
+                    className="rounded-full bg-slate-800/90 backdrop-blur-md text-white hover:bg-slate-700/90 border border-white/10 w-10 h-10 transition-colors"
+                    aria-label="User menu"
+                  >
+                    <User className="w-5 h-5" />
+                  </Button>
+                ) : (
+                  <Button
+                    className="bg-slate-800/90 backdrop-blur-md text-white hover:bg-slate-700/90 border border-white/10 rounded-full px-4 py-2 transition-colors font-semibold"
+                    onClick={() => navigate('/auth')}
+                  >
+                    Sign In
+                  </Button>
+                )
               ) : (
                 <Button
                   size="icon"
