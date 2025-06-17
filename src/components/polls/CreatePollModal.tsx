@@ -1,10 +1,8 @@
-
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Clock, Users, Share2 } from 'lucide-react';
+import { Users, Share2, Sparkles, Timer, MessageCircle } from 'lucide-react';
 import { Character, AIResponse } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { supabase } from '@/integrations/supabase/client';
@@ -130,58 +128,57 @@ const CreatePollModal = ({ open, onOpenChange, character, question, answer, aiRe
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl mx-4 sm:mx-auto">
-        <DialogHeader className="space-y-3">
-          <DialogTitle className={`text-2xl sm:text-3xl font-bold ${theme.fonts.heading} bg-gradient-to-r ${theme.colors.primary} bg-clip-text text-transparent text-center`}>
-            {createdPollUrl ? 'Poll Created!' : 'Create Community Poll'}
+      <DialogContent className="w-[95vw] max-w-[340px] sm:max-w-[420px] lg:max-w-[480px] mx-auto bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-purple-400/20 shadow-2xl rounded-2xl sm:rounded-3xl p-3 sm:p-6">
+        <DialogHeader className="space-y-2 sm:space-y-3 pb-1 sm:pb-2">
+          <DialogTitle className="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent text-center flex items-center justify-center gap-2">
+            <Users className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-purple-400" />
+            {createdPollUrl ? 'Poll Ready!' : 'Community Poll'}
           </DialogTitle>
         </DialogHeader>
 
         {!createdPollUrl ? (
-          <div className="space-y-6">
-            {/* Preview Card */}
-            <Card className="p-6 bg-gradient-to-br from-slate-100/50 to-slate-200/50 dark:from-slate-800/50 dark:to-slate-900/50 backdrop-blur-sm border border-border/50">
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${theme.colors.primary} flex items-center justify-center shadow-sm`}>
-                    <span className="text-white font-semibold">{character.name[0]}</span>
+          <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+            {/* Character & Question Preview */}
+            <div className="relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-400/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-5 overflow-hidden">
+              <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full -translate-y-6 translate-x-6 sm:-translate-y-8 sm:translate-x-8 lg:-translate-y-10 lg:translate-x-10"></div>
+              
+              <div className="relative space-y-2 sm:space-y-3 lg:space-y-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r ${theme.colors.primary} flex items-center justify-center shadow-lg ring-2 ring-white/20`}>
+                    <span className="text-white font-bold text-xs sm:text-sm lg:text-lg">{character.name[0]}</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg text-foreground">{character.name}'s Advice</h3>
-                    <p className="text-sm text-muted-foreground">Community Decision Poll</p>
+                    <h3 className="font-bold text-white text-xs sm:text-sm lg:text-base">{character.name}</h3>
+                    <p className="text-xs sm:text-sm text-purple-200/80">says...</p>
                   </div>
                 </div>
                 
-                <div className="space-y-3">
-                  <p className="text-base font-medium text-foreground italic">"{question}"</p>
-                  <div className="bg-gradient-to-r from-slate-50/80 to-slate-100/80 dark:from-slate-700/80 dark:to-slate-800/80 p-4 rounded-lg border border-border/30">
-                    <p className="text-base text-foreground leading-relaxed">
-                      "{getDisplayAnswer()}"
-                    </p>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="bg-white/5 rounded-lg sm:rounded-xl p-2 sm:p-3 lg:p-4 border border-white/10">
+                    <p className="text-xs sm:text-sm text-purple-100/90 italic font-medium line-clamp-2">"{question}"</p>
                   </div>
-                </div>
-                
-                <div className="text-sm text-muted-foreground text-center pt-2 border-t border-border/30">
-                  Your friends will vote anonymously to help you decide
+                  <div className="bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-lg sm:rounded-xl p-2 sm:p-3 lg:p-4 border border-purple-300/30">
+                    <p className="text-xs sm:text-sm text-white leading-relaxed line-clamp-3">"{getDisplayAnswer()}"</p>
+                  </div>
                 </div>
               </div>
-            </Card>
+            </div>
 
             {/* Duration Selection */}
-            <div className="space-y-3">
-              <label className="text-sm font-medium text-foreground flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                How long should the poll run?
-              </label>
+            <div className="space-y-2 sm:space-y-3">
+              <div className="flex items-center gap-2 text-white">
+                <Timer className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
+                <span className="text-xs sm:text-sm font-medium">Duration</span>
+              </div>
               <Select value={duration} onValueChange={setDuration}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="bg-slate-800/50 border-purple-400/30 text-white h-10 sm:h-12 rounded-lg sm:rounded-xl text-sm">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1h">1 Hour - Quick decision</SelectItem>
-                  <SelectItem value="24h">24 Hours - Give everyone time</SelectItem>
-                  <SelectItem value="3d">3 Days - Weekend decision</SelectItem>
-                  <SelectItem value="1w">1 Week - Big life choice</SelectItem>
+                <SelectContent className="bg-slate-800 border-purple-400/30 rounded-lg sm:rounded-xl">
+                  <SelectItem value="1h">1 Hour</SelectItem>
+                  <SelectItem value="24h">24 Hours</SelectItem>
+                  <SelectItem value="3d">3 Days</SelectItem>
+                  <SelectItem value="1w">1 Week</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -190,67 +187,71 @@ const CreatePollModal = ({ open, onOpenChange, character, question, answer, aiRe
             <Button
               onClick={createPoll}
               disabled={isCreating}
-              className={`w-full h-12 text-lg font-medium bg-gradient-to-r ${theme.colors.primary} hover:${theme.colors.secondary} text-white shadow-lg hover:shadow-xl transition-all duration-200`}
+              className="w-full h-10 sm:h-12 lg:h-14 text-sm sm:text-base lg:text-lg font-bold bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-lg sm:rounded-xl lg:rounded-2xl border-0"
             >
-              <Users className="w-5 h-5 mr-2" />
-              {isCreating ? 'Creating Poll...' : 'Create Community Poll'}
+              {isCreating ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  Creating...
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+                  Create Poll
+                </div>
+              )}
             </Button>
           </div>
         ) : (
-          <div className="space-y-6 text-center">
-            {/* Success Message */}
-            <div className="p-6 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-              <div className="text-green-800 dark:text-green-200">
-                <Users className="w-12 h-12 mx-auto mb-3" />
-                <h3 className="text-lg font-semibold mb-2">Your poll is ready!</h3>
-                <p className="text-sm">Share the link below with your friends so they can help you decide.</p>
+          <div className="space-y-3 sm:space-y-4 lg:space-y-6 text-center">
+            {/* Success Animation */}
+            <div className="relative">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-xl">
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-white" />
+              </div>
+              <div className="absolute inset-0 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto bg-gradient-to-r from-green-400 to-emerald-500 rounded-full animate-ping opacity-20"></div>
+            </div>
+
+            <div className="space-y-1 sm:space-y-2">
+              <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white">Ready to Share!</h3>
+              <p className="text-purple-200/80 text-xs sm:text-sm">Your community can now help you decide</p>
+            </div>
+
+            {/* Poll URL Display */}
+            <div className="bg-slate-800/50 rounded-lg sm:rounded-xl p-2 sm:p-3 lg:p-4 border border-purple-400/20">
+              <div className="flex items-center justify-between gap-2 sm:gap-3">
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs text-purple-200/60 mb-1">Poll Link</p>
+                  <p className="font-mono text-xs sm:text-sm text-white truncate">{createdPollUrl}</p>
+                </div>
+                <Button
+                  onClick={copyPollUrl}
+                  size="sm"
+                  className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-400/30 text-xs px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg"
+                >
+                  Copy
+                </Button>
               </div>
             </div>
 
-            {/* Poll URL */}
-            <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg border">
-              <p className="text-sm text-muted-foreground mb-2">Poll Link:</p>
-              <p className="font-mono text-sm break-all text-foreground">{createdPollUrl}</p>
-            </div>
-
-            {/* Share Options */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <Button
-                onClick={copyPollUrl}
-                variant="outline"
-                className="h-12"
-              >
-                <Share2 className="w-4 h-4 mr-2" />
-                Copy Link
-              </Button>
-              
+            {/* Share Actions */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-3">
               <Button
                 onClick={() => sharePoll('whatsapp')}
-                className="h-12 bg-green-500 hover:bg-green-600 text-white"
+                className="h-8 sm:h-10 lg:h-12 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium rounded-md sm:rounded-lg lg:rounded-xl text-xs sm:text-sm"
               >
-                <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
-                </svg>
+                <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 WhatsApp
               </Button>
               
               <Button
                 onClick={() => sharePoll('general')}
-                variant="outline"
-                className="h-12"
+                className="h-8 sm:h-10 lg:h-12 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-md sm:rounded-lg lg:rounded-xl text-xs sm:text-sm"
               >
-                <Share2 className="w-4 h-4 mr-2" />
+                <Share2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 Share
               </Button>
             </div>
-
-            <Button
-              onClick={() => onOpenChange(false)}
-              variant="ghost"
-              className="w-full"
-            >
-              Close
-            </Button>
           </div>
         )}
       </DialogContent>
