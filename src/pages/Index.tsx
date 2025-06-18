@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Character, QuestionType, QuestionMode } from "../types";
 import CombinedHomePage from "../components/CombinedHomePage";
