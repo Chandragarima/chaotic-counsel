@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { personalityImageManager } from '../../utils/personalityImageManager';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
@@ -22,6 +21,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
   const [showResponseImage, setShowResponseImage] = useState(false);
   const [responseImageLoaded, setResponseImageLoaded] = useState(false);
   const theme = getPersonalityTheme(character.type);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Characters with full animation support
   const hasFullAnimationSupport = ['sassy-cat', 'wise-owl', 'lazy-panda', 'sneaky-snake', 'people-pleaser-pup'].includes(character.type);
@@ -83,6 +83,18 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
     }
   }, [isThinking, hasFullAnimationSupport, responseType, preloadedImages]);
 
+  // Handle video source changes
+  useEffect(() => {
+    if (videoRef.current && isThinking) {
+      const thinkingVideo = personalityImageManager.getRandomVideo(character.type, 'thinking');
+      if (thinkingVideo) {
+        videoRef.current.src = thinkingVideo;
+        videoRef.current.load();
+        videoRef.current.play().catch(console.error);
+      }
+    }
+  }, [isThinking, character.type]);
+
   // Get the appropriate media content for the current state
   const getMediaContent = () => {
     // For characters without full animation support, use static images
@@ -124,7 +136,7 @@ const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
         console.log(`Playing thinking video: ${thinkingVideo}`);
         return (
           <video
-            key={thinkingVideo}
+            ref={videoRef}
             autoPlay
             loop
             muted

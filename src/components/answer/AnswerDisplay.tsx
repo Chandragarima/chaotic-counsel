@@ -64,13 +64,13 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
               borderTopColor: 'transparent'
             }}
           ></div>
-          <p className={`${theme.colors.text} animate-pulse ${theme.fonts.body} text-lg opacity-70`}>
+          <p className={`${theme.colors.text} animate-pulse ${theme.fonts.body} text-base sm:text-lg opacity-70`}>
             {isThinking ? getPersonalityPrompt() : "Weaving threads of destiny..."}
           </p>
         </div>
       ) : (
-        <div className={`space-y-6 text-center ${theme.animations.responding}`}>
-          <h3 className={`bg-gradient-to-r ${theme.colors.primary} bg-clip-text text-transparent ${theme.fonts.heading} text-xl`}>
+        <div className={`space-y-4 text-center ${theme.animations.responding}`}>
+          <h3 className={`bg-gradient-to-r ${theme.colors.primary} bg-clip-text text-transparent ${theme.fonts.heading} text-base sm:text-lg`}>
             {character.name} speaks:
           </h3>
           
@@ -79,12 +79,12 @@ const AnswerDisplay = ({ character, answer, isRevealing, isThinking, aiResponse 
             renderAIResponse(aiResponse)
           ) : answer ? (
             // Regular Fun Mode Response
-            <p className={`${theme.colors.text} text-xl leading-relaxed ${theme.fonts.body}`}>
+            <p className={`${theme.colors.text} text-lg sm:text-lg leading-relaxed ${theme.fonts.body}`}>
               "{answer}"
             </p>
           ) : (
             // Fallback when no response is available
-            <p className={`${theme.colors.text} text-lg leading-relaxed ${theme.fonts.body} opacity-70`}>
+            <p className={`${theme.colors.text} text-xl sm:text-2xl md:text-3xl leading-relaxed ${theme.fonts.body} opacity-70`}>
               "The universe whispers its answer, but the winds carry it away..."
             </p>
           )}

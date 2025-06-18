@@ -229,12 +229,12 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Obviously {choice}. I've already thought three steps ahead.",
           "{choice}. Don't question my methodsss.",
           "{choice}! The smartest choice, obviously.",
-          "Ssssimple. {choice}. I have my reasonsss... which I won't share.",
+          "Ssssimple. {choice}. I have my reasonsss... which I will NOT share.",
           "{choice}... *whispers* between you and me, it's the winning move.",
           "{choice}. I've seen how this plays out.",
           "Go with {choice}. I may have... inside information.",
           "{choice}. Sssstrike while the iron is hot!",
-          "{choice}? Bold move... but exactly what they won’t expect.",
+          "{choice}? Bold move... but exactly what they won't expect.",
           "{choice}. Just remember—deniability is everything.",
           "{choice}. Not the obvious choice—but the right one, if you know how the game is played."
         ],
@@ -252,7 +252,7 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Yes... though I had my doubts initially.",
           "Precisely what I would have chosen.",
           "Indeed. Sometimes the obvious path is... correct.",
-          "Yesss... you're learning to think like me.",
+          "Yesss... you are learning to think like me.",
           "Absolutely. Strike with... precision."
         ],
         noResponses: [
@@ -269,8 +269,8 @@ export const getResponseTemplates = (characterType: Character['type']): Response
           "Absolutely not. Too many... variables.",
           "No. Sometimes the best move is... no move.",
           "Decline. The risk outweighs the... reward.",
-          "Nope. That's amateur thinking.",
-          "No. I've seen this play out... poorly.",
+          "Nope. That is amateur thinking.",
+          "No. I have seen this play out... poorly.",
           "Negative. Find another... angle."
         ],
         maybeResponses: [
@@ -296,9 +296,9 @@ export const getResponseTemplates = (characterType: Character['type']): Response
     case 'people-pleaser-pup':
       return {
         orChoices: [
-          "Oh! {choice}! Is that okay with you? I hope it's perfect!",
-          "{choice}! Unless you prefer something else? I'm flexible!",
-          "{choice} sounds amazing! But only if you're happy with it!",
+          "Oh! {choice}! Is that okay with you? I hope it is perfect!",
+          "{choice}! Unless you prefer something else? I am flexible!",
+          "{choice} sounds amazing! But only if you are happy with it!",
           "Woof! {choice}! *spins in circles* I hope that makes you smile!",
           "{choice}! Is that the right answer? I tried my best!",
           "{choice}! I hope I didn't disappoint you!",

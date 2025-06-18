@@ -162,19 +162,27 @@ const PERSONALITY_VIDEOS: PersonalityVideoConfig = {
   'sassy-cat': {
     thinking: [
       '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-1.mp4',
-      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-2.mp4'
+      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-2.mp4',
+      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-3.mp4',
+      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-4.mp4',
+      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-5.mp4'
     ]
   },
   'wise-owl': {
     thinking: [
       '/videos/personalities/wise-owl/thinking/wise-owl-thinking-1.mp4',
-      '/videos/personalities/wise-owl/thinking/wise-owl-thinking-2.mp4'
+      '/videos/personalities/wise-owl/thinking/wise-owl-thinking-2.mp4',
+      '/videos/personalities/wise-owl/thinking/wise-owl-thinking-3.mp4',
+      '/videos/personalities/wise-owl/thinking/wise-owl-thinking-4.mp4'
     ]
   },
   'lazy-panda': {
     thinking: [
       '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-1.mp4',
-      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-2.mp4'
+      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-2.mp4',
+      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-3.mp4',
+      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-4.mp4',
+      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-5.mp4'
     ]
   },
   'sneaky-snake': {
@@ -186,7 +194,8 @@ const PERSONALITY_VIDEOS: PersonalityVideoConfig = {
   'people-pleaser-pup': {
     thinking: [
       '/videos/personalities/people-pleaser-pup/people-pleaser-pup-thinking-1.mp4',
-      '/videos/personalities/people-pleaser-pup/people-pleaser-pup-thinking-2.mp4'
+      '/videos/personalities/people-pleaser-pup/people-pleaser-pup-thinking-2.mp4',
+      '/videos/personalities/people-pleaser-pup/people-pleaser-pup-thinking-3.mp4'
     ]
   }
 };

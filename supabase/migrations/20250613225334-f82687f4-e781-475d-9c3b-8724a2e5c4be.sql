@@ -85,7 +85,11 @@ CREATE POLICY "Anyone can vote on active polls"
 
 -- Function to update poll vote counts
 CREATE OR REPLACE FUNCTION public.update_poll_counts()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = 'public'
+AS $$
 BEGIN
   IF TG_OP = 'INSERT' THEN
     UPDATE public.polls 
@@ -101,7 +105,7 @@ BEGIN
   
   RETURN NULL;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
 -- Trigger to auto-update poll counts when votes are added
 CREATE TRIGGER update_poll_counts_trigger

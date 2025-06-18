@@ -1,4 +1,3 @@
-
 import { Character } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 
@@ -29,7 +28,7 @@ const AnswerHeader = ({ character }: AnswerHeaderProps) => {
   return (
     <div className="text-center space-y-6 pt-12">
       <div className="space-y-4">
-        <h1 className={`text-4xl ${theme.fonts.heading} bg-gradient-to-r ${theme.colors.primary} bg-clip-text text-transparent ${theme.animations.floating}`}>
+        <h1 className={`text-2xl sm:text-3xl md:text-4xl ${theme.fonts.heading} bg-gradient-to-r ${theme.colors.primary} bg-clip-text text-transparent ${theme.animations.floating}`}>
           {character.name}
         </h1>
         <div className="flex items-center justify-center space-x-6">
@@ -39,7 +38,7 @@ const AnswerHeader = ({ character }: AnswerHeaderProps) => {
             </div>
       </div>
       
-      <p className={`${theme.colors.text} ${theme.fonts.body} opacity-80 text-lg`}>
+      <p className={`${theme.colors.text} ${theme.fonts.body} opacity-80 text-sm sm:text-base`}>
         {getPersonalityPrompt()}
       </p>
     </div>

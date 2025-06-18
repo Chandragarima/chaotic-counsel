@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -218,7 +217,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md mx-auto">
+      <DialogContent className="w-[95vw] max-w-full md:max-w-md p-4 md:p-8 mx-auto">
         <DialogHeader>
           { <div className="flex items-center justify-between">
             <DialogTitle className="text-xl font-bold">
@@ -251,7 +250,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
             ))}
           </div>
           
-          <Card className="p-6">
+          <Card className="p-4 md:p-6 w-full">
             {currentStep === 1 && renderStep1()}
             {currentStep === 2 && renderStep2()}
             {currentStep === 3 && renderStep3()}

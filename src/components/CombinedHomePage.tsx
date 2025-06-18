@@ -82,10 +82,10 @@ const CombinedHomePage = ({
           <div className="space-y-6">
             {/* Main Title with improved responsive typography */}
             <div className="relative">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-playfair font-medium tracking-[0.3em] text-slate-50 relative">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-playfair font-medium tracking-[0.3em] text-slate-50 relative">
                 CHAOTIC
               </h1>
-              <div className="absolute inset-0 text-amber-400/25 blur-sm">CHAOTIC</div>
+              {/* <div className="absolute inset-0 text-amber-400/25 blur-sm">CHAOTIC</div> */}
             </div>
             
             {/* Elegant divider */}
@@ -96,14 +96,14 @@ const CombinedHomePage = ({
             </div>
             
             {/* Subtitle with better responsive sizing */}
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-playfair font-normal tracking-[0.2em] text-slate-100">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-playfair font-normal tracking-[0.2em] text-slate-100">
               COUNSEL
             </h2>
           </div>
           
           {/* Refined tagline with better readability */}
           <div className="space-y-4">
-            <p className="text-xs sm:text-sm text-amber-300/80 font-inter font-light tracking-normal uppercase">
+            <p className="text-sm sm:text-base text-amber-300/80 font-inter font-light tracking-normal uppercase">
               Choose your guide
             </p>
           </div>
@@ -129,10 +129,10 @@ const CombinedHomePage = ({
                     <div className="absolute inset-0 bg-black/60 rounded-2xl flex items-center justify-center">
                       <div className="text-center space-y-2">
                         <div className="text-2xl">🔒</div>
-                        <p className="text-amber-300 text-sm font-medium">
+                        <p className="text-amber-300 text-base font-medium">
                           {unlockRequirement}
                         </p>
-                        <p className="text-slate-400 text-xs">
+                        <p className="text-slate-400 text-sm">
                           Current streak: {progress.streak} day{progress.streak !== 1 ? 's' : ''}
                         </p>
                       </div>
@@ -145,7 +145,7 @@ const CombinedHomePage = ({
 
           {/* Instruction Text */}
           <div className="pt-4">
-            <p className="text-amber-300/70 text-xs sm:text-sm font-inter font-light tracking-wide">
+            <p className="text-amber-300/70 text-sm sm:text-base font-inter font-light tracking-wide">
               Select an advisor to begin your session
             </p>
           </div>

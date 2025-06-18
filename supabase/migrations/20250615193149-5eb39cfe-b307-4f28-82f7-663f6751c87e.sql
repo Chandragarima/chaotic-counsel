@@ -6,6 +6,8 @@
 CREATE OR REPLACE FUNCTION public.generate_unique_animal_username()
 RETURNS TEXT
 LANGUAGE plpgsql
+SECURITY INVOKER
+SET search_path = 'public'
 AS $$
 DECLARE
   animals TEXT[] := ARRAY[
