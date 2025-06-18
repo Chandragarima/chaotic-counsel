@@ -1,4 +1,5 @@
 
+
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, toast } from "sonner"
 
@@ -15,9 +16,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
       expand={false}
       richColors
       duration={4000}
-      style={{ zIndex: 9999 }}
+      style={{ zIndex: 99999 }}
       toastOptions={{
-        style: { zIndex: 9999 },
+        style: { zIndex: 99999 },
         classNames: {
           toast:
             "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
@@ -34,3 +35,4 @@ const Toaster = ({ ...props }: ToasterProps) => {
 }
 
 export { Toaster, toast }
+
