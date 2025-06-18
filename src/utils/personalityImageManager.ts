@@ -117,7 +117,7 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
       '/images/personalities/sneaky-snake/no/sneaky-snake-no-4.png'
     ],
     maybe: [
-      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-1.png',
+      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-1.jpg',
       '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-2.png',
       '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-3.png',
       '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-4.png'
@@ -125,7 +125,7 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
     choice: [
       '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-1.png',
       '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-2.png',
-      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-3.png',
+      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-3.jpg',
       '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-4.png'
     ]
   },
