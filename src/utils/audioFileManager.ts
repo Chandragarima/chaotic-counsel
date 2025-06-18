@@ -30,7 +30,7 @@ const PERSONALITY_AUDIO_FILES: PersonalityAudioMap = {
   },
   'people-pleaser-pup': {
     selection: '/audio/pup-selection.mp3',
-    response: '/audio/pup-response.mp3'
+    response: '/audio/pup-response.wav'
   }
 };
 
