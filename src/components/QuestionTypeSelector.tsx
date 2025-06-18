@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { QuestionType, QuestionMode } from '../types';
 import { Card } from '@/components/ui/card';
@@ -143,7 +142,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
         {/* Sophisticated Header */}
         <div className="text-center space-y-8 pt-12">
           <div className="space-y-6">
-            <h1 className={`text-5xl font-thin tracking-[0em] ${theme ? theme.colors.text : 'text-amber-100'}`}>
+            <h1 className={`text-3xl sm:text-4xl md:text-5xl font-thin tracking-[0em] ${theme ? theme.colors.text : 'text-amber-100'}`}>
               {getHeaderText()}
             </h1>
             
@@ -154,7 +153,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
             </div>
           </div>
           
-          <p className={`text-xl ${theme ? theme.colors.text : 'text-amber-200'} opacity-80 font-light tracking-normal`}>
+          <p className={`text-base sm:text-lg ${theme ? theme.colors.text : 'text-amber-200'} opacity-80 font-light tracking-normal`}>
             {selectedCharacter ? `${selectedCharacter.name} awaits your inquiry` : 'Choose your path to wisdom'}
           </p>
         </div>
@@ -205,10 +204,10 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
                 {type.icon}
               </div>
               <div className="space-y-2">
-                <h3 className={`${theme ? theme.colors.text : 'text-amber-100'} font-light text-xl tracking-wide`}>
+                <h3 className={`${theme ? theme.colors.text : 'text-amber-100'} font-light text-lg sm:text-xl md:text-2xl tracking-wide`}>
                   {type.title}
                 </h3>
-                <p className={`${theme ? theme.colors.text : 'text-amber-200'} opacity-70 text-sm font-light`}>
+                <p className={`${theme ? theme.colors.text : 'text-amber-200'} opacity-70 text-sm sm:text-base font-light`}>
                   {type.description}
                 </p>
               </div>

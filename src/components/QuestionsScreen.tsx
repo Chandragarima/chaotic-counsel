@@ -352,7 +352,7 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
               <div className="w-16 h-px bg-gradient-to-l from-transparent via-amber-400/70 to-transparent"></div>
             </div> */}
             
-          <h1 className={`text-4xl ${theme.fonts.heading} ${theme.colors.text} opacity-90 ${theme.animations.floating}`}>
+          <h1 className={`text-2xl sm:text-3xl md:text-4xl ${theme.fonts.heading} ${theme.colors.text} opacity-90 ${theme.animations.floating}`}>
             {getTypeTitle()}
           </h1>
           {/* <p className={`${theme.colors.text} opacity-70 ${theme.fonts.body}`}>
@@ -369,7 +369,7 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
 
         {/* Sample Questions */}
         <div className="max-w-2xl mx-auto space-y-6">
-          {/* <h3 className={`${theme.colors.text} ${theme.fonts.heading} text-xl text-center opacity-80`}>
+          {/* <h3 className={`${theme.colors.text} ${theme.fonts.heading} text-base sm:text-lg md:text-xl text-center opacity-80`}>
             {character.name}'s {questionMode === 'serious' ? 'Thoughtful' : 'Signature'} Questions
           </h3> */}
           
@@ -387,7 +387,7 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
                 }}
                 onClick={() => handleQuestionSelect(question.text)}
               >
-                <p className={`${theme.colors.text} ${theme.fonts.body} text-center w-full text-lg opacity-90`}>
+                <p className={`${theme.colors.text} ${theme.fonts.body} text-center w-full text-base sm:text-lg opacity-90`}>
                   {question.text}
                 </p>
               </Card>
