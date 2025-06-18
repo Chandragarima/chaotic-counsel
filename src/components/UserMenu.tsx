@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -24,7 +25,6 @@ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover
 
 interface UserProfile {
   username: string | null;
-  avatar_url: string | null;
 }
 
 const UserMenu = () => {
@@ -56,7 +56,7 @@ const UserMenu = () => {
         .single();
 
       if (!error) {
-        setProfile({ username: data?.username ?? null, avatar_url: null });
+        setProfile({ username: data?.username ?? null });
       }
     } finally {
       setProfileLoading(false);
