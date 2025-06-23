@@ -18,6 +18,7 @@ export default function Index() {
   const [selectedQuestionMode, setSelectedQuestionMode] = useState<QuestionMode>('fun');
   const [userQuestion, setUserQuestion] = useState('');
   const [answerComplete, setAnswerComplete] = useState(false);
+  const [answerKey, setAnswerKey] = useState(0);
 
   const { 
     questionCount, 
@@ -52,6 +53,7 @@ export default function Index() {
     setUserQuestion(question);
     setCurrentScreen('answer');
     setAnswerComplete(false);
+    setAnswerKey(prev => prev + 1);
     // Increment question count and decisions when a new question is asked
     incrementQuestionCount();
     incrementDecisions();
@@ -63,10 +65,7 @@ export default function Index() {
 
   const handleAskAgain = () => {
     setAnswerComplete(false);
-    setUserQuestion(prev => prev + ' ');
-    setTimeout(() => {
-      setUserQuestion(prev => prev.trim());
-    }, 0);
+    setAnswerKey(prev => prev + 1);
     // Increment counters for re-asks too
     incrementQuestionCount();
     incrementDecisions();
@@ -133,6 +132,7 @@ export default function Index() {
 
       {currentScreen === 'answer' && selectedCharacter && (
         <AnswerScreen
+          key={answerKey}
           character={selectedCharacter}
           question={userQuestion}
           questionMode={selectedQuestionMode}

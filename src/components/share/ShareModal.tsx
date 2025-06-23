@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Loader2, Download, Instagram, Twitter, Sparkles } from 'lucide-react';
@@ -19,6 +19,7 @@ interface ShareModalProps {
 const ShareModal = ({ open, onOpenChange, character, question, answer, aiResponse }: ShareModalProps) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [message, setMessage] = useState<{ text: string; type: 'error' | 'info' } | null>(null);
   const theme = getPersonalityTheme(character.type);
 
   const getDisplayAnswer = () => {
@@ -64,7 +65,7 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
       return imageUrl;
     } catch (error) {
       console.error('Failed to generate image:', error);
-      toast.error('Failed to generate share image');
+      setMessage({ text: 'Failed to generate share image', type: 'error' });
       return null;
     } finally {
       setIsGenerating(false);
@@ -140,15 +141,22 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
       }
 
       if (result?.message) {
-        toast.success(result.message);
+        setMessage({ text: result.message, type: 'info' });
       } else if (platform !== 'x') {
-        toast.success('Shared successfully!');
+        setMessage({ text: 'Shared successfully!', type: 'info' });
       }
     } catch (error) {
       console.error('Share failed:', error);
-      toast.error('Failed to share. Please try again.');
+      setMessage({ text: 'Failed to share. Please try again.', type: 'error' });
     }
   };
+
+  useEffect(() => {
+    if (message && message.type === 'info') {
+      const timer = setTimeout(() => setMessage(null), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -156,9 +164,20 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
         <DialogHeader className="space-y-3 pb-2">
           <DialogTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent text-center flex items-center justify-center gap-2">
             <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" />
-            Share Your Wisdom
+            Share This Wisdom
           </DialogTitle>
         </DialogHeader>
+        {message && (
+          <div
+            className={
+              message.type === 'error'
+                ? 'p-3 rounded-lg text-center bg-red-100 text-red-800 font-medium mb-2'
+                : 'px-4 py-2 rounded-md text-center bg-green-50 text-green-700 text-sm mb-2 border border-green-100 shadow-sm transition-opacity duration-300'
+            }
+          >
+            {message.text}
+          </div>
+        )}
 
         <div className="space-y-4 sm:space-y-6">
           {/* Compact Preview */}
@@ -172,7 +191,7 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
                 </div>
                 <div>
                   <h3 className="font-bold text-amber-100 text-xs sm:text-sm">{character.name}</h3>
-                  <p className="text-xs text-amber-200/70">Mystical Guidance</p>
+                  {/* <p className="text-xs text-amber-200/70">Chaotic Guidance</p> */}
                 </div>
               </div>
               

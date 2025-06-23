@@ -193,7 +193,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     setAnswer(''); // Clear previous answer
 
     // Determine thinking duration based on mode
-    const thinkingDuration = mode === 'fun' ? 3000 : 5000; // 3s for fun, 5s for serious
+    const thinkingDuration = mode === 'fun' ? 3000 : 0; // 3s for fun, 0s for serious
 
     const generateAnswer = async () => {
       // Serious mode logic for ALL characters
@@ -205,6 +205,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
           console.log('Question analysis:', analysis);
           
           // Use the detected category for AI response
+          // setIsThinking(true); // Start thinking animation
           const aiResult = await getAIResponse(question, character, analysis.category);
           console.log('Setting AI response:', aiResult);
           setAiResponse(aiResult);
@@ -247,11 +248,12 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     };
 
     // Start the answer generation after the thinking duration
-    const timer = setTimeout(generateAnswer, thinkingDuration);
-
-    return () => {
-      clearTimeout(timer);
-    };
+    if (mode === 'fun') {
+      const timer = setTimeout(generateAnswer, thinkingDuration);
+      return () => clearTimeout(timer);
+    } else {
+      generateAnswer();
+    }
   }, [character, question, mode, questionType]);
 
   return {
