@@ -153,67 +153,68 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
           Skip
         </Button>
         <Button 
-          onClick={() => setCurrentStep(4)}
-          className={theme ? `${theme.colors.primary}` : ''}
-        >
-          Continue
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className={theme ? `${theme.colors.primary}` : ''}
+          >
+            {isSubmitting ? 'Submitting...' : 'Done'}
         </Button>
       </div>
     </div>
   );
 
-  const renderStep4 = () => (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h3 className="text-lg font-semibold mb-2">Want to help us improve even more?</h3>
-        <p className="text-sm text-gray-600 mb-4">Would you be open to providing more detailed feedback?</p>
-      </div>
+  // const renderStep4 = () => (
+  //   <div className="space-y-6">
+  //     <div className="text-center">
+  //       <h3 className="text-lg font-semibold mb-2">Want to help us improve even more?</h3>
+  //       <p className="text-sm text-gray-600 mb-4">Would you be open to providing more detailed feedback?</p>
+  //     </div>
       
-      <div className="space-y-3">
-        <button
-          onClick={() => setWillingDetailedFeedback(true)}
-          className={`w-full p-4 rounded-lg border transition-all duration-200 ${
-            willingDetailedFeedback === true
-              ? 'border-green-500 bg-green-50 text-green-700'
-              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900'
-          }`}
-        >
-          <div className="flex items-center justify-center space-x-2">
-            <Heart className="w-5 h-5" />
-            <span>Yes, I'd love to help!</span>
-            <ExternalLink className="w-4 h-4" />
-          </div>
-        </button>
+  //     <div className="space-y-3">
+  //       <button
+  //         onClick={() => setWillingDetailedFeedback(true)}
+  //         className={`w-full p-4 rounded-lg border transition-all duration-200 ${
+  //           willingDetailedFeedback === true
+  //             ? 'border-green-500 bg-green-50 text-green-700'
+  //             : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900'
+  //         }`}
+  //       >
+  //         <div className="flex items-center justify-center space-x-2">
+  //           <Heart className="w-5 h-5" />
+  //           <span>Yes, I'd love to help!</span>
+  //           <ExternalLink className="w-4 h-4" />
+  //         </div>
+  //       </button>
         
-        <button
-          onClick={() => setWillingDetailedFeedback(false)}
-          className={`w-full p-4 rounded-lg border transition-all duration-200 ${
-            willingDetailedFeedback === false
-              ? 'border-blue-500 bg-blue-50 text-blue-700'
-              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900'
-          }`}
-        >
-          Maybe another time
-        </button>
-      </div>
+  //       <button
+  //         onClick={() => setWillingDetailedFeedback(false)}
+  //         className={`w-full p-4 rounded-lg border transition-all duration-200 ${
+  //           willingDetailedFeedback === false
+  //             ? 'border-blue-500 bg-blue-50 text-blue-700'
+  //             : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900'
+  //         }`}
+  //       >
+  //         Maybe another time
+  //       </button>
+  //     </div>
       
-      <div className="flex justify-center space-x-3 mt-6">
-        <Button variant="outline" onClick={() => setCurrentStep(3)}>
-          Back
-        </Button>
-        <Button variant="outline" onClick={handleSkip}>
-          Skip
-        </Button>
-        <Button 
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-          className={theme ? `${theme.colors.primary}` : ''}
-        >
-          {isSubmitting ? 'Submitting...' : 'Done'}
-        </Button>
-      </div>
-    </div>
-  );
+  //     <div className="flex justify-center space-x-3 mt-6">
+  //       <Button variant="outline" onClick={() => setCurrentStep(3)}>
+  //         Back
+  //       </Button>
+  //       <Button variant="outline" onClick={handleSkip}>
+  //         Skip
+  //       </Button>
+        // <Button 
+        //   onClick={handleSubmit}
+        //   disabled={isSubmitting}
+        //   className={theme ? `${theme.colors.primary}` : ''}
+        // >
+        //   {isSubmitting ? 'Submitting...' : 'Done'}
+        // </Button>
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -240,7 +241,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
         <div className="space-y-4">
           {/* Progress indicator */}
           <div className="flex justify-center space-x-2 mb-6">
-            {[1, 2, 3, 4].map((step) => (
+            {[1, 2, 3].map((step) => (
               <div
                 key={step}
                 className={`h-2 w-8 rounded-full transition-all duration-300 ${
@@ -254,7 +255,7 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
             {currentStep === 1 && renderStep1()}
             {currentStep === 2 && renderStep2()}
             {currentStep === 3 && renderStep3()}
-            {currentStep === 4 && renderStep4()}
+            {/* {currentStep === 4 && renderStep4()} */}
           </Card>
         </div>
       </DialogContent>

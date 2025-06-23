@@ -57,6 +57,7 @@ export default function Index() {
     : null;
   
   const [answerComplete, setAnswerComplete] = useState(false);
+  const [answerKey, setAnswerKey] = useState(0);
 
   const { 
     questionCount, 
@@ -104,6 +105,7 @@ export default function Index() {
 
   const handleAskAgain = () => {
     setAnswerComplete(false);
+    setAnswerKey(prev => prev + 1);
     if (selectedCharacter && selectedQuestionType) {
       const newQuestion = userQuestion + ' ';
       navigate(`/${selectedCharacter.id}/${selectedQuestionMode}-mode-answer/${selectedQuestionType}`, {
