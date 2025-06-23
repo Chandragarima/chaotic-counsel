@@ -1,4 +1,6 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { Character, QuestionType, QuestionMode } from "../types";
 import CombinedHomePage from "../components/CombinedHomePage";
 import QuestionTypeSelector from "../components/QuestionTypeSelector";
@@ -9,14 +11,30 @@ import AutoFeedbackTrigger from "../components/feedback/AutoFeedbackTrigger";
 import { useAuth } from "@/contexts/AuthContext";
 import { useQuestionTracking } from "../hooks/useQuestionTracking";
 import { useSupabaseProgress } from "../hooks/useSupabaseProgress";
+import { characters } from "../data/characters";
 
 export default function Index() {
   const { loading } = useAuth();
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
-  const [currentScreen, setCurrentScreen] = useState<'home' | 'question-type' | 'questions' | 'answer'>('home');
-  const [selectedQuestionType, setSelectedQuestionType] = useState<QuestionType | null>(null);
-  const [selectedQuestionMode, setSelectedQuestionMode] = useState<QuestionMode>('fun');
-  const [userQuestion, setUserQuestion] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  // Parse URL parameters to determine current state
+  const step = searchParams.get('step') || 'home';
+  const characterId = searchParams.get('character');
+  const questionType = searchParams.get('type') as QuestionType;
+  const questionMode = searchParams.get('mode') as QuestionMode;
+  const encodedQuestion = searchParams.get('question');
+  
+  // Derive state from URL
+  const selectedCharacter = characterId 
+    ? characters.find(c => c.id === characterId) || null 
+    : null;
+  const currentScreen = step as 'home' | 'question-type' | 'questions' | 'answer';
+  const selectedQuestionType = questionType || null;
+  const selectedQuestionMode = questionMode || 'fun';
+  const userQuestion = encodedQuestion ? decodeURIComponent(encodedQuestion) : '';
+  
   const [answerComplete, setAnswerComplete] = useState(false);
 
   const { 
@@ -29,6 +47,21 @@ export default function Index() {
 
   const { incrementDecisions } = useSupabaseProgress();
 
+  // Helper function to update URL parameters
+  const updateUrl = (params: Record<string, string | null>) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    
+    Object.entries(params).forEach(([key, value]) => {
+      if (value === null) {
+        newSearchParams.delete(key);
+      } else {
+        newSearchParams.set(key, value);
+      }
+    });
+    
+    setSearchParams(newSearchParams);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
@@ -38,19 +71,25 @@ export default function Index() {
   }
 
   const handleCharacterSelectAndContinue = (character: Character) => {
-    setSelectedCharacter(character);
-    setCurrentScreen('question-type');
+    updateUrl({
+      step: 'question-type',
+      character: character.id
+    });
   };
 
   const handleTypeSelect = (type: QuestionType, mode: QuestionMode) => {
-    setSelectedQuestionType(type);
-    setSelectedQuestionMode(mode);
-    setCurrentScreen('questions');
+    updateUrl({
+      step: 'questions',
+      type: type,
+      mode: mode
+    });
   };
 
   const handleQuestionSubmit = (question: string) => {
-    setUserQuestion(question);
-    setCurrentScreen('answer');
+    updateUrl({
+      step: 'answer',
+      question: encodeURIComponent(question)
+    });
     setAnswerComplete(false);
     // Increment question count and decisions when a new question is asked
     incrementQuestionCount();
@@ -63,9 +102,14 @@ export default function Index() {
 
   const handleAskAgain = () => {
     setAnswerComplete(false);
-    setUserQuestion(prev => prev + ' ');
+    const newQuestion = userQuestion + ' ';
+    updateUrl({
+      question: encodeURIComponent(newQuestion)
+    });
     setTimeout(() => {
-      setUserQuestion(prev => prev.trim());
+      updateUrl({
+        question: encodeURIComponent(newQuestion.trim())
+      });
     }, 0);
     // Increment counters for re-asks too
     incrementQuestionCount();
@@ -73,20 +117,32 @@ export default function Index() {
   };
 
   const handleBackToHome = () => {
-    setCurrentScreen('home');
-    setSelectedCharacter(null);
-    setSelectedQuestionType(null);
+    updateUrl({
+      step: 'home',
+      character: null,
+      type: null,
+      mode: null,
+      question: null
+    });
     setAnswerComplete(false);
     resetSession();
   };
 
   const handleBackToQuestionType = () => {
-    setCurrentScreen('question-type');
+    updateUrl({
+      step: 'question-type',
+      type: null,
+      mode: null,
+      question: null
+    });
     setAnswerComplete(false);
   };
 
   const handleBackToQuestions = () => {
-    setCurrentScreen('questions');
+    updateUrl({
+      step: 'questions',
+      question: null
+    });
     setAnswerComplete(false);
   };
 
@@ -109,7 +165,7 @@ export default function Index() {
         <CombinedHomePage
           selectedCharacter={selectedCharacter}
           onCharacterSelect={handleCharacterSelectAndContinue}
-          onContinue={() => setCurrentScreen('question-type')}
+          onContinue={() => updateUrl({ step: 'question-type' })}
         />
       )}
 
