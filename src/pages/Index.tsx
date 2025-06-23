@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Character, QuestionType, QuestionMode } from "../types";
@@ -104,12 +103,16 @@ export default function Index() {
   };
 
   const handleAskAgain = () => {
+    console.log('handleAskAgain called', { selectedCharacter, selectedQuestionType, userQuestion });
     setAnswerComplete(false);
     setAnswerKey(prev => prev + 1);
     if (selectedCharacter && selectedQuestionType) {
-      const newQuestion = userQuestion + ' ';
-      navigate(`/${selectedCharacter.id}/${selectedQuestionMode}-mode-answer/${selectedQuestionType}`, {
-        state: { question: newQuestion.trim() }
+      // Force a re-render by navigating to a temporary route and back
+      const currentPath = `/${selectedCharacter.id}/${selectedQuestionMode}-mode-answer/${selectedQuestionType}`;
+      console.log('Navigating to:', currentPath);
+      navigate(currentPath, {
+        state: { question: userQuestion, forceRefresh: Date.now() },
+        replace: true
       });
       // Increment counters for re-asks too
       incrementQuestionCount();
@@ -188,6 +191,7 @@ export default function Index() {
 
       {currentScreen === 'answer' && selectedCharacter && selectedQuestionType && (
         <AnswerScreen
+          key={answerKey}
           character={selectedCharacter}
           question={userQuestion}
           questionMode={selectedQuestionMode}
