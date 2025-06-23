@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { QuestionType, QuestionMode } from '../types';
 import { Card } from '@/components/ui/card';
@@ -8,13 +9,20 @@ import { audioManager } from '../utils/audioManager';
 
 interface QuestionTypeSelectorProps {
   selectedCharacter?: any;
+  currentMode: QuestionMode;
   onTypeSelect: (type: QuestionType, mode: QuestionMode) => void;
   onBack: () => void;
+  onModeChange: (mode: QuestionMode) => void;
 }
 
-const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: QuestionTypeSelectorProps) => {
+const QuestionTypeSelector = ({ 
+  selectedCharacter, 
+  currentMode, 
+  onTypeSelect, 
+  onBack, 
+  onModeChange 
+}: QuestionTypeSelectorProps) => {
   const [selectedType, setSelectedType] = useState<QuestionType | null>(null);
-  const [currentMode, setCurrentMode] = useState<QuestionMode>('fun');
   const theme = selectedCharacter ? getPersonalityTheme(selectedCharacter.type) : null;
 
   // Get question types based on mode and character
@@ -164,7 +172,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
             <div className="bg-slate-800/50 backdrop-blur-md rounded-xl p-1 border border-amber-400/20">
               <div className="flex space-x-1">
                 <button
-                  onClick={() => setCurrentMode('fun')}
+                  onClick={() => onModeChange('fun')}
                   className={`px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                     currentMode === 'fun'
                       ? 'bg-amber-500 text-slate-900 shadow-lg'
@@ -174,7 +182,7 @@ const QuestionTypeSelector = ({ selectedCharacter, onTypeSelect, onBack }: Quest
                   Fun Mode
                 </button>
                 <button
-                  onClick={() => setCurrentMode('serious')}
+                  onClick={() => onModeChange('serious')}
                   className={`px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                     currentMode === 'serious'
                       ? 'bg-amber-500 text-slate-900 shadow-lg'

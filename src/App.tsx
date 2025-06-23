@@ -22,6 +22,9 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/:characterId/:mode-question-type" element={<Index />} />
+            <Route path="/:characterId/:mode-questions/:questionType" element={<Index />} />
+            <Route path="/:characterId/:mode-answer/:questionType" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/poll/:pollId" element={<Poll />} />
