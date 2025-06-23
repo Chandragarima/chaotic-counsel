@@ -336,7 +336,7 @@ class CanvasShareService {
       
       // Footer at the bottom
       this.drawText(
-        'Find your answers at chaoticcounsel.com',
+        'Find your answers at https://chaotic-counsel.lovable.app/',
         540,
         1860,
         1000,

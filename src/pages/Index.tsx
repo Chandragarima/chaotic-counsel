@@ -115,8 +115,8 @@ export default function Index() {
         replace: true
       });
       // Increment counters for re-asks too
-      incrementQuestionCount();
-      incrementDecisions();
+      // incrementQuestionCount();
+      // incrementDecisions();
     }
   };
 

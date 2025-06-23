@@ -84,10 +84,10 @@ const UserMenu = () => {
               </TooltipTrigger>
               <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/20">
                 <div className="text-center space-y-2">
-                  <p className="text-xs">Daily streak - visit daily to unlock new characters!</p>
-                  <p className="text-xs text-green-200">📅 Progress is saved - take breaks without worry!</p>
+                  <p className="text-xs">Daily streak - <span className="text-green-200">visit daily to unlock new characters!</span></p>
+                  <p className="text-xs">Progress saved - <span className="text-green-200">take breaks without worry!</span></p>
                   <div className="text-xs flex items-center justify-center mt-2">
-                    <span className="mr-1">Next update at:</span>
+                    <span className="mr-1">Streak updates at:</span>
                     <span className="font-mono text-green-200">
                       {new Date(Date.UTC(
                         new Date().getUTCFullYear(),
@@ -109,10 +109,10 @@ const UserMenu = () => {
               </PopoverTrigger>
               <PopoverContent className="bg-slate-800 text-white border-white/20 w-64 text-center">
                 <div className="space-y-2">
-                  <p className="text-xs">Daily streak - visit daily to unlock new characters!</p>
-                  <p className="text-xs text-green-200">📅 Progress is saved - take breaks without worry!</p>
+                  <p className="text-xs">Daily streak - <span className="text-green-200">visit daily to unlock new characters!</span></p>
+                  <p className="text-xs">Progress saved - <span className="text-green-200">take breaks without worry!</span></p>
                   <div className="text-xs flex items-center justify-center mt-2">
-                    <span className="mr-1">Next update at:</span>
+                    <span className="mr-1">Streak updates at:</span>
                     <span className="font-mono text-green-200">
                       {new Date(Date.UTC(
                         new Date().getUTCFullYear(),
