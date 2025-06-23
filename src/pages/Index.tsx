@@ -1,4 +1,6 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Character, QuestionType, QuestionMode } from "../types";
 import CombinedHomePage from "../components/CombinedHomePage";
 import QuestionTypeSelector from "../components/QuestionTypeSelector";
@@ -9,14 +11,51 @@ import AutoFeedbackTrigger from "../components/feedback/AutoFeedbackTrigger";
 import { useAuth } from "@/contexts/AuthContext";
 import { useQuestionTracking } from "../hooks/useQuestionTracking";
 import { useSupabaseProgress } from "../hooks/useSupabaseProgress";
+import { characters } from "../data/characters";
 
 export default function Index() {
   const { loading } = useAuth();
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
-  const [currentScreen, setCurrentScreen] = useState<'home' | 'question-type' | 'questions' | 'answer'>('home');
-  const [selectedQuestionType, setSelectedQuestionType] = useState<QuestionType | null>(null);
-  const [selectedQuestionMode, setSelectedQuestionMode] = useState<QuestionMode>('fun');
-  const [userQuestion, setUserQuestion] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams();
+  
+  // Parse URL parameters to determine current state
+  const { characterId } = params;
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  
+  // Determine current screen and mode from URL
+  let currentScreen: 'home' | 'question-type' | 'questions' | 'answer' = 'home';
+  let selectedQuestionMode: QuestionMode = 'fun';
+  let selectedQuestionType: QuestionType | null = null;
+  
+  if (pathSegments.length >= 2) {
+    const modeSegment = pathSegments[1];
+    if (modeSegment.includes('fun-mode')) {
+      selectedQuestionMode = 'fun';
+      if (modeSegment.includes('question-type')) currentScreen = 'question-type';
+      else if (modeSegment.includes('questions')) currentScreen = 'questions';
+      else if (modeSegment.includes('answer')) currentScreen = 'answer';
+    } else if (modeSegment.includes('serious-mode')) {
+      selectedQuestionMode = 'serious';
+      if (modeSegment.includes('question-type')) currentScreen = 'question-type';
+      else if (modeSegment.includes('questions')) currentScreen = 'questions';
+      else if (modeSegment.includes('answer')) currentScreen = 'answer';
+    }
+  }
+  
+  if (pathSegments.length >= 3) {
+    selectedQuestionType = pathSegments[2] as QuestionType;
+  }
+  
+  // Get current question from URL state
+  const urlState = location.state as { question?: string } | null;
+  const userQuestion = urlState?.question || '';
+  
+  // Derive character from URL
+  const selectedCharacter = characterId 
+    ? characters.find(c => c.id === characterId) || null 
+    : null;
+  
   const [answerComplete, setAnswerComplete] = useState(false);
   const [answerKey, setAnswerKey] = useState(0);
 
@@ -39,24 +78,25 @@ export default function Index() {
   }
 
   const handleCharacterSelectAndContinue = (character: Character) => {
-    setSelectedCharacter(character);
-    setCurrentScreen('question-type');
+    navigate(`/${character.id}/fun-mode-question-type`);
   };
 
   const handleTypeSelect = (type: QuestionType, mode: QuestionMode) => {
-    setSelectedQuestionType(type);
-    setSelectedQuestionMode(mode);
-    setCurrentScreen('questions');
+    if (selectedCharacter) {
+      navigate(`/${selectedCharacter.id}/${mode}-mode-questions/${type}`);
+    }
   };
 
   const handleQuestionSubmit = (question: string) => {
-    setUserQuestion(question);
-    setCurrentScreen('answer');
-    setAnswerComplete(false);
-    setAnswerKey(prev => prev + 1);
-    // Increment question count and decisions when a new question is asked
-    incrementQuestionCount();
-    incrementDecisions();
+    if (selectedCharacter && selectedQuestionType) {
+      navigate(`/${selectedCharacter.id}/${selectedQuestionMode}-mode-answer/${selectedQuestionType}`, {
+        state: { question }
+      });
+      setAnswerComplete(false);
+      // Increment question count and decisions when a new question is asked
+      incrementQuestionCount();
+      incrementDecisions();
+    }
   };
 
   const handleAnswerComplete = () => {
@@ -66,27 +106,35 @@ export default function Index() {
   const handleAskAgain = () => {
     setAnswerComplete(false);
     setAnswerKey(prev => prev + 1);
-    // Increment counters for re-asks too
-    incrementQuestionCount();
-    incrementDecisions();
+    if (selectedCharacter && selectedQuestionType) {
+      const newQuestion = userQuestion + ' ';
+      navigate(`/${selectedCharacter.id}/${selectedQuestionMode}-mode-answer/${selectedQuestionType}`, {
+        state: { question: newQuestion.trim() }
+      });
+      // Increment counters for re-asks too
+      incrementQuestionCount();
+      incrementDecisions();
+    }
   };
 
   const handleBackToHome = () => {
-    setCurrentScreen('home');
-    setSelectedCharacter(null);
-    setSelectedQuestionType(null);
+    navigate('/');
     setAnswerComplete(false);
     resetSession();
   };
 
   const handleBackToQuestionType = () => {
-    setCurrentScreen('question-type');
-    setAnswerComplete(false);
+    if (selectedCharacter) {
+      navigate(`/${selectedCharacter.id}/${selectedQuestionMode}-mode-question-type`);
+      setAnswerComplete(false);
+    }
   };
 
   const handleBackToQuestions = () => {
-    setCurrentScreen('questions');
-    setAnswerComplete(false);
+    if (selectedCharacter && selectedQuestionType) {
+      navigate(`/${selectedCharacter.id}/${selectedQuestionMode}-mode-questions/${selectedQuestionType}`);
+      setAnswerComplete(false);
+    }
   };
 
   return (
@@ -108,15 +156,23 @@ export default function Index() {
         <CombinedHomePage
           selectedCharacter={selectedCharacter}
           onCharacterSelect={handleCharacterSelectAndContinue}
-          onContinue={() => setCurrentScreen('question-type')}
+          onContinue={() => {
+            if (selectedCharacter) {
+              navigate(`/${selectedCharacter.id}/fun-mode-question-type`);
+            }
+          }}
         />
       )}
 
-      {currentScreen === 'question-type' && (
+      {currentScreen === 'question-type' && selectedCharacter && (
         <QuestionTypeSelector
           selectedCharacter={selectedCharacter}
+          currentMode={selectedQuestionMode}
           onTypeSelect={handleTypeSelect}
           onBack={handleBackToHome}
+          onModeChange={(mode) => {
+            navigate(`/${selectedCharacter.id}/${mode}-mode-question-type`);
+          }}
         />
       )}
 
@@ -130,9 +186,8 @@ export default function Index() {
         />
       )}
 
-      {currentScreen === 'answer' && selectedCharacter && (
+      {currentScreen === 'answer' && selectedCharacter && selectedQuestionType && (
         <AnswerScreen
-          key={answerKey}
           character={selectedCharacter}
           question={userQuestion}
           questionMode={selectedQuestionMode}
