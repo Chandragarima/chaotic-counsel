@@ -83,10 +83,10 @@ export const useSupabaseProgress = () => {
         const previousUnlocked = progress.unlockedCharacters;
         const newUnlocked = streakData.unlocked_characters as string[];
         
-        console.log('📈 New streak:', streakData.current_streak);
+        console.log('📈 Current streak:', streakData.current_streak);
         console.log('🔓 Unlocked characters:', newUnlocked);
         
-        // Check if a new character was unlocked
+        // Check if a new character was unlocked (only show celebration for truly new unlocks)
         const newCharacter = newUnlocked.find(char => !previousUnlocked.includes(char));
         if (newCharacter && streakData.streak_updated) {
           console.log('🎉 New character unlocked:', newCharacter);
@@ -115,8 +115,8 @@ export const useSupabaseProgress = () => {
         setProgress({ 
           ...defaultProgress, 
           totalDecisions: parsed.totalDecisions || 0,
-          streak: 0, // Always 0 for anonymous users
-          unlockedCharacters: ['wise-owl', 'sassy-cat'] // Only default characters
+          streak: 0, // Anonymous users don't get streak benefits
+          unlockedCharacters: ['wise-owl', 'sassy-cat'] // Only default characters for anonymous users
         });
       } catch {
         setProgress(defaultProgress);

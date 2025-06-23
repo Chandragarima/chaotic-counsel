@@ -74,7 +74,7 @@ const UserMenu = () => {
     <TooltipProvider>
       <div className="fixed top-4 right-4 z-50">
         <div className="flex items-center gap-2">
-          {/* Streak Display with Tooltip/Popover */}
+          {/* Streak Display with improved tooltip */}
           {isDesktop ? (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -83,17 +83,20 @@ const UserMenu = () => {
                 </div>
               </TooltipTrigger>
               <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/20">
-                <p className="text-xs flex flex-col items-center mt-2">Daily streak - ask questions to maintain it!</p>
-                <div className="text-xs flex items-center justify-center mt-2">
-                  <span className="mr-1">Update at:</span>
-                  <span className="font-mono text-green-200">
-                    {new Date(Date.UTC(
-                      new Date().getUTCFullYear(),
-                      new Date().getUTCMonth(),
-                      new Date().getUTCDate() + 1,
-                      0, 0, 0
-                    )).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
+                <div className="text-center space-y-2">
+                  <p className="text-xs">Daily streak - visit daily to unlock new characters!</p>
+                  <p className="text-xs text-green-200">📅 Progress is saved - take breaks without worry!</p>
+                  <div className="text-xs flex items-center justify-center mt-2">
+                    <span className="mr-1">Next update at:</span>
+                    <span className="font-mono text-green-200">
+                      {new Date(Date.UTC(
+                        new Date().getUTCFullYear(),
+                        new Date().getUTCMonth(),
+                        new Date().getUTCDate() + 1,
+                        0, 0, 0
+                      )).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
                 </div>
               </TooltipContent>
             </Tooltip>
@@ -105,17 +108,20 @@ const UserMenu = () => {
                 </div>
               </PopoverTrigger>
               <PopoverContent className="bg-slate-800 text-white border-white/20 w-64 text-center">
-                <p className="text-xs flex flex-col items-center mt-2">Daily streak - ask questions to maintain it!</p>
-                <div className="text-xs flex items-center justify-center mt-2">
-                  <span className="mr-1">Update at:</span>
-                  <span className="font-mono text-green-200">
-                    {new Date(Date.UTC(
-                      new Date().getUTCFullYear(),
-                      new Date().getUTCMonth(),
-                      new Date().getUTCDate() + 1,
-                      0, 0, 0
-                    )).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
+                <div className="space-y-2">
+                  <p className="text-xs">Daily streak - visit daily to unlock new characters!</p>
+                  <p className="text-xs text-green-200">📅 Progress is saved - take breaks without worry!</p>
+                  <div className="text-xs flex items-center justify-center mt-2">
+                    <span className="mr-1">Next update at:</span>
+                    <span className="font-mono text-green-200">
+                      {new Date(Date.UTC(
+                        new Date().getUTCFullYear(),
+                        new Date().getUTCMonth(),
+                        new Date().getUTCDate() + 1,
+                        0, 0, 0
+                      )).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
                 </div>
               </PopoverContent>
             </Popover>

@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { Sparkles, Star, Flame } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -24,15 +25,15 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
   const character = characters.find(c => c.id === unlockedCharacter);
   if (!character) return null;
 
-  // UPDATED: Correct unlock messages to match database changes
+  // Updated unlock messages to reflect the new user-friendly system
   const getUnlockMessage = (characterId: string) => {
     switch (characterId) {
       case 'lazy-panda':
-        return "2-day streak achieved! You've unlocked the Lazy Panda 🐼";
+        return "2-day streak reached! You've unlocked the Lazy Panda 🐼";
       case 'sneaky-snake':
-        return "4-day streak achieved! You've unlocked the Sneaky Snake 🐍";
+        return "4-day streak reached! You've unlocked the Sneaky Snake 🐍";
       case 'people-pleaser-pup':
-        return "7-day streak achieved! You've unlocked the People Pleaser Pup 🐕";
+        return "7-day streak reached! You've unlocked the People Pleaser Pup 🐕";
       default:
         return `You've unlocked ${character.name}!`;
     }
@@ -81,6 +82,12 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
             <p className="text-slate-300 text-sm">
               {character.description}
             </p>
+
+            <div className="bg-slate-700/50 rounded-lg p-3 mt-4">
+              <p className="text-slate-300 text-xs">
+                💡 Your progress is saved! Even if you take breaks, your unlocked characters will remain available.
+              </p>
+            </div>
           </div>
 
           <Button 
