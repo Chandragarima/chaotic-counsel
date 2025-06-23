@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, RotateCcw, Home, Share, Users } from 'lucide-react';
@@ -33,9 +32,21 @@ const ActionButtons = ({
   const theme = getPersonalityTheme(character.type);
 
   const handleAskAgain = () => {
+    console.log('ActionButtons handleAskAgain clicked');
+    if (isAsking) return; // Prevent multiple clicks
+    
     setIsAsking(true);
-    audioManager.playSound(theme.sounds.select, character.type);
+    
+    // Play sound if available
+    try {
+      audioManager.playSound(theme.sounds.select, character.type);
+    } catch (error) {
+      console.warn('Audio playback failed:', error);
+    }
+    
+    // Always call onAskAgain after a short delay
     setTimeout(() => {
+      console.log('Calling onAskAgain from ActionButtons');
       setIsAsking(false);
       onAskAgain();
     }, 150);
