@@ -1,4 +1,3 @@
-
 import { canvasShareService } from './canvasShareService';
 
 export interface ShareData {
@@ -25,14 +24,44 @@ class ShareService {
   }
 
   async shareToInstagram(imageUrl: string, text: string) {
-    // Instagram doesn't have direct web sharing, so we'll copy text and prompt user
-    await navigator.clipboard.writeText(text);
+    // Try to open Instagram app on mobile devices
+    const instagramUrl = 'instagram://library?AssetPickerSourceType=1';
     
-    // Download the image for user to save
-    const link = document.createElement('a');
-    link.download = 'mystical-answer.png';
-    link.href = imageUrl;
-    link.click();
+    // Check if we're on mobile and try to open Instagram app
+    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      // Try to open Instagram app first
+      const appWindow = window.open(instagramUrl, '_blank');
+      
+      // If app doesn't open within a short time, fall back to web
+      setTimeout(() => {
+        if (appWindow && appWindow.closed) {
+          // App opened successfully, now copy text and download image
+          navigator.clipboard.writeText(text);
+          
+          const link = document.createElement('a');
+          link.download = 'chaotic-counsel.png';
+          link.href = imageUrl;
+          link.click();
+        } else {
+          // App didn't open, try web Instagram
+          window.open('https://www.instagram.com/', '_blank');
+          navigator.clipboard.writeText(text);
+          
+          const link = document.createElement('a');
+          link.download = 'chaotic-counsel.png';
+          link.href = imageUrl;
+          link.click();
+        }
+      }, 1000);
+    } else {
+      // Desktop fallback - copy text and download image
+      await navigator.clipboard.writeText(text);
+      
+      const link = document.createElement('a');
+      link.download = 'chaotic-counsel.png';
+      link.href = imageUrl;
+      link.click();
+    }
 
     return {
       success: true,
@@ -40,31 +69,61 @@ class ShareService {
     };
   }
 
-  async shareToWhatsApp(text: string, imageUrl?: string) {
-    const whatsappText = encodeURIComponent(text);
-    const whatsappUrl = `https://wa.me/?text=${whatsappText}`;
+  // async shareToWhatsApp(text: string, imageUrl?: string) {
+  //   const whatsappText = encodeURIComponent(text);
+  //   const whatsappUrl = `https://wa.me/?text=${whatsappText}`;
     
-    if (imageUrl) {
-      // For WhatsApp with image, we'll download the image and provide instructions
+  //   if (imageUrl) {
+  //     // For WhatsApp with image, we'll download the image and provide instructions
+  //     const link = document.createElement('a');
+  //     link.download = 'mystical-answer.png';
+  //     link.href = imageUrl;
+  //     link.click();
+  //   }
+    
+  //   window.open(whatsappUrl, '_blank');
+  //   return { success: true, message: 'Image downloaded! Attach it to your WhatsApp message.' };
+  // }
+
+  async shareToTikTok(imageUrl: string, text: string) {
+    // Try to open TikTok app on mobile devices
+    const tiktokUrl = 'tiktok://';
+    
+    // Check if we're on mobile and try to open TikTok app
+    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      // Try to open TikTok app first
+      const appWindow = window.open(tiktokUrl, '_blank');
+      
+      // If app doesn't open within a short time, fall back to web
+      setTimeout(() => {
+        if (appWindow && appWindow.closed) {
+          // App opened successfully, now copy text and download image
+          navigator.clipboard.writeText(text);
+          
+          const link = document.createElement('a');
+          link.download = 'chaotic-counsel.png';
+          link.href = imageUrl;
+          link.click();
+        } else {
+          // App didn't open, try web TikTok
+          window.open('https://www.tiktok.com/', '_blank');
+          navigator.clipboard.writeText(text);
+          
+          const link = document.createElement('a');
+          link.download = 'chaotic-counsel.png';
+          link.href = imageUrl;
+          link.click();
+        }
+      }, 1000);
+    } else {
+      // Desktop fallback - copy text and download image
+      await navigator.clipboard.writeText(text);
+      
       const link = document.createElement('a');
-      link.download = 'mystical-answer.png';
+      link.download = 'chaotic-counsel.png';
       link.href = imageUrl;
       link.click();
     }
-    
-    window.open(whatsappUrl, '_blank');
-    return { success: true, message: 'Image downloaded! Attach it to your WhatsApp message.' };
-  }
-
-  async shareToTikTok(imageUrl: string, text: string) {
-    // TikTok doesn't have direct web sharing, so we'll copy text and download image
-    await navigator.clipboard.writeText(text);
-    
-    // Download the image for user to save
-    const link = document.createElement('a');
-    link.download = 'mystical-answer.png';
-    link.href = imageUrl;
-    link.click();
 
     return {
       success: true,
@@ -75,12 +134,12 @@ class ShareService {
   async shareToX(text: string, imageUrl?: string) {
     // X (Twitter) sharing
     const xText = encodeURIComponent(text);
-    const xUrl = `https://twitter.com/intent/tweet?text=${xText}`;
+    const xUrl = `https://x.com/intent/tweet?text=${xText}`;
     
     if (imageUrl) {
       // Download the image for user to save and attach manually
       const link = document.createElement('a');
-      link.download = 'mystical-answer.png';
+      link.download = 'chaotic-counsel.png';
       link.href = imageUrl;
       link.click();
     }
@@ -98,10 +157,10 @@ class ShareService {
         // Convert data URL to blob for native sharing
         const response = await fetch(imageUrl);
         const blob = await response.blob();
-        const file = new File([blob], 'mystical-answer.png', { type: 'image/png' });
+        const file = new File([blob], 'chaotic-counsel.png', { type: 'image/png' });
 
         await navigator.share({
-          title: 'Check out this mystical answer!',
+          title: 'Check out this chaotic advice!',
           text: text,
           files: [file]
         });
@@ -125,7 +184,7 @@ class ShareService {
     if (imageUrl) {
       // Also download the image
       const link = document.createElement('a');
-      link.download = 'mystical-answer.png';
+      link.download = 'chaotic-counsel.png';
       link.href = imageUrl;
       link.click();
     }
@@ -138,13 +197,13 @@ class ShareService {
 
   generateShareText(data: ShareData): string {
     const appUrl = window.location.origin;
-    return `🔮 Just got some ${data.characterType.replace('-', ' ')} wisdom from ${data.character}!
+    return `🔮 Just got some wild advice from ${data.character}!
 
 "${data.question}"
 
-${data.character}'s answer: "${data.answer}"
+${data.character}'s advice: "${data.answer}"
 
-Get your own mystical guidance at ${appUrl} ✨`;
+Get your wild advice at ${appUrl} ✨`;
   }
 
   generateInstagramText(data: ShareData): string {
@@ -154,7 +213,7 @@ Get your own mystical guidance at ${appUrl} ✨`;
 
 What would they tell you? Find out at the link in bio! ✨
 
-#MysticalGuidance #${data.characterType.replace('-', '')} #DailyWisdom`;
+#ChaoticGuidance #${data.characterType.replace('-', '')} #LifeAdvice #DailyDecision`;
   }
 
   generateTikTokText(data: ShareData): string {
@@ -164,7 +223,7 @@ What would they tell you? Find out at the link in bio! ✨
 
 What would they tell you? 
 
-#MysticalGuidance #${data.characterType.replace('-', '')} #DailyWisdom #Advice #TikTokMade`;
+#ChaoticCounsel #${data.characterType.replace('-', '')} #DailyWisdom #LifeAdvice #TikTokMade`;
   }
 }
 
