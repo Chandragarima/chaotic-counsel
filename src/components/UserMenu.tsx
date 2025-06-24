@@ -25,16 +25,6 @@ const UserMenu = () => {
     navigate('/auth');
   };
 
-  // Generate random username fallback
-  const generateRandomUsername = () => {
-    const adjectives = ['Cool', 'Smart', 'Wise', 'Happy', 'Bright', 'Swift', 'Bold', 'Kind'];
-    const nouns = ['User', 'Friend', 'Explorer', 'Thinker', 'Dreamer', 'Creator', 'Helper', 'Star'];
-    const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
-    const randomNumber = Math.floor(Math.random() * 100);
-    return `${randomAdjective}${randomNoun}${randomNumber}`;
-  };
-
   if (!user) {
     return (
       <Button
@@ -69,7 +59,7 @@ const UserMenu = () => {
             <AvatarFallback className="bg-amber-400/20 text-amber-100 text-sm font-medium">
               {user.user_metadata?.full_name?.charAt(0).toUpperCase() || 
                user.email?.charAt(0).toUpperCase() || 
-               generateRandomUsername().charAt(0)}
+               'U'}
             </AvatarFallback>
           </Avatar>
         </Button>
@@ -84,7 +74,7 @@ const UserMenu = () => {
         <div className="flex items-center justify-start gap-2 p-4">
           <div className="flex flex-col space-y-1 leading-none">
             <p className="text-sm font-medium text-amber-100">
-              {user.user_metadata?.full_name || generateRandomUsername()}
+              {user.user_metadata?.full_name || user.email}
             </p>
             <p className="text-xs text-amber-200/70">
               {user.email}
