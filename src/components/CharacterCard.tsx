@@ -31,64 +31,59 @@ const CharacterCard = ({ character, onSelect, isSelected = false, isLocked = fal
 
   return (
     <Card 
-      className={`group relative p-8 cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-2
+      className={`group relative p-6 cursor-pointer transform transition-all duration-300 
         ${isSelected 
-          ? 'bg-slate-800/70 border-amber-400/80 shadow-2xl shadow-amber-400/25 scale-105' 
-          : 'bg-slate-900/70 border-slate-700/40 hover:border-amber-400/60 hover:bg-slate-800/50'
+          ? 'bg-slate-800/60 border-amber-400/70 shadow-lg shadow-amber-400/20 scale-105' 
+          : 'bg-slate-900/60 border-slate-700/50 hover:border-amber-400/50 hover:bg-slate-800/40'
         } 
-        ${isLocked ? 'opacity-50 grayscale cursor-not-allowed hover:transform-none' : 'hover:scale-105 hover:shadow-2xl hover:shadow-amber-400/15'}
-        backdrop-blur-md rounded-2xl border
-        before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-amber-400/5 before:to-transparent before:opacity-0 before:transition-opacity before:duration-500
-        hover:before:opacity-100`}
+        ${isLocked ? 'opacity-40 grayscale cursor-not-allowed' : 'hover:scale-102'}
+        backdrop-blur-md rounded-2xl border`}
       onClick={!isLocked ? onSelect : undefined}
     >
-      <div className="text-center space-y-6 relative z-10">
-        {/* Character Avatar with enhanced hover effects */}
+      <div className="text-center space-y-4">
+        {/* Character Avatar */}
         <div className="relative mx-auto">
-          <div className={`relative w-24 h-24 mx-auto rounded-full overflow-hidden border-2 transition-all duration-500 ${
+          <div className={`relative w-20 h-20 mx-auto rounded-full overflow-hidden border-2 transition-all duration-300 ${
             isSelected 
-              ? 'border-amber-400/90 shadow-xl shadow-amber-400/40 scale-110' 
-              : 'border-slate-600/40 group-hover:border-amber-400/70 group-hover:shadow-lg group-hover:shadow-amber-400/30 group-hover:scale-110'
+              ? 'border-amber-400/80 shadow-lg shadow-amber-400/30' 
+              : 'border-slate-600/50 group-hover:border-amber-400/60'
           }`}>
-            <Avatar className="w-full h-full transition-transform duration-500 group-hover:scale-105">
+            <Avatar className="w-full h-full">
               <AvatarImage 
                 src={character.image} 
                 alt={character.name}
-                className="object-cover w-full h-full transition-all duration-500 group-hover:brightness-110"
+                className="object-cover w-full h-full"
               />
-              <AvatarFallback className="bg-slate-800 text-amber-400 text-xl font-light transition-all duration-300 group-hover:text-amber-300">
+              <AvatarFallback className="bg-slate-800 text-amber-400 text-xl font-light">
                 {getCharacterSymbol(character.type)}
               </AvatarFallback>
             </Avatar>
           </div>
           {isSelected && (
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-amber-400 rounded-full border-2 border-slate-900 flex items-center justify-center animate-pulse">
+            <div className="absolute -top-1 -right-1 w-5 h-5 bg-amber-400 rounded-full border-2 border-slate-900 flex items-center justify-center">
               <div className="w-2 h-2 bg-slate-900 rounded-full"></div>
             </div>
           )}
         </div>
 
-        {/* Character Info with improved typography and spacing */}
-        <div className="space-y-4">
-          <h3 className="text-amber-100 font-medium text-xl tracking-wide transition-all duration-300 group-hover:text-amber-50 group-hover:scale-105">
+        {/* Character Info */}
+        <div className="space-y-2">
+          <h3 className="text-amber-100 font-medium text-lg tracking-wide">
             {character.name}
           </h3>
-          <p className="text-amber-200/70 text-sm font-light tracking-wide leading-relaxed transition-all duration-300 group-hover:text-amber-200/90 px-2">
+          <p className="text-amber-200/70 text-sm font-light tracking-wide leading-relaxed">
             {character.personality}
           </p>
-          <p className="text-slate-400 text-xs font-light leading-relaxed px-4 transition-all duration-300 group-hover:text-slate-300">
+          <p className="text-slate-400 text-xs font-light leading-relaxed px-2">
             {character.description}
           </p>
         </div>
       </div>
 
-      {/* Enhanced selection indicator overlay */}
+      {/* Selection indicator overlay */}
       {isSelected && (
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-400/15 via-amber-400/5 to-transparent rounded-2xl pointer-events-none animate-pulse"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-transparent rounded-2xl pointer-events-none"></div>
       )}
-
-      {/* Subtle hover glow effect */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-400/0 via-amber-400/0 to-amber-400/0 opacity-0 transition-all duration-500 group-hover:from-amber-400/5 group-hover:via-amber-400/2 group-hover:to-transparent group-hover:opacity-100 pointer-events-none"></div>
     </Card>
   );
 };
