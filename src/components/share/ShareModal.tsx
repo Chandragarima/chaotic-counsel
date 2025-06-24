@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -5,7 +6,6 @@ import { Loader2, Download, Instagram, Twitter, Sparkles } from 'lucide-react';
 import { Character, AIResponse } from '../../types';
 import { shareService, ShareData } from '../../utils/shareService';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
-import { toast } from 'sonner';
 
 interface ShareModalProps {
   open: boolean;
@@ -76,7 +76,7 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   };
 
-  const handleShare = async (platform: 'instagram' | 'whatsapp' | 'tiktok' | 'x' | 'copy') => {
+  const handleShare = async (platform: 'instagram' | 'tiktok' | 'x' | 'copy') => {
     try {
       let result;
       const isMobile = detectMobile();
@@ -96,12 +96,6 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
               result = await shareService.shareToInstagram(instagramImage, instagramText);
             }
           }
-          break;
-          
-        case 'whatsapp':
-          const whatsappImage = await generateImage();
-          const whatsappText = shareService.generateShareText(shareData);
-          result = await shareService.shareToWhatsApp(whatsappText, whatsappImage || undefined);
           break;
 
         case 'tiktok':
@@ -191,7 +185,6 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
                 </div>
                 <div>
                   <h3 className="font-bold text-amber-100 text-xs sm:text-sm">{character.name}</h3>
-                  {/* <p className="text-xs text-amber-200/70">Chaotic Guidance</p> */}
                 </div>
               </div>
               
