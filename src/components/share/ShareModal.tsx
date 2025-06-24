@@ -5,20 +5,31 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Copy, Facebook, Twitter, Linkedin, Mail, QrCode } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
-import { ShareService } from '@/utils/shareService';
+import { shareService } from '@/utils/shareService';
 import { QRCodeSVG } from 'qrcode.react';
 
 interface ShareModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  shareUrl: string;
-  title: string;
-  description: string;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  character: any;
+  question: string;
+  answer?: string;
+  aiResponse?: any;
 }
 
-const ShareModal = ({ isOpen, onClose, shareUrl, title, description }: ShareModalProps) => {
+const ShareModal = ({ open, onOpenChange, character, question, answer, aiResponse }: ShareModalProps) => {
   const [showQR, setShowQR] = useState(false);
-  const shareService = new ShareService();
+  
+  // Generate share URL and content
+  const shareUrl = window.location.href;
+  const shareData = {
+    character: character.name,
+    question: question,
+    answer: answer || '',
+    characterType: character.type
+  };
+  
+  const shareText = shareService.generateShareText(shareData);
 
   const copyToClipboard = async () => {
     try {
@@ -36,35 +47,75 @@ const ShareModal = ({ isOpen, onClose, shareUrl, title, description }: ShareModa
     }
   };
 
+  const handleShare = async (platform: string) => {
+    try {
+      let result;
+      switch (platform) {
+        case 'instagram':
+          const imageUrl = await shareService.generateShareImage(shareData);
+          const instagramText = shareService.generateInstagramText(shareData);
+          result = await shareService.shareToInstagram(imageUrl, instagramText);
+          break;
+        case 'tiktok':
+          const tiktokImageUrl = await shareService.generateShareImage(shareData);
+          const tiktokText = shareService.generateTikTokText(shareData);
+          result = await shareService.shareToTikTok(tiktokImageUrl, tiktokText);
+          break;
+        case 'x':
+          const xImageUrl = await shareService.generateShareImage(shareData);
+          result = await shareService.shareToX(shareText, xImageUrl);
+          break;
+        case 'general':
+          result = await shareService.shareGeneral(shareText);
+          break;
+        default:
+          result = await shareService.copyToClipboard(shareText);
+      }
+      
+      if (result.message) {
+        toast({
+          title: "Success!",
+          description: result.message,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Share failed",
+        description: "Failed to share content.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const shareOptions = [
     {
-      name: 'Facebook',
-      icon: Facebook,
-      action: () => shareService.shareToFacebook(shareUrl, title),
-      color: 'bg-blue-600 hover:bg-blue-700'
+      name: 'Instagram',
+      icon: Facebook, // Using Facebook icon as placeholder
+      action: () => handleShare('instagram'),
+      color: 'bg-pink-600 hover:bg-pink-700'
     },
     {
-      name: 'Twitter',
+      name: 'TikTok',
+      icon: Twitter, // Using Twitter icon as placeholder
+      action: () => handleShare('tiktok'),
+      color: 'bg-black hover:bg-gray-800'
+    },
+    {
+      name: 'X (Twitter)',
       icon: Twitter,
-      action: () => shareService.shareToTwitter(shareUrl, title),
-      color: 'bg-sky-500 hover:bg-sky-600'
+      action: () => handleShare('x'),
+      color: 'bg-black hover:bg-gray-800'
     },
     {
-      name: 'LinkedIn',
-      icon: Linkedin,
-      action: () => shareService.shareToLinkedIn(shareUrl, title, description),
-      color: 'bg-blue-700 hover:bg-blue-800'
-    },
-    {
-      name: 'Email',
+      name: 'Share',
       icon: Mail,
-      action: () => shareService.shareViaEmail(shareUrl, title, description),
+      action: () => handleShare('general'),
       color: 'bg-gray-600 hover:bg-gray-700'
     }
   ];
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md bg-slate-800/95 backdrop-blur-md border border-amber-400/20">
         <DialogHeader>
           <DialogTitle className="text-amber-100">Share your decision</DialogTitle>
