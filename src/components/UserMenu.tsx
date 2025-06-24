@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { LogOut, Award } from 'lucide-react';
+import { User, LogOut, Settings, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -23,6 +23,11 @@ const UserMenu = () => {
   const handleSignOut = async () => {
     await signOut();
     navigate('/auth');
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+    setIsOpen(false);
   };
 
   if (!user) {
@@ -57,9 +62,7 @@ const UserMenu = () => {
           <Avatar className="h-8 w-8">
             <AvatarImage src={user.user_metadata?.avatar_url} alt="Profile" />
             <AvatarFallback className="bg-amber-400/20 text-amber-100 text-sm font-medium">
-              {user.user_metadata?.full_name?.charAt(0).toUpperCase() || 
-               user.email?.charAt(0).toUpperCase() || 
-               'U'}
+              {user.email?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </Button>
@@ -92,6 +95,18 @@ const UserMenu = () => {
             </span>
           </div>
         </div>
+        
+        <DropdownMenuSeparator className="bg-amber-400/20" />
+        
+        <DropdownMenuItem 
+          onClick={handleProfileClick}
+          className="text-amber-100 hover:bg-amber-400/10 hover:text-amber-50 
+                   focus:bg-amber-400/10 focus:text-amber-50 cursor-pointer
+                   transition-colors duration-200"
+        >
+          <User className="mr-2 h-4 w-4" />
+          <span>Profile</span>
+        </DropdownMenuItem>
         
         <DropdownMenuSeparator className="bg-amber-400/20" />
         

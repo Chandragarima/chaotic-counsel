@@ -6,6 +6,7 @@ import CombinedHomePage from "../components/CombinedHomePage";
 import QuestionTypeSelector from "../components/QuestionTypeSelector";
 import QuestionsScreen from "../components/QuestionsScreen";
 import AnswerScreen from "../components/AnswerScreen";
+import UserMenu from "../components/UserMenu";
 import Navigation from "../components/Navigation";
 import AutoFeedbackTrigger from "../components/feedback/AutoFeedbackTrigger";
 import { useAuth } from "@/contexts/AuthContext";
@@ -145,6 +146,10 @@ export default function Index() {
     <div className="min-h-screen relative">
       {/* Fixed Navigation */}
       <Navigation />
+      
+      <div className="absolute top-4 right-4 z-50">
+        <UserMenu />
+      </div>
 
       {/* Auto-triggered feedback - only show on answer screen when answer is complete */}
       {currentScreen === 'answer' && answerComplete && (
