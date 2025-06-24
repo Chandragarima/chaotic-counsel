@@ -1,210 +1,126 @@
 
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { User, LogOut, Settings, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { useAuth } from '@/contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { MessageCircle, User } from 'lucide-react';
-import FeedbackTrigger from './feedback/FeedbackTrigger';
-import StreakDisplay from './StreakDisplay';
-import { useIsMobile, useIsTablet, useIsDesktop } from '@/hooks/use-mobile';
-import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-
-interface UserProfile {
-  username: string | null;
-}
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useSupabaseProgress } from '../hooks/useSupabaseProgress';
 
 const UserMenu = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
-  const isDesktop = useIsDesktop();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [profileLoading, setProfileLoading] = useState(true);
+  const { progress } = useSupabaseProgress();
+  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      loadUserProfile();
-    } else {
-      setProfileLoading(false);
-    }
-    // eslint-disable-next-line
-  }, [user]);
-
-  const loadUserProfile = async () => {
-    if (!user) return;
-    try {
-      setProfileLoading(true);
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('id', user.id)
-        .single();
-
-      if (!error) {
-        setProfile({ username: data?.username ?? null });
-      }
-    } finally {
-      setProfileLoading(false);
-    }
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/auth');
   };
 
-  const displayName =
-    profileLoading
-      ? 'Loading...'
-      : profile?.username && profile.username.trim() !== ''
-        ? profile.username
-        : 'AnonymousUser' + Math.floor(Math.random() * 1000);
+  const handleProfileClick = () => {
+    navigate('/profile');
+    setIsOpen(false);
+  };
+
+  if (!user) {
+    return (
+      <Button
+        onClick={() => navigate('/auth')}
+        className="bg-slate-800/20 backdrop-blur-md border border-amber-400/20
+                 hover:bg-slate-800/30 hover:border-amber-400/40
+                 text-amber-100 hover:text-amber-50
+                 transition-all duration-300 ease-out
+                 hover:scale-105 active:scale-95
+                 shadow-lg hover:shadow-xl hover:shadow-amber-400/10
+                 rounded-full px-4 py-2"
+      >
+        Sign In
+      </Button>
+    );
+  }
 
   return (
-    <TooltipProvider>
-      <div className="fixed top-4 right-4 z-50">
-        <div className="flex items-center gap-2">
-          {/* Streak Display with improved tooltip */}
-          {isDesktop ? (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="bg-slate-800/90 backdrop-blur-md rounded-full px-3 py-2 border border-white/10 hover:bg-slate-700/90 transition-colors cursor-help">
-                  <StreakDisplay />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/20">
-                <div className="text-center space-y-2">
-                  <p className="text-xs">Daily streak - <span className="text-green-200">visit daily to unlock new characters!</span></p>
-                  <p className="text-xs">Progress saved - <span className="text-green-200">take breaks without worry!</span></p>
-                  <div className="text-xs flex items-center justify-center mt-2">
-                    <span className="mr-1">Streak updates at:</span>
-                    <span className="font-mono text-green-200">
-                      {new Date(Date.UTC(
-                        new Date().getUTCFullYear(),
-                        new Date().getUTCMonth(),
-                        new Date().getUTCDate() + 1,
-                        0, 0, 0
-                      )).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
-                </div>
-              </TooltipContent>
-            </Tooltip>
-          ) : (
-            <Popover>
-              <PopoverTrigger asChild>
-                <div className="bg-slate-800/90 backdrop-blur-md rounded-full px-3 py-2 border border-white/10 active:bg-slate-700/90 transition-colors cursor-pointer">
-                  <StreakDisplay />
-                </div>
-              </PopoverTrigger>
-              <PopoverContent className="bg-slate-800 text-white border-white/20 w-64 text-center">
-                <div className="space-y-2">
-                  <p className="text-xs">Daily streak - <span className="text-green-200">visit daily to unlock new characters!</span></p>
-                  <p className="text-xs">Progress saved - <span className="text-green-200">take breaks without worry!</span></p>
-                  <div className="text-xs flex items-center justify-center mt-2">
-                    <span className="mr-1">Streak updates at:</span>
-                    <span className="font-mono text-green-200">
-                      {new Date(Date.UTC(
-                        new Date().getUTCFullYear(),
-                        new Date().getUTCMonth(),
-                        new Date().getUTCDate() + 1,
-                        0, 0, 0
-                      )).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
-          )}
-          
-          {/* Feedback Button with Tooltip on Desktop */}
-          {!isMobile ? (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <FeedbackTrigger
-                  feedbackType="general"
-                  variant="inline"
-                  className="bg-slate-800/90 backdrop-blur-md hover:bg-slate-700/90 text-white border-white/10 rounded-full px-3 py-2 transition-colors"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                </FeedbackTrigger>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/20">
-                <p className="text-sm">Share your feedback with us</p>
-              </TooltipContent>
-            </Tooltip>
-          ) : (
-            <FeedbackTrigger
-              feedbackType="general"
-              variant="inline"
-              className="bg-slate-800/90 backdrop-blur-md hover:bg-slate-700/90 text-white border-white/10 rounded-full px-3 py-2"
-            >
-              <MessageCircle className="w-4 h-4" />
-            </FeedbackTrigger>
-          )}
-          
-          {/* User Menu */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              {!isMobile ? (
-                user ? (
-                  <Button
-                    size="icon"
-                    className="rounded-full bg-slate-800/90 backdrop-blur-md text-white hover:bg-slate-700/90 border border-white/10 w-10 h-10 transition-colors"
-                    aria-label="User menu"
-                  >
-                    <User className="w-5 h-5" />
-                  </Button>
-                ) : (
-                  <Button
-                    className="bg-slate-800/90 backdrop-blur-md text-white hover:bg-slate-700/90 border border-white/10 rounded-full px-4 py-2 transition-colors font-semibold"
-                    onClick={() => navigate('/auth')}
-                  >
-                    Sign In
-                  </Button>
-                )
-              ) : (
-                <Button
-                  size="icon"
-                  className="rounded-full bg-slate-800/90 backdrop-blur-md text-white hover:bg-slate-700/90 border border-white/10 w-10 h-10"
-                  aria-label="User menu"
-                  onClick={() => {
-                    if (!user) navigate('/auth');
-                  }}
-                >
-                  <User className="w-5 h-5" />
-                </Button>
-              )}
-            </DropdownMenuTrigger>
-            {user && (
-              <DropdownMenuContent
-                align="end"
-                className="w-48 bg-slate-800/95 text-white backdrop-blur-md rounded-xl border border-white/10"
-                sideOffset={8}
-              >
-                <div className="px-2 py-2 text-sm font-medium text-slate-300 truncate">
-                  {displayName}
-                </div>
-                <DropdownMenuSeparator className="bg-white/10" />
-                <DropdownMenuItem onClick={signOut} className="text-white hover:bg-slate-700/70">
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            )}
-          </DropdownMenu>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button 
+          variant="ghost" 
+          className="relative h-10 w-10 rounded-full p-0
+                   bg-slate-800/20 backdrop-blur-md border border-amber-400/20
+                   hover:bg-slate-800/30 hover:border-amber-400/40
+                   transition-all duration-300 ease-out
+                   hover:scale-105 active:scale-95
+                   shadow-lg hover:shadow-xl hover:shadow-amber-400/10"
+        >
+          <Avatar className="h-8 w-8">
+            <AvatarImage src={user.user_metadata?.avatar_url} alt="Profile" />
+            <AvatarFallback className="bg-amber-400/20 text-amber-100 text-sm font-medium">
+              {user.email?.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent 
+        className="w-56 mt-2 mr-4
+                 bg-slate-800/90 backdrop-blur-md border border-amber-400/20
+                 shadow-xl shadow-black/20 rounded-xl"
+        align="end"
+        forceMount
+      >
+        <div className="flex items-center justify-start gap-2 p-4">
+          <div className="flex flex-col space-y-1 leading-none">
+            <p className="text-sm font-medium text-amber-100">
+              {user.user_metadata?.full_name || user.email}
+            </p>
+            <p className="text-xs text-amber-200/70">
+              {user.email}
+            </p>
+          </div>
         </div>
-      </div>
-    </TooltipProvider>
+        
+        <DropdownMenuSeparator className="bg-amber-400/20" />
+        
+        <div className="p-2 space-y-1">
+          <div className="flex items-center gap-2 px-2 py-1">
+            <Award className="h-4 w-4 text-amber-400" />
+            <span className="text-sm text-amber-100">
+              {progress.streak} day streak
+            </span>
+          </div>
+        </div>
+        
+        <DropdownMenuSeparator className="bg-amber-400/20" />
+        
+        <DropdownMenuItem 
+          onClick={handleProfileClick}
+          className="text-amber-100 hover:bg-amber-400/10 hover:text-amber-50 
+                   focus:bg-amber-400/10 focus:text-amber-50 cursor-pointer
+                   transition-colors duration-200"
+        >
+          <User className="mr-2 h-4 w-4" />
+          <span>Profile</span>
+        </DropdownMenuItem>
+        
+        <DropdownMenuSeparator className="bg-amber-400/20" />
+        
+        <DropdownMenuItem 
+          onClick={handleSignOut}
+          className="text-amber-100 hover:bg-red-500/10 hover:text-red-300 
+                   focus:bg-red-500/10 focus:text-red-300 cursor-pointer
+                   transition-colors duration-200"
+        >
+          <LogOut className="mr-2 h-4 w-4" />
+          <span>Sign out</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
