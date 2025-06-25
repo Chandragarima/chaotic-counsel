@@ -7,6 +7,7 @@ import { Character, AIResponse } from '../../types';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { analytics } from '../../utils/analytics';
 
 interface CreatePollModalProps {
   open: boolean;
@@ -91,6 +92,8 @@ const CreatePollModal = ({ open, onOpenChange, character, question, answer, aiRe
       setCreatedPollUrl(pollUrl);
       setMessage({ text: 'Poll created successfully!', type: 'info' });
       
+      analytics.trackPollCreated(character.type, character.name, 'community_poll');
+
     } catch (error) {
       console.error('Error creating poll:', error);
       setMessage({ text: 'Failed to create poll. Please try again.', type: 'error' });

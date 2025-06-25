@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Character, QuestionType, QuestionMode } from "../types";
@@ -13,6 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useQuestionTracking } from "../hooks/useQuestionTracking";
 import { useSupabaseProgress } from "../hooks/useSupabaseProgress";
 import { characters } from "../data/characters";
+import { analytics } from "../utils/analytics";
 
 export default function Index() {
   const { loading } = useAuth();
@@ -80,11 +80,13 @@ export default function Index() {
 
   const handleCharacterSelectAndContinue = (character: Character) => {
     navigate(`/${character.id}/fun-mode-question-type`);
+    analytics.trackCharacterSelected(character.type, character.name);
   };
 
   const handleTypeSelect = (type: QuestionType, mode: QuestionMode) => {
     if (selectedCharacter) {
       navigate(`/${selectedCharacter.id}/${mode}-mode-questions/${type}`);
+      analytics.trackQuestionTypeSelected(type, mode);
     }
   };
 
@@ -145,11 +147,21 @@ export default function Index() {
   return (
     <div className="min-h-screen relative">
       {/* Fixed Navigation */}
-      <Navigation />
+      {/* <Navigation /> */}
+
+      {/* <div className="absolute">
+        <Navigation />
+      </div> */}
+      <div className="absolute top-4 left-4 z-50">
+        <Navigation />
+      </div>
+
       
       <div className="absolute top-4 right-4 z-50">
         <UserMenu />
       </div>
+
+    
 
       {/* Auto-triggered feedback - only show on answer screen when answer is complete */}
       {currentScreen === 'answer' && answerComplete && (
