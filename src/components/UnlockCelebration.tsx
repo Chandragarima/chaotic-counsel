@@ -18,7 +18,6 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
   useEffect(() => {
     if (isVisible) {
       setShowAnimation(true);
-      // Stagger the content animation
       setTimeout(() => setShowContent(true), 300);
     } else {
       setShowContent(false);
@@ -34,13 +33,13 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
   const getUnlockMessage = (characterId: string) => {
     switch (characterId) {
       case 'lazy-panda':
-        return "2-day streak reached! You've unlocked the Lazy Panda 🐼";
+        return "2-day streak!";
       case 'sneaky-snake':
-        return "4-day streak reached! You've unlocked the Sneaky Snake 🐍";
+        return "4-day streak!";
       case 'people-pleaser-pup':
-        return "7-day streak reached! You've unlocked the People Pleaser Pup 🐕";
+        return "7-day streak!";
       default:
-        return `You've unlocked ${character.name}!`;
+        return `${character.name} unlocked!`;
     }
   };
 
@@ -56,125 +55,105 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
   if (!showAnimation) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-lg flex items-center justify-center z-50 p-4">
-      {/* Floating decorative elements */}
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-lg flex items-center justify-center z-50 p-4">
+      {/* Subtle fireworks animation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 animate-bounce">
-          <Sparkles className="h-8 w-8 text-amber-400/60 animate-pulse" />
-        </div>
-        <div className="absolute top-1/3 right-1/4 animate-bounce" style={{ animationDelay: '1s' }}>
-          <Star className="h-6 w-6 text-yellow-300/50 animate-pulse" />
-        </div>
-        <div className="absolute bottom-1/3 left-1/6 animate-bounce" style={{ animationDelay: '2s' }}>
-          <Zap className="h-7 w-7 text-orange-400/40 animate-pulse" />
-        </div>
-        <div className="absolute bottom-1/4 right-1/6 animate-bounce" style={{ animationDelay: '0.5s' }}>
-          <Gift className="h-6 w-6 text-purple-400/50 animate-pulse" />
-        </div>
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute animate-bounce opacity-60"
+            style={{
+              left: `${10 + (i * 7)}%`,
+              top: `${15 + (i % 3) * 25}%`,
+              animationDelay: `${i * 0.3}s`,
+              animationDuration: `${2 + (i % 3)}s`
+            }}
+          >
+            {i % 4 === 0 && <Sparkles className="h-4 w-4 text-amber-400/70" />}
+            {i % 4 === 1 && <Star className="h-3 w-3 text-yellow-300/60" />}
+            {i % 4 === 2 && <Zap className="h-4 w-4 text-orange-400/50" />}
+            {i % 4 === 3 && <Gift className="h-3 w-3 text-purple-400/60" />}
+          </div>
+        ))}
       </div>
 
       <div className={`
-        relative max-w-lg w-full mx-4
-        bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95
+        relative max-w-sm w-full mx-4
+        bg-gradient-to-br from-slate-900/95 to-slate-800/95
         backdrop-blur-xl border border-amber-400/30 
-        rounded-3xl overflow-hidden
+        rounded-2xl overflow-hidden
         shadow-2xl shadow-amber-400/20
         transition-all duration-700 ease-out
         ${showAnimation ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}
       `}>
         {/* Premium gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-amber-600/10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-amber-600/5 pointer-events-none" />
         
         {/* Golden accent line */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
 
-        <div className="relative p-8 text-center space-y-6">
-          {/* Crown icon with glow effect */}
+        <div className="relative p-6 text-center space-y-4">
+          {/* Crown icon */}
           <div className={`
-            inline-flex items-center justify-center w-20 h-20 mx-auto
+            inline-flex items-center justify-center w-16 h-16 mx-auto
             bg-gradient-to-br from-amber-400/20 to-amber-600/30
-            border-2 border-amber-400/40 rounded-full
+            border border-amber-400/40 rounded-full
             shadow-lg shadow-amber-400/30
             transition-all duration-1000 ease-out
             ${showContent ? 'scale-100 rotate-0' : 'scale-0 rotate-180'}
           `}>
-            <Crown className="w-10 h-10 text-amber-400 drop-shadow-lg" />
+            <Crown className="w-8 h-8 text-amber-400" />
           </div>
 
-          {/* Character avatar with sophisticated styling */}
           <div className={`
-            inline-flex items-center justify-center w-24 h-24 mx-auto
-            bg-gradient-to-br from-slate-700/50 to-slate-800/50
-            border-2 border-amber-400/30 rounded-full
-            shadow-xl shadow-black/20
-            text-5xl
-            transition-all duration-1000 ease-out delay-200
-            ${showContent ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}
-          `}>
-            {getCharacterEmoji(unlockedCharacter)}
-          </div>
-
-          {/* Content with staggered animations */}
-          <div className={`
-            space-y-4
-            transition-all duration-800 ease-out delay-400
+            space-y-3
+            transition-all duration-800 ease-out delay-200
             ${showContent ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
           `}>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 bg-clip-text text-transparent">
+            <h2 className="text-xl font-bold bg-gradient-to-r from-amber-300 to-amber-400 bg-clip-text text-transparent">
               Congratulations!
             </h2>
             
-            <div className="space-y-3">
-              <p className="text-lg font-semibold text-amber-100 leading-relaxed">
+            <div className="space-y-2">
+              <p className="text-base font-medium text-amber-100">
                 {getUnlockMessage(unlockedCharacter)}
               </p>
               
-              <p className="text-slate-300 text-sm leading-relaxed max-w-md mx-auto">
-                {character.description}
-              </p>
-            </div>
-
-            {/* Premium info card */}
-            <div className="bg-gradient-to-r from-slate-800/40 to-slate-700/40 backdrop-blur-sm border border-amber-400/20 rounded-xl p-4 mx-4">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                <span className="text-amber-200 text-sm font-medium">Premium Feature</span>
+              <div className="text-3xl">
+                {getCharacterEmoji(unlockedCharacter)}
               </div>
-              <p className="text-slate-300 text-xs leading-relaxed">
-                Your progress is automatically saved. All unlocked characters remain available even after breaks.
+              
+              <p className="text-amber-200 font-medium">
+                {character.name}
               </p>
             </div>
           </div>
 
-          {/* Enhanced CTA button */}
+          {/* CTA button */}
           <div className={`
             pt-2
-            transition-all duration-800 ease-out delay-600
+            transition-all duration-800 ease-out delay-400
             ${showContent ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
           `}>
             <Button 
               onClick={onDismiss}
               className="
-                relative overflow-hidden
-                bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600
-                hover:from-amber-500 hover:via-amber-400 hover:to-amber-500
-                text-slate-900 font-bold text-lg
-                px-8 py-4 rounded-2xl
-                shadow-xl shadow-amber-400/25
-                hover:shadow-2xl hover:shadow-amber-400/40
+                bg-gradient-to-r from-amber-600 to-amber-500
+                hover:from-amber-500 hover:to-amber-400
+                text-slate-900 font-bold
+                px-6 py-2.5 rounded-xl
+                shadow-lg shadow-amber-400/25
+                hover:shadow-xl hover:shadow-amber-400/40
                 transition-all duration-300 ease-out
                 hover:scale-105 active:scale-95
                 border border-amber-400/30
                 group
               "
             >
-              <span className="relative z-10 flex items-center gap-2">
-                Let's Continue
-                <Sparkles className="w-5 h-5 group-hover:animate-spin transition-transform duration-300" />
+              <span className="flex items-center gap-2">
+                Continue
+                <Sparkles className="w-4 h-4 group-hover:animate-spin transition-transform duration-300" />
               </span>
-              
-              {/* Button shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
             </Button>
           </div>
         </div>
