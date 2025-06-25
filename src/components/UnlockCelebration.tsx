@@ -59,16 +59,16 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
     <div className="fixed inset-0 bg-black/70 backdrop-blur-lg flex items-center justify-center z-50 p-4">
       {/* Floating decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 animate-float">
+        <div className="absolute top-1/4 left-1/4 animate-bounce">
           <Sparkles className="h-8 w-8 text-amber-400/60 animate-pulse" />
         </div>
-        <div className="absolute top-1/3 right-1/4 animate-float" style={{ animationDelay: '1s' }}>
+        <div className="absolute top-1/3 right-1/4 animate-bounce" style={{ animationDelay: '1s' }}>
           <Star className="h-6 w-6 text-yellow-300/50 animate-pulse" />
         </div>
-        <div className="absolute bottom-1/3 left-1/6 animate-float" style={{ animationDelay: '2s' }}>
+        <div className="absolute bottom-1/3 left-1/6 animate-bounce" style={{ animationDelay: '2s' }}>
           <Zap className="h-7 w-7 text-orange-400/40 animate-pulse" />
         </div>
-        <div className="absolute bottom-1/4 right-1/6 animate-float" style={{ animationDelay: '0.5s' }}>
+        <div className="absolute bottom-1/4 right-1/6 animate-bounce" style={{ animationDelay: '0.5s' }}>
           <Gift className="h-6 w-6 text-purple-400/50 animate-pulse" />
         </div>
       </div>
@@ -179,18 +179,6 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          33% { transform: translateY(-10px) rotate(5deg); }
-          66% { transform: translateY(5px) rotate(-3deg); }
-        }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 };
