@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { User, LogOut, Award } from 'lucide-react';
+import { User, LogOut, Flame } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -14,6 +13,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useSupabaseProgress } from '../hooks/useSupabaseProgress';
 import { supabase } from '@/integrations/supabase/client';
+import FeedbackModal from './feedback/FeedbackModal';
 
 const UserMenu = () => {
   const { user, signOut } = useAuth();
@@ -21,6 +21,7 @@ const UserMenu = () => {
   const { progress } = useSupabaseProgress();
   const [isOpen, setIsOpen] = useState(false);
   const [username, setUsername] = useState<string>('');
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -50,7 +51,7 @@ const UserMenu = () => {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate('/auth');
+    navigate('/');
   };
 
   if (!user) {
@@ -76,6 +77,15 @@ const UserMenu = () => {
     }
     return user.email?.charAt(0).toUpperCase() || 'U';
   };
+
+  // Get flame color based on streak
+  const getFlameColor = (streak: number) => {
+    if (streak >= 7) return 'text-red-400';
+    if (streak >= 4) return 'text-orange-400';
+    if (streak >= 1) return 'text-yellow-400';
+    return 'text-gray-400';
+  };
+  
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -104,7 +114,7 @@ const UserMenu = () => {
         align="end"
         forceMount
       >
-        <div className="flex items-center justify-start gap-2 p-4">
+        <div className="flex items-center justify-start gap-2 px-3 py-2">
           <div className="flex flex-col space-y-1 leading-none">
             <p className="text-sm font-medium text-amber-100">
               {username || user.user_metadata?.full_name || user.email}
@@ -117,9 +127,9 @@ const UserMenu = () => {
         
         <DropdownMenuSeparator className="bg-amber-400/20" />
         
-        <div className="p-2 space-y-1">
-          <div className="flex items-center gap-2 px-2 py-1">
-            <Award className="h-4 w-4 text-amber-400" />
+        <div className="px-2 py-1 space-y-1">
+          <div className="flex items-center gap-2 py-1">
+            <Flame className={`h-4 w-4 ${getFlameColor(progress.streak)}`} />
             <span className="text-sm text-amber-100">
               {progress.streak} day streak
             </span>
@@ -128,6 +138,15 @@ const UserMenu = () => {
         
         <DropdownMenuSeparator className="bg-amber-400/20" />
         
+        <DropdownMenuItem
+          onClick={() => setFeedbackOpen(true)}
+          className="text-amber-100 hover:bg-amber-400/10 hover:text-amber-400 \
+                     focus:bg-amber-400/10 focus:text-amber-400 cursor-pointer\n                     transition-colors duration-200"
+        >
+          <span className="mr-2">💬</span>
+          <span>Feedback</span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator className="bg-amber-400/20" />
         <DropdownMenuItem 
           onClick={handleSignOut}
           className="text-amber-100 hover:bg-red-500/10 hover:text-red-300 
@@ -138,6 +157,9 @@ const UserMenu = () => {
           <span>Sign out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
+      {feedbackOpen && (
+        <FeedbackModal isOpen={feedbackOpen} onClose={() => setFeedbackOpen(false)} feedbackType="general" />
+      )}
     </DropdownMenu>
   );
 };

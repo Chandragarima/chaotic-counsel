@@ -1,4 +1,3 @@
-
 import { Flame } from 'lucide-react';
 import { useSupabaseProgress } from '../hooks/useSupabaseProgress';
 import { useIsMobile } from '@/hooks/use-mobile';

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -6,6 +5,7 @@ import { Loader2, Download, Instagram, Twitter, Sparkles } from 'lucide-react';
 import { Character, AIResponse } from '../../types';
 import { shareService, ShareData } from '../../utils/shareService';
 import { getPersonalityTheme } from '../../utils/personalityThemes';
+import { analytics } from '../../utils/analytics';
 
 interface ShareModalProps {
   open: boolean;
@@ -139,6 +139,9 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
       } else if (platform !== 'x') {
         setMessage({ text: 'Shared successfully!', type: 'info' });
       }
+
+      // Track answer sharing
+      analytics.trackAnswerShared(character.type, character.name, 'answer_share', platform);
     } catch (error) {
       console.error('Share failed:', error);
       setMessage({ text: 'Failed to share. Please try again.', type: 'error' });
@@ -280,7 +283,7 @@ const ShareModal = ({ open, onOpenChange, character, question, answer, aiRespons
                 <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
                 <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
               </div>
-              <p className="text-xs text-amber-200/70">Crafting your mystical card...</p>
+              <p className="text-xs text-amber-200/70">Crafting your chaotic card...</p>
             </div>
           )}
         </div>

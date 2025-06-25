@@ -8,6 +8,7 @@ import { getPersonalityTheme } from '../utils/personalityThemes';
 import PersonalityEffects from './PersonalityEffects';
 import QuestionHelpTooltip from './QuestionHelpTooltip';
 import { seriousQuestions } from '../data/seriousQuestions';
+import { analytics } from '../utils/analytics';
 
 interface QuestionsScreenProps {
   questionType: QuestionType;
@@ -124,7 +125,7 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
               { id: `${baseId}-2`, text: 'DoorDash or whatever is in my fridge?', category: 'dinner' },
               { id: `${baseId}-3`, text: 'Should I just eat the leftovers and call it gourmet?', category: 'dinner' },
               { id: `${baseId}-4`, text: 'Do I really need vegetables today?', category: 'dinner' },
-              { id: `${baseId}-5`, text: 'what is the dessert vibe today?', category: 'dinner' }
+              { id: `${baseId}-5`, text: 'What is the dessert vibe today?', category: 'dinner' }
             ];
           case 'movie':
             return [
@@ -302,6 +303,15 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
 
   const handleQuestionSelect = (question: string) => {
     setSelectedQuestion(question);
+    
+    // Track sample question asked
+    analytics.trackQuestionAsked(character.type, character.name, questionType, questionMode, false);
+    
+    // Track serious mode engagement (first question in serious mode)
+    if (questionMode === 'serious') {
+      analytics.trackSeriousModeEngagement(character.type, character.name, questionType);
+    }
+    
     setTimeout(() => {
       onQuestionSelect(question);
     }, 150);
@@ -310,6 +320,16 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
   const handleCustomSubmit = () => {
     if (customQuestion.trim() && !isSubmitting) {
       setIsSubmitting(true);
+      
+      // Track custom question asked
+      analytics.trackCustomQuestionAsked(character.type, character.name, questionType, questionMode);
+      analytics.trackQuestionAsked(character.type, character.name, questionType, questionMode, true);
+      
+      // Track serious mode engagement (first question in serious mode)
+      if (questionMode === 'serious') {
+        analytics.trackSeriousModeEngagement(character.type, character.name, questionType);
+      }
+      
       setTimeout(() => {
         onQuestionSelect(customQuestion.trim());
       }, 150);

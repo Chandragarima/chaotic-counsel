@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -16,6 +15,9 @@ export const useSupabaseProgress = () => {
   const [isNewUnlockAvailable, setIsNewUnlockAvailable] = useState(false);
   const [newlyUnlockedCharacter, setNewlyUnlockedCharacter] = useState<string | null>(null);
   const { user, loading } = useAuth();
+
+  // Track which unlock celebrations have been shown in this session
+  const [shownCelebrations, setShownCelebrations] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (loading) return;
@@ -48,14 +50,21 @@ export const useSupabaseProgress = () => {
 
       if (userProgress) {
         console.log('✅ Loaded user progress:', userProgress);
+        const unlockedChars = userProgress.unlocked_characters as string[];
+        
+        // Initialize shown celebrations with already unlocked characters
+        setShownCelebrations(new Set(unlockedChars));
+        
         setProgress({
           streak: userProgress.current_streak,
           lastVisit: new Date().toDateString(),
-          unlockedCharacters: userProgress.unlocked_characters as string[],
+          unlockedCharacters: unlockedChars,
           totalDecisions: userProgress.total_decisions
         });
       } else {
         console.log('ℹ️ No user progress found, will be created on first streak update');
+        // Initialize with default characters
+        setShownCelebrations(new Set(['wise-owl', 'sassy-cat']));
       }
     } catch (error) {
       console.error('💥 Error in loadUserProgress:', error);
@@ -86,12 +95,22 @@ export const useSupabaseProgress = () => {
         console.log('📈 Current streak:', streakData.current_streak);
         console.log('🔓 Unlocked characters:', newUnlocked);
         
-        // Check if a new character was unlocked (only show celebration for truly new unlocks)
-        const newCharacter = newUnlocked.find(char => !previousUnlocked.includes(char));
-        if (newCharacter && streakData.streak_updated) {
-          console.log('🎉 New character unlocked:', newCharacter);
-          setNewlyUnlockedCharacter(newCharacter);
-          setIsNewUnlockAvailable(true);
+        // Check if a new character was unlocked (show celebration for any new unlocks)
+        const newCharacters = newUnlocked.filter(char => !previousUnlocked.includes(char));
+        if (newCharacters.length > 0) {
+          // Show celebration for the most recently unlocked character that hasn't been celebrated yet
+          const characterOrder = ['lazy-panda', 'sneaky-snake', 'people-pleaser-pup'];
+          const uncelebratedCharacters = newCharacters.filter(char => !shownCelebrations.has(char));
+          
+          if (uncelebratedCharacters.length > 0) {
+            const mostRecentUnlock = uncelebratedCharacters.sort((a, b) => 
+              characterOrder.indexOf(b) - characterOrder.indexOf(a)
+            )[0];
+            
+            console.log('🎉 New character(s) unlocked:', newCharacters, 'showing celebration for:', mostRecentUnlock);
+            setNewlyUnlockedCharacter(mostRecentUnlock);
+            setIsNewUnlockAvailable(true);
+          }
         }
 
         setProgress({
@@ -203,8 +222,32 @@ export const useSupabaseProgress = () => {
   };
 
   const dismissUnlockCelebration = () => {
+    if (newlyUnlockedCharacter) {
+      setShownCelebrations(prev => new Set([...prev, newlyUnlockedCharacter]));
+    }
     setIsNewUnlockAvailable(false);
     setNewlyUnlockedCharacter(null);
+    
+    // Check if there are more uncelebrated characters to show
+    setTimeout(() => {
+      checkForAdditionalUnlocks();
+    }, 100);
+  };
+
+  const checkForAdditionalUnlocks = () => {
+    const newCharacters = progress.unlockedCharacters.filter(char => 
+      !['wise-owl', 'sassy-cat'].includes(char) && !shownCelebrations.has(char)
+    );
+    
+    if (newCharacters.length > 0) {
+      const characterOrder = ['lazy-panda', 'sneaky-snake', 'people-pleaser-pup'];
+      const mostRecentUnlock = newCharacters.sort((a, b) => 
+        characterOrder.indexOf(b) - characterOrder.indexOf(a)
+      )[0];
+      
+      setNewlyUnlockedCharacter(mostRecentUnlock);
+      setIsNewUnlockAvailable(true);
+    }
   };
 
   return {
