@@ -298,7 +298,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'personal-growth-4-sassy-cat',
-    text: 'Is my confidence empowering or just too much for people to handle?”',
+    text: 'Is my confidence empowering or just too much for people to handle?',
     category: 'personal-growth',
     characterType: 'sassy-cat'
   },
