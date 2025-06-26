@@ -1,4 +1,3 @@
-
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
@@ -47,10 +46,10 @@ const analyzeQuestion = (question: string) => {
 const getCharacterPersonality = (character: string) => {
   switch (character) {
     case 'wise-owl':
-      return `You are the Wise Owl, an ancient and mystical advisor whose wisdom comes from observing countless seasons of change. You speak with poetic authority, weaving nature metaphors and mystical insights into your guidance. You refer to "seasons of experience," "winds of change," and "moonlit observations." Your responses carry the weight of ancient knowledge while remaining gently mysterious. Always include "Hoot!" in your final wisdom.`;
+      return `You are the Wise Owl, an ancient and mystical advisor whose wisdom comes from observing countless seasons of change. You speak with poetic authority, weaving nature metaphors and mystical insights into your guidance. You refer to "seasons of experience," "winds of change," and "moonlit observations." Your responses carry the weight of ancient knowledge while remaining gently mysterious. Do not include "Hoot!" or any signature at the end.`;
     
     case 'sassy-cat':
-      return `You are Sassy Cat, the dramatic queen of no-nonsense advice. You deliver tough love with theatrical flair, cutting through nonsense with sharp wit and brutal honesty. You're direct, confident, and unafraid to tell hard truths. Your advice comes with attitude and dramatic emphasis. You use phrases like "honey," "darling," and dramatic expressions. Always include a dramatic flair in your final recommendation.`;
+      return `You are Sassy Cat, the dramatic queen of no-nonsense advice. You deliver tough love with theatrical flair, cutting through nonsense with sharp wit and brutal honesty. You're direct, confident, and unafraid to tell hard truths. Your advice comes with attitude and dramatic emphasis. You use phrases like "honey," "darling," and dramatic expressions. Do not include your name or any signature at the end.`;
     
     case 'lazy-panda':
       return `You are Lazy Panda, the master of practical, low-stress solutions. You focus on minimal effort approaches that maximize comfort and peace. Your wisdom centers on finding the easiest, most relaxed path forward while still being effective. You're all about work-life balance, stress reduction, and keeping things simple. Your advice always considers energy conservation and peaceful solutions.`;
@@ -80,7 +79,7 @@ You help people make YES/NO decisions by providing balanced analysis. Respond wi
   "reasonsForYes": ["2 compelling reasons why they should say YES (with your personality voice)"],
   "reasonsForNo": ["2 strong reasons why they should say NO (with your personality voice)"],
   "calculatedRisk": "Brief risk assessment with key factor (in your style)",
-  "personalityRecommendation": "Your final recommendation with clear lean toward YES or NO (max 30 words, include your personality signature)"
+  "personalityRecommendation": "Your final recommendation with clear lean toward YES or NO (max 25 words, in your personality style without signature)"
 }`;
 
     case 'advice':
@@ -92,7 +91,7 @@ You provide step-by-step guidance for "how-to" questions. Respond with valid JSO
   "mainAdvice": "Your primary guidance in one clear sentence (in your personality style)",
   "steps": ["3 practical steps they should take (with your personality approach)"],
   "considerations": ["2 important things to keep in mind (in your style)"],
-  "personalityWisdom": "Your final wisdom about this advice (max 30 words, include your personality signature)"
+  "personalityWisdom": "Your final wisdom about this advice (max 25 words, in your personality style without signature)"
 }`;
 
     case 'recommendation':
@@ -104,7 +103,7 @@ You provide specific recommendations for "what should I" questions. Respond with
   "topRecommendation": "Your primary recommendation (in your personality style)",
   "alternatives": ["2 alternative options (with your personality perspective)"],
   "reasoning": "Brief explanation of why you recommend this (in your style)",
-  "personalityNote": "Your final note about this recommendation (max 30 words, include your personality signature)"
+  "personalityNote": "Your final note about this recommendation (max 25 words, in your personality style without signature)"
 }`;
 
     case 'analysis':
@@ -116,7 +115,7 @@ You provide insights and analysis for "why" and explanatory questions. Respond w
   "keyInsights": ["2 main insights about this topic (in your personality style)"],
   "perspectives": ["2 different ways to view this (with your personality approach)"],
   "conclusion": "Your overall analysis summary (in your style)",
-  "personalityReflection": "Your final reflection on this topic (max 30 words, include your personality signature)"
+  "personalityReflection": "Your final reflection on this topic (max 25 words, in your personality style without signature)"
 }`;
 
     case 'choice':
@@ -127,7 +126,7 @@ You help compare multiple options. Respond with valid JSON in this EXACT format:
   "responseType": "choice",
   "recommendedChoice": "Your top choice from the options presented (in your personality style)",
   "choiceAnalysis": [{"option": "Option name", "pros": ["2 pros (in your style)"], "cons": ["2 cons (in your style)"]}],
-  "finalThought": "Your final wisdom about this choice (max 30 words, include your personality signature)"
+  "finalThought": "Your final wisdom about this choice (max 25 words, in your personality style without signature)"
 }`;
 
     default:
@@ -140,7 +139,7 @@ For general questions, provide thoughtful guidance. Respond with valid JSON in t
   "reasonsForYes": ["Consider the positive aspects (with your personality voice)"],
   "reasonsForNo": ["Consider potential challenges (with your personality voice)"],
   "calculatedRisk": "General wisdom about uncertainty (in your style)",
-  "personalityRecommendation": "Your general wisdom (max 30 words, include your personality signature)"
+  "personalityRecommendation": "Your general wisdom (max 25 words, in your personality style without signature)"
 }`;
   }
 };
@@ -185,7 +184,7 @@ serve(async (req) => {
           { role: 'user', content: question }
         ],
         temperature: 0.7,
-        max_tokens: 500,
+        max_tokens: 400,
       }),
     });
 
@@ -223,20 +222,14 @@ serve(async (req) => {
       console.error('JSON parsing failed:', parseError);
       console.error('Raw content that failed to parse:', messageContent);
       
-      // Enhanced fallback response with character personality
-      const characterSignature = character === 'wise-owl' ? 'Hoot!' : 
-                                character === 'sassy-cat' ? 'Meow, darling!' :
-                                character === 'lazy-panda' ? 'Keep it chill!' :
-                                character === 'sneaky-snake' ? 'Trust me on this...' :
-                                character === 'people-pleaser-pup' ? 'We got this together!' : 'Trust your instincts!';
-      
+      // Enhanced fallback response without character signatures
       aiResponse = {
         responseType: 'binary',
         deeperQuestion: "What outcome would you regret NOT pursuing in 5 years?",
         reasonsForYes: ["Acting now prevents future regret", "Opportunities rarely come twice"],
         reasonsForNo: ["Rushing decisions can lead to mistakes", "More information might become available"],
         calculatedRisk: "Medium - Most life decisions carry uncertainty, but inaction is also a choice",
-        personalityRecommendation: `Trust your instincts and take measured action rather than endless deliberation. ${characterSignature}`
+        personalityRecommendation: "Trust your instincts and take measured action rather than endless deliberation"
       };
     }
 
@@ -247,14 +240,14 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in ai-decision-helper:', error);
     
-    // Enhanced fallback with decision structure
+    // Enhanced fallback without signatures
     const fallbackResponse = {
       responseType: 'binary',
       deeperQuestion: "What would your future self thank you for choosing today?",
       reasonsForYes: ["Taking action creates momentum", "You gain experience regardless of outcome"],
       reasonsForNo: ["Waiting allows for better preparation", "Current timing might not be optimal"],
       calculatedRisk: "Medium - Every decision involves uncertainty, but staying informed helps",
-      personalityRecommendation: "When the path is unclear, choose growth over comfort."
+      personalityRecommendation: "When the path is unclear, choose growth over comfort"
     };
 
     return new Response(JSON.stringify(fallbackResponse), {
