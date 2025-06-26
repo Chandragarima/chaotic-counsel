@@ -7,7 +7,6 @@ const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
 // Question type detection function
@@ -74,7 +73,7 @@ const getSystemPrompt = (questionType: string, character: string) => {
     case 'binary':
       return `${basePersonality}
 
-Respond with valid JSON in this EXACT format:
+You help people make YES/NO decisions by providing balanced analysis. Respond with valid JSON in this EXACT format:
 {
   "responseType": "binary",
   "deeperQuestion": "A penetrating question that gets to the heart of their decision (in your personality style)",
@@ -83,10 +82,11 @@ Respond with valid JSON in this EXACT format:
   "calculatedRisk": "Brief risk assessment with key factor (in your style)",
   "personalityRecommendation": "Your final recommendation with clear lean toward YES or NO (max 30 words, include your personality signature)"
 }`;
+
     case 'advice':
       return `${basePersonality}
 
-Respond with valid JSON in this EXACT format:
+You provide step-by-step guidance for "how-to" questions. Respond with valid JSON in this EXACT format:
 {
   "responseType": "advice",
   "mainAdvice": "Your primary guidance in one clear sentence (in your personality style)",
@@ -98,7 +98,7 @@ Respond with valid JSON in this EXACT format:
     case 'recommendation':
       return `${basePersonality}
 
-Respond with valid JSON in this EXACT format:
+You provide specific recommendations for "what should I" questions. Respond with valid JSON in this EXACT format:
 {
   "responseType": "recommendation",
   "topRecommendation": "Your primary recommendation (in your personality style)",
@@ -110,10 +110,10 @@ Respond with valid JSON in this EXACT format:
     case 'analysis':
       return `${basePersonality}
 
-Respond with valid JSON in this EXACT format:
+You provide insights and analysis for "why" and explanatory questions. Respond with valid JSON in this EXACT format:
 {
   "responseType": "analysis",
-  "keyInsights": ["3 main insights about this topic (in your personality style)"],
+  "keyInsights": ["2 main insights about this topic (in your personality style)"],
   "perspectives": ["2 different ways to view this (with your personality approach)"],
   "conclusion": "Your overall analysis summary (in your style)",
   "personalityReflection": "Your final reflection on this topic (max 30 words, include your personality signature)"
@@ -122,7 +122,7 @@ Respond with valid JSON in this EXACT format:
     case 'choice':
       return `${basePersonality}
 
-Respond with valid JSON in this EXACT format:
+You help compare multiple options. Respond with valid JSON in this EXACT format:
 {
   "responseType": "choice",
   "recommendedChoice": "Your top choice from the options presented (in your personality style)",
@@ -130,124 +130,75 @@ Respond with valid JSON in this EXACT format:
   "finalThought": "Your final wisdom about this choice (max 30 words, include your personality signature)"
 }`;
 
-
     default:
       return `${basePersonality}
 
-Respond with valid JSON in this EXACT format:
+For general questions, provide thoughtful guidance. Respond with valid JSON in this EXACT format:
 {
   "responseType": "binary",
-  "deeperQuestion": "Thought-provoking question ((in your personality style and max 40 words)",
-  "reasonsForYes": ["Positive aspects (with your personality voice and max 30 words)"],
-  "reasonsForNo": ["Potential challenges (with your personality voice and max 30 words)"],
-  "calculatedRisk": "General wisdom (in your style and max 25 words)",
-  "personalityRecommendation": "General wisdom with personality signature (max 25 words)"
+  "deeperQuestion": "A thought-provoking question to help them reflect (in your personality style)",
+  "reasonsForYes": ["Consider the positive aspects (with your personality voice)"],
+  "reasonsForNo": ["Consider potential challenges (with your personality voice)"],
+  "calculatedRisk": "General wisdom about uncertainty (in your style)",
+  "personalityRecommendation": "Your general wisdom (max 30 words, include your personality signature)"
 }`;
   }
 };
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { 
-      headers: corsHeaders,
-      status: 200 
-    });
+    return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    // Validate request method
-    if (req.method !== 'POST') {
-      return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-        status: 405,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Parse request body with error handling
-    let requestBody;
-    try {
-      requestBody = await req.json();
-    } catch (parseError) {
-      console.error('Request body parsing error:', parseError);
-      return new Response(JSON.stringify({ error: 'Invalid JSON in request body' }), {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { question, character } = requestBody;
+    const { question, character } = await req.json();
     
-    console.log('Processing request:', { question, character });
+    console.log('Received request:', { question, character });
 
-    // Validate required parameters
     if (!question || !character) {
-      console.error('Missing required parameters:', { question: !!question, character: !!character });
-      return new Response(JSON.stringify({ error: 'Missing required parameters: question and character' }), {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
+      throw new Error('Missing required parameters');
     }
 
-    // Validate OpenAI API key
     if (!openAIApiKey) {
       console.error('OpenAI API key is missing');
-      return new Response(JSON.stringify({ error: 'OpenAI API key not configured' }), {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
+      throw new Error('OpenAI API key not configured');
     }
 
     // Detect question type
     const questionType = analyzeQuestion(question);
-    console.log('Question type:', questionType);
+    console.log('Detected question type:', questionType);
 
     const systemPrompt = getSystemPrompt(questionType, character);
 
-    console.log('Calling OpenAI API...');
+    console.log('Making OpenAI API call...');
 
-    // Call OpenAI API with timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openAIApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: question }
+        ],
+        temperature: 0.7,
+        max_tokens: 500,
+      }),
+    });
 
-    let response;
-    try {
-      response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${openAIApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: question }
-          ],
-          temperature: 0.7,
-          max_tokens: 500,
-        }),
-        signal: controller.signal,
-      });
-    } catch (fetchError) {
-      clearTimeout(timeoutId);
-      console.error('OpenAI API fetch error:', fetchError);
-      
-      if (fetchError.name === 'AbortError') {
-        throw new Error('OpenAI API request timeout');
-      }
-      throw new Error(`OpenAI API connection failed: ${fetchError.message}`);
-    }
-
-    clearTimeout(timeoutId);
+    console.log('OpenAI API response status:', response.status);
 
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`OpenAI API error: ${response.status} - ${errorText}`);
-      throw new Error(`OpenAI API error: ${response.status} - ${response.statusText}`);
+      throw new Error(`OpenAI API error: ${response.status}`);
     }
 
     const data = await response.json();
+    console.log('OpenAI response received, parsing...');
 
     if (!data.choices || !data.choices[0] || !data.choices[0].message) {
       console.error('Invalid OpenAI response structure:', data);
@@ -256,63 +207,58 @@ serve(async (req) => {
 
     let aiResponse;
     const messageContent = data.choices[0].message.content;
+    console.log('Raw message content:', messageContent);
 
     try {
       aiResponse = JSON.parse(messageContent);
-      console.log('AI response parsed successfully');
+      console.log('Successfully parsed AI response:', aiResponse);
       
+      // Validate response has required responseType
       if (!aiResponse.responseType) {
-        throw new Error('Missing responseType in AI response');
+        console.error('AI response missing responseType:', aiResponse);
+        throw new Error('AI response missing responseType');
       }
       
     } catch (parseError) {
       console.error('JSON parsing failed:', parseError);
-      console.error('Raw AI response:', messageContent);
+      console.error('Raw content that failed to parse:', messageContent);
       
-      // Quick fallback response
+      // Enhanced fallback response with character personality
       const characterSignature = character === 'wise-owl' ? 'Hoot!' : 
                                 character === 'sassy-cat' ? 'Meow, darling!' :
                                 character === 'lazy-panda' ? 'Keep it chill!' :
-                                character === 'sneaky-snake' ? 'Trust me...' :
-                                character === 'people-pleaser-pup' ? 'Woof!' : 'We got this together!';
+                                character === 'sneaky-snake' ? 'Trust me on this...' :
+                                character === 'people-pleaser-pup' ? 'We got this together!' : 'Trust your instincts!';
       
       aiResponse = {
         responseType: 'binary',
-        deeperQuestion: "What choice aligns with your values?",
-        reasonsForYes: ["Follow your instincts", "Take decisive action"],
-        reasonsForNo: ["Consider all options", "Wait for clarity"],
-        calculatedRisk: "Every decision teaches you something valuable",
-        personalityRecommendation: `Trust your judgment. ${characterSignature}`
+        deeperQuestion: "What outcome would you regret NOT pursuing in 5 years?",
+        reasonsForYes: ["Acting now prevents future regret", "Opportunities rarely come twice"],
+        reasonsForNo: ["Rushing decisions can lead to mistakes", "More information might become available"],
+        calculatedRisk: "Medium - Most life decisions carry uncertainty, but inaction is also a choice",
+        personalityRecommendation: `Trust your instincts and take measured action rather than endless deliberation. ${characterSignature}`
       };
     }
 
     return new Response(JSON.stringify(aiResponse), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200
     });
 
   } catch (error) {
-    console.error('Function error:', error);
+    console.error('Error in ai-decision-helper:', error);
     
-    // Enhanced fallback response based on character
-    const characterSignature = character === 'wise-owl' ? 'Hoot!' : 
-                              character === 'sassy-cat' ? 'Meow, darling!' :
-                              character === 'lazy-panda' ? 'Keep it chill!' :
-                              character === 'sneaky-snake' ? 'Trust me...' :
-                              character === 'people-pleaser-pup' ? 'Woof!' : 'We got this together!';
-    
+    // Enhanced fallback with decision structure
     const fallbackResponse = {
       responseType: 'binary',
-      deeperQuestion: "What feels right in your heart?",
-      reasonsForYes: ["Trust your instincts"],
-      reasonsForNo: ["Consider alternatives"], 
-      calculatedRisk: "Growth comes from thoughtful choices",
-      personalityRecommendation: `Choose what serves your highest good. ${characterSignature}`
+      deeperQuestion: "What would your future self thank you for choosing today?",
+      reasonsForYes: ["Taking action creates momentum", "You gain experience regardless of outcome"],
+      reasonsForNo: ["Waiting allows for better preparation", "Current timing might not be optimal"],
+      calculatedRisk: "Medium - Every decision involves uncertainty, but staying informed helps",
+      personalityRecommendation: "When the path is unclear, choose growth over comfort."
     };
 
     return new Response(JSON.stringify(fallbackResponse), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200
     });
   }
 });
