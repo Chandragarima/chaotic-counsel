@@ -12,7 +12,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   // Career & Growth Questions
   {
     id: 'career-1-wise-owl',
-    text: 'Should I pursue this new career opportunity that requires relocating?',
+    text: 'Should I chase this job offer, even if it means moving cities?',
     category: 'career',
     characterType: 'wise-owl'
   },
@@ -24,13 +24,13 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'career-3-wise-owl',
-    text: 'Should I accept a leadership role that comes with more responsibility?',
+    text: 'Should I step up to lead my team, even with extra stress?',
     category: 'career',
     characterType: 'wise-owl'
   },
   {
     id: 'career-4-wise-owl',
-    text: 'How do I find my true calling when I feel lost professionally?',
+    text: 'How do I figure out my next career move when I\'m stuck?',
     category: 'career',
     characterType: 'wise-owl'
   },
@@ -42,13 +42,13 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'career-2-sassy-cat',
-    text: 'Should I tell my boss what I really think about their management style?',
+    text: 'Should I finally tell my boss what I really think?',
     category: 'career',
     characterType: 'sassy-cat'
   },
   {
     id: 'career-3-sassy-cat',
-    text: 'Is my coworker trying to sabotage my career advancement?',
+    text: 'Is my coworker throwing shade or am I overthinking it?',
     category: 'career',
     characterType: 'sassy-cat'
   },
@@ -78,7 +78,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'career-4-lazy-panda',
-    text: 'How do I find a job that actually aligns with my low-stress lifestyle?',
+    text: 'How do I find a chill job that actually fits my vibe?',
     category: 'career',
     characterType: 'lazy-panda'
   },
@@ -90,7 +90,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'career-2-sneaky-snake',
-    text: 'Should I leverage my colleague\'s mistake to advance my position?',
+    text: 'Should I use my colleague\'s mistake to boost my position?',
     category: 'career',
     characterType: 'sneaky-snake'
   },
@@ -140,7 +140,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'finance-2-wise-owl',
-    text: 'Is now the right time to start planning for early retirement?',
+    text: 'Should I start saving now for a chill future?',
     category: 'finance',
     characterType: 'wise-owl'
   },
@@ -194,13 +194,13 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'finance-3-lazy-panda',
-    text: 'Is it worth the effort to track every expense or should I just estimate?',
+    text: 'Is it really worth logging every coffee or should I just guesstimate?',
     category: 'finance',
     characterType: 'lazy-panda'
   },
   {
     id: 'finance-4-lazy-panda',
-    text: 'How do I build wealth without constantly monitoring the market?',
+    text: 'How do I build wealth while staying chill and stress-free?',
     category: 'finance',
     characterType: 'lazy-panda'
   },
@@ -236,7 +236,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'finance-2-people-pleaser-pup',
-    text: 'Should I help my family member with their debt even if I can\'t afford it?',
+    text: 'Should I help my family member with debt even if it strains my bank account?',
     category: 'finance',
     characterType: 'people-pleaser-pup'
   },
@@ -248,7 +248,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'finance-4-people-pleaser-pup',
-    text: 'Should I split the bill equally even when I ordered much less?',
+    text: 'Should I split the bill evenly even when I just had fries?',
     category: 'finance',
     characterType: 'people-pleaser-pup'
   },
@@ -262,7 +262,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'personal-growth-2-wise-owl',
-    text: 'Should I pursue spiritual growth or focus on material success?',
+    text: 'Should I focus on spiritual growth or chase material success right now?',
     category: 'personal-growth',
     characterType: 'wise-owl'
   },
@@ -286,7 +286,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'personal-growth-2-sassy-cat',
-    text: 'Am I being too harsh in my judgments or are people really this disappointing?',
+    text: 'Am I too judgy, or are people just consistently disappointing?',
     category: 'personal-growth',
     characterType: 'sassy-cat'
   },
@@ -298,13 +298,13 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'personal-growth-4-sassy-cat',
-    text: 'How can I inspire others?',
+    text: 'Is my confidence empowering or just too much for people to handle?',
     category: 'personal-growth',
     characterType: 'sassy-cat'
   },
   {
     id: 'personal-growth-1-lazy-panda',
-    text: 'How do I build better habits without overwhelming myself?',
+    text: 'How do I build better habits without burning out?',
     category: 'personal-growth',
     characterType: 'lazy-panda'
   },
@@ -322,7 +322,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'personal-growth-4-lazy-panda',
-    text: 'Is it okay to choose comfort over growth most of the time?',
+    text: 'Is it okay to choose comfort over constant self-improvement?',
     category: 'personal-growth',
     characterType: 'lazy-panda'
   },
@@ -340,7 +340,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'personal-growth-3-sneaky-snake',
-    text: 'How do I master the art of influence without manipulating others?',
+    text: 'How do I influence others without seeming manipulative?',
     category: 'personal-growth',
     characterType: 'sneaky-snake'
   },
@@ -384,13 +384,13 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'relationships-2-wise-owl',
-    text: 'How do I know if this relationship is worth fighting for?',
+    text: 'How do I know when a relationship is still worth the effort?',
     category: 'relationships',
     characterType: 'wise-owl'
   },
   {
     id: 'relationships-3-wise-owl',
-    text: 'Should I pursue love or focus on my spiritual journey alone?',
+    text: 'Should I focus on love or keep growing alone for now?',
     category: 'relationships',
     characterType: 'wise-owl'
   },
@@ -408,13 +408,13 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'relationships-2-sassy-cat',
-    text: 'Is my friend being dramatic or are their relationship problems actually serious?',
+    text: 'Is my friend being dramatic, or is their relationship actually a trainwreck?',
     category: 'relationships',
     characterType: 'sassy-cat'
   },
   {
     id: 'relationships-3-sassy-cat',
-    text: 'Should I ghost this person or tell them exactly why I\'m done?',
+    text: 'Should I ghost them or deliver a dramatic exit monologue?',
     category: 'relationships',
     characterType: 'sassy-cat'
   },
@@ -444,7 +444,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'relationships-4-lazy-panda',
-    text: 'Is it okay to prefer low-maintenance relationships over deep emotional connections?',
+    text: 'Is it okay to prefer chill, low-effort relationships over deep emotional drama?',
     category: 'relationships',
     characterType: 'lazy-panda'
   },
@@ -456,7 +456,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'relationships-2-sneaky-snake',
-    text: 'Should I use my ex\'s secrets to gain closure in our relationship?',
+    text: 'Should I use what I know about my ex to get closure or stay classy?',
     category: 'relationships',
     characterType: 'sneaky-snake'
   },
@@ -468,7 +468,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'relationships-4-sneaky-snake',
-    text: 'Should I reveal my strategic mind to my partner or keep some mystery?',
+    text: 'Should I let my partner see how calculated I can be or keep a little mystery?',
     category: 'relationships',
     characterType: 'sneaky-snake'
   },
