@@ -18,7 +18,8 @@ const CombinedHomePage = ({
 }: CombinedHomePageProps) => {
   const { progress, isNewUnlockAvailable, newlyUnlockedCharacter, dismissUnlockCelebration, loading } = useSupabaseProgress();
 
-  if (loading) {
+  // Only show loading on initial app load, not when navigating back
+  if (loading && progress.streak === 0 && progress.unlockedCharacters.length === 2) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-600 via-slate-700 to-slate-600">
         <div className="text-amber-400 text-xl animate-pulse">Loading...</div>
