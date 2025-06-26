@@ -74,23 +74,11 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
   // Function to detect and handle "or" questions
   const handleOrQuestion = (question: string): { answer: string; templateType: 'choice' } | null => {
     const lowerQuestion = question.toLowerCase();
-
+    
+    // Handle "or" questions first
     if (lowerQuestion.includes(' or ')) {
-      const orIndex = lowerQuestion.indexOf(' or ');
-      const beforeOr = question.substring(0, orIndex).trim();
-      const afterOr = question.substring(orIndex + 4).trim();
-      
-      let options = [];
-      
-      const parts = question.split(/\s+or\s+/i);
-      if (parts.length >= 2) {
-        const firstOption = parts[0].replace(/^(should i|do i|can i|will i|shall i|would i)\s+/i, '').trim();
-        options.push(firstOption);
-        
-        for (let i = 1; i < parts.length; i++) {
-          options.push(parts[i].replace(/\?$/, '').trim());
-        }
-        
+      const options = question.split(' or ').map(option => option.trim());
+      if (options.length >= 2) {
         const randomOption = getRandomChoice(options);
         return {
           answer: formatChoiceResponse(randomOption, character.type),
@@ -99,36 +87,102 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
       }
     }
     
-    else if (lowerQuestion.includes('cuisine')) {
-      const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek', 'French', 'Lebanese', 'Ethiopian', 'Spanish', 'American'];
-      const randomCuisine = getRandomChoice(cuisines);
+    // Simple, natural food question detection
+    const isFoodQuestion = (text: string): boolean => {
+      const foodKeywords = [
+        'what to eat', 'what should i eat', 'what to order', 'what should i order',
+        'what to cook', 'what should i cook', 'what to make', 'what should i make',
+        'what to have', 'what should i have', 'what to try', 'what should i try',
+        'hungry', 'craving', 'in the mood for', 'feel like', 'want to eat', 'need to eat',
+        'dinner', 'lunch', 'breakfast', 'snack', 'meal', 'food', 'cuisine', 'dessert'
+      ];
+      
+      return foodKeywords.some(keyword => text.includes(keyword));
+    };
+
+    // Handle food questions with natural responses
+    const handleFoodQuestion = (question: string): { answer: string; templateType: 'choice' } | null => {
+      const lowerQ = question.toLowerCase();
+      
+      // Cuisine questions
+      if (lowerQ.includes('cuisine') || lowerQ.includes('type of food') || lowerQ.includes('what kind of food')) {
+        const cuisines = ['Italian', 'Thai', 'Mexican', 'Japanese', 'Indian', 'Chinese', 'Mediterranean', 'Korean', 'Vietnamese', 'Greek', 'French', 'Lebanese', 'Ethiopian', 'Spanish', 'American', 'Moroccan', 'Brazilian', 'Peruvian', 'Filipino'];
+        const randomCuisine = getRandomChoice(cuisines);
+        return {
+          answer: formatChoiceResponse(randomCuisine, character.type),
+          templateType: 'choice'
+        };
+      }
+      
+      // Dessert questions
+      if (lowerQ.includes('dessert') || lowerQ.includes('sweet') || lowerQ.includes('treat')) {
+        const desserts = ['Ice Cream', 'Cake', 'Milkshake', 'Pudding', 'Cheesecake', 'Cupcakes', 'Bubble Tea', 'Tiramisu', 'Donuts', 'Pie', 'Cookies', 'Chocolates', 'Pastries', 'Brownies', 'Macarons', 'Gelato', 'Sorbet', 'Creme Brulee', 'Chocolate Mousse', 'Apple Pie'];
+        const randomDessert = getRandomChoice(desserts);
+        return {
+          answer: formatChoiceResponse(randomDessert, character.type),
+          templateType: 'choice'
+        };
+      }
+      
+      // Meal time specific questions
+      if (lowerQ.includes('breakfast')) {
+        const breakfast = ['Pancakes', 'Waffles', 'Omelette', 'Cereal', 'Toast', 'Bagel', 'Smoothie Bowl', 'French Toast', 'Bacon & Eggs', 'Oatmeal', 'Yogurt Parfait', 'Breakfast Burrito'];
+        const randomBreakfast = getRandomChoice(breakfast);
+        return {
+          answer: formatChoiceResponse(randomBreakfast, character.type),
+          templateType: 'choice'
+        };
+      }
+      
+      if (lowerQ.includes('lunch')) {
+        const lunch = ['Sandwich', 'Salad', 'Soup', 'Pasta', 'Pizza', 'Burger', 'Sushi', 'Tacos', 'Bowl', 'Wrap', 'Panini', 'Quesadilla'];
+        const randomLunch = getRandomChoice(lunch);
+        return {
+          answer: formatChoiceResponse(randomLunch, character.type),
+          templateType: 'choice'
+        };
+      }
+      
+      if (lowerQ.includes('dinner')) {
+        const dinner = ['Steak', 'Pasta', 'Curry', 'Stir Fry', 'Roast Chicken', 'Fish', 'Pizza', 'Burgers', 'Tacos', 'Sushi', 'Ramen', 'Pho', 'Biryani', 'Paella', 'Lasagna'];
+        const randomDinner = getRandomChoice(dinner);
+        return {
+          answer: formatChoiceResponse(randomDinner, character.type),
+          templateType: 'choice'
+        };
+      }
+      
+      if (lowerQ.includes('snack')) {
+        const snacks = ['Chips', 'Popcorn', 'Nuts', 'Fruit', 'Crackers', 'Cheese', 'Yogurt', 'Granola Bar', 'Trail Mix', 'Hummus', 'Guacamole', 'Salsa'];
+        const randomSnack = getRandomChoice(snacks);
+        return {
+          answer: formatChoiceResponse(randomSnack, character.type),
+          templateType: 'choice'
+        };
+      }
+      
+      // General food questions (fallback for any food-related question)
+      // Removed foods that are already in specific meal arrays to reduce repetition
+      const generalFood = ['Poke Bowl', 'Biryani', 'Curry', 'Dumplings', 'Pho', 'Bibimbap', 'Shawarma', 'Chicken Wings', 'Fish & Chips', 'Pad Thai', 'Sushi Roll', 'Burrito', 'Paella', 'Fish', 'Steak'];
+      const randomFood = getRandomChoice(generalFood);
       return {
-        answer: formatChoiceResponse(randomCuisine, character.type),
+        answer: formatChoiceResponse(randomFood, character.type),
         templateType: 'choice'
       };
-    }
-    
-    else if (lowerQuestion.includes('dinner') || lowerQuestion.includes('lunch') || lowerQuestion.includes('hungry')) {
-      const meals = ['Pizza', 'Sushi', 'Tacos', 'Pasta', 'Ramen', 'Burgers', 'Poke Bowl', 'Biryani', 'Sandwich', 'Salad', 'Curry', 'Dumplings', 'Pho', 'Bibimbap', 'Shawarma'];
-      const randomMeal = getRandomChoice(meals);
-      return {
-        answer: formatChoiceResponse(randomMeal, character.type),
-        templateType: 'choice'
-      };
+    };
+
+    // Check if it's a food question
+    if (isFoodQuestion(lowerQuestion)) {
+      const foodResponse = handleFoodQuestion(question);
+      if (foodResponse) {
+        return foodResponse;
+      }
     }
 
-    else if (lowerQuestion.includes('dessert')) {
-      const sweet = ['Ice Cream', 'Cake', 'Milkshake', 'Pudding', 'Cheesecake', 'Cupcakes', 'Bubble Tea', 'Tiramisu', 'Donuts', 'Pie', 'Cookies', 'Chocolates', 'Pastries'];
-      const randomSweet = getRandomChoice(sweet);
-      return {
-        answer: formatChoiceResponse(randomSweet, character.type),
-        templateType: 'choice'
-      };
-    }
-
-    else if (lowerQuestion.includes('movie') || lowerQuestion.includes('genre') ) {
-      const movie = ['Thriller', 'Horror', 'RomCom', 'Documentry', 'Action', 'Drama', 'Comedy', 'Romance', 'Feel Good'];
-      const randomMovie = getRandomChoice(movie);
+    // Handle movie/genre questions
+    if (lowerQuestion.includes('movie') || lowerQuestion.includes('genre') || lowerQuestion.includes('watch') || lowerQuestion.includes('show')) {
+      const movies = ['Thriller', 'Horror', 'RomCom', 'Documentary', 'Action', 'Drama', 'Comedy', 'Romance', 'Feel Good', 'Sci-Fi', 'Fantasy', 'Mystery', 'Adventure', 'Animation', 'Biography'];
+      const randomMovie = getRandomChoice(movies);
       return {
         answer: formatChoiceResponse(randomMovie, character.type),
         templateType: 'choice'
