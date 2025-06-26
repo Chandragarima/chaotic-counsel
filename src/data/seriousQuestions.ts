@@ -298,7 +298,7 @@ export const seriousQuestions: SeriousQuestion[] = [
   },
   {
     id: 'personal-growth-4-sassy-cat',
-    text: 'Is my confidence inspiring others or just intimidating them?',
+    text: 'How can I inspire others?',
     category: 'personal-growth',
     characterType: 'sassy-cat'
   },

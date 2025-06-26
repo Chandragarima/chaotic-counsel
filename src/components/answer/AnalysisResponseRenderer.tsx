@@ -41,7 +41,7 @@ const AnalysisResponseRenderer = ({ response, character }: AnalysisResponseRende
             <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
               {response.keyInsights.map((insight, index) => (
                 <li key={index} className="flex items-center space-x-3">
-                  <span className="text-amber-400">💡</span>
+                  <span className="text-amber-400">•</span>
                   <span className="text-sm">{insight}</span>
                 </li>
               ))}
@@ -61,7 +61,7 @@ const AnalysisResponseRenderer = ({ response, character }: AnalysisResponseRende
             <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
               {response.perspectives.map((perspective, index) => (
                 <li key={index} className="flex items-center space-x-3">
-                  <span className="text-amber-400">👁️</span>
+                  <span className="text-amber-400">•</span>
                   <span className="text-sm">{perspective}</span>
                 </li>
               ))}
