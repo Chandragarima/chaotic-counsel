@@ -20,30 +20,30 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
   'sassy-cat': {
     thinking: [],
     yes: [
-      '/images/personalities/sassy-cat/yes/sassy-cat-yes-1.png',
-      '/images/personalities/sassy-cat/yes/sassy-cat-yes-2.png',
-      '/images/personalities/sassy-cat/yes/sassy-cat-yes-3.png',
-      '/images/personalities/sassy-cat/yes/sassy-cat-yes-4.png',
-      '/images/personalities/sassy-cat/yes/sassy-cat-yes-5.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981103/sassy-cat-yes-1_erobwn.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981101/sassy-cat-yes-5_a0rv0y.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981100/sassy-cat-yes-4_wvskyr.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981099/sassy-cat-yes-3_fhoq7n.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981098/sassy-cat-yes-2_wvn91j.png'
     ],
     no: [
-      '/images/personalities/sassy-cat/no/sassy-cat-no-1.png',
-      '/images/personalities/sassy-cat/no/sassy-cat-no-2.png',
-      '/images/personalities/sassy-cat/no/sassy-cat-no-3.png',
-      '/images/personalities/sassy-cat/no/sassy-cat-no-4.png',
-      '/images/personalities/sassy-cat/no/sassy-cat-no-5.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981173/sassy-cat-no-1_u2nhet.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981172/sassy-cat-no-5_eqsfmq.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981170/sassy-cat-no-4_llo5eg.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981169/sassy-cat-no-3_ph0rvh.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981168/sassy-cat-no-2_rdk6qh.png'
     ],
     maybe: [
-      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-1.png',
-      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-2.png',
-      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-3.png',
-      '/images/personalities/sassy-cat/maybe/sassy-cat-maybe-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981252/sassy-cat-maybe-1_sbxd6e.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981251/sassy-cat-maybe-3_u558s8.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981249/sassy-cat-maybe-2_vmnjou.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981248/sassy-cat-maybe-4_klwng7.png'
     ],
     choice: [
-      '/images/personalities/sassy-cat/choice/sassy-cat-choice-1.png',
-      '/images/personalities/sassy-cat/choice/sassy-cat-choice-2.png',
-      '/images/personalities/sassy-cat/choice/sassy-cat-choice-3.png',
-      '/images/personalities/sassy-cat/choice/sassy-cat-choice-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981298/sassy-cat-choice-2_vzyuup.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981297/sassy-cat-choice-3_igbp49.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981295/sassy-cat-choice-1_ue34aq.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981294/sassy-cat-choice-4_y4jumf.png',
     ]
   },
   'wise-owl': {
@@ -161,11 +161,11 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
 const PERSONALITY_VIDEOS: PersonalityVideoConfig = {
   'sassy-cat': {
     thinking: [
-      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-1.mp4',
-      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-2.mp4',
-      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-3.mp4',
-      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-4.mp4',
-      '/videos/personalities/sassy-cat/thinking/sassy-cat-thinking-5.mp4'
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750981844/sassy-cat-thinking-5_nvd80u.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750981840/sassy-cat-thinking-3_j1krx9.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750981837/sassy-cat-thinking-4_sqkbgh.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750981834/sassy-cat-thinking-1_clchzx.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750981833/sassy-cat-thinking-2_hoiu9p.mp4'
     ]
   },
   'wise-owl': {
