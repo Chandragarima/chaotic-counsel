@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { UserProgress } from '../types';
@@ -10,6 +10,10 @@ const defaultProgress: UserProgress = {
   totalDecisions: 0
 };
 
+// Cache for progress data to prevent unnecessary reloads
+let progressCache: { [userId: string]: { data: UserProgress; timestamp: number } } = {};
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
 export const useSupabaseProgress = () => {
   const [progress, setProgress] = useState<UserProgress>(defaultProgress);
   const [isNewUnlockAvailable, setIsNewUnlockAvailable] = useState(false);
@@ -19,10 +23,32 @@ export const useSupabaseProgress = () => {
   // Track which unlock celebrations have been shown in this session
   const [shownCelebrations, setShownCelebrations] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
+  const hasInitialized = useRef(false);
+  const currentUserId = useRef<string | null>(null);
 
   useEffect(() => {
     if (authLoading) return;
+    
+    // Clear cache if user changed
+    if (currentUserId.current && currentUserId.current !== user?.id) {
+      console.log('👤 User changed, clearing cache');
+      clearCache();
+    }
+    currentUserId.current = user?.id || null;
+    
+    // Only load once per session unless user changes
+    if (hasInitialized.current && user?.id) {
+      const cached = progressCache[user.id];
+      if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+        console.log('📦 Using cached progress for user:', user.id);
+        setProgress(cached.data);
+        setLoading(false);
+        return;
+      }
+    }
+
     setLoading(true);
+    hasInitialized.current = true;
 
     if (user) {
       console.log('🔵 User logged in, loading progress and updating streak for user:', user.id);
@@ -58,12 +84,16 @@ export const useSupabaseProgress = () => {
         // Initialize shown celebrations with already unlocked characters
         setShownCelebrations(new Set(initialUnlockedChars));
         
-        setProgress({
+        const progressData = {
           streak: userProgress.current_streak,
           lastVisit: new Date().toDateString(),
           unlockedCharacters: initialUnlockedChars,
           totalDecisions: userProgress.total_decisions
-        });
+        };
+        
+        setProgress(progressData);
+        // Cache the progress data
+        progressCache[user.id] = { data: progressData, timestamp: Date.now() };
       } else {
         console.log('ℹ️ No user progress found, will be created on first streak update');
         // Initialize with default characters
@@ -120,12 +150,16 @@ export const useSupabaseProgress = () => {
           }
         }
 
-        setProgress({
+        const updatedProgress = {
           streak: streakData.current_streak,
           lastVisit: new Date().toDateString(),
           unlockedCharacters: newUnlocked,
           totalDecisions: progress.totalDecisions
-        });
+        };
+
+        setProgress(updatedProgress);
+        // Update cache with new data
+        progressCache[user.id] = { data: updatedProgress, timestamp: Date.now() };
       }
     } catch (error) {
       console.error('💥 Error in updateDailyStreak:', error);
@@ -257,6 +291,14 @@ export const useSupabaseProgress = () => {
     }
   };
 
+  const clearCache = () => {
+    if (user?.id) {
+      delete progressCache[user.id];
+    }
+    progressCache = {};
+    hasInitialized.current = false;
+  };
+
   return {
     progress,
     incrementDecisions,
@@ -264,5 +306,6 @@ export const useSupabaseProgress = () => {
     newlyUnlockedCharacter,
     dismissUnlockCelebration,
     loading,
+    clearCache,
   };
 };
