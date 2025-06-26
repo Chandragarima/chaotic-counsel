@@ -8,39 +8,117 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Question type detection function
+// Enhanced question type detection function
 const analyzeQuestion = (question: string) => {
   const lowerQuestion = question.toLowerCase().trim();
   
+  // More flexible binary decision patterns
   const binaryPatterns = [
-    /^should i\b/, /^can i\b/, /^will i\b/, /^do i\b/,
-    /^is it (time|worth|good|bad|wise|smart|safe)\b/, /^am i\b/
+    /^should i\b/, /^can i\b/, /^will i\b/, /^do i\b/, /^am i\b/,
+    /^is it (time|worth|good|bad|wise|smart|safe|okay|ok|right|wrong)\b/,
+    /\b(yes or no|true or false)\b/,
+    /^would it be (good|bad|wise|smart|better)\b/,
+    /^is this (a good|the right)\b/
   ];
   
+  // Enhanced advice patterns for how-to questions
   const advicePatterns = [
-    /^how (do|can|should) i\b/, /^what('s| is) the best way to\b/,
-    /^how to\b/, /^what steps\b/, /^what should i do to\b/
+    /^how (do|can|should) i\b/, /^how to\b/, /^how can i\b/,
+    /^what('s| is) the best way to\b/, /^what('s| is) the right way to\b/,
+    /^what steps\b/, /^what should i do to\b/,
+    /^how can i improve\b/, /^how do i get\b/, /^how do i make\b/,
+    /^what('s| is) the process\b/, /^how would i\b/
   ];
   
+  // Better recommendation patterns
   const recommendationPatterns = [
     /^what should i\b/, /^which (one|option|choice)\b/,
-    /^what (would you|do you) recommend\b/, /^what('s| is) (better|best)\b/
+    /^what (would you|do you) recommend\b/, /^what('s| is) (better|best)\b/,
+    /^suggest\b/, /^recommend\b/, /^what would be\b/,
+    /^which would be\b/, /^what('s| is) your recommendation\b/
   ];
   
+  // Enhanced analysis patterns
   const analysisPatterns = [
-    /^why\b/, /^what does\b/, /^explain\b/, /^tell me about\b/,
-    /^what are the (pros|cons|benefits|risks)\b/
+    /^why\b/, /^what does\b/, /^explain\b/, /^what are the\b/,
+    /^tell me about\b/, /^what('s| is) the meaning\b/,
+    /^help me understand\b/, /^what causes\b/, /^what makes\b/,
+    /^break down\b/, /^analyze\b/
   ];
   
-  const choicePatterns = [/\s+or\s+/, /\bversus\b/, /\bvs\b/];
+  // Better choice patterns for comparing options
+  const choicePatterns = [
+    /\s+or\s+/, /\bversus\b/, /\bvs\.?\b/, /\bv\.?\b/,
+    /\bbetween\b.*\band\b/, /compare.*\band\b/, /\bchoose between\b/
+  ];
   
-  if (binaryPatterns.some(pattern => pattern.test(lowerQuestion))) return 'binary';
-  if (advicePatterns.some(pattern => pattern.test(lowerQuestion))) return 'advice';
-  if (recommendationPatterns.some(pattern => pattern.test(lowerQuestion))) return 'recommendation';
-  if (choicePatterns.some(pattern => pattern.test(lowerQuestion))) return 'choice';
-  if (analysisPatterns.some(pattern => pattern.test(lowerQuestion))) return 'analysis';
+  // Score each category based on pattern matches and context
+  let scores = {
+    binary: 0,
+    advice: 0,
+    recommendation: 0,
+    choice: 0,
+    analysis: 0
+  };
   
-  return 'general';
+  // Check binary patterns
+  if (binaryPatterns.some(pattern => pattern.test(lowerQuestion))) {
+    scores.binary += 3;
+  }
+  
+  // Check advice patterns
+  if (advicePatterns.some(pattern => pattern.test(lowerQuestion))) {
+    scores.advice += 3;
+  }
+  
+  // Check recommendation patterns
+  if (recommendationPatterns.some(pattern => pattern.test(lowerQuestion))) {
+    scores.recommendation += 3;
+  }
+  
+  // Check choice patterns (higher priority if multiple options detected)
+  if (choicePatterns.some(pattern => pattern.test(lowerQuestion))) {
+    scores.choice += 4; // Higher weight for choice questions
+  }
+  
+  // Check analysis patterns
+  if (analysisPatterns.some(pattern => pattern.test(lowerQuestion))) {
+    scores.analysis += 3;
+  }
+  
+  // Additional context-based scoring
+  const questionWords = lowerQuestion.split(/\s+/);
+  
+  // Look for question indicators
+  if (questionWords.includes('better') || questionWords.includes('best')) {
+    scores.recommendation += 1;
+    scores.choice += 1;
+  }
+  
+  if (questionWords.includes('why') || questionWords.includes('because')) {
+    scores.analysis += 2;
+  }
+  
+  if (questionWords.includes('how')) {
+    scores.advice += 1;
+  }
+  
+  // Find the category with the highest score
+  const maxScore = Math.max(...Object.values(scores));
+  
+  // If no clear winner or very low scores, default to binary
+  if (maxScore === 0) {
+    return 'binary';
+  }
+  
+  // Return the category with the highest score
+  for (const [category, score] of Object.entries(scores)) {
+    if (score === maxScore) {
+      return category;
+    }
+  }
+  
+  return 'binary'; // fallback
 };
 
 const getCharacterPersonality = (character: string) => {
@@ -163,7 +241,7 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    // Detect question type
+    // Detect question type with enhanced logic
     const questionType = analyzeQuestion(question);
     console.log('Detected question type:', questionType);
 
