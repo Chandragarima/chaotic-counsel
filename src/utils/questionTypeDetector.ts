@@ -16,99 +16,129 @@ export interface QuestionAnalysis {
 export const analyzeQuestion = (question: string): QuestionAnalysis => {
   const lowerQuestion = question.toLowerCase().trim();
   
-  // Binary decision patterns
+  // Enhanced binary decision patterns
   const binaryPatterns = [
-    /^should i\b/,
-    /^can i\b/,
-    /^will i\b/,
-    /^do i\b/,
-    /^is it (time|worth|good|bad|wise|smart|safe)\b/,
+    /^should i\b/, /^can i\b/, /^will i\b/, /^do i\b/, /^am i\b/,
+    /^is it (time|worth|good|bad|wise|smart|safe|okay|ok|right|wrong)\b/,
     /\b(yes or no|true or false)\b/,
-    /^am i\b/
+    /^would it be (good|bad|wise|smart|better)\b/, /^is now (a|the) (good|bad|right) time/,
+    /^is this (a good|the right)\b/, /^is it (a bad|a good|the best) idea/
   ];
   
-  // Advice patterns
+  // Enhanced advice patterns
   const advicePatterns = [
-    /^how (do|can|should) i\b/,
-    /^what('s| is) the best way to\b/,
-    /^how to\b/,
-    /^what steps\b/,
-    /^how can i improve\b/,
-    /^what should i do to\b/
+    /^how (do|can|should) i\b/, /^how to\b/, /^how can i\b/,
+    /^what('s| is) the best way to\b/, /^what('s| is) the right way to\b/,
+    /^what steps\b/, /^what should i do to\b/,
+    /^how can i improve\b/, /^how do i get\b/, /^how do i make\b/,
+    /^what('s| is) the process\b/, /^how would i\b/, /^how do i know\b/, 
+    /^how do i decide\b/
   ];
   
-  // Recommendation patterns
+  // Better recommendation patterns
   const recommendationPatterns = [
-    /^what should i\b/,
-    /^which (one|option|choice)\b/,
-    /^what (would you|do you) recommend\b/,
-    /^what('s| is) (better|best)\b/,
-    /^suggest\b/,
-    /^recommend\b/
+    /^what should i\b/, /^which (one|option|choice)\b/,
+    /^what (would you|do you) recommend\b/, /^what('s| is) (better|best)\b/,
+    /^suggest\b/, /^recommend\b/, /^what would be\b/,
+    /^which would be\b/, /^what('s| is) your recommendation\b/, /^any suggestions for\b/
   ];
   
-  // Analysis patterns
+  // Enhanced analysis patterns
   const analysisPatterns = [
-    /^why\b/,
-    /^what does\b/,
-    /^explain\b/,
-    /^what are the (pros|cons|benefits|risks)\b/,
-    /^tell me about\b/,
-    /^what('s| is) the meaning\b/
+    /^why\b/, /^what does\b/, /^explain\b/, /^what are the\b/,
+    /^tell me about\b/, /^what('s| is) the meaning\b/,
+    /^help me understand\b/, /^what causes\b/, /^what makes\b/,
+    /^break down\b/, /^analyze\b/, /^what does it mean if\b/,
+    /^is it (normal|common|okay|unusual) to\b/
   ];
   
-  // Choice patterns (or questions)
+  // Enhanced choice patterns - these should get HIGHEST priority
   const choicePatterns = [
-    /\s+or\s+/,
-    /\bversus\b/,
-    /\bvs\b/,
-    /\bbetween\b.*\band\b/
+    /\s+or\s+/, /\bversus\b/, /\bvs\.?\b/, /\bv\.?\b/,
+    /\bbetween\b.*\band\b/, /compare.*\band\b/, /\bchoose between\b/,
+    /^should i.*or\b/, /^(spiritual|material|career|work|home|stay|go|study|travel).*or.*(spiritual|material|career|work|home|stay|go|study|travel)/i,
+    /^this or that\b/, /^should i go with\b.*or\b/
   ];
   
-  // Check patterns in order of specificity
+  // Score-based detection for better accuracy
+  let scores = {
+    binary: 0,
+    advice: 0,
+    recommendation: 0,
+    choice: 0,
+    analysis: 0
+  };
+  
+  let detectedKeywords: string[] = [];
+  
+  // Pattern matching with scoring - CHOICE gets highest priority
+  if (choicePatterns.some(pattern => pattern.test(lowerQuestion))) {
+    scores.choice += 5; // Highest priority for choice questions
+    detectedKeywords.push('options', 'compare', 'versus');
+  }
+  
   if (binaryPatterns.some(pattern => pattern.test(lowerQuestion))) {
-    return {
-      category: 'binary',
-      confidence: 0.9,
-      keywords: ['decision', 'choice', 'yes/no']
-    };
+    scores.binary += 3;
+    detectedKeywords.push('decision', 'yes/no');
   }
   
   if (advicePatterns.some(pattern => pattern.test(lowerQuestion))) {
-    return {
-      category: 'advice',
-      confidence: 0.85,
-      keywords: ['guidance', 'steps', 'how-to']
-    };
+    scores.advice += 3;
+    detectedKeywords.push('guidance', 'how-to');
   }
   
   if (recommendationPatterns.some(pattern => pattern.test(lowerQuestion))) {
-    return {
-      category: 'recommendation',
-      confidence: 0.8,
-      keywords: ['suggest', 'recommend', 'best']
-    };
-  }
-  
-  if (choicePatterns.some(pattern => pattern.test(lowerQuestion))) {
-    return {
-      category: 'choice',
-      confidence: 0.75,
-      keywords: ['options', 'alternatives', 'compare']
-    };
+    scores.recommendation += 3;
+    detectedKeywords.push('suggest', 'recommend');
   }
   
   if (analysisPatterns.some(pattern => pattern.test(lowerQuestion))) {
-    return {
-      category: 'analysis',
-      confidence: 0.7,
-      keywords: ['explain', 'understand', 'insight']
-    };
+    scores.analysis += 3;
+    detectedKeywords.push('explain', 'understand');
+  }
+  
+  // Additional context scoring
+  const questionWords = lowerQuestion.split(/\s+/);
+  
+  if (questionWords.includes('better') || questionWords.includes('best')) {
+    scores.recommendation += 1;
+    scores.choice += 2; // Boost choice for comparison words
+    detectedKeywords.push('best');
+  }
+  
+  if (questionWords.includes('why') || questionWords.includes('because')) {
+    scores.analysis += 2;
+    detectedKeywords.push('why');
+  }
+  
+  if (questionWords.includes('how')) {
+    scores.advice += 1;
+    detectedKeywords.push('how');
+  }
+  
+  // Find the category with highest score
+  const maxScore = Math.max(...Object.values(scores));
+  let category: QuestionCategory = 'general';
+  let confidence = 0.5;
+  
+  if (maxScore > 0) {
+    for (const [cat, score] of Object.entries(scores)) {
+      if (score === maxScore) {
+        category = cat as QuestionCategory;
+        confidence = Math.min(0.9, 0.6 + (score * 0.1));
+        break;
+      }
+    }
+  }
+  
+  // Fallback to general if no clear pattern
+  if (maxScore === 0) {
+    detectedKeywords = ['general'];
   }
   
   return {
-    category: 'general',
-    confidence: 0.5,
-    keywords: ['general', 'advice']
+    category,
+    confidence,
+    keywords: [...new Set(detectedKeywords)] // Remove duplicates
   };
 };
