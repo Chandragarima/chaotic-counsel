@@ -50,10 +50,11 @@ export const analyzeQuestion = (question: string): QuestionAnalysis => {
     /^break down\b/, /^analyze\b/
   ];
   
-  // Better choice patterns
+  // Enhanced choice patterns - these should get HIGHEST priority
   const choicePatterns = [
     /\s+or\s+/, /\bversus\b/, /\bvs\.?\b/, /\bv\.?\b/,
-    /\bbetween\b.*\band\b/, /compare.*\band\b/, /\bchoose between\b/
+    /\bbetween\b.*\band\b/, /compare.*\band\b/, /\bchoose between\b/,
+    /^should i.*or\b/, /^(spiritual|material|career|work|home|stay|go|study|travel).*or.*(spiritual|material|career|work|home|stay|go|study|travel)/i
   ];
   
   // Score-based detection for better accuracy
@@ -67,7 +68,12 @@ export const analyzeQuestion = (question: string): QuestionAnalysis => {
   
   let detectedKeywords: string[] = [];
   
-  // Pattern matching with scoring
+  // Pattern matching with scoring - CHOICE gets highest priority
+  if (choicePatterns.some(pattern => pattern.test(lowerQuestion))) {
+    scores.choice += 5; // Highest priority for choice questions
+    detectedKeywords.push('options', 'compare', 'versus');
+  }
+  
   if (binaryPatterns.some(pattern => pattern.test(lowerQuestion))) {
     scores.binary += 3;
     detectedKeywords.push('decision', 'yes/no');
@@ -83,11 +89,6 @@ export const analyzeQuestion = (question: string): QuestionAnalysis => {
     detectedKeywords.push('suggest', 'recommend');
   }
   
-  if (choicePatterns.some(pattern => pattern.test(lowerQuestion))) {
-    scores.choice += 4; // Higher priority for choice questions
-    detectedKeywords.push('options', 'compare');
-  }
-  
   if (analysisPatterns.some(pattern => pattern.test(lowerQuestion))) {
     scores.analysis += 3;
     detectedKeywords.push('explain', 'understand');
@@ -98,7 +99,7 @@ export const analyzeQuestion = (question: string): QuestionAnalysis => {
   
   if (questionWords.includes('better') || questionWords.includes('best')) {
     scores.recommendation += 1;
-    scores.choice += 1;
+    scores.choice += 2; // Boost choice for comparison words
     detectedKeywords.push('best');
   }
   
