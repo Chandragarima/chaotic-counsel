@@ -21,8 +21,8 @@ export const analyzeQuestion = (question: string): QuestionAnalysis => {
     /^should i\b/, /^can i\b/, /^will i\b/, /^do i\b/, /^am i\b/,
     /^is it (time|worth|good|bad|wise|smart|safe|okay|ok|right|wrong)\b/,
     /\b(yes or no|true or false)\b/,
-    /^would it be (good|bad|wise|smart|better)\b/,
-    /^is this (a good|the right)\b/
+    /^would it be (good|bad|wise|smart|better)\b/, /^is now (a|the) (good|bad|right) time/,
+    /^is this (a good|the right)\b/, /^is it (a bad|a good|the best) idea/
   ];
   
   // Enhanced advice patterns
@@ -31,7 +31,8 @@ export const analyzeQuestion = (question: string): QuestionAnalysis => {
     /^what('s| is) the best way to\b/, /^what('s| is) the right way to\b/,
     /^what steps\b/, /^what should i do to\b/,
     /^how can i improve\b/, /^how do i get\b/, /^how do i make\b/,
-    /^what('s| is) the process\b/, /^how would i\b/
+    /^what('s| is) the process\b/, /^how would i\b/, /^how do i know\b/, 
+    /^how do i decide\b/
   ];
   
   // Better recommendation patterns
@@ -39,7 +40,7 @@ export const analyzeQuestion = (question: string): QuestionAnalysis => {
     /^what should i\b/, /^which (one|option|choice)\b/,
     /^what (would you|do you) recommend\b/, /^what('s| is) (better|best)\b/,
     /^suggest\b/, /^recommend\b/, /^what would be\b/,
-    /^which would be\b/, /^what('s| is) your recommendation\b/
+    /^which would be\b/, /^what('s| is) your recommendation\b/, /^any suggestions for\b/
   ];
   
   // Enhanced analysis patterns
@@ -47,14 +48,16 @@ export const analyzeQuestion = (question: string): QuestionAnalysis => {
     /^why\b/, /^what does\b/, /^explain\b/, /^what are the\b/,
     /^tell me about\b/, /^what('s| is) the meaning\b/,
     /^help me understand\b/, /^what causes\b/, /^what makes\b/,
-    /^break down\b/, /^analyze\b/
+    /^break down\b/, /^analyze\b/, /^what does it mean if\b/,
+    /^is it (normal|common|okay|unusual) to\b/
   ];
   
   // Enhanced choice patterns - these should get HIGHEST priority
   const choicePatterns = [
     /\s+or\s+/, /\bversus\b/, /\bvs\.?\b/, /\bv\.?\b/,
     /\bbetween\b.*\band\b/, /compare.*\band\b/, /\bchoose between\b/,
-    /^should i.*or\b/, /^(spiritual|material|career|work|home|stay|go|study|travel).*or.*(spiritual|material|career|work|home|stay|go|study|travel)/i
+    /^should i.*or\b/, /^(spiritual|material|career|work|home|stay|go|study|travel).*or.*(spiritual|material|career|work|home|stay|go|study|travel)/i,
+    /^this or that\b/, /^should i go with\b.*or\b/
   ];
   
   // Score-based detection for better accuracy
