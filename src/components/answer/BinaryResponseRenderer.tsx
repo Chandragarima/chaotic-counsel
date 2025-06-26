@@ -59,7 +59,7 @@ const BinaryResponseRenderer = ({ response, character }: BinaryResponseRendererP
               <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
                 {response.reasonsForYes.map((reason, index) => (
                   <li key={index} className="flex items-center space-x-3">
-                    <span className="text-green-400">✓</span>
+                    <span className="text-green-400">•</span>
                     <span className="text-sm">{reason}</span>
                   </li>
                 ))}
@@ -78,7 +78,7 @@ const BinaryResponseRenderer = ({ response, character }: BinaryResponseRendererP
               <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
                 {response.reasonsForNo.map((reason, index) => (
                   <li key={index} className="flex items-center space-x-3">
-                    <span className="text-red-400">✗</span>
+                    <span className="text-red-400">•</span>
                     <span className="text-sm">{reason}</span>
                   </li>
                 ))}

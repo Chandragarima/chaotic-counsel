@@ -134,8 +134,8 @@ const FeedbackModal = ({ isOpen, onClose, character, feedbackType }: FeedbackMod
   const renderStep3 = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-lg font-semibold mb-2">What other characters would you like to see?</h3>
-        <p className="text-sm text-gray-600 mb-4">Share your ideas! (Optional)</p>
+        <h3 className="text-lg font-semibold mb-2">Do you have any feedback or character suggestions?</h3>
+        <p className="text-sm text-gray-600 mb-0">Share your ideas! (Optional)</p>
       </div>
       
       <textarea

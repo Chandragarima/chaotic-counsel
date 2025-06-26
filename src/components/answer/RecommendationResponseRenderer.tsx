@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { RecommendationAIResponseEnhanced, Character } from '../../types';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -30,13 +29,18 @@ const RecommendationResponseRenderer = ({ response, character }: RecommendationR
         </p>
       </div>
 
-      {/* Reasoning */}
-      <div className="text-center">
-        <h4 className={`${theme.colors.text} font-semibold mb-2`}>Why This Choice</h4>
-        <p className={`${theme.colors.text} ${theme.fonts.body} opacity-90 text-sm`}>
-          {response.reasoning}
-        </p>
-      </div>
+      {/* Reasoning - Collapsible */}
+      <Collapsible open={expandedSections.reasoning} onOpenChange={() => toggleSection('reasoning')}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left mt-6 mb-2">
+          <h4 className={`${theme.colors.text} font-bold text-base`}>Why This Advice</h4>
+          <ChevronDown className={`h-4 w-4 ${theme.colors.text} transition-transform ${expandedSections.reasoning ? 'rotate-180' : ''}`} />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-2">
+          <p className={`${theme.colors.text} ${theme.fonts.body} opacity-90 text-sm pl-1`}>
+            {response.reasoning}
+          </p>
+        </CollapsibleContent>
+      </Collapsible>
 
       {/* Alternatives */}
       {response.alternatives && response.alternatives.length > 0 && (

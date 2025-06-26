@@ -14,22 +14,25 @@ export const useSupabaseProgress = () => {
   const [progress, setProgress] = useState<UserProgress>(defaultProgress);
   const [isNewUnlockAvailable, setIsNewUnlockAvailable] = useState(false);
   const [newlyUnlockedCharacter, setNewlyUnlockedCharacter] = useState<string | null>(null);
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
 
   // Track which unlock celebrations have been shown in this session
   const [shownCelebrations, setShownCelebrations] = useState<Set<string>>(new Set());
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (loading) return;
+    if (authLoading) return;
+    setLoading(true);
 
     if (user) {
       console.log('🔵 User logged in, loading progress and updating streak for user:', user.id);
-      loadUserProgressAndUpdateStreak();
+      loadUserProgressAndUpdateStreak().finally(() => setLoading(false));
     } else {
       console.log('🔴 No user, loading local progress');
       loadLocalProgress();
+      setLoading(false);
     }
-  }, [user, loading]);
+  }, [user, authLoading]);
 
   const loadUserProgressAndUpdateStreak = async () => {
     if (!user) return;
@@ -259,6 +262,7 @@ export const useSupabaseProgress = () => {
     incrementDecisions,
     isNewUnlockAvailable,
     newlyUnlockedCharacter,
-    dismissUnlockCelebration
+    dismissUnlockCelebration,
+    loading,
   };
 };
