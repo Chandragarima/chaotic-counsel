@@ -9,7 +9,7 @@ export const characters: Character[] = [
     personality: 'Drama queen answers only',
     description: 'Sarcastic, bold, and obviously always right (just ask her)',
     unlocked: true, // Always unlocked
-    image: '/lovable-uploads/3e3b0145-32d2-4801-b3ac-c7d5af5e5653.png'
+    image: 'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750980091/3e3b0145-32d2-4801-b3ac-c7d5af5e5653_r4i77o.png'
   },
   {
     id: 'wise-owl',
