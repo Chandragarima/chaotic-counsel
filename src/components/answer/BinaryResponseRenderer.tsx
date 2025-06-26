@@ -58,8 +58,8 @@ const BinaryResponseRenderer = ({ response, character }: BinaryResponseRendererP
             <CollapsibleContent className="mt-3">
               <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
                 {response.reasonsForYes.map((reason, index) => (
-                  <li key={index} className="flex items-start space-x-3">
-                    <span className="text-green-400 mt-1">✓</span>
+                  <li key={index} className="flex items-center space-x-3">
+                    <span className="text-green-400">✓</span>
                     <span className="text-sm">{reason}</span>
                   </li>
                 ))}
@@ -77,8 +77,8 @@ const BinaryResponseRenderer = ({ response, character }: BinaryResponseRendererP
             <CollapsibleContent className="mt-3">
               <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
                 {response.reasonsForNo.map((reason, index) => (
-                  <li key={index} className="flex items-start space-x-3">
-                    <span className="text-red-400 mt-1">✗</span>
+                  <li key={index} className="flex items-center space-x-3">
+                    <span className="text-red-400">✗</span>
                     <span className="text-sm">{reason}</span>
                   </li>
                 ))}

@@ -38,11 +38,14 @@ const AdviceResponseRenderer = ({ response, character }: AdviceResponseRendererP
             <ChevronDown className={`h-4 w-4 ${theme.colors.text} transition-transform ${expandedSections.steps ? 'rotate-180' : ''}`} />
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-3">
-            <ol className={`${theme.colors.text} space-y-2 ${theme.fonts.body} list-decimal list-inside`}>
+            <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body} list-decimal list-inside`}>
               {response.steps.map((step, index) => (
-                <li key={index} className="text-sm">{step}</li>
+               <li key={index} className="flex items-center space-x-3">
+               <span className="text-amber-400">•</span>
+               <span className="text-sm">{step}</span>
+             </li>
               ))}
-            </ol>
+            </ul>
           </CollapsibleContent>
         </Collapsible>
       )}
@@ -57,8 +60,8 @@ const AdviceResponseRenderer = ({ response, character }: AdviceResponseRendererP
           <CollapsibleContent className="mt-3">
             <ul className={`${theme.colors.text} space-y-2 ${theme.fonts.body}`}>
               {response.considerations.map((consideration, index) => (
-                <li key={index} className="flex items-start space-x-3">
-                  <span className="text-amber-400 mt-1">•</span>
+                <li key={index} className="flex items-center space-x-3">
+                  <span className="text-amber-400">•</span>
                   <span className="text-sm">{consideration}</span>
                 </li>
               ))}

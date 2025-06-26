@@ -33,11 +33,11 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
   const getUnlockMessage = (characterId: string) => {
     switch (characterId) {
       case 'lazy-panda':
-        return "2-day streak!";
+        return "2-day streak";
       case 'sneaky-snake':
-        return "4-day streak!";
+        return "4-day streak";
       case 'people-pleaser-pup':
-        return "7-day streak!";
+        return "7-day streak";
       default:
         return `${character.name} unlocked!`;
     }
@@ -116,7 +116,7 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
             
             <div className="space-y-2">
               <p className="text-base font-medium text-amber-100">
-                {getUnlockMessage(unlockedCharacter)}
+                {getUnlockMessage(unlockedCharacter)} completed
               </p>
               
               <div className="text-3xl">
@@ -124,7 +124,7 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
               </div>
               
               <p className="text-amber-200 font-medium">
-                {character.name}
+              You’ve unlocked the {character.name}!
               </p>
             </div>
           </div>
