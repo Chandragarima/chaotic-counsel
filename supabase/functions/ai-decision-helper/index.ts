@@ -47,22 +47,22 @@ const analyzeQuestion = (question: string) => {
 const getCharacterPersonality = (character: string) => {
   switch (character) {
     case 'wise-owl':
-      return `You are the Wise Owl, an ancient and mystical advisor whose wisdom comes from observing countless seasons of change. You speak with poetic authority, weaving nature metaphors and mystical insights into your guidance. You refer to "seasons of experience," "winds of change," and "moonlit observations." Your responses carry the weight of ancient knowledge while remaining gently mysterious. Always include "Hoot!" in your final wisdom.`;
+      return `You are the Wise Owl. Be concise, mystical, and wise. Always end with "Hoot!" Keep responses under 100 words total.`;
     
     case 'sassy-cat':
-      return `You are Sassy Cat, the dramatic queen of no-nonsense advice. You deliver tough love with theatrical flair, cutting through nonsense with sharp wit and brutal honesty. You're direct, confident, and unafraid to tell hard truths. Your advice comes with attitude and dramatic emphasis. You use phrases like "honey," "darling," and dramatic expressions. Always include a dramatic flair in your final recommendation.`;
+      return `You are Sassy Cat. Be direct, dramatic, and confident with attitude. Always include dramatic flair. Keep responses under 100 words total.`;
     
     case 'lazy-panda':
-      return `You are Lazy Panda, the master of practical, low-stress solutions. You focus on minimal effort approaches that maximize comfort and peace. Your wisdom centers on finding the easiest, most relaxed path forward while still being effective. You're all about work-life balance, stress reduction, and keeping things simple. Your advice always considers energy conservation and peaceful solutions.`;
+      return `You are Lazy Panda. Focus on simple, low-stress solutions and comfort. Keep responses under 100 words total.`;
     
     case 'sneaky-snake':
-      return `You are Sneaky Snake, the strategic mastermind who sees angles others miss. You provide cunning insights and calculated advice, always thinking three moves ahead. Your guidance focuses on strategic advantages, alternative perspectives, and clever solutions. You speak with subtle intelligence and reveal hidden opportunities. Your advice often includes "between you and me" insights and strategic thinking.`;
+      return `You are Sneaky Snake. Be strategic and cunning, revealing hidden angles. Keep responses under 100 words total.`;
     
     case 'people-pleaser-pup':
-      return `You are People-Pleaser Pup, the supportive companion who believes in consensus-building and making everyone happy. Your advice focuses on empathy, collaboration, and finding solutions that work for everyone involved. You're enthusiastic, caring, and always consider how decisions affect relationships. Your guidance emphasizes communication, understanding, and bringing people together.`;
+      return `You are People-Pleaser Pup. Be enthusiastic, supportive, and collaborative. Keep responses under 100 words total.`;
     
     default:
-      return `You are a wise advisor providing thoughtful guidance.`;
+      return `You are a wise advisor. Be concise and helpful. Keep responses under 100 words total.`;
   }
 };
 
@@ -73,74 +73,74 @@ const getSystemPrompt = (questionType: string, character: string) => {
     case 'binary':
       return `${basePersonality}
 
-You help people make YES/NO decisions by providing balanced analysis. Respond with valid JSON in this EXACT format:
+Respond with valid JSON in this EXACT format:
 {
   "responseType": "binary",
-  "deeperQuestion": "A penetrating question that gets to the heart of their decision (in your personality style)",
-  "reasonsForYes": ["2-3 compelling reasons why they should say YES (with your personality voice)"],
-  "reasonsForNo": ["2-3 strong reasons why they should say NO (with your personality voice)"],
-  "calculatedRisk": "Brief risk assessment with key factor (in your style)",
-  "personalityRecommendation": "Your final recommendation with clear lean toward YES or NO (max 30 words, include your personality signature)"
+  "deeperQuestion": "One penetrating question (max 50 words)",
+  "reasonsForYes": ["2 reasons for YES (max 25 words each)"],
+  "reasonsForNo": ["2 reasons for NO (max 25 words each)"],
+  "calculatedRisk": "Brief risk assessment (max 30 words)",
+  "personalityRecommendation": "Your final recommendation with signature (max 30 words)"
 }`;
 
     case 'advice':
       return `${basePersonality}
 
-You provide step-by-step guidance for "how-to" questions. Respond with valid JSON in this EXACT format:
+Respond with valid JSON in this EXACT format:
 {
   "responseType": "advice",
-  "mainAdvice": "Your primary guidance in one clear sentence (in your personality style)",
-  "steps": ["3-4 practical steps they should take (with your personality approach)"],
-  "considerations": ["2-3 important things to keep in mind (in your style)"],
-  "personalityWisdom": "Your final wisdom about this advice (max 30 words, include your personality signature)"
+  "mainAdvice": "Primary guidance (max 40 words)",
+  "steps": ["3 practical steps (max 20 words each)"],
+  "considerations": ["2 important considerations (max 20 words each)"],
+  "personalityWisdom": "Final wisdom with signature (max 30 words)"
 }`;
 
     case 'recommendation':
       return `${basePersonality}
 
-You provide specific recommendations for "what should I" questions. Respond with valid JSON in this EXACT format:
+Respond with valid JSON in this EXACT format:
 {
   "responseType": "recommendation",
-  "topRecommendation": "Your primary recommendation (in your personality style)",
-  "alternatives": ["2-3 alternative options (with your personality perspective)"],
-  "reasoning": "Brief explanation of why you recommend this (in your style)",
-  "personalityNote": "Your final note about this recommendation (max 30 words, include your personality signature)"
+  "topRecommendation": "Primary recommendation (max 40 words)",
+  "alternatives": ["2 alternatives (max 20 words each)"],
+  "reasoning": "Brief explanation (max 30 words)",
+  "personalityNote": "Final note with signature (max 30 words)"
 }`;
 
     case 'analysis':
       return `${basePersonality}
 
-You provide insights and analysis for "why" and explanatory questions. Respond with valid JSON in this EXACT format:
+Respond with valid JSON in this EXACT format:
 {
   "responseType": "analysis",
-  "keyInsights": ["3-4 main insights about this topic (in your personality style)"],
-  "perspectives": ["2-3 different ways to view this (with your personality approach)"],
-  "conclusion": "Your overall analysis summary (in your style)",
-  "personalityReflection": "Your final reflection on this topic (max 30 words, include your personality signature)"
+  "keyInsights": ["3 main insights (max 20 words each)"],
+  "perspectives": ["2 different viewpoints (max 20 words each)"],
+  "conclusion": "Overall analysis (max 30 words)",
+  "personalityReflection": "Final reflection with signature (max 30 words)"
 }`;
 
     case 'choice':
       return `${basePersonality}
 
-You help compare multiple options. Respond with valid JSON in this EXACT format:
+Respond with valid JSON in this EXACT format:
 {
   "responseType": "choice",
-  "recommendedChoice": "Your top choice from the options presented (in your personality style)",
-  "choiceAnalysis": [{"option": "Option name", "pros": ["1-2 pros (in your style)"], "cons": ["1-2 cons (in your style)"]}],
-  "finalThought": "Your final wisdom about this choice (max 30 words, include your personality signature)"
+  "recommendedChoice": "Top choice (max 30 words)",
+  "choiceAnalysis": [{"option": "Option name", "pros": ["1 pro (max 20 words)"], "cons": ["1 con (max 20 words)"]}],
+  "finalThought": "Final wisdom with signature (max 30 words)"
 }`;
 
     default:
       return `${basePersonality}
 
-For general questions, provide thoughtful guidance. Respond with valid JSON in this EXACT format:
+Respond with valid JSON in this EXACT format:
 {
   "responseType": "binary",
-  "deeperQuestion": "A thought-provoking question to help them reflect (in your personality style)",
-  "reasonsForYes": ["Consider the positive aspects (with your personality voice)"],
-  "reasonsForNo": ["Consider potential challenges (with your personality voice)"],
-  "calculatedRisk": "General wisdom about uncertainty (in your style)",
-  "personalityRecommendation": "Your general wisdom (max 30 words, include your personality signature)"
+  "deeperQuestion": "Thought-provoking question (max 50 words)",
+  "reasonsForYes": ["Positive aspects (max 25 words)"],
+  "reasonsForNo": ["Potential challenges (max 25 words)"],
+  "calculatedRisk": "General wisdom (max 30 words)",
+  "personalityRecommendation": "General wisdom with signature (max 30 words)"
 }`;
   }
 };
@@ -153,7 +153,7 @@ serve(async (req) => {
   try {
     const { question, character } = await req.json();
     
-    console.log('Received request:', { question, character });
+    console.log('Processing request:', { question, character });
 
     if (!question || !character) {
       throw new Error('Missing required parameters');
@@ -166,11 +166,11 @@ serve(async (req) => {
 
     // Detect question type
     const questionType = analyzeQuestion(question);
-    console.log('Detected question type:', questionType);
+    console.log('Question type:', questionType);
 
     const systemPrompt = getSystemPrompt(questionType, character);
 
-    console.log('Making OpenAI API call...');
+    console.log('Calling OpenAI API...');
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -179,17 +179,15 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o-mini', // Using the faster model
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: question }
         ],
         temperature: 0.7,
-        max_tokens: 600,
+        max_tokens: 300, // Reduced from 600 to 300 for faster responses
       }),
     });
-
-    console.log('OpenAI API response status:', response.status);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -198,7 +196,6 @@ serve(async (req) => {
     }
 
     const data = await response.json();
-    console.log('OpenAI response received, parsing...');
 
     if (!data.choices || !data.choices[0] || !data.choices[0].message) {
       console.error('Invalid OpenAI response structure:', data);
@@ -207,36 +204,32 @@ serve(async (req) => {
 
     let aiResponse;
     const messageContent = data.choices[0].message.content;
-    console.log('Raw message content:', messageContent);
 
     try {
       aiResponse = JSON.parse(messageContent);
-      console.log('Successfully parsed AI response:', aiResponse);
+      console.log('AI response parsed successfully');
       
-      // Validate response has required responseType
       if (!aiResponse.responseType) {
-        console.error('AI response missing responseType:', aiResponse);
-        throw new Error('AI response missing responseType');
+        throw new Error('Missing responseType in AI response');
       }
       
     } catch (parseError) {
       console.error('JSON parsing failed:', parseError);
-      console.error('Raw content that failed to parse:', messageContent);
       
-      // Enhanced fallback response with character personality
+      // Quick fallback response
       const characterSignature = character === 'wise-owl' ? 'Hoot!' : 
                                 character === 'sassy-cat' ? 'Meow, darling!' :
                                 character === 'lazy-panda' ? 'Keep it chill!' :
-                                character === 'sneaky-snake' ? 'Trust me on this...' :
-                                character === 'people-pleaser-pup' ? 'We got this together!' : 'Trust your instincts!';
+                                character === 'sneaky-snake' ? 'Trust me...' :
+                                character === 'people-pleaser-pup' ? 'Woof!' : 'Trust yourself!';
       
       aiResponse = {
         responseType: 'binary',
-        deeperQuestion: "What outcome would you regret NOT pursuing in 5 years?",
-        reasonsForYes: ["Acting now prevents future regret", "Opportunities rarely come twice"],
-        reasonsForNo: ["Rushing decisions can lead to mistakes", "More information might become available"],
-        calculatedRisk: "Medium - Most life decisions carry uncertainty, but inaction is also a choice",
-        personalityRecommendation: `Trust your instincts and take measured action rather than endless deliberation. ${characterSignature}`
+        deeperQuestion: "What choice aligns with your values?",
+        reasonsForYes: ["Follow your instincts", "Take decisive action"],
+        reasonsForNo: ["Consider all options", "Wait for clarity"],
+        calculatedRisk: "Every decision teaches you something valuable",
+        personalityRecommendation: `Trust your judgment. ${characterSignature}`
       };
     }
 
@@ -245,16 +238,16 @@ serve(async (req) => {
     });
 
   } catch (error) {
-    console.error('Error in ai-decision-helper:', error);
+    console.error('Function error:', error);
     
-    // Enhanced fallback with decision structure
+    // Fast fallback response
     const fallbackResponse = {
       responseType: 'binary',
-      deeperQuestion: "What would your future self thank you for choosing today?",
-      reasonsForYes: ["Taking action creates momentum", "You gain experience regardless of outcome"],
-      reasonsForNo: ["Waiting allows for better preparation", "Current timing might not be optimal"],
-      calculatedRisk: "Medium - Every decision involves uncertainty, but staying informed helps",
-      personalityRecommendation: "When the path is unclear, choose growth over comfort."
+      deeperQuestion: "What feels right in your heart?",
+      reasonsForYes: ["Trust your instincts"],
+      reasonsForNo: ["Consider alternatives"], 
+      calculatedRisk: "Growth comes from thoughtful choices",
+      personalityRecommendation: "Choose what serves your highest good."
     };
 
     return new Response(JSON.stringify(fallbackResponse), {

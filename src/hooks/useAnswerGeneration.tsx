@@ -138,12 +138,16 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     return null;
   };
 
-  // Enhanced AI response function
+  // Enhanced AI response function with timeout and better error handling
   const getAIResponse = async (question: string, character: Character, category: string): Promise<AIResponse> => {
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('AI request timeout')), 8000); // 8 second timeout
+    });
+
     try {
-      console.log('Calling AI decision helper with:', { question, character: character.type, category });
+      console.log('Calling AI decision helper with timeout protection:', { question, character: character.type, category });
       
-      const { data, error } = await supabase.functions.invoke('ai-decision-helper', {
+      const aiPromise = supabase.functions.invoke('ai-decision-helper', {
         body: {
           question,
           character: character.type,
@@ -151,82 +155,118 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
         }
       });
 
-      console.log('Raw AI response:', data, 'Error:', error);
+      const { data, error } = await Promise.race([aiPromise, timeoutPromise]);
+
+      console.log('AI response received:', data, 'Error:', error);
 
       if (error) throw error;
       
+      // Validate response structure
+      if (!data || typeof data !== 'object') {
+        throw new Error('Invalid AI response structure');
+      }
+
       // Parse the response if it's a string
       if (typeof data === 'string') {
         try {
           const parsed = JSON.parse(data);
           console.log('Parsed AI response:', parsed);
+          
+          // Validate required fields
+          if (!parsed.responseType) {
+            throw new Error('Missing responseType in AI response');
+          }
+          
           return parsed;
         } catch (parseError) {
           console.error('Failed to parse AI response:', parseError);
-          throw new Error('Invalid response format from AI');
+          throw new Error('Invalid JSON format from AI');
         }
+      }
+      
+      // Validate direct response
+      if (!data.responseType) {
+        throw new Error('Missing responseType in direct AI response');
       }
       
       console.log('Using direct AI response:', data);
       return data;
     } catch (error) {
       console.error('AI response error:', error);
-      // Fallback response with correct property names
-      return {
+      
+      // Enhanced fallback response with correct property names
+      const fallbackResponse: AIResponse = {
         responseType: 'binary',
-        deeperQuestion: "What would you advise a dear friend facing this same decision?",
-        reasonsForYes: ["Consider both logic and intuition", "Reflect on your deeper values"],
-        reasonsForNo: ["Take time for quiet contemplation", "Seek wisdom from trusted sources"],
-        calculatedRisk: "In times of uncertainty, ancient wisdom reminds us that every question carries the seeds of its own answer within.",
-        personalityRecommendation: "When the path is unclear, choose growth over comfort."
-      } as AIResponse;
+        deeperQuestion: "What would bring you peace of mind in this situation?",
+        reasonsForYes: ["Trust your instincts - they're usually right", "Taking action often leads to clarity"],
+        reasonsForNo: ["Sometimes waiting reveals better options", "Caution can prevent costly mistakes"],
+        calculatedRisk: "Every decision carries uncertainty, but inaction is also a choice with consequences.",
+        personalityRecommendation: getCharacterSignature(character.type)
+      };
+      
+      return fallbackResponse;
+    }
+  };
+
+  // Get character-specific signature for fallback
+  const getCharacterSignature = (characterType: Character['type']): string => {
+    switch (characterType) {
+      case 'wise-owl': return "Trust in the wisdom of your experience and the lessons you've learned. Hoot!";
+      case 'sassy-cat': return "Darling, you know what's best for you - now own that decision! Meow!";
+      case 'lazy-panda': return "Keep it simple and go with what feels right for your peace of mind.";
+      case 'sneaky-snake': return "Between you and me, the clever choice is often the one others don't see coming...";
+      case 'people-pleaser-pup': return "Whatever you choose, we'll support you all the way! You've got this! Woof!";
+      default: return "Trust your instincts and move forward with confidence.";
     }
   };
 
   useEffect(() => {
-    console.log('Answer generation started with:', { character: character.type, mode, questionType, question });
+    console.log('Answer generation started:', { character: character.type, mode, questionType, question });
     
     setIsThinking(true);
     setIsRevealing(true);
     setResponseType('thinking');
     setAiResponse(null);
-    setAnswer(''); // Clear previous answer
+    setAnswer('');
 
     // Determine thinking duration based on mode
-    const thinkingDuration = mode === 'fun' ? 3000 : 0; // 3s for fun, 0s for serious
+    const thinkingDuration = mode === 'fun' ? 2000 : 0; // Reduced from 3s to 2s for fun mode
 
     const generateAnswer = async () => {
-      // Serious mode logic for ALL characters
       if (mode === 'serious') {
-        console.log(`Using serious mode for ${character.type} with intelligent analysis`);
+        console.log(`Using serious mode for ${character.type}`);
         try {
-          // Analyze the question to determine its type
           const analysis = analyzeQuestion(question);
           console.log('Question analysis:', analysis);
           
-          // Use the detected category for AI response
-          // setIsThinking(true); // Start thinking animation
+          // Get AI response with timeout protection
           const aiResult = await getAIResponse(question, character, analysis.category);
-          console.log('Setting AI response:', aiResult);
+          console.log('AI response successful:', aiResult);
           setAiResponse(aiResult);
           
-          // Set response type based on the detected category
+          // Set response type based on category
           const responseImageType = analysis.category === 'binary' ? 'yes' : 
                                  analysis.category === 'choice' ? 'choice' : 'maybe';
           setResponseType(responseImageType);
           
         } catch (error) {
-          console.error('Failed to get AI response, falling back to regular mode:', error);
-          // Fall back to regular response system
-          const randomResponse = getWeightedResponse(character.type);
-          const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
-          const imageType = getImageTypeFromTemplate(randomResponse);
-          setResponseType(imageType);
-          setAnswer(formattedAnswer);
+          console.error('Serious mode failed, using fun mode fallback:', error);
+          // Fall back to fun mode logic
+          const orQuestionResult = handleOrQuestion(question);
+          if (orQuestionResult) {
+            setAnswer(orQuestionResult.answer);
+            setResponseType(getImageTypeFromTemplate(orQuestionResult.templateType));
+          } else {
+            const randomResponse = getWeightedResponse(character.type);
+            const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
+            const imageType = getImageTypeFromTemplate(randomResponse);
+            setResponseType(imageType);
+            setAnswer(formattedAnswer);
+          }
           setAiResponse(null);
         }
       } else {
-        // Fun mode for all characters - existing logic
+        // Fun mode logic - unchanged
         const orQuestionResult = handleOrQuestion(question);
         if (orQuestionResult) {
           setAnswer(orQuestionResult.answer);
@@ -243,11 +283,11 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
       setIsThinking(false);
       setIsRevealing(false);
 
-      // Play response sound when the answer is provided
+      // Play response sound
       audioManager.playSound('response', character.type);
     };
 
-    // Start the answer generation after the thinking duration
+    // Start generation with appropriate delay
     if (mode === 'fun') {
       const timer = setTimeout(generateAnswer, thinkingDuration);
       return () => clearTimeout(timer);
