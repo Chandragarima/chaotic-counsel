@@ -48,8 +48,8 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
           case 'dinner':
             return [
               { id: `${baseId}-1`, text: 'Should I actually cook tonight, or just keep pretending I will?', category: 'dinner' },
-              { id: `${baseId}-2`, text: 'Do I deserve dessert before dinner or after both meals?', category: 'dinner' },
-              { id: `${baseId}-3`, text: 'What cuisine should I order tonight?', category: 'dinner' },
+              { id: `${baseId}-2`, text: 'Do I eat dessert before dinner or after both meals?', category: 'dinner' },
+              { id: `${baseId}-3`, text: 'What should I have for dinner tonight?', category: 'dinner' },
               { id: `${baseId}-4`, text: 'Is today a salad day or a "carbs don\'t count" day?', category: 'dinner' },
               { id: `${baseId}-5`, text: 'Pizza or tacos for my cheat meal?', category: 'dinner' }
             ];
@@ -84,11 +84,11 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
         switch (questionType) {
           case 'dinner':
             return [
-              { id: `${baseId}-1`, text: 'Should I practice mindful eating tonight?', category: 'dinner' },
+              { id: `${baseId}-1`, text: 'Should I start mindful eating from tonight?', category: 'dinner' },
               { id: `${baseId}-2`, text: 'Does skipping breakfast count as intermittent fasting or just poor planning?', category: 'dinner' },
-              { id: `${baseId}-3`, text: 'What cuisine will nourish my soul tonight?', category: 'dinner' },
-              { id: `${baseId}-4`, text: 'Should I cook with intention tonight?', category: 'dinner' },
-              { id: `${baseId}-5`, text: 'Should I quit meat and start judging people from a higher plane?', category: 'dinner' }
+              { id: `${baseId}-3`, text: 'What snack will nourish my soul tonight?', category: 'dinner' },
+              { id: `${baseId}-5`, text: 'Should I quit meat and start judging people from a higher plane?', category: 'dinner' },
+              { id: `${baseId}-8`, text: 'What dessert will satisfy both my body and spirit?', category: 'dinner' }
             ];
           case 'movie':
             return [
@@ -121,9 +121,9 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
         switch (questionType) {
           case 'dinner':
             return [
-              { id: `${baseId}-1`, text: 'Should I order delivery tonight?', category: 'dinner' },
+              { id: `${baseId}-1`, text: 'What is for lunch today?', category: 'dinner' },
               { id: `${baseId}-2`, text: 'DoorDash or whatever is in my fridge?', category: 'dinner' },
-              { id: `${baseId}-3`, text: 'Should I just eat the leftovers and call it gourmet?', category: 'dinner' },
+              { id: `${baseId}-7`, text: 'What cuisine requires the least effort to order?', category: 'dinner' },
               { id: `${baseId}-4`, text: 'Do I really need vegetables today?', category: 'dinner' },
               { id: `${baseId}-5`, text: 'What is the dessert vibe today?', category: 'dinner' }
             ];
@@ -158,7 +158,7 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
         switch (questionType) {
           case 'dinner':
             return [
-              { id: `${baseId}-1`, text: 'Which spot will get me the best dinner and look impressive on stories?', category: 'dinner' },
+              { id: `${baseId}-8`, text: 'What dessert will make me seem sophisticated but not pretentious?', category: 'dinner' },
               { id: `${baseId}-2`, text: 'Expensive restaurant or cheap eats for maximum savings?', category: 'dinner' },
               { id: `${baseId}-3`, text: 'Should I order something healthy just to feel good?', category: 'dinner' },
               { id: `${baseId}-4`, text: 'Should I cook at home where no one can judge me?', category: 'dinner' },
