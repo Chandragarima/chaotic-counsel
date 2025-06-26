@@ -7,6 +7,7 @@ const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
 // Question type detection function
@@ -47,22 +48,22 @@ const analyzeQuestion = (question: string) => {
 const getCharacterPersonality = (character: string) => {
   switch (character) {
     case 'wise-owl':
-      return `You are the Wise Owl. Be concise, mystical, and wise. Always end with "Hoot!" Keep responses under 100 words total.`;
+      return `You are the Wise Owl. Be concise, mystical, and wise. Always end with "Hoot!" Keep responses under 80 words total.`;
     
     case 'sassy-cat':
-      return `You are Sassy Cat. Be direct, dramatic, and confident with attitude. Always include dramatic flair. Keep responses under 100 words total.`;
+      return `You are Sassy Cat. Be direct, dramatic, and confident with attitude. Always include dramatic flair. Keep responses under 80 words total.`;
     
     case 'lazy-panda':
-      return `You are Lazy Panda. Focus on simple, low-stress solutions and comfort. Keep responses under 100 words total.`;
+      return `You are Lazy Panda. Focus on simple, low-stress solutions and comfort. Keep responses under 80 words total.`;
     
     case 'sneaky-snake':
-      return `You are Sneaky Snake. Be strategic and cunning, revealing hidden angles. Keep responses under 100 words total.`;
+      return `You are Sneaky Snake. Be strategic and cunning, revealing hidden angles. Keep responses under 80 words total.`;
     
     case 'people-pleaser-pup':
-      return `You are People-Pleaser Pup. Be enthusiastic, supportive, and collaborative. Keep responses under 100 words total.`;
+      return `You are People-Pleaser Pup. Be enthusiastic, supportive, and collaborative. Keep responses under 80 words total.`;
     
     default:
-      return `You are a wise advisor. Be concise and helpful. Keep responses under 100 words total.`;
+      return `You are a wise advisor. Be concise and helpful. Keep responses under 80 words total.`;
   }
 };
 
@@ -76,11 +77,11 @@ const getSystemPrompt = (questionType: string, character: string) => {
 Respond with valid JSON in this EXACT format:
 {
   "responseType": "binary",
-  "deeperQuestion": "One penetrating question (max 50 words)",
-  "reasonsForYes": ["2 reasons for YES (max 25 words each)"],
-  "reasonsForNo": ["2 reasons for NO (max 25 words each)"],
-  "calculatedRisk": "Brief risk assessment (max 30 words)",
-  "personalityRecommendation": "Your final recommendation with signature (max 30 words)"
+  "deeperQuestion": "One penetrating question (max 40 words)",
+  "reasonsForYes": ["2 reasons for YES (max 20 words each)"],
+  "reasonsForNo": ["2 reasons for NO (max 20 words each)"],
+  "calculatedRisk": "Brief risk assessment (max 25 words)",
+  "personalityRecommendation": "Your final recommendation with signature (max 25 words)"
 }`;
 
     case 'advice':
@@ -89,10 +90,10 @@ Respond with valid JSON in this EXACT format:
 Respond with valid JSON in this EXACT format:
 {
   "responseType": "advice",
-  "mainAdvice": "Primary guidance (max 40 words)",
-  "steps": ["3 practical steps (max 20 words each)"],
-  "considerations": ["2 important considerations (max 20 words each)"],
-  "personalityWisdom": "Final wisdom with signature (max 30 words)"
+  "mainAdvice": "Primary guidance (max 30 words)",
+  "steps": ["3 practical steps (max 15 words each)"],
+  "considerations": ["2 important considerations (max 15 words each)"],
+  "personalityWisdom": "Final wisdom with signature (max 25 words)"
 }`;
 
     case 'recommendation':
@@ -101,10 +102,10 @@ Respond with valid JSON in this EXACT format:
 Respond with valid JSON in this EXACT format:
 {
   "responseType": "recommendation",
-  "topRecommendation": "Primary recommendation (max 40 words)",
-  "alternatives": ["2 alternatives (max 20 words each)"],
-  "reasoning": "Brief explanation (max 30 words)",
-  "personalityNote": "Final note with signature (max 30 words)"
+  "topRecommendation": "Primary recommendation (max 30 words)",
+  "alternatives": ["2 alternatives (max 15 words each)"],
+  "reasoning": "Brief explanation (max 25 words)",
+  "personalityNote": "Final note with signature (max 25 words)"
 }`;
 
     case 'analysis':
@@ -113,10 +114,10 @@ Respond with valid JSON in this EXACT format:
 Respond with valid JSON in this EXACT format:
 {
   "responseType": "analysis",
-  "keyInsights": ["3 main insights (max 20 words each)"],
-  "perspectives": ["2 different viewpoints (max 20 words each)"],
-  "conclusion": "Overall analysis (max 30 words)",
-  "personalityReflection": "Final reflection with signature (max 30 words)"
+  "keyInsights": ["3 main insights (max 15 words each)"],
+  "perspectives": ["2 different viewpoints (max 15 words each)"],
+  "conclusion": "Overall analysis (max 25 words)",
+  "personalityReflection": "Final reflection with signature (max 25 words)"
 }`;
 
     case 'choice':
@@ -125,9 +126,9 @@ Respond with valid JSON in this EXACT format:
 Respond with valid JSON in this EXACT format:
 {
   "responseType": "choice",
-  "recommendedChoice": "Top choice (max 30 words)",
-  "choiceAnalysis": [{"option": "Option name", "pros": ["1 pro (max 20 words)"], "cons": ["1 con (max 20 words)"]}],
-  "finalThought": "Final wisdom with signature (max 30 words)"
+  "recommendedChoice": "Top choice (max 25 words)",
+  "choiceAnalysis": [{"option": "Option name", "pros": ["1 pro (max 15 words)"], "cons": ["1 con (max 15 words)"]}],
+  "finalThought": "Final wisdom with signature (max 25 words)"
 }`;
 
     default:
@@ -136,32 +137,65 @@ Respond with valid JSON in this EXACT format:
 Respond with valid JSON in this EXACT format:
 {
   "responseType": "binary",
-  "deeperQuestion": "Thought-provoking question (max 50 words)",
-  "reasonsForYes": ["Positive aspects (max 25 words)"],
-  "reasonsForNo": ["Potential challenges (max 25 words)"],
-  "calculatedRisk": "General wisdom (max 30 words)",
-  "personalityRecommendation": "General wisdom with signature (max 30 words)"
+  "deeperQuestion": "Thought-provoking question (max 40 words)",
+  "reasonsForYes": ["Positive aspects (max 20 words)"],
+  "reasonsForNo": ["Potential challenges (max 20 words)"],
+  "calculatedRisk": "General wisdom (max 25 words)",
+  "personalityRecommendation": "General wisdom with signature (max 25 words)"
 }`;
   }
 };
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { 
+      headers: corsHeaders,
+      status: 200 
+    });
   }
 
   try {
-    const { question, character } = await req.json();
+    // Validate request method
+    if (req.method !== 'POST') {
+      return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+        status: 405,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Parse request body with error handling
+    let requestBody;
+    try {
+      requestBody = await req.json();
+    } catch (parseError) {
+      console.error('Request body parsing error:', parseError);
+      return new Response(JSON.stringify({ error: 'Invalid JSON in request body' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    const { question, character } = requestBody;
     
     console.log('Processing request:', { question, character });
 
+    // Validate required parameters
     if (!question || !character) {
-      throw new Error('Missing required parameters');
+      console.error('Missing required parameters:', { question: !!question, character: !!character });
+      return new Response(JSON.stringify({ error: 'Missing required parameters: question and character' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
     }
 
+    // Validate OpenAI API key
     if (!openAIApiKey) {
       console.error('OpenAI API key is missing');
-      throw new Error('OpenAI API key not configured');
+      return new Response(JSON.stringify({ error: 'OpenAI API key not configured' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
     }
 
     // Detect question type
@@ -172,27 +206,45 @@ serve(async (req) => {
 
     console.log('Calling OpenAI API...');
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini', // Using the faster model
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: question }
-        ],
-        temperature: 0.7,
-        max_tokens: 300, // Reduced from 600 to 300 for faster responses
-      }),
-    });
+    // Call OpenAI API with timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    let response;
+    try {
+      response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${openAIApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: question }
+          ],
+          temperature: 0.7,
+          max_tokens: 250,
+        }),
+        signal: controller.signal,
+      });
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      console.error('OpenAI API fetch error:', fetchError);
+      
+      if (fetchError.name === 'AbortError') {
+        throw new Error('OpenAI API request timeout');
+      }
+      throw new Error(`OpenAI API connection failed: ${fetchError.message}`);
+    }
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`OpenAI API error: ${response.status} - ${errorText}`);
-      throw new Error(`OpenAI API error: ${response.status}`);
+      throw new Error(`OpenAI API error: ${response.status} - ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -215,6 +267,7 @@ serve(async (req) => {
       
     } catch (parseError) {
       console.error('JSON parsing failed:', parseError);
+      console.error('Raw AI response:', messageContent);
       
       // Quick fallback response
       const characterSignature = character === 'wise-owl' ? 'Hoot!' : 
@@ -235,23 +288,31 @@ serve(async (req) => {
 
     return new Response(JSON.stringify(aiResponse), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 200
     });
 
   } catch (error) {
     console.error('Function error:', error);
     
-    // Fast fallback response
+    // Enhanced fallback response based on character
+    const characterSignature = character === 'wise-owl' ? 'Hoot!' : 
+                              character === 'sassy-cat' ? 'Meow, darling!' :
+                              character === 'lazy-panda' ? 'Keep it chill!' :
+                              character === 'sneaky-snake' ? 'Trust me...' :
+                              character === 'people-pleaser-pup' ? 'Woof!' : 'Trust yourself!';
+    
     const fallbackResponse = {
       responseType: 'binary',
       deeperQuestion: "What feels right in your heart?",
       reasonsForYes: ["Trust your instincts"],
       reasonsForNo: ["Consider alternatives"], 
       calculatedRisk: "Growth comes from thoughtful choices",
-      personalityRecommendation: "Choose what serves your highest good."
+      personalityRecommendation: `Choose what serves your highest good. ${characterSignature}`
     };
 
     return new Response(JSON.stringify(fallbackResponse), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 200
     });
   }
 });
