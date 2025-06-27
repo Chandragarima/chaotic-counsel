@@ -1,5 +1,5 @@
-
 import { Info } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/tooltip';
 import { Character } from '../types';
 import { getPersonalityTheme } from '../utils/personalityThemes';
+import { useIsMobile } from '../hooks/use-mobile';
 
 interface QuestionHelpTooltipProps {
   character: Character;
@@ -16,6 +17,8 @@ interface QuestionHelpTooltipProps {
 
 const QuestionHelpTooltip = ({ character }: QuestionHelpTooltipProps) => {
   const theme = getPersonalityTheme(character.type);
+  const isMobile = useIsMobile();
+  const [isOpen, setIsOpen] = useState(false);
 
   const questionExamples = {
     binary: [
@@ -45,14 +48,21 @@ const QuestionHelpTooltip = ({ character }: QuestionHelpTooltipProps) => {
     ]
   };
 
+  const handleClick = () => {
+    if (isMobile) {
+      setIsOpen(!isOpen);
+    }
+  };
+
   return (
     <TooltipProvider>
-      <Tooltip>
+      <Tooltip open={isMobile ? isOpen : undefined} onOpenChange={isMobile ? setIsOpen : undefined}>
         <TooltipTrigger asChild>
           <Button
             variant="ghost"
             size="sm"
             className={`p-2 h-8 w-8 ${theme.colors.text} opacity-50 hover:opacity-80 transition-opacity`}
+            onClick={handleClick}
           >
             <Info className="h-4 w-4" />
           </Button>

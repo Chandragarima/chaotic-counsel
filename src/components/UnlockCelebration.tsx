@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Sparkles, Star, Crown, Gift, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -14,6 +13,7 @@ interface UnlockCelebrationProps {
 const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCelebrationProps) => {
   const [showAnimation, setShowAnimation] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [isDismissing, setIsDismissing] = useState(false);
 
   useEffect(() => {
     if (isVisible) {
@@ -22,6 +22,7 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
     } else {
       setShowContent(false);
       setShowAnimation(false);
+      setIsDismissing(false);
     }
   }, [isVisible]);
 
@@ -124,7 +125,7 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
               </div>
               
               <p className="text-amber-200 font-medium">
-              You’ve unlocked the {character.name}!
+              You've unlocked the {character.name}!
               </p>
             </div>
           </div>
@@ -136,7 +137,13 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
             ${showContent ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
           `}>
             <Button 
-              onClick={onDismiss}
+              onClick={() => {
+                if (!isDismissing) {
+                  setIsDismissing(true);
+                  onDismiss();
+                }
+              }}
+              disabled={isDismissing}
               className="
                 bg-gradient-to-r from-amber-600 to-amber-500
                 hover:from-amber-500 hover:to-amber-400
@@ -148,6 +155,7 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
                 hover:scale-105 active:scale-95
                 border border-amber-400/30
                 group
+                disabled:opacity-50 disabled:cursor-not-allowed
               "
             >
               <span className="flex items-center gap-2">
