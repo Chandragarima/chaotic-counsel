@@ -43,117 +43,117 @@ const PERSONALITY_IMAGES: PersonalityImageConfig = {
       'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981298/sassy-cat-choice-2_vzyuup.png',
       'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981297/sassy-cat-choice-3_igbp49.png',
       'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981295/sassy-cat-choice-1_ue34aq.png',
-      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981294/sassy-cat-choice-4_y4jumf.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750981294/sassy-cat-choice-4_y4jumf.png'
     ]
   },
   'wise-owl': {
     thinking: [],
     yes: [
-      '/images/personalities/wise-owl/yes/wise-owl-yes-1.png',
-      '/images/personalities/wise-owl/yes/wise-owl-yes-2.png',
-      '/images/personalities/wise-owl/yes/wise-owl-yes-3.png',
-      '/images/personalities/wise-owl/yes/wise-owl-yes-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982786/wise-owl-yes-1_xswo1i.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982781/wise-owl-yes-4_o1jl55.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982778/wise-owl-yes-3_rd0oip.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982773/wise-owl-yes-2_ww7qg6.png'
     ],
     no: [
-      '/images/personalities/wise-owl/no/wise-owl-no-1.png',
-      '/images/personalities/wise-owl/no/wise-owl-no-2.png',
-      '/images/personalities/wise-owl/no/wise-owl-no-3.png',
-      '/images/personalities/wise-owl/no/wise-owl-no-4.png',
-      '/images/personalities/wise-owl/no/wise-owl-no-5.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982826/wise-owl-no-5_oanh3g.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982816/wise-owl-no-1_f5t4eb.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982811/wise-owl-no-4_r1fo2l.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982806/wise-owl-no-3_roj2iu.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982802/wise-owl-no-2_yirfl7.png'
     ],
     maybe: [
-      '/images/personalities/wise-owl/maybe/wise-owl-maybe-1.png',
-      '/images/personalities/wise-owl/maybe/wise-owl-maybe-2.png',
-      '/images/personalities/wise-owl/maybe/wise-owl-maybe-3.png',
-      '/images/personalities/wise-owl/maybe/wise-owl-maybe-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982872/wise-owl-maybe-1_p0klrx.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982860/wise-owl-maybe-4_dov9dh.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982852/wise-owl-maybe-3_ukw31b.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982839/wise-owl-maybe-2_bo42ai.png'
     ],
     choice: [
-      '/images/personalities/wise-owl/choice/wise-owl-choice-1.png',
-      '/images/personalities/wise-owl/choice/wise-owl-choice-2.png',
-      '/images/personalities/wise-owl/choice/wise-owl-choice-3.png',
-      '/images/personalities/wise-owl/choice/wise-owl-choice-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982916/wise-owl-choice-1_yf5fgd.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982908/wise-owl-choice-4_fvwf1p.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982895/wise-owl-choice-3_lezwsp.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982889/wise-owl-choice-2_j5yztm.png'
     ]
   },
   'lazy-panda': {
     thinking: [],
     yes: [
-      '/images/personalities/lazy-panda/yes/lazy-panda-yes-1.png',
-      '/images/personalities/lazy-panda/yes/lazy-panda-yes-2.png',
-      '/images/personalities/lazy-panda/yes/lazy-panda-yes-3.png',
-      '/images/personalities/lazy-panda/yes/lazy-panda-yes-4.png',
-      '/images/personalities/lazy-panda/yes/lazy-panda-yes-5.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982998/lazy-panda-yes-2_zmiulg.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982993/lazy-panda-yes-1_ex79e5.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982989/lazy-panda-yes-5_ynvifg.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982983/lazy-panda-yes-4_tzxqo4.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750982979/lazy-panda-yes-3_smtumd.png'
     ],
     no: [
-      '/images/personalities/lazy-panda/no/lazy-panda-no-1.png',
-      '/images/personalities/lazy-panda/no/lazy-panda-no-2.png',
-      '/images/personalities/lazy-panda/no/lazy-panda-no-3.png',
-      '/images/personalities/lazy-panda/no/lazy-panda-no-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983021/lazy-panda-no-2_xvc6eq.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983017/lazy-panda-no-1_vc1iaa.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983009/lazy-panda-no-4_moiyfe.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983003/lazy-panda-no-3_y99z6j.png'
     ],
     maybe: [
-      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-1.png',
-      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-2.png',
-      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-3.png',
-      '/images/personalities/lazy-panda/maybe/lazy-panda-maybe-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983086/lazy-panda-maybe-1_yc1qt2.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983091/lazy-panda-maybe-2_axhq4t.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983082/lazy-panda-maybe-4_xmv9qo.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983078/lazy-panda-maybe-3_zti14t.png'
     ],
     choice: [
-      '/images/personalities/lazy-panda/choice/lazy-panda-choice-1.png',
-      '/images/personalities/lazy-panda/choice/lazy-panda-choice-2.png',
-      '/images/personalities/lazy-panda/choice/lazy-panda-choice-3.png',
-      '/images/personalities/lazy-panda/choice/lazy-panda-choice-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983056/lazy-panda-choice-2_ygdzul.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983046/lazy-panda-choice-1_vgbupb.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983035/lazy-panda-choice-4_zcefzg.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983031/lazy-panda-choice-3_mzrtzs.png'
     ]
   },
   'sneaky-snake': {
     thinking: [],
     yes: [
-      '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-1.png',
-      '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-2.png',
-      '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-3.png',
-      '/images/personalities/sneaky-snake/yes/sneaky-snake-yes-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983189/sneaky-snake-yes-2_r52qsk.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983185/sneaky-snake-yes-4_z43unj.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983180/sneaky-snake-yes-3_ofhnhs.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983199/sneaky-snake-no-1_mqh8fb.png'
     ],
     no: [
-      '/images/personalities/sneaky-snake/no/sneaky-snake-no-1.png',
-      '/images/personalities/sneaky-snake/no/sneaky-snake-no-2.png',
-      '/images/personalities/sneaky-snake/no/sneaky-snake-no-3.png',
-      '/images/personalities/sneaky-snake/no/sneaky-snake-no-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983204/sneaky-snake-no-2_paurk1.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983211/sneaky-snake-no-4_axxrkp.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983196/sneaky-snake-no-3_vliujz.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983199/sneaky-snake-no-1_mqh8fb.png'
     ],
     maybe: [
-      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-1.jpg',
-      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-2.png',
-      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-3.png',
-      '/images/personalities/sneaky-snake/maybe/sneaky-snake-maybe-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983299/sneaky-snake-maybe-3_exlrcm.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983308/sneaky-snake-maybe-4_n0pgys.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983315/sneaky-snake-maybe-1_zqx6wm.jpg',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983326/sneaky-snake-maybe-2_a0cc6t.png'
     ],
     choice: [
-      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-1.png',
-      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-2.png',
-      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-3.jpg',
-      '/images/personalities/sneaky-snake/choice/sneaky-snake-choice-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983218/sneaky-snake-choice-2_cgcaut.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983225/sneaky-snake-choice-3_z6paxq.jpg',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983230/sneaky-snake-choice-4_ar1oey.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983234/sneaky-snake-choice-1_ma0odn.png'
     ]
   },
   'people-pleaser-pup': {
     thinking: [],
     yes: [
-      '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-1.png',
-      '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-2.png',
-      '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-3.png',
-      '/images/personalities/people-pleaser-pup/yes/people-pleaser-pup-yes-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983456/people-pleaser-pup-yes-1_bk5vzj.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983450/people-pleaser-pup-yes-4_tdavuy.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983443/people-pleaser-pup-yes-3_jpfutt.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983440/people-pleaser-pup-yes-2_rxtdcl.png'
     ],
     no: [
-      '/images/personalities/people-pleaser-pup/no/people-pleaser-pup-no-1.png',
-      '/images/personalities/people-pleaser-pup/no/people-pleaser-pup-no-2.png',
-      '/images/personalities/people-pleaser-pup/no/people-pleaser-pup-no-3.png',
-      '/images/personalities/people-pleaser-pup/no/people-pleaser-pup-no-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983499/people-pleaser-pup-no-1_tvoood.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983484/people-pleaser-pup-no-4_ked9tq.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983468/people-pleaser-pup-no-3_udtyof.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983462/people-pleaser-pup-no-2_pzysbq.png'
     ],
     maybe: [
-      '/images/personalities/people-pleaser-pup/maybe/people-pleaser-pup-maybe-1.png',
-      '/images/personalities/people-pleaser-pup/maybe/people-pleaser-pup-maybe-2.png',
-      '/images/personalities/people-pleaser-pup/maybe/people-pleaser-pup-maybe-3.png',
-      '/images/personalities/people-pleaser-pup/maybe/people-pleaser-pup-maybe-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983585/people-pleaser-pup-maybe-1_cfzbvw.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983580/people-pleaser-pup-maybe-4_dzfp6j.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983565/people-pleaser-pup-maybe-3_j0ozwr.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983549/people-pleaser-pup-maybe-2_ech8ca.png'
     ],
     choice: [
-      '/images/personalities/people-pleaser-pup/choice/people-pleaser-pup-choice-1.png',
-      '/images/personalities/people-pleaser-pup/choice/people-pleaser-pup-choice-2.png',
-      '/images/personalities/people-pleaser-pup/choice/people-pleaser-pup-choice-3.png',
-      '/images/personalities/people-pleaser-pup/choice/people-pleaser-pup-choice-4.png'
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983542/people-pleaser-pup-choice-2_xos4p7.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983536/people-pleaser-pup-choice-1_c5iah3.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983529/people-pleaser-pup-choice-4_rvyoyx.png',
+      'https://res.cloudinary.com/dh1n9zhp3/image/upload/v1750983517/people-pleaser-pup-choice-3_thduvg.png'
     ]
   }
 };
@@ -170,32 +170,32 @@ const PERSONALITY_VIDEOS: PersonalityVideoConfig = {
   },
   'wise-owl': {
     thinking: [
-      '/videos/personalities/wise-owl/thinking/wise-owl-thinking-1.mp4',
-      '/videos/personalities/wise-owl/thinking/wise-owl-thinking-2.mp4',
-      '/videos/personalities/wise-owl/thinking/wise-owl-thinking-3.mp4',
-      '/videos/personalities/wise-owl/thinking/wise-owl-thinking-4.mp4'
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982690/wise-owl-thinking-3_pxadft.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982695/wise-owl-thinking-4_lrs99b.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982703/wise-owl-thinking-1_xdksxf.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982715/wise-owl-thinking-2_j6hbjx.mp4'
     ]
   },
   'lazy-panda': {
     thinking: [
-      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-1.mp4',
-      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-2.mp4',
-      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-3.mp4',
-      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-4.mp4',
-      '/videos/personalities/lazy-panda/thinking/lazy-panda-thinking-5.mp4'
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982524/lazy-panda-thinking-1_zgohsn.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982520/lazy-panda-thinking-5_yifndy.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982518/lazy-panda-thinking-4_pairtl.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982515/lazy-panda-thinking-3_becd65.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982511/lazy-panda-thinking-2_dktjnt.mp4'
     ]
   },
   'sneaky-snake': {
     thinking: [
-      '/videos/personalities/sneaky-snake/sneaky-snake-thinking-1.mp4',
-      '/videos/personalities/sneaky-snake/sneaky-snake-thinking-2.mp4'  
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982646/sneaky-snake-thinking-2_zmtcbt.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982649/sneaky-snake-thinking-1_orofsf.mp4'  
     ]
   },
   'people-pleaser-pup': {
     thinking: [
-      '/videos/personalities/people-pleaser-pup/people-pleaser-pup-thinking-1.mp4',
-      '/videos/personalities/people-pleaser-pup/people-pleaser-pup-thinking-2.mp4',
-      '/videos/personalities/people-pleaser-pup/people-pleaser-pup-thinking-3.mp4'
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982596/people-pleaser-pup-thinking-1_xu0rq6.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982592/people-pleaser-pup-thinking-2_juvbbw.mp4',
+      'https://res.cloudinary.com/dh1n9zhp3/video/upload/v1750982589/people-pleaser-pup-thinking-3_iphopt.mp4'
     ]
   }
 };
