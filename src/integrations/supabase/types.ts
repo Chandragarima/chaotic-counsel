@@ -187,6 +187,7 @@ export type Database = {
       }
       user_progress: {
         Row: {
+          celebrations_shown: Json | null
           created_at: string
           current_streak: number
           id: string
@@ -198,6 +199,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          celebrations_shown?: Json | null
           created_at?: string
           current_streak?: number
           id?: string
@@ -209,6 +211,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          celebrations_shown?: Json | null
           created_at?: string
           current_streak?: number
           id?: string
