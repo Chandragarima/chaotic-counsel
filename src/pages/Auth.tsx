@@ -47,7 +47,7 @@ const Auth = () => {
         if (error) throw error;
         toast({
           title: "Account created!",
-          description: "Please confirm your email to sign in.",
+          description: "Ask your first question and unleash the fun.",
         });
       }
       navigate('/');
