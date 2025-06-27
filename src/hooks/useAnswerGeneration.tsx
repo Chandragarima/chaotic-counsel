@@ -181,7 +181,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
 
     // Handle movie/genre questions
     if (lowerQuestion.includes('movie') || lowerQuestion.includes('genre') || lowerQuestion.includes('watch') || lowerQuestion.includes('show')) {
-      const movies = ['Thriller', 'Horror', 'RomCom', 'Documentary', 'Action', 'Drama', 'Comedy', 'Romance', 'Feel Good', 'Sci-Fi', 'Fantasy', 'Mystery', 'Adventure', 'Animation', 'Biography'];
+      const movies = ['Thriller', 'Horror', 'RomCom', 'Documentary', 'Action', 'Drama', 'Comedy', 'Romance', 'Feel Good', 'Sci-Fi', 'Fantasy', 'Mystery', 'Adventure', 'Animation'];
       const randomMovie = getRandomChoice(movies);
       return {
         answer: formatChoiceResponse(randomMovie, character.type),
