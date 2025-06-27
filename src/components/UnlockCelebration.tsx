@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Sparkles, Star, Crown, Gift, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -14,6 +13,7 @@ interface UnlockCelebrationProps {
 const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCelebrationProps) => {
   const [showAnimation, setShowAnimation] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [isDismissing, setIsDismissing] = useState(false);
 
   useEffect(() => {
     if (isVisible && unlockedCharacter) {
@@ -23,6 +23,7 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
     } else {
       setShowContent(false);
       setShowAnimation(false);
+      setIsDismissing(false);
     }
   }, [isVisible, unlockedCharacter]);
 
@@ -157,6 +158,7 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
                 hover:scale-105 active:scale-95
                 border border-amber-400/30
                 group
+                disabled:opacity-50 disabled:cursor-not-allowed
               "
             >
               <span className="flex items-center gap-2">

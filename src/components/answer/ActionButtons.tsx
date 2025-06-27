@@ -80,8 +80,8 @@ const ActionButtons = ({
             isAsking ? 'scale-95 opacity-75' : 'hover:scale-[1.02]'
           }`}
         >
-          <RotateCcw className="mr-3 h-4 w-4" />
-          Consult {character.name} Again
+          {/* <RotateCcw className="mr-3 h-4 w-4" /> */}
+          Not Convinced? Try Again!
         </Button>
         
         <div className="grid grid-cols-2 gap-4">
@@ -91,7 +91,7 @@ const ActionButtons = ({
             className={`${theme.colors.text} hover:bg-gradient-to-r hover:${theme.colors.background} min-h-[48px] border ${theme.effects.borderStyle.replace('border border-', 'border-')} ${theme.fonts.body} tracking-wide transition-all duration-300 ${theme.animations.buttonHover}`}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Return
+            Consult Again
           </Button>
           
           <Button 

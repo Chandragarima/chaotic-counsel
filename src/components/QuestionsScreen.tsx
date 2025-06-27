@@ -92,9 +92,9 @@ const QuestionsScreen = ({ questionType, questionMode, character, onQuestionSele
             ];
           case 'movie':
             return [
-              { id: `${baseId}-1`, text: 'Should I seek wisdom through a movie tonight?', category: 'movie' },
+              { id: `${baseId}-1`, text: 'Should I seek wisdom through a film tonight?', category: 'movie' },
               { id: `${baseId}-2`, text: 'Watch a documentary or let my brain relax with cartoons?', category: 'movie' },
-              { id: `${baseId}-3`, text: 'What genre will expand my consciousness?', category: 'movie' },
+              { id: `${baseId}-3`, text: 'What movie genre will expand my consciousness?', category: 'movie' },
               { id: `${baseId}-4`, text: 'Philosophical drama or feel-good comfort watch?', category: 'movie' },
               { id: `${baseId}-5`, text: 'Classic literature adaptation or modern storytelling?', category: 'movie' }
             ];
