@@ -20,8 +20,8 @@ export const useSupabaseProgress = () => {
   const [newlyUnlockedCharacter, setNewlyUnlockedCharacter] = useState<string | null>(null);
   const { user, loading: authLoading } = useAuth();
 
-  // Track which unlock celebrations have been shown in this session
-  const [shownCelebrations, setShownCelebrations] = useState<Set<string>>(new Set());
+  // Track which unlock celebrations have been shown in this session (from database)
+  const [celebrationsShown, setCelebrationsShown] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const hasInitialized = useRef(false);
   const currentUserId = useRef<string | null>(null);
@@ -77,12 +77,15 @@ export const useSupabaseProgress = () => {
       }
 
       let initialUnlockedChars: string[];
+      let storedCelebrations: string[] = [];
+      
       if (userProgress) {
         console.log('✅ Loaded user progress:', userProgress);
         initialUnlockedChars = userProgress.unlocked_characters as string[];
+        storedCelebrations = (userProgress.celebrations_shown as string[]) || [];
         
-        // Initialize shown celebrations with already unlocked characters
-        setShownCelebrations(new Set(initialUnlockedChars));
+        // Set celebrations shown from database
+        setCelebrationsShown(storedCelebrations);
         
         const progressData = {
           streak: userProgress.current_streak,
@@ -98,17 +101,17 @@ export const useSupabaseProgress = () => {
         console.log('ℹ️ No user progress found, will be created on first streak update');
         // Initialize with default characters
         initialUnlockedChars = ['wise-owl', 'sassy-cat'];
-        setShownCelebrations(new Set(initialUnlockedChars));
+        setCelebrationsShown(initialUnlockedChars); // Mark default characters as celebrated
       }
 
       // Now update the streak with the proper initial state
-      await updateDailyStreak(initialUnlockedChars);
+      await updateDailyStreak(initialUnlockedChars, storedCelebrations);
     } catch (error) {
       console.error('💥 Error in loadUserProgressAndUpdateStreak:', error);
     }
   };
 
-  const updateDailyStreak = async (initialUnlockedChars?: string[]) => {
+  const updateDailyStreak = async (initialUnlockedChars?: string[], storedCelebrations?: string[]) => {
     if (!user) return;
 
     try {
@@ -134,12 +137,14 @@ export const useSupabaseProgress = () => {
         // Compare with the initial unlocked characters from the database
         const baseUnlockedChars = initialUnlockedChars || progress.unlockedCharacters;
         const newCharacters = newUnlocked.filter(char => !baseUnlockedChars.includes(char));
+        
         if (newCharacters.length > 0) {
-          // Show celebration for the most recently unlocked character that hasn't been celebrated yet
-          const characterOrder = ['lazy-panda', 'sneaky-snake', 'people-pleaser-pup'];
-          const uncelebratedCharacters = newCharacters.filter(char => !shownCelebrations.has(char));
+          // Show celebration for newly unlocked characters that haven't been celebrated yet
+          const celebrationsFromDB = storedCelebrations || celebrationsShown;
+          const uncelebratedCharacters = newCharacters.filter(char => !celebrationsFromDB.includes(char));
           
           if (uncelebratedCharacters.length > 0) {
+            const characterOrder = ['lazy-panda', 'sneaky-snake', 'people-pleaser-pup'];
             const mostRecentUnlock = uncelebratedCharacters.sort((a, b) => 
               characterOrder.indexOf(b) - characterOrder.indexOf(a)
             )[0];
@@ -262,10 +267,31 @@ export const useSupabaseProgress = () => {
     localStorage.setItem('chaotic-counsel-progress', JSON.stringify(newProgress));
   };
 
-  const dismissUnlockCelebration = () => {
-    if (newlyUnlockedCharacter) {
-      setShownCelebrations(prev => new Set([...prev, newlyUnlockedCharacter]));
+  const dismissUnlockCelebration = async () => {
+    if (newlyUnlockedCharacter && user) {
+      // Update the database with the new celebration shown
+      const updatedCelebrations = [...celebrationsShown, newlyUnlockedCharacter];
+      
+      try {
+        const { error } = await supabase
+          .from('user_progress')
+          .update({
+            celebrations_shown: updatedCelebrations,
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_id', user.id);
+
+        if (error) {
+          console.error('Error updating celebrations shown:', error);
+        } else {
+          console.log('✅ Celebration marked as shown in database:', newlyUnlockedCharacter);
+          setCelebrationsShown(updatedCelebrations);
+        }
+      } catch (error) {
+        console.error('Error saving celebration state:', error);
+      }
     }
+    
     setIsNewUnlockAvailable(false);
     setNewlyUnlockedCharacter(null);
     
@@ -277,7 +303,7 @@ export const useSupabaseProgress = () => {
 
   const checkForAdditionalUnlocks = () => {
     const newCharacters = progress.unlockedCharacters.filter(char => 
-      !['wise-owl', 'sassy-cat'].includes(char) && !shownCelebrations.has(char)
+      !['wise-owl', 'sassy-cat'].includes(char) && !celebrationsShown.includes(char)
     );
     
     if (newCharacters.length > 0) {

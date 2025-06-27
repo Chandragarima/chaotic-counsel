@@ -16,7 +16,8 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
   const [isDismissing, setIsDismissing] = useState(false);
 
   useEffect(() => {
-    if (isVisible) {
+    if (isVisible && unlockedCharacter) {
+      console.log('🎉 Showing celebration for:', unlockedCharacter);
       setShowAnimation(true);
       setTimeout(() => setShowContent(true), 300);
     } else {
@@ -24,12 +25,15 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
       setShowAnimation(false);
       setIsDismissing(false);
     }
-  }, [isVisible]);
+  }, [isVisible, unlockedCharacter]);
 
   if (!isVisible || !unlockedCharacter) return null;
 
   const character = characters.find(c => c.id === unlockedCharacter);
-  if (!character) return null;
+  if (!character) {
+    console.warn('Character not found for celebration:', unlockedCharacter);
+    return null;
+  }
 
   const getUnlockMessage = (characterId: string) => {
     switch (characterId) {
@@ -51,6 +55,11 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
       case 'people-pleaser-pup': return '🐕';
       default: return '✨';
     }
+  };
+
+  const handleDismiss = () => {
+    console.log('🎉 Celebration dismissed for:', unlockedCharacter);
+    onDismiss();
   };
 
   if (!showAnimation) return null;
@@ -125,7 +134,7 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
               </div>
               
               <p className="text-amber-200 font-medium">
-              You've unlocked the {character.name}!
+                You've unlocked the {character.name}!
               </p>
             </div>
           </div>
@@ -137,13 +146,7 @@ const UnlockCelebration = ({ isVisible, unlockedCharacter, onDismiss }: UnlockCe
             ${showContent ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
           `}>
             <Button 
-              onClick={() => {
-                if (!isDismissing) {
-                  setIsDismissing(true);
-                  onDismiss();
-                }
-              }}
-              disabled={isDismissing}
+              onClick={handleDismiss}
               className="
                 bg-gradient-to-r from-amber-600 to-amber-500
                 hover:from-amber-500 hover:to-amber-400
