@@ -284,7 +284,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     setAnswer('');
 
     // Determine thinking duration based on mode
-    const thinkingDuration = mode === 'fun' ? 2000 : 0; // Reduced from 3s to 2s for fun mode
+    const thinkingDuration = mode === 'fun' ? 3000 : 0; // Reduced from 3s to 2s for fun mode
 
     const generateAnswer = async () => {
       if (mode === 'serious') {
