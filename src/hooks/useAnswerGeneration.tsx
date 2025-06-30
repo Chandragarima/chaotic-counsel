@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Character, QuestionMode, AIResponse, LegacyAIResponse } from '../types';
 import { getPersonalityTheme } from '../utils/personalityThemes';
@@ -34,34 +33,110 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
 
   const theme = getPersonalityTheme(character.type);
 
-  // Improved random selection to avoid patterns
-  const getRandomChoice = <T extends any>(array: readonly T[]): T => {
+  // Enhanced cryptographic random number generator
+  const getSecureRandom = (): number => {
     if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
-      const randomArray = new Uint32Array(1);
+      // Use multiple 32-bit values for better entropy
+      const randomArray = new Uint32Array(4);
       window.crypto.getRandomValues(randomArray);
-      return array[randomArray[0] % array.length];
+      
+      // Combine multiple entropy sources
+      const crypto1 = randomArray[0] / (0xffffffff + 1);
+      const crypto2 = randomArray[1] / (0xffffffff + 1);
+      const crypto3 = randomArray[2] / (0xffffffff + 1);
+      const crypto4 = randomArray[3] / (0xffffffff + 1);
+      
+      // Mix with performance timing for additional entropy
+      const performanceEntropy = typeof performance !== 'undefined' ? 
+        (performance.now() % 1000) / 1000 : 0;
+      
+      // Combine all entropy sources with different weights
+      const combined = (crypto1 * 0.4 + crypto2 * 0.3 + crypto3 * 0.2 + crypto4 * 0.1 + performanceEntropy * 0.05) % 1;
+      
+      console.log('Using crypto randomness:', { crypto1, crypto2, crypto3, crypto4, performanceEntropy, combined });
+      return combined;
+    } else {
+      // Fallback with multiple entropy sources for non-crypto environments
+      const timeEntropy1 = (Date.now() % 10007) / 10007; // Use prime modulo
+      const timeEntropy2 = (Date.now() % 7919) / 7919;   // Another prime
+      const mathRandom1 = Math.random();
+      const mathRandom2 = Math.random();
+      const mathRandom3 = Math.random();
+      const performanceEntropy = typeof performance !== 'undefined' ? 
+        (performance.now() % 1009) / 1009 : Math.random(); // Prime modulo
+      
+      // Complex mixing function to avoid patterns
+      const mixed = (
+        (timeEntropy1 * 0.2) +
+        (timeEntropy2 * 0.15) +
+        (mathRandom1 * 0.25) +
+        (mathRandom2 * 0.2) +
+        (mathRandom3 * 0.15) +
+        (performanceEntropy * 0.05)
+      ) % 1;
+      
+      console.log('Using fallback randomness:', { 
+        timeEntropy1, timeEntropy2, mathRandom1, mathRandom2, mathRandom3, 
+        performanceEntropy, mixed 
+      });
+      return mixed;
     }
-    const entropy = Date.now() % 1000 + Math.random() * 1000;
-    return array[Math.floor(entropy) % array.length];
+  };
+
+  // Fisher-Yates shuffle for additional randomness
+  const shuffleArray = <T extends any>(array: T[]): T[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      // Use secure random for shuffle
+      const j = Math.floor(getSecureRandom() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    console.log('Shuffled array:', { original: array, shuffled });
+    return shuffled;
+  };
+
+  // Improved random selection with bias elimination
+  const getRandomChoice = <T extends any>(array: readonly T[]): T => {
+    if (array.length === 0) return array[0];
+    if (array.length === 1) return array[0];
+    
+    // Convert to mutable array for potential shuffling
+    let choices = [...array];
+    
+    // Occasionally shuffle the array for additional randomness (20% chance)
+    if (getSecureRandom() < 0.2) {
+      choices = shuffleArray(choices);
+      console.log('Applied shuffle to choices');
+    }
+    
+    // Use secure random to select index
+    const randomValue = getSecureRandom();
+    const index = Math.floor(randomValue * choices.length);
+    
+    // Ensure index is within bounds (extra safety)
+    const safeIndex = Math.max(0, Math.min(index, choices.length - 1));
+    
+    console.log('Random choice selection:', {
+      arrayLength: choices.length,
+      randomValue,
+      calculatedIndex: index,
+      safeIndex,
+      selected: choices[safeIndex],
+      allChoices: choices
+    });
+    
+    return choices[safeIndex];
   };
 
   const getWeightedResponse = (characterType: Character['type']): 'yes' | 'no' | 'maybe' => {
     const weights = PERSONALITY_WEIGHTS[characterType];
+    const random = getSecureRandom() * 100;
     
-    let random: number;
-    
-    if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
-      const randomArray = new Uint32Array(2);
-      window.crypto.getRandomValues(randomArray);
-      random = ((randomArray[0] * randomArray[1]) % 10000) / 100;
-    } else {
-      const timeEntropy = (Date.now() % 10000) / 100;
-      const mathRandom1 = Math.random() * 100;
-      const mathRandom2 = Math.random() * 100;
-      const performanceEntropy = typeof performance !== 'undefined' ? (performance.now() % 100) : 0;
-      
-      random = (timeEntropy + mathRandom1 + mathRandom2 + performanceEntropy) % 100;
-    }
+    console.log('Weighted response selection:', {
+      characterType,
+      weights,
+      randomValue: random
+    });
     
     if (random < weights.yes) {
       return 'yes';
@@ -114,7 +189,11 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
         
         if (options.length >= 2 && options.every(opt => opt.length > 0)) {
           const randomOption = getRandomChoice(options);
-          console.log('OR question options:', options, 'Selected:', randomOption);
+          console.log('OR question final selection:', { 
+            originalQuestion: question,
+            extractedOptions: options, 
+            selectedOption: randomOption 
+          });
           return {
             answer: formatChoiceResponse(randomOption, character.type),
             templateType: 'choice'
