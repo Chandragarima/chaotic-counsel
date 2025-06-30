@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Character, QuestionMode, AIResponse, LegacyAIResponse } from '../types';
 import { getPersonalityTheme } from '../utils/personalityThemes';
@@ -71,19 +72,54 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     }
   };
 
-  // Function to detect and handle "or" questions
+  // Function to detect and handle "or" questions - PRIORITIZED DETECTION
   const handleOrQuestion = (question: string): { answer: string; templateType: 'choice' } | null => {
     const lowerQuestion = question.toLowerCase();
     
-    // Handle "or" questions first
+    // PRIORITY CHECK: Handle "or" questions FIRST (including those with binary prefixes)
     if (lowerQuestion.includes(' or ')) {
-      const options = question.split(' or ').map(option => option.trim());
-      if (options.length >= 2) {
-        const randomOption = getRandomChoice(options);
-        return {
-          answer: formatChoiceResponse(randomOption, character.type),
-          templateType: 'choice'
-        };
+      console.log('Detected OR question:', question);
+      
+      // Split on ' or ' and clean up the options
+      let parts = question.split(' or ');
+      
+      // Handle cases like "Do I eat X or Y?" - extract the options properly
+      if (parts.length >= 2) {
+        let options: string[] = [];
+        
+        // For questions starting with "Do I", "Should I", etc., extract the action parts
+        if (lowerQuestion.startsWith('do i ') || lowerQuestion.startsWith('should i ')) {
+          // Extract the base action from the first part
+          const firstPart = parts[0].toLowerCase();
+          let baseAction = '';
+          
+          if (firstPart.startsWith('do i ')) {
+            baseAction = firstPart.replace('do i ', '').trim();
+          } else if (firstPart.startsWith('should i ')) {
+            baseAction = firstPart.replace('should i ', '').trim();
+          }
+          
+          // First option is the base action
+          options.push(baseAction);
+          
+          // Add remaining options (remove any trailing punctuation)
+          for (let i = 1; i < parts.length; i++) {
+            const cleanOption = parts[i].replace(/[?.!]*$/, '').trim();
+            options.push(cleanOption);
+          }
+        } else {
+          // For other "or" questions, use parts as-is
+          options = parts.map(part => part.replace(/[?.!]*$/, '').trim());
+        }
+        
+        if (options.length >= 2 && options.every(opt => opt.length > 0)) {
+          const randomOption = getRandomChoice(options);
+          console.log('OR question options:', options, 'Selected:', randomOption);
+          return {
+            answer: formatChoiceResponse(randomOption, character.type),
+            templateType: 'choice'
+          };
+        }
       }
     }
     
@@ -284,7 +320,7 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     setAnswer('');
 
     // Determine thinking duration based on mode
-    const thinkingDuration = mode === 'fun' ? 3000 : 0; // Reduced from 3s to 2s for fun mode
+    const thinkingDuration = mode === 'fun' ? 3000 : 0;
 
     const generateAnswer = async () => {
       if (mode === 'serious') {
@@ -320,12 +356,14 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
           setAiResponse(null);
         }
       } else {
-        // Fun mode logic - unchanged
+        // Fun mode logic - PRIORITIZE OR QUESTIONS
         const orQuestionResult = handleOrQuestion(question);
         if (orQuestionResult) {
+          console.log('Using OR question result:', orQuestionResult);
           setAnswer(orQuestionResult.answer);
           setResponseType(getImageTypeFromTemplate(orQuestionResult.templateType));
         } else {
+          console.log('Using yes/no/maybe logic for:', question);
           const randomResponse = getWeightedResponse(character.type);
           const formattedAnswer = formatYesNoMaybeResponse(randomResponse, character.type);
           const imageType = getImageTypeFromTemplate(randomResponse);
