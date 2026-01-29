@@ -1,7 +1,5 @@
 import type { Handler, HandlerEvent } from "@netlify/functions";
 
-const openAIApiKey = process.env.OPENAI_API_KEY;
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "content-type",
@@ -175,6 +173,8 @@ const handler: Handler = async (event: HandlerEvent) => {
   }
 
   try {
+    const openAIApiKey = process.env.OPENAI_API_KEY;
+
     const { question, character, category } = JSON.parse(event.body || "{}");
 
     if (!question || !character) {
