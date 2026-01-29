@@ -314,7 +314,11 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
     });
 
     try {
-      console.log('Calling AI decision helper with timeout protection:', { question, character: character.type, category });
+      console.log('🤖 Calling AI decision helper with timeout protection:', { 
+        question, 
+        character: character.type, 
+        category 
+      });
       
       const aiPromise = supabase.functions.invoke('ai-decision-helper', {
         body: {
@@ -326,9 +330,24 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
 
       const { data, error } = await Promise.race([aiPromise, timeoutPromise]);
 
-      console.log('AI response received:', data, 'Error:', error);
+      console.log('📥 AI response received:', { 
+        hasData: !!data, 
+        dataType: typeof data,
+        data: data,
+        hasError: !!error,
+        error: error 
+      });
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Supabase function error:', {
+          message: error.message,
+          name: error.name,
+          status: (error as any)?.status,
+          context: (error as any)?.context,
+          details: error
+        });
+        throw error;
+      }
       
       // Validate response structure
       if (!data || typeof data !== 'object') {
@@ -360,8 +379,25 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
       
       console.log('Using direct AI response:', data);
       return data;
-    } catch (error) {
-      console.error('AI response error:', error);
+    } catch (error: any) {
+      console.error('🚨 AI response error caught:', {
+        message: error?.message,
+        name: error?.name,
+        status: error?.status,
+        statusCode: error?.statusCode,
+        context: error?.context,
+        stack: error?.stack,
+        fullError: error
+      });
+      
+      // Check if it's a FunctionsHttpError (Edge Function returned non-2xx)
+      if (error?.name === 'FunctionsHttpError' || error?.message?.includes('non-2xx')) {
+        console.error('⚠️ Edge Function returned non-2xx status. Possible causes:');
+        console.error('  1. Edge Function not deployed');
+        console.error('  2. OPENAI_API_KEY not set in Supabase');
+        console.error('  3. Edge Function runtime error');
+        console.error('  4. Network/CORS issue');
+      }
       
       // Enhanced fallback response with correct property names
       const fallbackResponse: AIResponse = {

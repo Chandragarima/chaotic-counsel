@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useSupabaseProgress } from '../hooks/useSupabaseProgress';
 import { supabase } from '@/integrations/supabase/client';
 import FeedbackModal from './feedback/FeedbackModal';
+import { IS_AUTH_ENABLED, IS_STREAK_ENABLED } from '@/config/features';
 
 const UserMenu = () => {
   const { user, signOut } = useAuth();
@@ -25,7 +26,7 @@ const UserMenu = () => {
 
   useEffect(() => {
     const fetchUsername = async () => {
-      if (user) {
+      if (user && IS_AUTH_ENABLED) {
         try {
           const { data, error } = await supabase
             .from('profiles')
@@ -53,6 +54,11 @@ const UserMenu = () => {
     await signOut();
     navigate('/');
   };
+
+  // Hide authentication UI when auth is disabled
+  if (!IS_AUTH_ENABLED) {
+    return null;
+  }
 
   if (!user) {
     return (
@@ -125,18 +131,21 @@ const UserMenu = () => {
           </div>
         </div>
         
-        <DropdownMenuSeparator className="bg-amber-400/20" />
-        
-        <div className="px-2 py-1 space-y-1">
-          <div className="flex items-center gap-2 py-1">
-            <Flame className={`h-4 w-4 ${getFlameColor(progress.streak)}`} />
-            <span className="text-sm text-amber-100">
-              {progress.streak} day streak
-            </span>
-          </div>
-        </div>
-        
-        <DropdownMenuSeparator className="bg-amber-400/20" />
+        {/* Hide streak display when streak tracking is disabled */}
+        {IS_STREAK_ENABLED && (
+          <>
+            <DropdownMenuSeparator className="bg-amber-400/20" />
+            <div className="px-2 py-1 space-y-1">
+              <div className="flex items-center gap-2 py-1">
+                <Flame className={`h-4 w-4 ${getFlameColor(progress.streak)}`} />
+                <span className="text-sm text-amber-100">
+                  {progress.streak} day streak
+                </span>
+              </div>
+            </div>
+            <DropdownMenuSeparator className="bg-amber-400/20" />
+          </>
+        )}
         
         <DropdownMenuItem
           onClick={() => setFeedbackOpen(true)}

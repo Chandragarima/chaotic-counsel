@@ -8,6 +8,7 @@ import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { analytics } from '../../utils/analytics';
+import { IS_POLL_ENABLED } from '@/config/features';
 
 interface CreatePollModalProps {
   open: boolean;
@@ -19,6 +20,11 @@ interface CreatePollModalProps {
 }
 
 const CreatePollModal = ({ open, onOpenChange, character, question, answer, aiResponse }: CreatePollModalProps) => {
+  // Hide poll modal when poll features are disabled
+  if (!IS_POLL_ENABLED) {
+    return null;
+  }
+
   const [duration, setDuration] = useState('24h');
   const [isCreating, setIsCreating] = useState(false);
   const [createdPollUrl, setCreatedPollUrl] = useState<string | null>(null);

@@ -5,16 +5,28 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { IS_AUTH_ENABLED, IS_PROFILE_ENABLED } from '@/config/features';
 
 const Profile = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
+  // Hide profile page when auth or profile features are disabled
   useEffect(() => {
+    if (!IS_AUTH_ENABLED || !IS_PROFILE_ENABLED) {
+      navigate('/');
+      return;
+    }
+    
     if (!loading && !user) {
       navigate('/auth');
     }
-  }, [user, loading, navigate]);
+  }, [user, loading, navigate, IS_AUTH_ENABLED, IS_PROFILE_ENABLED]);
+
+  // Return null if features are disabled
+  if (!IS_AUTH_ENABLED || !IS_PROFILE_ENABLED) {
+    return null;
+  }
 
   if (loading) {
     return (

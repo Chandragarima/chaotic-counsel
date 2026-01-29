@@ -2,11 +2,16 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { UserProgress } from '../types';
+import { IS_SUPABASE_ENABLED, IS_STREAK_ENABLED } from '@/config/features';
+import { characters } from '@/data/characters';
+
+// All characters unlocked by default when Supabase is disabled
+const allCharacterIds = characters.map(c => c.id);
 
 const defaultProgress: UserProgress = {
   streak: 0,
   lastVisit: '',
-  unlockedCharacters: ['wise-owl', 'sassy-cat'],
+  unlockedCharacters: IS_SUPABASE_ENABLED ? ['wise-owl', 'sassy-cat'] : allCharacterIds,
   totalDecisions: 0
 };
 
@@ -28,6 +33,19 @@ export const useSupabaseProgress = () => {
 
   useEffect(() => {
     if (authLoading) return;
+    
+    // If Supabase is disabled, use local-only mode with all characters unlocked
+    if (!IS_SUPABASE_ENABLED) {
+      console.log('🚫 Supabase disabled - using local mode with all characters unlocked');
+      setProgress({
+        streak: 0,
+        lastVisit: '',
+        unlockedCharacters: allCharacterIds,
+        totalDecisions: 0
+      });
+      setLoading(false);
+      return;
+    }
     
     // Clear cache if user changed
     if (currentUserId.current && currentUserId.current !== user?.id) {
@@ -61,7 +79,7 @@ export const useSupabaseProgress = () => {
   }, [user, authLoading]);
 
   const loadUserProgressAndUpdateStreak = async () => {
-    if (!user) return;
+    if (!user || !IS_SUPABASE_ENABLED) return;
 
     try {
       console.log('📊 Loading user progress for:', user.id);
@@ -112,7 +130,7 @@ export const useSupabaseProgress = () => {
   };
 
   const updateDailyStreak = async (initialUnlockedChars?: string[], storedCelebrations?: string[]) => {
-    if (!user) return;
+    if (!user || !IS_SUPABASE_ENABLED || !IS_STREAK_ENABLED) return;
 
     try {
       console.log('🔥 Updating daily streak for user:', user.id);
@@ -172,6 +190,17 @@ export const useSupabaseProgress = () => {
   };
 
   const loadLocalProgress = () => {
+    // If Supabase is disabled, always return all characters unlocked
+    if (!IS_SUPABASE_ENABLED) {
+      setProgress({
+        streak: 0,
+        lastVisit: '',
+        unlockedCharacters: allCharacterIds,
+        totalDecisions: 0
+      });
+      return;
+    }
+    
     const saved = localStorage.getItem('chaotic-counsel-progress');
     if (saved) {
       try {
@@ -192,6 +221,12 @@ export const useSupabaseProgress = () => {
   };
 
   const incrementDecisions = async () => {
+    if (!IS_SUPABASE_ENABLED) {
+      // When Supabase is disabled, just increment local count
+      incrementDecisionsLocal();
+      return;
+    }
+    
     if (user) {
       await incrementDecisionsSupabase();
     } else {
@@ -200,7 +235,7 @@ export const useSupabaseProgress = () => {
   };
 
   const incrementDecisionsSupabase = async () => {
-    if (!user) return;
+    if (!user || !IS_SUPABASE_ENABLED) return;
 
     try {
       // Update daily activity
@@ -254,13 +289,16 @@ export const useSupabaseProgress = () => {
   const incrementDecisionsLocal = () => {
     const today = new Date().toDateString();
     
-    // For anonymous users, only track decisions, keep streak at 0
+    // When Supabase is disabled, all characters are unlocked
+    const unlockedChars = IS_SUPABASE_ENABLED ? ['wise-owl', 'sassy-cat'] : allCharacterIds;
+    
+    // For anonymous users or when Supabase is disabled, only track decisions, keep streak at 0
     const newProgress = {
       ...progress,
       totalDecisions: progress.totalDecisions + 1,
       lastVisit: today,
-      streak: 0, // Always keep streak at 0 for anonymous users
-      unlockedCharacters: ['wise-owl', 'sassy-cat'] // Only default characters
+      streak: 0, // Always keep streak at 0 when Supabase is disabled or for anonymous users
+      unlockedCharacters: unlockedChars
     };
 
     setProgress(newProgress);
@@ -268,6 +306,13 @@ export const useSupabaseProgress = () => {
   };
 
   const dismissUnlockCelebration = async () => {
+    if (!IS_SUPABASE_ENABLED) {
+      // When Supabase is disabled, just dismiss without saving
+      setIsNewUnlockAvailable(false);
+      setNewlyUnlockedCharacter(null);
+      return;
+    }
+    
     if (newlyUnlockedCharacter && user) {
       // Update the database with the new celebration shown
       const updatedCelebrations = [...celebrationsShown, newlyUnlockedCharacter];

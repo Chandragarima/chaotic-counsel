@@ -6,6 +6,7 @@ import { getPersonalityTheme } from '../../utils/personalityThemes';
 import { audioManager } from '../../utils/audioManager';
 import ShareModal from '../share/ShareModal';
 import CreatePollModal from '../polls/CreatePollModal';
+import { IS_POLL_ENABLED } from '@/config/features';
 
 interface ActionButtonsProps {
   character: Character;
@@ -55,14 +56,16 @@ const ActionButtons = ({
   return (
     <>
       <div className={`space-y-4 ${theme.animations.responding}`}>
-        {/* Community Poll Button */}
-        <Button 
-          onClick={() => setPollModalOpen(true)}
-          className={`w-full min-h-[52px] transition-all duration-300 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white ${theme.fonts.body} tracking-wide shadow-lg hover:shadow-xl ${theme.animations.buttonHover} hover:scale-[1.02]`}
-        >
-          <Users className="mr-3 h-4 w-4" />
-          Ask the Community
-        </Button>
+        {/* Community Poll Button - Hide when poll features are disabled */}
+        {IS_POLL_ENABLED && (
+          <Button 
+            onClick={() => setPollModalOpen(true)}
+            className={`w-full min-h-[52px] transition-all duration-300 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white ${theme.fonts.body} tracking-wide shadow-lg hover:shadow-xl ${theme.animations.buttonHover} hover:scale-[1.02]`}
+          >
+            <Users className="mr-3 h-4 w-4" />
+            Ask the Community
+          </Button>
+        )}
 
         {/* Share Button */}
         <Button 
@@ -117,8 +120,8 @@ const ActionButtons = ({
         />
       )}
 
-      {/* Create Poll Modal */}
-      {question && (
+      {/* Create Poll Modal - Only show when poll features are enabled */}
+      {IS_POLL_ENABLED && question && (
         <CreatePollModal
           open={pollModalOpen}
           onOpenChange={setPollModalOpen}

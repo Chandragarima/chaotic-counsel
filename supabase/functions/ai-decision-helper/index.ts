@@ -201,6 +201,19 @@ You provide insights and analysis for "why" and explanatory questions. Respond w
   "conclusion": "Your overall analysis summary (max 20 words, in your personality style)",
   "personalityReflection": "Your CLEAR and final reflection on the topic asked (max 25 words, in your personality style)"
 }`;
+    case 'general':
+      // Treat general questions as binary decisions for clarity
+      return `${basePersonality}
+
+For general questions, provide thoughtful guidance but MUST be decisive. Respond with valid JSON in this EXACT format:
+{
+  "responseType": "binary",
+  "deeperQuestion": "A thought-provoking question to help them reflect (max 20 words, in your personality style)",
+  "reasonsForYes": ["Consider the positive aspects (max 20 words, in your personality style)"],
+  "reasonsForNo": ["Consider potential challenges (max 20 words, in your personality style)"],
+  "calculatedRisk": "General wisdom about uncertainty (max 20 words, in your personality style)",
+  "personalityRecommendation": "Your DECISIVE recommendation (max 25 words, in your personality style)"
+}`;
     default:
       return `${basePersonality}
 
@@ -221,22 +234,57 @@ serve(async (req)=>{
       headers: corsHeaders
     });
   }
+  
+  // Enhanced fallback response
+  const getFallbackResponse = () => ({
+    responseType: 'binary',
+    deeperQuestion: "What would your future self thank you for choosing today?",
+    reasonsForYes: [
+      "Taking action creates momentum",
+      "You gain experience regardless of outcome"
+    ],
+    reasonsForNo: [
+      "Waiting allows for better preparation",
+      "Current timing might not be optimal"
+    ],
+    calculatedRisk: "Medium - Every decision involves uncertainty, but staying informed helps",
+    personalityRecommendation: "When the path is unclear, choose growth over comfort"
+  });
+
   try {
-    const { question, character } = await req.json();
+    const { question, character, category } = await req.json();
     console.log('Received request:', {
       question,
-      character
+      character,
+      category,
+      hasOpenAIKey: !!openAIApiKey
     });
+    
     if (!question || !character) {
-      throw new Error('Missing required parameters');
+      console.error('Missing required parameters:', { question: !!question, character: !!character });
+      return new Response(JSON.stringify(getFallbackResponse()), {
+        status: 200, // Always return 200 to avoid client errors
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json'
+        }
+      });
     }
+    
     if (!openAIApiKey) {
-      console.error('OpenAI API key is missing');
-      throw new Error('OpenAI API key not configured');
+      console.error('OpenAI API key is missing - returning fallback response');
+      return new Response(JSON.stringify(getFallbackResponse()), {
+        status: 200, // Return 200 with fallback instead of error
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json'
+        }
+      });
     }
-    // Detect question type with enhanced logic
-    const questionType = analyzeQuestion(question);
-    console.log('Detected question type:', questionType);
+    
+    // Use provided category if available, otherwise detect it
+    const questionType = category || analyzeQuestion(question);
+    console.log('Using question type:', questionType, category ? '(from client)' : '(detected)');
     const systemPrompt = getSystemPrompt(questionType, character);
     console.log('Making OpenAI API call...');
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -284,8 +332,9 @@ serve(async (req)=>{
         console.error('AI response missing responseType:', aiResponse);
         throw new Error('AI response missing responseType');
       }
-    } catch (parseError) {
-      console.error('JSON parsing failed:', parseError);
+    } catch (parseError: unknown) {
+      const parseErrorMsg = parseError instanceof Error ? parseError.message : String(parseError);
+      console.error('JSON parsing failed:', parseErrorMsg);
       console.error('Raw content that failed to parse:', messageContent);
       // Enhanced fallback response without character signatures
       aiResponse = {
@@ -309,24 +358,23 @@ serve(async (req)=>{
         'Content-Type': 'application/json'
       }
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error in ai-decision-helper:', error);
-    // Enhanced fallback without signatures
-    const fallbackResponse = {
-      responseType: 'binary',
-      deeperQuestion: "What would your future self thank you for choosing today?",
-      reasonsForYes: [
-        "Taking action creates momentum",
-        "You gain experience regardless of outcome"
-      ],
-      reasonsForNo: [
-        "Waiting allows for better preparation",
-        "Current timing might not be optimal"
-      ],
-      calculatedRisk: "Medium - Every decision involves uncertainty, but staying informed helps",
-      personalityRecommendation: "When the path is unclear, choose growth over comfort"
+    const errorDetails = error instanceof Error ? {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    } : {
+      message: String(error),
+      stack: undefined,
+      name: 'UnknownError'
     };
+    console.error('Error details:', errorDetails);
+    
+    // Always return 200 status with fallback to prevent client-side errors
+    const fallbackResponse = getFallbackResponse();
     return new Response(JSON.stringify(fallbackResponse), {
+      status: 200, // Always return 200, even on errors
       headers: {
         ...corsHeaders,
         'Content-Type': 'application/json'

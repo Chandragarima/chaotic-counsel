@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Pencil, RefreshCw } from 'lucide-react';
+import { IS_PROFILE_ENABLED } from '@/config/features';
 
 interface Profile {
   id: string;
@@ -34,13 +35,13 @@ const ProfileEditor = () => {
   ];
 
   useEffect(() => {
-    if (user) {
+    if (user && IS_PROFILE_ENABLED) {
       loadProfile();
     }
   }, [user]);
 
   const loadProfile = async () => {
-    if (!user) return;
+    if (!user || !IS_PROFILE_ENABLED) return;
 
     try {
       const { data, error } = await supabase
@@ -65,7 +66,7 @@ const ProfileEditor = () => {
   };
 
   const updateProfile = async (updates: Partial<Profile>) => {
-    if (!user || !profile) return;
+    if (!user || !profile || !IS_PROFILE_ENABLED) return;
 
     setUpdating(true);
     try {
@@ -94,6 +95,8 @@ const ProfileEditor = () => {
   };
 
   const generateNewUsername = async () => {
+    if (!IS_PROFILE_ENABLED) return;
+    
     setRegeneratingUsername(true);
     try {
       const { data, error } = await supabase.rpc('generate_unique_animal_username');

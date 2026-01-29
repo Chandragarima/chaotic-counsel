@@ -1,10 +1,16 @@
 import { Flame } from 'lucide-react';
 import { useSupabaseProgress } from '../hooks/useSupabaseProgress';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { IS_STREAK_ENABLED } from '@/config/features';
 
 const StreakDisplay = () => {
   const { progress } = useSupabaseProgress();
   const isMobile = useIsMobile();
+
+  // Hide streak display when streak tracking is disabled
+  if (!IS_STREAK_ENABLED) {
+    return null;
+  }
 
   // Get flame color based on streak
   const getFlameColor = (streak: number) => {

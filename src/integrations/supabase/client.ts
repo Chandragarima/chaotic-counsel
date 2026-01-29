@@ -2,10 +2,90 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = "https://dtkpjnpqcceguhaicabi.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0a3BqbnBxY2NlZ3VoYWljYWJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0NzI1NjAsImV4cCI6MjA2NDA0ODU2MH0.0NeIUsF2uYhfweJjXVplcETZ145IqtvQU4IijYd0kKI";
+// Use local Supabase in development if available, otherwise use environment variable or fallback
+const isDevelopment = import.meta.env.DEV;
+const LOCAL_SUPABASE_URL = "http://127.0.0.1:54321";
+// Local Supabase anon key (from supabase status output)
+const LOCAL_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicmVmIjoiZGVtbyIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQxNzY5MjAwLCJleHAiOjE5OTczNDU2MDB9.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE";
+
+// Prefer environment variables, then local in dev, then fallback to paused production
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 
+  (isDevelopment ? LOCAL_SUPABASE_URL : "https://dtkpjnpqcceguhaicabi.supabase.co");
+
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 
+  (isDevelopment ? LOCAL_SUPABASE_KEY : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0a3BqbnBxY2NlZ3VoYWljYWJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0NzI1NjAsImV4cCI6MjA2NDA0ODU2MH0.0NeIUsF2uYhfweJjXVplcETZ145IqtvQU4IijYd0kKI");
+
+// Log configuration for debugging (only in development)
+if (import.meta.env.DEV) {
+  console.log('🔧 Supabase Client Configuration:');
+  console.log('  URL:', SUPABASE_URL);
+  console.log('  Has URL from env:', !!import.meta.env.VITE_SUPABASE_URL);
+  console.log('  Has key from env:', !!import.meta.env.VITE_SUPABASE_ANON_KEY);
+  console.log('  Key length:', SUPABASE_PUBLISHABLE_KEY?.length || 0);
+}
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+  },
+});
+
+/**
+ * Test Supabase connection
+ * This function helps debug connection issues
+ */
+export async function testSupabaseConnection() {
+  try {
+    console.log('🧪 Testing Supabase connection...');
+    
+    // Test 1: Check if we can reach the Supabase API
+    const healthCheck = await fetch(`${SUPABASE_URL}/rest/v1/`, {
+      method: 'HEAD',
+      headers: {
+        'apikey': SUPABASE_PUBLISHABLE_KEY,
+      },
+    });
+    
+    console.log('📡 Health check response:', {
+      status: healthCheck.status,
+      statusText: healthCheck.statusText,
+      ok: healthCheck.ok,
+    });
+    
+    // Test 2: Try to get auth session (this doesn't require authentication)
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    console.log('🔐 Session check:', {
+      hasSession: !!sessionData?.session,
+      error: sessionError ? {
+        message: sessionError.message,
+        status: sessionError.status,
+      } : null,
+    });
+    
+    // Test 3: Check auth URL
+    const authUrl = `${SUPABASE_URL}/auth/v1/`;
+    console.log('🔗 Auth endpoint URL:', authUrl);
+    
+    return {
+      success: healthCheck.ok,
+      healthCheckStatus: healthCheck.status,
+      hasSession: !!sessionData?.session,
+      sessionError: sessionError?.message,
+    };
+  } catch (error: any) {
+    console.error('❌ Connection test failed:', {
+      message: error?.message,
+      stack: error?.stack,
+      name: error?.name,
+    });
+    return {
+      success: false,
+      error: error?.message || 'Unknown error',
+    };
+  }
+}

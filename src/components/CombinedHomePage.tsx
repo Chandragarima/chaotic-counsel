@@ -4,6 +4,7 @@ import CharacterCard from './CharacterCard';
 import UnlockCelebration from './UnlockCelebration';
 import { audioManager } from '../utils/audioManager';
 import { useSupabaseProgress } from '../hooks/useSupabaseProgress';
+import { IS_SUPABASE_ENABLED, IS_STREAK_ENABLED } from '@/config/features';
 
 interface CombinedHomePageProps {
   selectedCharacter: Character | null;
@@ -63,12 +64,14 @@ const CombinedHomePage = ({
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 pt-20 md:pt-6 relative overflow-hidden">
-      {/* Unlock celebration popup */}
-      <UnlockCelebration 
-        isVisible={isNewUnlockAvailable}
-        unlockedCharacter={newlyUnlockedCharacter}
-        onDismiss={dismissUnlockCelebration}
-      />
+      {/* Unlock celebration popup - only show when Supabase and streak are enabled */}
+      {IS_SUPABASE_ENABLED && IS_STREAK_ENABLED && (
+        <UnlockCelebration 
+          isVisible={isNewUnlockAvailable}
+          unlockedCharacter={newlyUnlockedCharacter}
+          onDismiss={dismissUnlockCelebration}
+        />
+      )}
 
       {/* Brighter, more sophisticated background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-600 via-slate-700 to-slate-600">
@@ -132,9 +135,10 @@ const CombinedHomePage = ({
                     character={character}
                     onSelect={() => handleCharacterSelect(character)}
                     isSelected={false}
-                    isLocked={!isUnlocked}
+                    isLocked={IS_SUPABASE_ENABLED && IS_STREAK_ENABLED ? !isUnlocked : false}
                   />
-                  {!isUnlocked && unlockRequirement && (
+                  {/* Hide lock overlay when Supabase/streak features are disabled */}
+                  {IS_SUPABASE_ENABLED && IS_STREAK_ENABLED && !isUnlocked && unlockRequirement && (
                     <div className="absolute inset-0 bg-black/60 rounded-2xl flex items-center justify-center">
                       <div className="text-center space-y-2">
                         <div className="text-2xl">🔒</div>

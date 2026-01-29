@@ -7,7 +7,13 @@
     "build": "tsc && vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "supabase:login": "supabase login",
+    "supabase:link": "supabase link --project-ref dtkpjnpqcceguhaicabi",
+    "supabase:deploy:function": "supabase functions deploy ai-decision-helper",
+    "supabase:secrets:set": "supabase secrets set OPENAI_API_KEY",
+    "supabase:serve:function": "supabase functions serve ai-decision-helper --no-verify-jwt",
+    "supabase:setup:local": "./setup-local-supabase.sh"
   },
   "dependencies": {
     "@11labs/client": "^0.1.4",
