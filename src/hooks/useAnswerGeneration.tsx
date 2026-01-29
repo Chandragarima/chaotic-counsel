@@ -5,7 +5,6 @@ import { audioManager } from '../utils/audioManager';
 import { formatChoiceResponse, formatYesNoMaybeResponse } from '../utils/responseTemplates';
 import { getImageTypeFromTemplate } from '../utils/responseTypeDetector';
 import { ImageType } from '../utils/personalityImageManager';
-import { supabase } from '../integrations/supabase/client';
 import { analyzeQuestion } from '../utils/questionTypeDetector';
 
 interface UseAnswerGenerationProps {
@@ -320,64 +319,27 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
         category 
       });
       
-      const aiPromise = supabase.functions.invoke('ai-decision-helper', {
-        body: {
+      const aiPromise = fetch('/.netlify/functions/ai-decision-helper', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           question,
           character: character.type,
           category
-        }
+        })
+      }).then(async (res) => {
+        if (!res.ok) throw new Error(`Function error: ${res.status}`);
+        return res.json();
       });
 
-      const { data, error } = await Promise.race([aiPromise, timeoutPromise]);
+      const data = await Promise.race([aiPromise, timeoutPromise]);
 
-      console.log('📥 AI response received:', { 
-        hasData: !!data, 
-        dataType: typeof data,
-        data: data,
-        hasError: !!error,
-        error: error 
-      });
+      console.log('📥 AI response received:', { data });
 
-      if (error) {
-        console.error('❌ Supabase function error:', {
-          message: error.message,
-          name: error.name,
-          status: (error as any)?.status,
-          context: (error as any)?.context,
-          details: error
-        });
-        throw error;
-      }
-      
-      // Validate response structure
-      if (!data || typeof data !== 'object') {
+      if (!data || typeof data !== 'object' || !data.responseType) {
         throw new Error('Invalid AI response structure');
       }
 
-      // Parse the response if it's a string
-      if (typeof data === 'string') {
-        try {
-          const parsed = JSON.parse(data);
-          console.log('Parsed AI response:', parsed);
-          
-          // Validate required fields
-          if (!parsed.responseType) {
-            throw new Error('Missing responseType in AI response');
-          }
-          
-          return parsed;
-        } catch (parseError) {
-          console.error('Failed to parse AI response:', parseError);
-          throw new Error('Invalid JSON format from AI');
-        }
-      }
-      
-      // Validate direct response
-      if (!data.responseType) {
-        throw new Error('Missing responseType in direct AI response');
-      }
-      
-      console.log('Using direct AI response:', data);
       return data;
     } catch (error: any) {
       console.error('🚨 AI response error caught:', {
@@ -389,15 +351,6 @@ export const useAnswerGeneration = ({ character, question, mode = 'fun', questio
         stack: error?.stack,
         fullError: error
       });
-      
-      // Check if it's a FunctionsHttpError (Edge Function returned non-2xx)
-      if (error?.name === 'FunctionsHttpError' || error?.message?.includes('non-2xx')) {
-        console.error('⚠️ Edge Function returned non-2xx status. Possible causes:');
-        console.error('  1. Edge Function not deployed');
-        console.error('  2. OPENAI_API_KEY not set in Supabase');
-        console.error('  3. Edge Function runtime error');
-        console.error('  4. Network/CORS issue');
-      }
       
       // Enhanced fallback response with correct property names
       const fallbackResponse: AIResponse = {
